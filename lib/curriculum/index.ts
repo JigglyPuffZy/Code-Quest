@@ -21,7 +21,10 @@ import {
   typescriptLessons,
   typescriptWorlds,
 } from "@/lib/curriculum/typescript";
-import { quests } from "@/lib/curriculum/quests";
+import { allQuests, quests, sideQuests } from "@/lib/curriculum/quests";
+import type { SkillDifficulty } from "@/lib/difficulty";
+import { buildGameLevelFromId } from "@/lib/game";
+import type { GameStackPrefs } from "@/lib/game/banks";
 import type {
   Challenge,
   Chapter,
@@ -81,7 +84,7 @@ export const lessons: Lesson[] = [
   ...javaLessons,
 ];
 
-export { achievements, challenges, guidePaths, quests };
+export { achievements, challenges, guidePaths, quests, sideQuests, allQuests };
 
 const LANGUAGE_IDS: LanguageId[] = ["python", "javascript", "typescript", "java"];
 
@@ -121,7 +124,17 @@ export function getWorld(id: string) {
   return worlds.find((world) => world.id === id);
 }
 
-export function findExercise(kind: "lesson" | "challenge", id: string) {
+export function findExercise(
+  kind: "lesson" | "challenge" | "game",
+  id: string,
+  options?: { difficulty?: SkillDifficulty; stack?: GameStackPrefs },
+) {
+  if (kind === "game") {
+    if (!options?.stack) return null;
+    const record = buildGameLevelFromId(id, options.stack);
+    if (!record) return null;
+    return { language: record.language, exercise: record.exercise, xp: record.xp };
+  }
   const record: Lesson | Challenge | undefined =
     kind === "lesson" ? getLesson(id) : getChallenge(id);
   if (!record) return null;

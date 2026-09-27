@@ -4,6 +4,9 @@ import { LessonCopy } from "@/components/code/CodeBlock";
 import { usePlayer } from "@/components/player/PlayerProvider";
 import { Button } from "@/components/ui/Button";
 import { CodeWorkspace } from "@/components/workspace/CodeWorkspace";
+import type { SkillDifficulty } from "@/lib/difficulty";
+import { hintLimitLabel, hintsAllowedForDifficulty } from "@/lib/difficulty";
+import { playerStack } from "@/lib/game/generator";
 import type { ContentBlock, Exercise, LanguageId } from "@/lib/types";
 import { Lightbulb, Lock } from "lucide-react";
 import Link from "next/link";
@@ -24,6 +27,7 @@ export function ExerciseView({
   locked,
   lockMessage,
   footer,
+  hintDifficulty,
 }: {
   backHref: string;
   backLabel: string;
@@ -33,15 +37,19 @@ export function ExerciseView({
   blocks: ContentBlock[];
   exercise: Exercise;
   language: LanguageId;
-  kind: "lesson" | "challenge";
+  kind: "lesson" | "challenge" | "game";
   exerciseId: string;
   alreadyCleared: boolean;
   locked?: boolean;
   lockMessage?: string;
   footer?: ReactNode;
+  hintDifficulty?: SkillDifficulty;
 }) {
-  const { completeLesson, completeChallenge } = usePlayer();
+  const { player, completeLesson, completeChallenge, completeGameLevel } = usePlayer();
   const [hints, setHints] = useState(0);
+  const maxHints = hintDifficulty
+    ? Math.min(hintsAllowedForDifficulty(hintDifficulty), exercise.hints.length)
+    : exercise.hints.length;
 
   useEffect(() => { setHints(0); }, [exerciseId]);
 
@@ -76,18 +84,27 @@ export function ExerciseView({
           <div>
             <div className="flex items-center justify-between">
               <p className="text-xs font-bold text-muted">Hints</p>
-              <Button variant="ghost" className="px-2 py-1 text-xs" onClick={() => setHints((c) => Math.min(exercise.hints.length, c + 1))} disabled={hints >= exercise.hints.length}>
-                <Lightbulb size={12} />
-                {hints >= exercise.hints.length ? "Done" : `+${hints + 1}`}
-              </Button>
+              {maxHints > 0 ? (
+                <Button
+                  variant="ghost"
+                  className="px-2 py-1 text-xs"
+                  onClick={() => setHints((c) => Math.min(maxHints, c + 1))}
+                  disabled={hints >= maxHints}
+                >
+                  <Lightbulb size={12} />
+                  {hints >= maxHints ? "Done" : `+${hints + 1}`}
+                </Button>
+              ) : null}
             </div>
-            {hints > 0 && (
+            {hints > 0 ? (
               <ol className="mt-2 space-y-1">
                 {exercise.hints.slice(0, hints).map((h, i) => (
                   <li key={h} className="rounded-lg bg-white/80 px-3 py-2 text-sm text-muted">{i + 1}. {h}</li>
                 ))}
               </ol>
-            )}
+            ) : hintDifficulty ? (
+              <p className="mt-2 text-sm text-muted">{hintLimitLabel(hintDifficulty)}</p>
+            ) : null}
           </div>
           {footer}
         </div>
@@ -100,7 +117,13 @@ export function ExerciseView({
             kind={kind}
             exerciseId={exerciseId}
             alreadyCleared={alreadyCleared}
-            onCleared={() => (kind === "lesson" ? completeLesson(exerciseId) : completeChallenge(exerciseId))}
+            onCleared={() => {
+              if (kind === "lesson") return completeLesson(exerciseId);
+              if (kind === "game") return completeGameLevel(exerciseId);
+              return completeChallenge(exerciseId);
+            }}
+            skillDifficulty={kind === "game" ? player?.skillDifficulty : undefined}
+            gameStack={kind === "game" && player ? playerStack(player) : undefined}
           />
         </div>
       </div>

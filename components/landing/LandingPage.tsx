@@ -9,7 +9,6 @@ import {
   BookOpen,
   Code2,
   Flame,
-  Sparkles,
   Swords,
   Trophy,
   Zap,
@@ -115,10 +114,7 @@ export function LandingPage() {
         <main className="mt-14 lg:mt-20">
           <div className="grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
             <div>
-              <p className="landing-rise landing-rise-1 tag">
-                <Sparkles size={12} className="text-primary" />
-                Gamified coding academy
-              </p>
+              <p className="landing-rise landing-rise-1 tag">Gamified coding academy</p>
               <h1 className="landing-rise landing-rise-2 mega-title mt-5 max-w-2xl">
                 Learn code.
                 <br />

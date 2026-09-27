@@ -15,11 +15,11 @@ const code = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "CodeQuest",
-    template: "%s · CodeQuest",
+    default: "Code Quest",
+    template: "%s · Code Quest",
   },
   description:
-    "Learn Python and JavaScript through lessons, quests, and coding challenges — a calm, focused coding academy.",
+    "Read coding guides, complete quests, and practice in Arena and Game mode — a calm, focused coding academy.",
   icons: {
     icon: "/icon.svg",
     apple: "/icon.svg",

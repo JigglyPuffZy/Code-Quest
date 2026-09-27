@@ -1,15 +1,18 @@
 "use client";
 
+import { ChallengeEnterGate } from "@/components/challenges/ChallengeEnterGate";
+import { ChallengeExerciseView } from "@/components/challenges/ChallengeExerciseView";
 import { TechLogo, TechLogoBadge } from "@/components/icons/TechLogo";
 import { usePlayer } from "@/components/player/PlayerProvider";
 import { ErrorState, EmptyState } from "@/components/ui/States";
-import { ExerciseView } from "@/components/workspace/ExerciseView";
 import { cn } from "@/lib/cn";
 import { challenges, getChallenge, languageInfo } from "@/lib/curriculum/index";
+import type { SkillDifficulty } from "@/lib/difficulty";
+import { difficultyLabel } from "@/lib/difficulty";
 import {
+  challengeLockMessage,
   isChallengeComplete,
   isChallengeUnlocked,
-  lessonCount,
   pickDailyChallenge,
 } from "@/lib/progress";
 import type { Challenge, LanguageId } from "@/lib/types";
@@ -19,7 +22,6 @@ import {
   CheckCircle2,
   Lock,
   Play,
-  Sparkles,
   Swords,
   Zap,
 } from "lucide-react";
@@ -28,49 +30,22 @@ import { useState } from "react";
 
 const FILTERS = ["all", "python", "javascript", "typescript", "java"] as const;
 
-const DIFFICULTY_STYLE: Record<
-  Challenge["difficulty"],
-  { soft: string; accent: string; bar: string; ring: string }
-> = {
-  Easy: {
-    soft: "bg-emerald-50",
-    accent: "text-emerald-600",
-    bar: "bg-emerald-500",
-    ring: "ring-emerald-100",
-  },
-  Medium: {
-    soft: "bg-amber-50",
-    accent: "text-amber-600",
-    bar: "bg-amber-500",
-    ring: "ring-amber-100",
-  },
-  Hard: {
-    soft: "bg-rose-50",
-    accent: "text-rose-600",
-    bar: "bg-rose-500",
-    ring: "ring-rose-100",
-  },
-};
-
-const LANG_STYLE: Record<LanguageId, { soft: string; accent: string; ring: string }> = {
-  python: { soft: "bg-emerald-50", accent: "text-emerald-600", ring: "ring-emerald-100" },
-  javascript: { soft: "bg-amber-50", accent: "text-amber-600", ring: "ring-amber-100" },
-  typescript: { soft: "bg-sky-50", accent: "text-sky-600", ring: "ring-sky-100" },
-  java: { soft: "bg-orange-50", accent: "text-orange-600", ring: "ring-orange-100" },
+const LANG_STYLE: Record<LanguageId, { soft: string; ring: string }> = {
+  python: { soft: "bg-primary-50", ring: "ring-primary-100" },
+  javascript: { soft: "bg-primary-50", ring: "ring-primary-100" },
+  typescript: { soft: "bg-primary-50", ring: "ring-primary-100" },
+  java: { soft: "bg-primary-50", ring: "ring-primary-100" },
 };
 
 function ChallengeCard({
   challenge,
   player,
-  featured = false,
 }: {
   challenge: Challenge;
   player: NonNullable<ReturnType<typeof usePlayer>["player"]>;
-  featured?: boolean;
 }) {
   const open = isChallengeUnlocked(challenge, player);
   const done = isChallengeComplete(challenge.id, player);
-  const diff = DIFFICULTY_STYLE[challenge.difficulty];
   const lang = LANG_STYLE[challenge.language];
 
   const body = (
@@ -78,15 +53,14 @@ function ChallengeCard({
       className={cn(
         "group relative overflow-hidden rounded-2xl border bg-white transition-all duration-200",
         open
-          ? "border-line hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-lg hover:shadow-slate-900/5"
+          ? "border-line hover:-translate-y-0.5 hover:border-primary-200 hover:shadow-lg hover:shadow-primary/10"
           : "border-line/80 bg-surface-2/50",
-        featured && "border-rose-200/70",
       )}
     >
-      <div className={cn("absolute left-0 top-0 bottom-0 w-1", diff.bar)} aria-hidden />
+      <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary" aria-hidden />
 
-      <div className="flex flex-col gap-4 p-5 pl-6 sm:flex-row sm:items-center">
-        <div className="flex min-w-0 flex-1 items-start gap-4">
+      <div className="flex flex-col gap-4 p-4 pl-5 sm:flex-row sm:items-center sm:p-5 sm:pl-6">
+        <div className="flex min-w-0 flex-1 items-start gap-3 sm:gap-4">
           <TechLogoBadge
             topicId={challenge.language}
             name={languageInfo(challenge.language).name}
@@ -99,14 +73,9 @@ function ChallengeCard({
           <div className="min-w-0 flex-1">
             <div className="flex flex-wrap items-center gap-2">
               <span
-                className={cn(
-                  "rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ring-1",
-                  diff.soft,
-                  diff.accent,
-                  diff.ring,
-                )}
+                className="rounded-full bg-primary-50 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-primary ring-1 ring-primary-100"
               >
-                {challenge.difficulty}
+                {difficultyLabel(challenge.difficulty)}
               </span>
               <span className="text-[10px] font-semibold uppercase tracking-wider text-muted">
                 {languageInfo(challenge.language).name}
@@ -125,16 +94,14 @@ function ChallengeCard({
             {!open ? (
               <p className="mt-3 flex items-center gap-1.5 text-xs text-muted">
                 <Lock size={12} />
-                Unlock after {challenge.requiresLessons}{" "}
-                {languageInfo(challenge.language).name} lessons (
-                {lessonCount(player, challenge.language)} done)
+                {challengeLockMessage(challenge)}
               </p>
             ) : null}
           </div>
         </div>
 
-        <div className="flex shrink-0 items-center gap-3 sm:flex-col sm:items-end">
-          <span className="inline-flex items-center gap-1 rounded-full bg-surface-2 px-3 py-1 text-xs font-bold text-primary">
+        <div className="flex w-full items-center justify-between gap-3 border-t border-line/60 pt-3 sm:w-auto sm:flex-col sm:items-end sm:border-0 sm:pt-0">
+          <span className="inline-flex items-center gap-1 rounded-full bg-primary-50 px-3 py-1.5 text-xs font-bold text-primary">
             <Zap size={12} />
             +{challenge.xp} XP
           </span>
@@ -142,9 +109,9 @@ function ChallengeCard({
           {open ? (
             <span
               className={cn(
-                "inline-flex items-center gap-1.5 rounded-xl px-4 py-2 text-sm font-semibold transition",
+                "inline-flex min-h-11 flex-1 items-center justify-center gap-1.5 rounded-xl px-4 py-2.5 text-sm font-semibold transition sm:min-h-0 sm:flex-none sm:py-2",
                 done
-                  ? "border border-line text-muted group-hover:text-ink"
+                  ? "border border-primary-200 text-primary group-hover:bg-primary-50"
                   : "bg-primary text-primary-foreground group-hover:bg-primary-hover",
               )}
             >
@@ -152,7 +119,7 @@ function ChallengeCard({
               <ArrowRight size={14} />
             </span>
           ) : (
-            <span className="inline-flex items-center gap-1.5 rounded-xl border border-line px-4 py-2 text-sm font-medium text-muted">
+            <span className="inline-flex min-h-11 flex-1 items-center justify-center gap-1.5 rounded-xl border border-line px-4 py-2.5 text-sm font-medium text-muted sm:min-h-0 sm:flex-none sm:py-2">
               <Lock size={13} />
               Locked
             </span>
@@ -189,21 +156,21 @@ export function ChallengeList() {
   const rest = visible.filter((c) => c.id !== daily.id);
 
   return (
-    <div className="space-y-8">
-      {/* Arena hero */}
+    <div className="space-y-5 pb-2 sm:space-y-8 sm:pb-0">
       <section className="arena-hero relative overflow-hidden rounded-2xl border border-line bg-surface-2">
-        <div className="pointer-events-none absolute -right-20 -top-20 h-56 w-56 rounded-full bg-rose-300/20 blur-3xl" />
-        <div className="pointer-events-none absolute -bottom-16 left-0 h-40 w-40 rounded-full bg-primary-300/15 blur-3xl" />
+        <div className="pointer-events-none absolute -right-20 -top-20 h-56 w-56 rounded-full bg-primary/15 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-16 left-0 h-40 w-40 rounded-full bg-primary/10 blur-3xl" />
 
-        <div className="relative flex flex-col gap-6 p-6 sm:p-8 lg:flex-row lg:items-end lg:justify-between">
+        <div className="relative flex flex-col gap-5 p-4 sm:gap-6 sm:p-8 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-xl">
-            <p className="mb-3 inline-flex items-center gap-1.5 rounded-full border border-line bg-white px-3 py-1 text-[10px] font-bold uppercase tracking-[0.2em] text-muted">
-              <Swords size={12} className="text-rose-500" />
+            <p className="mb-2 inline-flex items-center gap-1.5 rounded-full border border-primary-200 bg-primary-50 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.2em] text-primary sm:mb-3">
+              <Swords size={12} />
               Arena
             </p>
-            <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">Coding battles</h1>
+            <h1 className="text-2xl font-bold tracking-tight sm:text-4xl">Coding battles</h1>
             <p className="mt-2 text-sm leading-relaxed text-muted">
-              Standalone problems with instant checks. Harder fights unlock as you finish lessons.
+              Clear battles in order — finish one challenge before the next unlocks. Tap{" "}
+              <strong className="font-semibold text-ink">Enter</strong>, choose difficulty, then code.
             </p>
           </div>
 
@@ -234,14 +201,10 @@ export function ChallengeList() {
         </div>
       </section>
 
-      {/* Today's battle */}
       {(filter === "all" || filter === daily.language) && dailyOpen ? (
         <section>
           <div className="mb-3 flex items-center justify-between gap-3">
-            <div className="flex items-center gap-2">
-              <Sparkles size={15} className="text-rose-500" />
-              <h2 className="text-sm font-bold">Today&apos;s battle</h2>
-            </div>
+            <h2 className="text-sm font-bold">Today&apos;s battle</h2>
             {dailyDone ? (
               <span className="text-xs font-medium text-ok">Cleared — replay for practice</span>
             ) : null}
@@ -249,25 +212,25 @@ export function ChallengeList() {
 
           <Link href={`/challenges/${daily.id}`} className="group block">
             <article
-              className="relative overflow-hidden rounded-2xl border border-rose-200/70 bg-gradient-to-br from-rose-50/80 via-white to-white p-6 transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-rose-900/5 sm:p-7"
+              className="relative overflow-hidden rounded-2xl border border-primary-200 bg-gradient-to-br from-primary-50/80 via-white to-white p-4 transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-primary/10 sm:p-7"
             >
-              <div className="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-rose-200/30 blur-2xl" />
+              <div className="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-primary/20 blur-2xl" />
               <div className="relative flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
                 <div className="min-w-0">
-                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-rose-600">
+                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary">
                     Featured challenge
                   </p>
-                  <h3 className="mt-2 text-2xl font-bold tracking-tight">{daily.title}</h3>
+                  <h3 className="mt-2 text-xl font-bold tracking-tight sm:text-2xl">{daily.title}</h3>
                   <p className="mt-2 max-w-lg text-sm leading-relaxed text-muted">{daily.summary}</p>
                   <p className="mt-3 text-xs font-medium text-muted">
-                    {languageInfo(daily.language).name} · {daily.difficulty} · +{daily.xp} XP
+                    {languageInfo(daily.language).name} · {difficultyLabel(daily.difficulty)} · +{daily.xp} XP
                   </p>
                 </div>
                 <span
                   className={cn(
-                    "inline-flex w-fit shrink-0 items-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold transition",
+                    "inline-flex min-h-12 w-full shrink-0 items-center justify-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold transition sm:min-h-0 sm:w-fit",
                     dailyDone
-                      ? "border border-line bg-white text-ink group-hover:bg-surface-2"
+                      ? "border border-primary-200 bg-white text-primary group-hover:bg-primary-50"
                       : "bg-primary text-primary-foreground group-hover:bg-primary-hover",
                   )}
                 >
@@ -280,23 +243,19 @@ export function ChallengeList() {
         </section>
       ) : null}
 
-      {/* Filters */}
-      <div className="guide-tabs -mx-5 border-b border-line bg-white px-5 sm:-mx-8 sm:px-8">
-        <div className="flex gap-1 overflow-x-auto py-2">
+      <div className="guide-tabs -mx-4 border-b border-line bg-white px-4 sm:-mx-8 sm:px-8">
+        <div className="flex gap-1.5 overflow-x-auto py-2.5 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {FILTERS.map((item) => {
             const active = filter === item;
-            const lang = item !== "all" ? LANG_STYLE[item] : null;
             return (
               <button
                 key={item}
                 type="button"
                 onClick={() => setFilter(item)}
                 className={cn(
-                  "flex shrink-0 items-center gap-2 rounded-lg px-3 py-2 text-xs font-semibold transition",
+                  "flex min-h-10 shrink-0 items-center gap-2 rounded-lg px-3.5 py-2.5 text-xs font-semibold transition",
                   active
-                    ? lang
-                      ? `${lang.soft} ${lang.accent} ring-1 ring-black/5`
-                      : "bg-surface-2 text-ink"
+                    ? "bg-primary-50 text-primary ring-1 ring-primary-100"
                     : "text-muted hover:bg-surface-2 hover:text-ink",
                 )}
               >
@@ -308,7 +267,6 @@ export function ChallengeList() {
         </div>
       </div>
 
-      {/* Challenge deck */}
       {visible.length === 0 ? (
         <EmptyState title="No challenges" body="Nothing here for this filter yet." />
       ) : (
@@ -327,40 +285,50 @@ export function ChallengeList() {
 }
 
 export function ChallengePlayer({ challengeId }: { challengeId: string }) {
-  const { player } = usePlayer();
+  const { player, setSkillDifficulty } = usePlayer();
+  const [started, setStarted] = useState(false);
+  const [sessionDifficulty, setSessionDifficulty] = useState<SkillDifficulty | null>(null);
+
   if (!player) return null;
   const challenge = getChallenge(challengeId);
   if (!challenge) return <ErrorState message="Challenge not found." />;
 
   const open = isChallengeUnlocked(challenge, player);
   const cleared = isChallengeComplete(challenge.id, player);
+  const hintDifficulty = sessionDifficulty ?? player.skillDifficulty;
+
+  const guideFooter = challenge.guideTopicId ? (
+    <Link
+      href={`/guides/${challenge.guideTopicId}`}
+      className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline"
+    >
+      <BookOpen size={14} />
+      Read {languageInfo(challenge.language).name} guide
+    </Link>
+  ) : undefined;
+
+  if (!started) {
+    return (
+      <ChallengeEnterGate
+        challenge={challenge}
+        locked={!open}
+        lockMessage={challengeLockMessage(challenge)}
+        onStart={(difficulty) => {
+          setSkillDifficulty(difficulty);
+          setSessionDifficulty(difficulty);
+          setStarted(true);
+        }}
+      />
+    );
+  }
 
   return (
-    <ExerciseView
-      backHref="/challenges"
-      backLabel="Arena"
-      eyebrow={`${languageInfo(challenge.language).name} · ${challenge.difficulty}`}
-      title={challenge.title}
-      meta={`${challenge.xp} XP · ${cleared ? "Cleared" : "Unsolved"}`}
-      blocks={challenge.blocks}
-      exercise={challenge.exercise}
-      language={challenge.language as LanguageId}
-      kind="challenge"
-      exerciseId={challenge.id}
-      alreadyCleared={cleared}
-      locked={!open}
-      lockMessage={`Clear ${challenge.requiresLessons} ${languageInfo(challenge.language).name} lessons first.`}
-      footer={
-        challenge.guideTopicId ? (
-          <Link
-            href={`/guides/${challenge.guideTopicId}`}
-            className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline"
-          >
-            <BookOpen size={14} />
-            Read {languageInfo(challenge.language).name} guide
-          </Link>
-        ) : undefined
-      }
+    <ChallengeExerciseView
+      challenge={challenge}
+      cleared={cleared}
+      hintDifficulty={hintDifficulty}
+      onChangeDifficulty={() => setStarted(false)}
+      footer={guideFooter}
     />
   );
 }

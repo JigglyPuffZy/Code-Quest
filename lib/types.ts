@@ -1,3 +1,12 @@
+import type { SkillDifficulty } from "@/lib/difficulty";
+import type {
+  BackendFrameworkId,
+  BackendLanguage,
+  FrontendFrameworkId,
+  FrontendLanguage,
+  GameTrackId,
+} from "@/lib/game/tracks";
+
 export type LanguageId = "python" | "javascript" | "typescript" | "java";
 
 export type ContentBlock =
@@ -64,7 +73,7 @@ export type Challenge = {
   guideTopicId?: string;
   title: string;
   summary: string;
-  difficulty: "Easy" | "Medium" | "Hard";
+  difficulty: SkillDifficulty;
   xp: number;
   requiresLessons: number;
   blocks: ContentBlock[];
@@ -80,7 +89,15 @@ export type QuestMetric =
   | { type: "both" }
   | { type: "allLanguages" }
   | { type: "guides"; count: number }
-  | { type: "guideTopic"; topic: string; count: number };
+  | { type: "guideTopic"; topic: string; count: number }
+  | { type: "lessonsToday"; count: number }
+  | { type: "challengesToday"; count: number }
+  | { type: "activeToday" }
+  | { type: "dailyChallenge" }
+  | { type: "languagesStarted"; count: number }
+  | { type: "gameLevelsToday"; count: number };
+
+export type QuestKind = "main" | "side";
 
 export type Quest = {
   id: string;
@@ -88,6 +105,7 @@ export type Quest = {
   description: string;
   xp: number;
   metric: QuestMetric;
+  kind?: QuestKind;
 };
 
 export type AchievementIcon =
@@ -122,9 +140,16 @@ export type Player = {
   lastActive: string | null;
   completedLessons: TimestampedId[];
   completedChallenges: TimestampedId[];
+  completedGameLevels: TimestampedId[];
   claimedQuests: TimestampedId[];
   unlockedAchievements: TimestampedId[];
   lastLessonId: string | null;
+  skillDifficulty: SkillDifficulty;
+  gameTrack: GameTrackId;
+  frontendFramework: FrontendFrameworkId;
+  frontendLanguage: FrontendLanguage;
+  backendFramework: BackendFrameworkId;
+  backendLanguage: BackendLanguage;
   createdAt: string;
   updatedAt: string;
 };
@@ -132,9 +157,8 @@ export type Player = {
 export type AvatarPreset = {
   id: string;
   label: string;
-  mark: string;
-  from: string;
-  to: string;
+  seed: string;
+  background: string;
 };
 
 export type LevelInfo = {

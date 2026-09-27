@@ -1,7 +1,4 @@
-import { PathMap } from "@/components/learn/LearnViews";
-import type { Metadata } from "next";
-
-export const metadata: Metadata = { title: "Learning path" };
+import { redirect } from "next/navigation";
 
 export default async function LanguagePathPage({
   params,
@@ -9,5 +6,5 @@ export default async function LanguagePathPage({
   params: Promise<{ language: string }>;
 }) {
   const { language } = await params;
-  return <PathMap language={language} />;
+  redirect(`/guides/${language}`);
 }

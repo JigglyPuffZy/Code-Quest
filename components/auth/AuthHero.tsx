@@ -4,7 +4,7 @@ import { CodeQuestMark } from "@/components/icons/CodeQuestMark";
 import { TechLogo } from "@/components/icons/TechLogo";
 import { useAuthHeroMotion } from "@/components/auth/useAuthHeroMotion";
 import { cn } from "@/lib/cn";
-import { BookOpen, Flame, Sparkles, Swords, Trophy, Zap } from "lucide-react";
+import { BookOpen, Flame, Swords, Terminal, Trophy, Zap } from "lucide-react";
 
 const STAT_CARDS = [
   { icon: Zap, label: "+50 XP", hint: "Last lesson", tone: "from-primary-500 to-primary-400", delay: "0.55s" },
@@ -247,7 +247,7 @@ export function AuthHero({
           <div className="mt-4 flex flex-wrap gap-4 border-t border-line/60 pt-4">
             {[
               { icon: BookOpen, label: "23 full guides" },
-              { icon: Sparkles, label: "Sandbox checks" },
+              { icon: Terminal, label: "Sandbox checks" },
               { icon: Zap, label: "XP & quests" },
             ].map(({ icon: Icon, label }, index) => (
               <span

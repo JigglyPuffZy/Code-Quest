@@ -7,6 +7,7 @@ const PROTECTED = [
   "/learn",
   "/quests",
   "/challenges",
+  "/game",
   "/leaderboard",
   "/achievements",
   "/profile",

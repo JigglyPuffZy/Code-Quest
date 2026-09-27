@@ -1,0 +1,87 @@
+import type { Quest } from "@/lib/types";
+
+/** Optional bonus missions — exactly 10 side quests. */
+export const SIDE_QUEST_COUNT = 10;
+
+export const sideQuests: Quest[] = [
+  {
+    id: "side-check-in",
+    kind: "side",
+    title: "Academy Check-in",
+    description: "Log in and show up today.",
+    xp: 15,
+    metric: { type: "activeToday" },
+  },
+  {
+    id: "side-warmup",
+    kind: "side",
+    title: "Warm-up Run",
+    description: "Clear 1 practice lesson today.",
+    xp: 25,
+    metric: { type: "lessonsToday", count: 1 },
+  },
+  {
+    id: "side-double-shift",
+    kind: "side",
+    title: "Double Shift",
+    description: "Clear 2 practice lessons in one day.",
+    xp: 45,
+    metric: { type: "lessonsToday", count: 2 },
+  },
+  {
+    id: "side-daily-arena",
+    kind: "side",
+    title: "Daily Skirmish",
+    description: "Beat today's featured arena challenge.",
+    xp: 35,
+    metric: { type: "dailyChallenge" },
+  },
+  {
+    id: "side-arena-blitz",
+    kind: "side",
+    title: "Arena Blitz",
+    description: "Clear any arena challenge today.",
+    xp: 30,
+    metric: { type: "challengesToday", count: 1 },
+  },
+  {
+    id: "side-guide-glance",
+    kind: "side",
+    title: "Quick Read",
+    description: "Read at least 1 guide lesson.",
+    xp: 18,
+    metric: { type: "guides", count: 1 },
+  },
+  {
+    id: "side-lore-page",
+    kind: "side",
+    title: "Lore Page",
+    description: "Read 2 guide lessons (any topic).",
+    xp: 20,
+    metric: { type: "guides", count: 2 },
+  },
+  {
+    id: "side-game-run",
+    kind: "side",
+    title: "Game Run",
+    description: "Clear 1 game level today.",
+    xp: 40,
+    metric: { type: "gameLevelsToday", count: 1 },
+  },
+  {
+    id: "side-path-hopper",
+    kind: "side",
+    title: "Path Hopper",
+    description: "Start lessons on 2 different code paths.",
+    xp: 40,
+    metric: { type: "languagesStarted", count: 2 },
+  },
+  {
+    id: "side-triple-threat",
+    kind: "side",
+    title: "Triple Threat",
+    description: "Touch 3 code paths with at least one lesson each.",
+    xp: 55,
+    metric: { type: "languagesStarted", count: 3 },
+  },
+];

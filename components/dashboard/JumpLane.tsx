@@ -31,9 +31,9 @@ const JUMP_ITEMS: JumpItem[] = [
     bar: "bg-primary-400",
   },
   {
-    href: "/learn/python",
+    href: "/guides/python",
     label: "Python",
-    sub: "Practice",
+    sub: "Guide",
     topicId: "python",
     soft: "bg-emerald-50",
     accent: "text-emerald-600",
@@ -41,9 +41,9 @@ const JUMP_ITEMS: JumpItem[] = [
     bar: "bg-emerald-400",
   },
   {
-    href: "/learn/javascript",
+    href: "/guides/javascript",
     label: "JavaScript",
-    sub: "Practice",
+    sub: "Guide",
     topicId: "javascript",
     soft: "bg-amber-50",
     accent: "text-amber-600",
@@ -51,9 +51,9 @@ const JUMP_ITEMS: JumpItem[] = [
     bar: "bg-amber-400",
   },
   {
-    href: "/learn/typescript",
+    href: "/guides/typescript",
     label: "TypeScript",
-    sub: "Practice",
+    sub: "Guide",
     topicId: "typescript",
     soft: "bg-sky-50",
     accent: "text-sky-600",
@@ -61,9 +61,9 @@ const JUMP_ITEMS: JumpItem[] = [
     bar: "bg-sky-400",
   },
   {
-    href: "/learn/java",
+    href: "/guides/java",
     label: "Java",
-    sub: "Practice",
+    sub: "Guide",
     topicId: "java",
     soft: "bg-orange-50",
     accent: "text-orange-600",
@@ -160,18 +160,20 @@ function JumpTile({ item }: { item: JumpItem }) {
   );
 }
 
-export function JumpLane() {
+export function JumpLane({ embedded = false }: { embedded?: boolean }) {
   const loop = [...JUMP_ITEMS, ...JUMP_ITEMS];
 
   return (
     <section className="space-y-3">
-      <div className="flex items-end justify-between gap-3 px-1">
-        <div>
-          <p className="mb-1 text-[10px] font-bold uppercase tracking-[0.2em] text-muted">Navigate</p>
-          <h2 className="text-lg font-bold tracking-tight">Jump to</h2>
+      {!embedded ? (
+        <div className="flex items-end justify-between gap-3 px-1">
+          <div>
+            <p className="mb-1 text-[10px] font-bold uppercase tracking-[0.2em] text-muted">Navigate</p>
+            <h2 className="text-lg font-bold tracking-tight">Jump to</h2>
+          </div>
+          <span className="text-[10px] text-muted">Hover to pause</span>
         </div>
-        <span className="text-[10px] text-muted">Hover to pause</span>
-      </div>
+      ) : null}
 
       <div className="marquee-viewport -mx-1">
         <div className="marquee-track">

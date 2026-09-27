@@ -1,6 +1,6 @@
 import {
   BookOpen,
-  Compass,
+  Gamepad2,
   LayoutDashboard,
   Medal,
   ScrollText,
@@ -19,10 +19,10 @@ export type NavItem = {
 
 export const NAV_ITEMS: NavItem[] = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard, mobile: true },
-  { href: "/learn", label: "Learn", icon: Compass, mobile: true },
   { href: "/guides", label: "Guides", icon: BookOpen, mobile: true },
   { href: "/quests", label: "Quests", icon: ScrollText },
-  { href: "/challenges", label: "Challenges", icon: Swords, mobile: true },
+  { href: "/game", label: "Game", icon: Gamepad2, mobile: true },
+  { href: "/challenges", label: "Arena", icon: Swords },
   { href: "/leaderboard", label: "Leaderboard", icon: Trophy },
   { href: "/achievements", label: "Achievements", icon: Medal },
   { href: "/profile", label: "Profile", icon: UserRound, mobile: true },

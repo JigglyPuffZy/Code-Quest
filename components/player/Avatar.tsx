@@ -1,5 +1,7 @@
-import { avatarById } from "@/lib/avatars";
+import { avatarById, avatarImageUrl } from "@/lib/avatars";
 import { cn } from "@/lib/cn";
+
+const SIZE_PX = { sm: 64, md: 80, lg: 112 } as const;
 
 export function Avatar({
   id,
@@ -11,14 +13,22 @@ export function Avatar({
   className?: string;
 }) {
   const avatar = avatarById(id);
-  const box = size === "lg" ? "h-14 w-14 text-xl" : size === "sm" ? "h-8 w-8 text-xs" : "h-10 w-10 text-sm";
+  const box = size === "lg" ? "h-14 w-14" : size === "sm" ? "h-8 w-8" : "h-10 w-10";
+  const px = SIZE_PX[size];
+
   return (
     <span
-      className={cn("grid shrink-0 place-items-center rounded-xl border border-line font-semibold text-mist", box, className)}
-      style={{ background: `linear-gradient(145deg, ${avatar.from}88, ${avatar.to}44)` }}
-      aria-hidden
+      className={cn("relative shrink-0 overflow-hidden rounded-xl border border-line bg-white", box, className)}
+      title={avatar.label}
     >
-      {avatar.mark}
+      <img
+        src={avatarImageUrl(id, px)}
+        alt={`${avatar.label} avatar`}
+        className="h-full w-full object-cover"
+        draggable={false}
+        loading="lazy"
+        decoding="async"
+      />
     </span>
   );
 }

@@ -18,6 +18,13 @@ create table if not exists public.profiles (
   last_active date,
   completed_lessons jsonb not null default '[]'::jsonb,
   completed_challenges jsonb not null default '[]'::jsonb,
+  completed_game_levels jsonb not null default '[]'::jsonb,
+  skill_difficulty text not null default 'mid',
+  game_track text not null default 'core',
+  frontend_framework text not null default 'react',
+  frontend_language text not null default 'typescript',
+  backend_framework text not null default 'express',
+  backend_language text not null default 'javascript',
   claimed_quests jsonb not null default '[]'::jsonb,
   unlocked_achievements jsonb not null default '[]'::jsonb,
   last_lesson_id text,
@@ -34,6 +41,13 @@ alter table public.profiles add column if not exists best_streak integer not nul
 alter table public.profiles add column if not exists last_active date;
 alter table public.profiles add column if not exists completed_lessons jsonb not null default '[]'::jsonb;
 alter table public.profiles add column if not exists completed_challenges jsonb not null default '[]'::jsonb;
+alter table public.profiles add column if not exists completed_game_levels jsonb not null default '[]'::jsonb;
+alter table public.profiles add column if not exists skill_difficulty text not null default 'mid';
+alter table public.profiles add column if not exists game_track text not null default 'core';
+alter table public.profiles add column if not exists frontend_framework text not null default 'react';
+alter table public.profiles add column if not exists frontend_language text not null default 'typescript';
+alter table public.profiles add column if not exists backend_framework text not null default 'express';
+alter table public.profiles add column if not exists backend_language text not null default 'javascript';
 alter table public.profiles add column if not exists claimed_quests jsonb not null default '[]'::jsonb;
 alter table public.profiles add column if not exists unlocked_achievements jsonb not null default '[]'::jsonb;
 alter table public.profiles add column if not exists last_lesson_id text;

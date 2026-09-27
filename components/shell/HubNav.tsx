@@ -10,7 +10,7 @@ export function HubNav() {
 
   return (
     <nav
-      className="fixed bottom-4 left-1/2 z-50 w-[calc(100%-1.5rem)] max-w-2xl -translate-x-1/2 hub-dock px-1.5 py-1.5 sm:bottom-5"
+      className="fixed bottom-3 left-1/2 z-50 w-[calc(100%-1rem)] max-w-2xl -translate-x-1/2 hub-dock px-1 py-1.5 sm:bottom-5 sm:w-[calc(100%-1.5rem)] sm:px-1.5"
       aria-label="Main navigation"
     >
       <ul className="flex items-center justify-between gap-0 overflow-x-auto sm:justify-center sm:gap-0.5">
@@ -23,7 +23,7 @@ export function HubNav() {
                 href={item.href}
                 aria-current={active ? "page" : undefined}
                 className={cn(
-                  "hub-dock-item flex flex-col items-center gap-0.5 rounded-xl px-2.5 py-1.5 transition sm:rounded-2xl sm:px-3 sm:py-2",
+                  "hub-dock-item flex min-h-11 min-w-[3.25rem] flex-col items-center justify-center gap-0.5 rounded-xl px-2 py-1.5 transition sm:min-h-0 sm:min-w-0 sm:rounded-2xl sm:px-3 sm:py-2",
                   active ? "active text-primary" : "text-muted hover:text-ink",
                 )}
               >

@@ -1,98 +1,161 @@
 "use client";
 
+import { ActiveQuestCard } from "@/components/dashboard/ActiveQuestCard";
 import { CodeQuestIntro } from "@/components/dashboard/CodeQuestIntro";
+import { DailyGoalCard } from "@/components/dashboard/DailyGoalCard";
+import { DashboardZone } from "@/components/dashboard/DashboardZone";
 import { JumpLane } from "@/components/dashboard/JumpLane";
+import { MiniLeaderboard } from "@/components/dashboard/MiniLeaderboard";
 import { MissionDeck } from "@/components/dashboard/MissionDeck";
+import { ContinueGuideCard } from "@/components/dashboard/ContinueGuideCard";
 import { PathDeck } from "@/components/dashboard/PathDeck";
+import { SideQuestDeck } from "@/components/dashboard/SideQuestDeck";
+import { StatsStrip } from "@/components/dashboard/StatsStrip";
+import { GamePlayHero } from "@/components/game/GamePlayHero";
 import { usePlayer } from "@/components/player/PlayerProvider";
 import { RingProgress } from "@/components/ui/RingProgress";
-import { languageInfo } from "@/lib/curriculum/index";
-import { continueLesson } from "@/lib/progress";
-import { ArrowRight, Flame, Play, Sparkles } from "lucide-react";
+import {
+  ArrowRight,
+  BookOpen,
+  Flame,
+  Gamepad2,
+  Play,
+} from "lucide-react";
 import Link from "next/link";
 
 export function DashboardView() {
   const { player, level, xp } = usePlayer();
   if (!player) return null;
 
-  const next = continueLesson(player);
   const xpPct = (level.into / level.needed) * 100;
 
   return (
-    <div className="space-y-10">
-      {/* Command center hero */}
+    <div className="space-y-12">
+      {/* Welcome + stats */}
       <section className="dash-hero relative overflow-hidden rounded-2xl border border-line bg-surface-2">
         <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-primary-200/25 blur-3xl" />
         <div className="pointer-events-none absolute -bottom-12 left-1/3 h-32 w-32 rounded-full bg-violet-200/20 blur-3xl" />
 
-        <div className="relative flex flex-col gap-6 p-6 sm:p-8 lg:flex-row lg:items-center lg:justify-between">
-          <div className="min-w-0">
-            <p className="inline-flex items-center gap-1.5 rounded-full border border-line bg-white px-3 py-1 text-[10px] font-bold uppercase tracking-[0.2em] text-muted">
-              <Sparkles size={11} className="text-primary" />
-              Command center
-            </p>
-            <h1 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">
-              Hey, <span className="text-primary">{player.username}</span>
-            </h1>
-            <p className="mt-2 text-sm text-muted">
-              {level.title} rank · {xp.toLocaleString()} XP earned
-            </p>
-            <p className="mt-1 text-xs text-muted">
-              {level.into} / {level.needed} XP to reach level {level.level + 1}
-            </p>
+        <div className="relative p-6 sm:p-8">
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+            <div className="min-w-0">
+              <p className="inline-flex items-center rounded-full border border-line bg-white px-3 py-1 text-[10px] font-bold uppercase tracking-[0.2em] text-muted">
+                Your home base
+              </p>
+              <h1 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">
+                Welcome back, <span className="text-primary">{player.username}</span>
+              </h1>
+              <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted">
+                Start with <strong className="font-semibold text-ink">Step 1</strong> below, then check your daily goals and learning paths.
+              </p>
+            </div>
+
+            <div className="flex items-center gap-4 sm:gap-5">
+              <div className="rounded-xl border border-line bg-white px-4 py-3 text-center sm:px-5 sm:py-4">
+                <p className="flex items-center justify-center gap-1.5 text-2xl font-bold tabular-nums text-orange-500">
+                  <Flame size={22} strokeWidth={1.75} />
+                  {player.streak}
+                </p>
+                <p className="mt-1 text-[10px] font-semibold uppercase tracking-wider text-muted">day streak</p>
+              </div>
+              <RingProgress value={xpPct} size={88} stroke={6}>
+                <div className="text-center">
+                  <p className="text-xl font-bold leading-none text-primary">{level.level}</p>
+                  <p className="text-[8px] font-bold uppercase text-muted">level</p>
+                </div>
+              </RingProgress>
+              <div className="hidden rounded-xl border border-line bg-white px-4 py-3 text-center sm:block">
+                <p className="text-lg font-bold tabular-nums text-ink">{xp.toLocaleString()}</p>
+                <p className="mt-1 text-[10px] font-semibold uppercase tracking-wider text-muted">total XP</p>
+              </div>
+            </div>
           </div>
 
-          <div className="flex items-center gap-5 sm:gap-6">
-            <div className="rounded-xl border border-line bg-white px-5 py-4 text-center">
-              <p className="flex items-center justify-center gap-1.5 text-2xl font-bold tabular-nums text-orange-500">
-                <Flame size={22} strokeWidth={1.75} />
-                {player.streak}
-              </p>
-              <p className="mt-1 text-[10px] font-semibold uppercase tracking-wider text-muted">day streak</p>
-            </div>
-            <RingProgress value={xpPct} size={88} stroke={6}>
-              <div className="text-center">
-                <p className="text-xl font-bold leading-none text-primary">{level.level}</p>
-                <p className="text-[8px] font-bold uppercase text-muted">level</p>
-              </div>
-            </RingProgress>
+          <div className="mt-2 border-t border-line/80 pt-5">
+            <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.2em] text-muted">Your progress at a glance</p>
+            <StatsStrip />
           </div>
         </div>
       </section>
 
-      <CodeQuestIntro playerId={player.id} username={player.username} />
+      {/* 1 — Primary actions */}
+      <DashboardZone
+        step={1}
+        title="Start here"
+        hint="The fastest way forward: resume learning or jump into the game campaign."
+      >
+        <div className="grid gap-4 lg:grid-cols-2">
+          <ContinueGuideCard />
 
-      {/* Continue lesson */}
-      {next ? (
-        <Link href={`/learn/${next.language}/${next.id}`} className="group block">
-          <article
-            className="relative overflow-hidden rounded-2xl border border-line bg-white p-6 transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-slate-900/5 sm:p-7"
-          >
-            <div className="absolute inset-y-0 left-0 w-1 bg-primary" aria-hidden />
-            <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
-              <div className="min-w-0 flex-1 pl-2">
-                <p className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-primary">
-                  <Play size={12} />
-                  Pick up where you left off
-                </p>
-                <h2 className="mt-2 text-2xl font-bold leading-tight tracking-tight sm:text-3xl">{next.title}</h2>
-                <p className="mt-2 text-sm text-muted">
-                  {languageInfo(next.language).name} · {next.minutes} min · +{next.xp} XP
-                </p>
-              </div>
-              <span
-                className="inline-flex w-fit shrink-0 items-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-sm shadow-primary/20 transition group-hover:bg-primary-hover"
-              >
-                Resume <ArrowRight size={16} />
-              </span>
-            </div>
-          </article>
-        </Link>
-      ) : null}
+          <div className="h-full">
+            <p className="mb-2 inline-flex items-center gap-1.5 rounded-full border border-line bg-white px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-muted">
+              <Gamepad2 size={11} className="text-violet-600" />
+              Game mode
+            </p>
+            <GamePlayHero />
+          </div>
+        </div>
+      </DashboardZone>
 
-      <JumpLane />
-      <PathDeck player={player} />
-      <MissionDeck player={player} />
+      {/* 2 — Daily focus */}
+      <DashboardZone
+        step={2}
+        title="Today's focus"
+        hint="Track your daily XP goal and the main quest you're working on."
+      >
+        <div className="grid gap-4 lg:grid-cols-2">
+          <DailyGoalCard />
+          <ActiveQuestCard />
+        </div>
+      </DashboardZone>
+
+      {/* 3 — Quick nav */}
+      <DashboardZone
+        step={3}
+        title="Quick navigation"
+        hint="Shortcuts to the main areas of CodeQuest. Hover the row to pause scrolling."
+      >
+        <JumpLane embedded />
+      </DashboardZone>
+
+      {/* 4 — Learning */}
+      <DashboardZone
+        step={4}
+        title="Guides & progress"
+        hint="Read guide courses — then practice in Arena or Game mode."
+      >
+        <PathDeck embedded />
+      </DashboardZone>
+
+      {/* 5 — Bonus */}
+      <DashboardZone
+        step={5}
+        title="Bonus missions"
+        hint="Optional side quests for extra XP — not required, but nice for a quick win."
+      >
+        <SideQuestDeck embedded />
+      </DashboardZone>
+
+      {/* 6 — Social & daily missions */}
+      <DashboardZone
+        step={6}
+        title="Compete & collect"
+        hint="Compare with others, tackle today's arena fight, and see recent rewards."
+      >
+        <div className="grid gap-6 xl:grid-cols-[1.05fr_0.95fr]">
+          <MissionDeck player={player} embedded />
+          <MiniLeaderboard />
+        </div>
+      </DashboardZone>
+
+      {/* Tour — bottom so it doesn't block action */}
+      <DashboardZone
+        title="How CodeQuest works"
+        hint="New here? This quick tour explains Read → Write → Battle → Rank up."
+        panel
+      >
+        <CodeQuestIntro playerId={player.id} username={player.username} />
+      </DashboardZone>
     </div>
   );
 }

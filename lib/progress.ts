@@ -9,9 +9,10 @@ import {
   worlds,
   worldsFor,
 } from "@/lib/curriculum/index";
-import { quests } from "@/lib/curriculum/quests";
+import { allQuests, quests, sideQuests } from "@/lib/curriculum/quests";
+import { SIDE_QUEST_COUNT } from "@/lib/curriculum/side-quests";
 import { guidesReadForTopic, totalGuidesRead } from "@/lib/guides/progress";
-import { dayOfYear } from "@/lib/dates";
+import { dayOfYear, todayKey } from "@/lib/dates";
 import type {
   Achievement,
   Challenge,
@@ -23,6 +24,28 @@ import type {
 
 export function completedSet(entries: { id: string }[]) {
   return new Set(entries.map((entry) => entry.id));
+}
+
+function dayKeyFromIso(iso: string) {
+  const date = new Date(iso);
+  if (Number.isNaN(date.getTime())) return "";
+  return todayKey(date);
+}
+
+export function lessonsCompletedOnDay(player: Player, dayKey = todayKey()) {
+  return player.completedLessons.filter((entry) => dayKeyFromIso(entry.at) === dayKey).length;
+}
+
+export function challengesCompletedOnDay(player: Player, dayKey = todayKey()) {
+  return player.completedChallenges.filter((entry) => dayKeyFromIso(entry.at) === dayKey).length;
+}
+
+export function gameLevelsCompletedOnDay(player: Player, dayKey = todayKey()) {
+  return player.completedGameLevels.filter((entry) => dayKeyFromIso(entry.at) === dayKey).length;
+}
+
+export function languagesStarted(player: Player) {
+  return languages.filter((language) => lessonCount(player, language.id) >= 1).length;
 }
 
 export function lessonCount(player: Player, language?: LanguageId) {
@@ -114,8 +137,27 @@ export function currentWorldName(language: LanguageId, player: Player) {
   return worldsFor(language).find((world) => world.id === next.worldId)?.title ?? "Path";
 }
 
+export function challengesForLanguage(language: LanguageId) {
+  return challenges.filter((challenge) => challenge.language === language);
+}
+
+export function previousChallenge(challenge: Challenge): Challenge | null {
+  const track = challengesForLanguage(challenge.language);
+  const index = track.findIndex((item) => item.id === challenge.id);
+  if (index <= 0) return null;
+  return track[index - 1] ?? null;
+}
+
 export function isChallengeUnlocked(challenge: Challenge, player: Player) {
-  return lessonCount(player, challenge.language) >= challenge.requiresLessons;
+  const prev = previousChallenge(challenge);
+  if (!prev) return true;
+  return isChallengeComplete(prev.id, player);
+}
+
+export function challengeLockMessage(challenge: Challenge) {
+  const prev = previousChallenge(challenge);
+  if (!prev) return "This battle is not available yet.";
+  return `Clear "${prev.title}" first to unlock this battle.`;
 }
 
 export function isChallengeComplete(challengeId: string, player: Player) {
@@ -131,6 +173,22 @@ export function pickDailyChallenge(player: Player, date = new Date()) {
     if (!isChallengeComplete(challenge.id, player)) return challenge;
   }
   return pool[start % pool.length];
+}
+
+/** First unlocked arena challenge the player can open — goes straight to the coder. */
+export function pickPlayableChallenge(player: Player) {
+  for (const challenge of challenges) {
+    if (!isChallengeUnlocked(challenge, player)) continue;
+    if (!isChallengeComplete(challenge.id, player)) return challenge;
+  }
+  for (const challenge of challenges) {
+    if (isChallengeUnlocked(challenge, player)) return challenge;
+  }
+  return challenges[0];
+}
+
+export function challengePlayHref(player: Player, challenge = pickPlayableChallenge(player)) {
+  return `/challenges/${challenge.id}`;
 }
 
 export type QuestStatus = {
@@ -171,6 +229,25 @@ export function questStatus(quest: Quest, player: Player): QuestStatus {
     const cleared = languages.filter((language) => lessonCount(player, language.id) >= 1).length;
     current = cleared;
     target = languages.length;
+  } else if (metric.type === "lessonsToday") {
+    current = lessonsCompletedOnDay(player);
+    target = metric.count;
+  } else if (metric.type === "challengesToday") {
+    current = challengesCompletedOnDay(player);
+    target = metric.count;
+  } else if (metric.type === "activeToday") {
+    current = player.lastActive === todayKey() ? 1 : 0;
+    target = 1;
+  } else if (metric.type === "dailyChallenge") {
+    const daily = pickDailyChallenge(player);
+    current = isChallengeComplete(daily.id, player) ? 1 : 0;
+    target = 1;
+  } else if (metric.type === "languagesStarted") {
+    current = languagesStarted(player);
+    target = metric.count;
+  } else if (metric.type === "gameLevelsToday") {
+    current = gameLevelsCompletedOnDay(player);
+    target = metric.count;
   } else {
     const python = lessonCount(player, "python");
     const javascript = lessonCount(player, "javascript");
@@ -188,7 +265,15 @@ export function questStatus(quest: Quest, player: Player): QuestStatus {
 }
 
 export function allQuestStatuses(player: Player) {
+  return allQuests.map((quest) => questStatus(quest, player));
+}
+
+export function mainQuestStatuses(player: Player) {
   return quests.map((quest) => questStatus(quest, player));
+}
+
+export function sideQuestStatuses(player: Player) {
+  return sideQuests.slice(0, SIDE_QUEST_COUNT).map((quest) => questStatus(quest, player));
 }
 
 export function achievementUnlocked(achievement: Achievement, player: Player) {

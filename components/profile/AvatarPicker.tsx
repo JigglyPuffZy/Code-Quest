@@ -14,7 +14,7 @@ export function AvatarPicker({
   size?: "sm" | "md" | "lg";
 }) {
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className="grid grid-cols-4 gap-2.5 sm:grid-cols-8 sm:gap-2">
       {AVATARS.map((item) => {
         const selected = value === item.id;
         return (
@@ -26,10 +26,10 @@ export function AvatarPicker({
             aria-pressed={selected}
             title={item.label}
             className={cn(
-              "inline-flex shrink-0 rounded-xl transition",
+              "inline-flex min-h-11 min-w-11 items-center justify-center rounded-xl transition sm:min-h-0 sm:min-w-0",
               selected
                 ? "ring-2 ring-primary ring-offset-2 ring-offset-white"
-                : "opacity-60 hover:opacity-100",
+                : "opacity-70 hover:opacity-100",
             )}
           >
             <Avatar id={item.id} size={size} />

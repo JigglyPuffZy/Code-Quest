@@ -1,4 +1,6 @@
 import { findExercise } from "@/lib/curriculum/index";
+import type { SkillDifficulty } from "@/lib/difficulty";
+import type { GameStackPrefs } from "@/lib/game/banks";
 import { runInSandbox } from "@/lib/execute/sandbox";
 import type { FunctionCase, GradeTest, LanguageId, TestSpec } from "@/lib/types";
 
@@ -122,8 +124,14 @@ function gradeFunction(cases: FunctionCase[], functionName: string, stdout: stri
   return tests;
 }
 
-export async function gradeExercise(kind: "lesson" | "challenge", id: string, code: string) {
-  const record = findExercise(kind, id);
+export async function gradeExercise(
+  kind: "lesson" | "challenge" | "game",
+  id: string,
+  code: string,
+  _difficulty?: SkillDifficulty,
+  stack?: GameStackPrefs,
+) {
+  const record = findExercise(kind, id, kind === "game" ? { stack } : undefined);
   if (!record) {
     throw new Error("That exercise does not exist.");
   }

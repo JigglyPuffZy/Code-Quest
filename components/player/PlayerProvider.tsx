@@ -2,12 +2,14 @@
 
 import { avatarById } from "@/lib/avatars";
 import { getChallenge, getLesson } from "@/lib/curriculum/index";
-import { quests } from "@/lib/curriculum/quests";
+import { parseGameLevelId, xpForGameLevel } from "@/lib/game";
+import { getQuest } from "@/lib/curriculum/quests";
 import {
   createPlayer,
   grantAchievements,
   levelFromXp,
   markChallengeComplete,
+  markGameLevelComplete,
   markLessonComplete,
   markQuestClaimed,
   mergePlayers,
@@ -21,6 +23,14 @@ import { missingTable, playerToRow, rowToPlayer, type ProfileRow } from "@/lib/p
 import { questStatus } from "@/lib/progress";
 import { createClient } from "@/lib/supabase/client";
 import { isSupabaseConfigured } from "@/lib/supabase/env";
+import type { SkillDifficulty } from "@/lib/difficulty";
+import type {
+  BackendFrameworkId,
+  BackendLanguage,
+  FrontendFrameworkId,
+  FrontendLanguage,
+  GameTrackId,
+} from "@/lib/game/tracks";
 import type { Achievement, LevelInfo, Player } from "@/lib/types";
 import {
   createContext,
@@ -60,8 +70,19 @@ type PlayerContextValue = {
   setLocalIdentity: (username: string, avatar: string) => void;
   completeLesson: (id: string) => { awarded: boolean; xp: number };
   completeChallenge: (id: string) => { awarded: boolean; xp: number };
+  completeGameLevel: (id: string) => { awarded: boolean; xp: number };
   claimQuest: (id: string) => { awarded: boolean; xp: number };
   rememberLesson: (id: string) => void;
+  setSkillDifficulty: (difficulty: SkillDifficulty) => void;
+  setGameTrack: (track: GameTrackId) => void;
+  setFrontendStack: (patch: {
+    framework: FrontendFrameworkId;
+    language: FrontendLanguage;
+  }) => void;
+  setBackendStack: (patch: {
+    framework: BackendFrameworkId;
+    language: BackendLanguage;
+  }) => void;
   refresh: () => Promise<void>;
 };
 
@@ -392,10 +413,27 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
     [persist, pushNotices],
   );
 
+  const completeGameLevel = useCallback(
+    (id: string) => {
+      const current = playerRef.current;
+      if (!current) return { awarded: false, xp: 0 };
+      const key = parseGameLevelId(id);
+      const xp = key ? xpForGameLevel(key.level, key.difficulty) : 0;
+      if (!key) return { awarded: false, xp: 0 };
+      const result = markGameLevelComplete(current, id);
+      if (!result.awarded) return { awarded: false, xp: 0 };
+      setPlayer(result.player);
+      persist(result.player);
+      pushNotices(current, result.player, result.fresh);
+      return { awarded: true, xp };
+    },
+    [persist, pushNotices],
+  );
+
   const claimQuest = useCallback(
     (id: string) => {
       const current = playerRef.current;
-      const quest = quests.find((item) => item.id === id);
+      const quest = getQuest(id);
       if (!current || !quest) return { awarded: false, xp: 0 };
       const status = questStatus(quest, current);
       if (!status.done || status.claimed) return { awarded: false, xp: 0 };
@@ -425,6 +463,56 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
     [persist],
   );
 
+  const setSkillDifficulty = useCallback(
+    (difficulty: SkillDifficulty) => {
+      const current = playerRef.current;
+      if (!current || current.skillDifficulty === difficulty) return;
+      const next = withProfile(current, { skillDifficulty: difficulty });
+      setPlayer(next);
+      persist(next);
+    },
+    [persist],
+  );
+
+  const setGameTrack = useCallback(
+    (track: GameTrackId) => {
+      const current = playerRef.current;
+      if (!current || current.gameTrack === track) return;
+      const next = withProfile(current, { gameTrack: track });
+      setPlayer(next);
+      persist(next);
+    },
+    [persist],
+  );
+
+  const setFrontendStack = useCallback(
+    (patch: { framework: FrontendFrameworkId; language: FrontendLanguage }) => {
+      const current = playerRef.current;
+      if (!current) return;
+      const next = withProfile(current, {
+        frontendFramework: patch.framework,
+        frontendLanguage: patch.language,
+      });
+      setPlayer(next);
+      persist(next);
+    },
+    [persist],
+  );
+
+  const setBackendStack = useCallback(
+    (patch: { framework: BackendFrameworkId; language: BackendLanguage }) => {
+      const current = playerRef.current;
+      if (!current) return;
+      const next = withProfile(current, {
+        backendFramework: patch.framework,
+        backendLanguage: patch.language,
+      });
+      setPlayer(next);
+      persist(next);
+    },
+    [persist],
+  );
+
   const xp = player ? totalXp(player) : 0;
   const level = player ? levelFromXp(xp) : emptyLevel;
 
@@ -446,8 +534,13 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
       setLocalIdentity,
       completeLesson,
       completeChallenge,
+      completeGameLevel,
       claimQuest,
       rememberLesson,
+      setSkillDifficulty,
+      setGameTrack,
+      setFrontendStack,
+      setBackendStack,
       refresh,
     }),
     [
@@ -467,8 +560,13 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
       setLocalIdentity,
       completeLesson,
       completeChallenge,
+      completeGameLevel,
       claimQuest,
       rememberLesson,
+      setSkillDifficulty,
+      setGameTrack,
+      setFrontendStack,
+      setBackendStack,
       refresh,
     ],
   );

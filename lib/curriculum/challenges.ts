@@ -6,7 +6,7 @@ export const challenges: Challenge[] = [
     language: "python",
     title: "Mirror Script",
     summary: "Return a string reversed.",
-    difficulty: "Easy",
+    difficulty: "beginner",
     xp: 50,
     requiresLessons: 0,
     blocks: [
@@ -39,7 +39,7 @@ export const challenges: Challenge[] = [
     language: "python",
     title: "Highest Peak",
     summary: "Return the largest of three numbers.",
-    difficulty: "Easy",
+    difficulty: "beginner",
     xp: 50,
     requiresLessons: 0,
     blocks: [
@@ -72,7 +72,7 @@ export const challenges: Challenge[] = [
     language: "python",
     title: "Vowel Count",
     summary: "Count a, e, i, o, and u.",
-    difficulty: "Medium",
+    difficulty: "expert",
     xp: 70,
     requiresLessons: 4,
     blocks: [
@@ -106,7 +106,7 @@ export const challenges: Challenge[] = [
     language: "python",
     title: "Beacon Pattern",
     summary: "Classic FizzBuzz for a single number.",
-    difficulty: "Medium",
+    difficulty: "senior",
     xp: 80,
     requiresLessons: 4,
     blocks: [
@@ -148,7 +148,7 @@ export const challenges: Challenge[] = [
     language: "javascript",
     title: "Cargo Total",
     summary: "Sum every number in an array.",
-    difficulty: "Easy",
+    difficulty: "beginner",
     xp: 50,
     requiresLessons: 0,
     blocks: [
@@ -181,7 +181,7 @@ export const challenges: Challenge[] = [
     language: "javascript",
     title: "Palindrome Gate",
     summary: "Tell whether text reads the same backward.",
-    difficulty: "Easy",
+    difficulty: "beginner",
     xp: 55,
     requiresLessons: 0,
     blocks: [
@@ -215,7 +215,7 @@ export const challenges: Challenge[] = [
     language: "javascript",
     title: "Letter Grades",
     summary: "Turn a score into A, B, C, D, or F.",
-    difficulty: "Medium",
+    difficulty: "expert",
     xp: 70,
     requiresLessons: 4,
     blocks: [
@@ -251,7 +251,7 @@ export const challenges: Challenge[] = [
     language: "javascript",
     title: "Double the Lanterns",
     summary: "Return a new array with every number doubled.",
-    difficulty: "Medium",
+    difficulty: "expert",
     xp: 75,
     requiresLessons: 4,
     blocks: [
@@ -285,7 +285,7 @@ export const challenges: Challenge[] = [
     guideTopicId: "typescript",
     title: "Typed Initials",
     summary: "Return the first letter of a name in uppercase.",
-    difficulty: "Easy",
+    difficulty: "beginner",
     xp: 50,
     requiresLessons: 0,
     blocks: [
@@ -317,7 +317,7 @@ export const challenges: Challenge[] = [
     guideTopicId: "typescript",
     title: "Level Cap",
     summary: "Keep a level between 1 and 99.",
-    difficulty: "Easy",
+    difficulty: "beginner",
     xp: 55,
     requiresLessons: 0,
     blocks: [
@@ -350,7 +350,7 @@ export const challenges: Challenge[] = [
     guideTopicId: "typescript",
     title: "Even Check",
     summary: "Tell whether a number is even.",
-    difficulty: "Medium",
+    difficulty: "mid",
     xp: 65,
     requiresLessons: 3,
     blocks: [
@@ -380,7 +380,7 @@ export const challenges: Challenge[] = [
     guideTopicId: "typescript",
     title: "Tag Merge",
     summary: "Join two string tags with a comma.",
-    difficulty: "Medium",
+    difficulty: "mid",
     xp: 70,
     requiresLessons: 3,
     blocks: [
@@ -409,7 +409,7 @@ export const challenges: Challenge[] = [
     guideTopicId: "java",
     title: "Quest Banner",
     summary: "Print a two-line banner from main.",
-    difficulty: "Easy",
+    difficulty: "beginner",
     xp: 50,
     requiresLessons: 0,
     blocks: [
@@ -434,7 +434,7 @@ export const challenges: Challenge[] = [
     guideTopicId: "java",
     title: "Double Print",
     summary: "Print a number doubled.",
-    difficulty: "Easy",
+    difficulty: "beginner",
     xp: 55,
     requiresLessons: 0,
     blocks: [
@@ -456,7 +456,7 @@ export const challenges: Challenge[] = [
     guideTopicId: "java",
     title: "Star Row",
     summary: "Print five asterisks on one line.",
-    difficulty: "Medium",
+    difficulty: "mid",
     xp: 65,
     requiresLessons: 3,
     blocks: [
@@ -478,7 +478,7 @@ export const challenges: Challenge[] = [
     guideTopicId: "java",
     title: "Count to Five",
     summary: "Print 1 through 5 on separate lines.",
-    difficulty: "Medium",
+    difficulty: "senior",
     xp: 75,
     requiresLessons: 3,
     blocks: [

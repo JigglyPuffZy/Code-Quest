@@ -27,7 +27,7 @@ export const guideTopics: GuideTopic[] = [
     id: "java",
     name: "Java",
     category: "languages",
-    tagline: "Enterprise & Android",
+    tagline: "Enterprise & backend",
     description: "Types, classes, objects, and inheritance — a complete intro to Java.",
   },
   {
@@ -35,7 +35,7 @@ export const guideTopics: GuideTopic[] = [
     name: "C",
     category: "languages",
     tagline: "Systems foundation",
-    description: "Pointers, memory, and low-level basics — the language many others are built on.",
+    description: "Low-level basics and how computers run your code — the foundation many languages build on.",
   },
   {
     id: "cpp",

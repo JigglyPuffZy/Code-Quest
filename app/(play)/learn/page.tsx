@@ -1,8 +1,5 @@
-import { LearnHome } from "@/components/learn/LearnViews";
-import type { Metadata } from "next";
-
-export const metadata: Metadata = { title: "Learn" };
+import { redirect } from "next/navigation";
 
 export default function LearnPage() {
-  return <LearnHome />;
+  redirect("/guides");
 }

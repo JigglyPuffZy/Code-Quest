@@ -10,7 +10,7 @@ import {
   type CatalogSection,
 } from "@/lib/guides/catalog";
 import { cn } from "@/lib/cn";
-import { ArrowRight, BookOpen, Database, Search, Sparkles } from "lucide-react";
+import { ArrowRight, BookOpen, Database, Search } from "lucide-react";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 
@@ -203,8 +203,7 @@ export function CatalogBrowser({ compact = false }: { compact?: boolean }) {
             </p>
           </div>
           <div className="rounded-2xl border border-line bg-white p-4">
-            <div className="mb-2 flex items-center gap-2 text-primary">
-              <Sparkles size={16} />
+            <div className="mb-2 text-primary">
               <span className="text-xs font-bold uppercase tracking-wide">Part III</span>
             </div>
             <p className="text-sm font-semibold">Suggested starters</p>

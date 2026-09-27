@@ -1,13 +1,10 @@
-import { LessonPlayer } from "@/components/learn/LearnViews";
-import type { Metadata } from "next";
-
-export const metadata: Metadata = { title: "Lesson" };
+import { redirect } from "next/navigation";
 
 export default async function LessonPage({
   params,
 }: {
-  params: Promise<{ language: string; lessonId: string }>;
+  params: Promise<{ language: string }>;
 }) {
-  const { language, lessonId } = await params;
-  return <LessonPlayer language={language} lessonId={lessonId} />;
+  const { language } = await params;
+  redirect(`/guides/${language}`);
 }

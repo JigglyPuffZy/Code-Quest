@@ -1,4 +1,6 @@
 import { findExercise } from "@/lib/curriculum/index";
+import { isSkillDifficulty, normalizeSkillDifficulty } from "@/lib/difficulty";
+import type { GameStackPrefs } from "@/lib/game/banks";
 import { gradeExercise } from "@/lib/execute/grade";
 import { runInSandbox } from "@/lib/execute/sandbox";
 import type { LanguageId } from "@/lib/types";
@@ -35,6 +37,8 @@ export async function POST(request: Request) {
     code?: string;
     kind?: string;
     id?: string;
+    difficulty?: string;
+    stack?: GameStackPrefs;
   };
 
   if (typeof payload.code !== "string" || payload.code.length > MAX_CODE) {
@@ -54,13 +58,24 @@ export async function POST(request: Request) {
     }
 
     if (payload.mode === "grade") {
-      if (payload.kind !== "lesson" && payload.kind !== "challenge") {
+      if (payload.kind !== "lesson" && payload.kind !== "challenge" && payload.kind !== "game") {
         return NextResponse.json({ error: "Unknown exercise." }, { status: 400 });
       }
-      if (!payload.id || !findExercise(payload.kind, payload.id)) {
+      const difficulty = payload.difficulty && isSkillDifficulty(payload.difficulty)
+        ? payload.difficulty
+        : normalizeSkillDifficulty(payload.difficulty);
+      const stack = payload.kind === "game" ? payload.stack : undefined;
+      if (
+        !payload.id ||
+        !findExercise(
+          payload.kind,
+          payload.id,
+          payload.kind === "game" ? { stack } : undefined,
+        )
+      ) {
         return NextResponse.json({ error: "Unknown exercise." }, { status: 404 });
       }
-      const result = await gradeExercise(payload.kind, payload.id, payload.code);
+      const result = await gradeExercise(payload.kind, payload.id, payload.code, difficulty, stack);
       return NextResponse.json(result);
     }
 

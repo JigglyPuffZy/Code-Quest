@@ -82,7 +82,14 @@ function buildDatabaseCourse(cfg: DbProfile): GuideLesson[] {
       blocks: [
         { type: "p", text: "Apps read data constantly: show profile, load leaderboard, search products. Queries filter what comes back." },
         { type: "code", caption: "Read examples", code: cfg.selectExample },
-        { type: "ul", items: ["WHERE — filter rows", "ORDER BY — sort results", "LIMIT — only get N rows", "Use indexes on columns you search often"] },
+        {
+          type: "ul",
+          items: isMongo
+            ? ["filter — match documents", "sort — order results", "limit — only get N documents", "Index fields you query often"]
+            : cfg.kind === "platform"
+              ? [".select() — choose columns", ".eq() / filters — match rows", ".order() — sort results", "Use indexes on columns you search often"]
+              : ["WHERE — filter rows", "ORDER BY — sort results", "LIMIT — only get N rows", "Use indexes on columns you search often"],
+        },
       ],
     },
     {
@@ -93,7 +100,14 @@ function buildDatabaseCourse(cfg: DbProfile): GuideLesson[] {
       minutes: 12,
       order: 5,
       blocks: [
-        { type: "p", text: "INSERT adds new rows. UPDATE changes existing ones. DELETE removes them. Always double-check your WHERE clause — a missing WHERE can wipe a whole table." },
+        {
+          type: "p",
+          text: isMongo
+            ? "insertOne adds documents. updateOne and updateMany change fields. deleteOne removes them. Double-check your filter — a broad filter can change more than you intend."
+            : cfg.kind === "platform"
+              ? "Use insert or upsert to add records, update to change them, and delete to remove them. Under the hood this is still SQL — always double-check filters before bulk changes."
+              : "INSERT adds new rows. UPDATE changes existing ones. DELETE removes them. Always double-check your WHERE clause — a missing WHERE can wipe a whole table.",
+        },
         { type: "code", caption: "Write examples", code: cfg.insertExample },
         { type: "p", text: "In real apps, use transactions when multiple writes must succeed together (transfer coins between two users)." },
       ],

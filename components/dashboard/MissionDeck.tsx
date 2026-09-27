@@ -1,14 +1,15 @@
 "use client";
 
 import { achievements } from "@/lib/curriculum/achievements";
+import { difficultyShort } from "@/lib/difficulty";
 import { formatWhen } from "@/lib/dates";
 import { isChallengeComplete, pickDailyChallenge } from "@/lib/progress";
 import type { Player } from "@/lib/types";
 import { cn } from "@/lib/cn";
-import { ArrowRight, Medal, Play, Sparkles, Swords, Trophy } from "lucide-react";
+import { ArrowRight, Medal, Play, Swords, Trophy } from "lucide-react";
 import Link from "next/link";
 
-export function MissionDeck({ player }: { player: Player }) {
+export function MissionDeck({ player, embedded = false }: { player: Player; embedded?: boolean }) {
   const daily = pickDailyChallenge(player);
   const dailyCleared = isChallengeComplete(daily.id, player);
   const recent = [...player.unlockedAchievements]
@@ -21,16 +22,21 @@ export function MissionDeck({ player }: { player: Player }) {
 
   return (
     <section className="space-y-4">
-      <div className="px-1">
-        <p className="mb-1 text-[10px] font-bold uppercase tracking-[0.2em] text-muted">Today</p>
-        <h2 className="text-lg font-bold tracking-tight">Missions & rewards</h2>
-      </div>
+      {!embedded ? (
+        <div className="px-1">
+          <p className="mb-1 text-[10px] font-bold uppercase tracking-[0.2em] text-muted">Today</p>
+          <h2 className="text-lg font-bold tracking-tight">Missions & rewards</h2>
+        </div>
+      ) : null}
 
-      <div className="grid gap-4 lg:grid-cols-5">
+      <div className={cn("grid gap-4", embedded ? "grid-cols-1" : "lg:grid-cols-5")}>
         {/* Daily battle */}
         <Link
           href={`/challenges/${daily.id}`}
-          className="group relative overflow-hidden rounded-2xl border border-rose-200/70 bg-gradient-to-br from-rose-50/90 via-white to-white p-6 lg:col-span-3 lg:p-7"
+          className={cn(
+            "group relative overflow-hidden rounded-2xl border border-rose-200/70 bg-gradient-to-br from-rose-50/90 via-white to-white p-6 lg:p-7",
+            !embedded && "lg:col-span-3",
+          )}
         >
           <div className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-rose-200/40 blur-3xl" />
           <div className="relative">
@@ -53,7 +59,7 @@ export function MissionDeck({ player }: { player: Player }) {
                 {dailyCleared ? "Replay challenge" : "Start battle"}
               </span>
               <span className="text-xs font-medium text-muted">
-                +{daily.xp} XP · {daily.difficulty}
+                +{daily.xp} XP · {difficultyShort(daily.difficulty)}
               </span>
             </div>
           </div>
@@ -62,14 +68,14 @@ export function MissionDeck({ player }: { player: Player }) {
         {/* Badge spotlight */}
         {latest ? (
           <div
-            className="relative flex flex-col justify-between overflow-hidden rounded-2xl border border-line bg-surface-2 p-6 lg:col-span-2"
+            className={cn(
+              "relative flex flex-col justify-between overflow-hidden rounded-2xl border border-line bg-surface-2 p-6",
+              !embedded && "lg:col-span-2",
+            )}
           >
             <div className="pointer-events-none absolute -bottom-6 -right-6 h-32 w-32 rounded-full bg-amber-200/30 blur-2xl" />
             <div className="relative">
-              <p className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-muted">
-                <Sparkles size={11} className="text-amber-500" />
-                Latest badge
-              </p>
+              <p className="text-[10px] font-bold uppercase tracking-wider text-muted">Latest badge</p>
               <div className="mt-4 flex items-start gap-3">
                 <span className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-amber-50 text-2xl ring-1 ring-amber-100">
                   🏅
@@ -89,7 +95,10 @@ export function MissionDeck({ player }: { player: Player }) {
           </div>
         ) : (
           <div
-            className="relative flex flex-col justify-between overflow-hidden rounded-2xl border border-dashed border-line bg-surface-2/50 p-6 lg:col-span-2"
+            className={cn(
+              "relative flex flex-col justify-between overflow-hidden rounded-2xl border border-dashed border-line bg-surface-2/50 p-6",
+              !embedded && "lg:col-span-2",
+            )}
           >
             <div className="pointer-events-none absolute -bottom-8 -right-8 h-36 w-36 rounded-full bg-primary-200/20 blur-3xl" />
             <div className="relative text-center sm:text-left">
@@ -102,11 +111,11 @@ export function MissionDeck({ player }: { player: Player }) {
               </p>
             </div>
             <Link
-              href="/learn"
+              href="/guides"
               className="relative mt-6 inline-flex w-fit items-center gap-2 rounded-xl bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm shadow-primary/20 transition hover:bg-primary-hover"
             >
               <Trophy size={15} />
-              Start learning
+              Read guides
             </Link>
           </div>
         )}

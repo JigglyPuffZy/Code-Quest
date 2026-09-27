@@ -54,7 +54,7 @@ export const javascriptGuides: GuideLesson[] = [
     blocks: [
       { type: "code", code: 'let temp = 32;\n\nif (temp > 30) {\n  console.log("Hot");\n} else if (temp > 20) {\n  console.log("Warm");\n} else {\n  console.log("Cool");\n}' },
       { type: "p", text: "Ternary is a one-line if/else:" },
-      { type: "code", code: 'let status = score >= 60 ? "Pass" : "Fail";' },
+      { type: "code", code: 'let score = 75;\nlet status = score >= 60 ? "Pass" : "Fail";' },
       { type: "p", text: "switch works well when comparing one value against many options." },
     ],
   },

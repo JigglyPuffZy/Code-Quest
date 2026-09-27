@@ -9,7 +9,6 @@ import {
   ChevronDown,
   Code2,
   MapPin,
-  Sparkles,
   Swords,
   Target,
   Trophy,
@@ -36,7 +35,7 @@ const PATH_STEPS = [
     title: "Write",
     label: "Sandbox",
     text: "Real checks on your code",
-    href: "/learn",
+    href: "/guides",
     glow: "shadow-violet-500/30",
     ring: "from-violet-400 to-primary-300",
   },
@@ -106,8 +105,7 @@ export function CodeQuestIntro({ playerId, username }: { playerId: string; usern
               Quest briefing
             </p>
             {firstVisit && expanded ? (
-              <span className="cq-intro-badge inline-flex items-center gap-1 rounded-full border border-amber-300/30 bg-amber-400/15 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.14em] text-amber-200">
-                <Sparkles size={10} />
+              <span className="cq-intro-badge inline-flex items-center rounded-full border border-amber-300/30 bg-amber-400/15 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.14em] text-amber-200">
                 New hero
               </span>
             ) : null}
@@ -207,16 +205,15 @@ export function CodeQuestIntro({ playerId, username }: { playerId: string; usern
             </div>
 
             <div className="cq-intro-path relative grid gap-3 sm:grid-cols-3 sm:gap-4">
-              <div className="cq-intro-path-line pointer-events-none absolute left-[16%] right-[16%] top-9 hidden h-px sm:block" aria-hidden />
               {PATH_STEPS.map((step, index) => (
                 <Link
                   key={step.step}
                   href={step.href}
                   className={cn(
-                    "cq-intro-node group relative overflow-hidden rounded-2xl border p-4 transition duration-500 sm:p-5",
+                    "cq-intro-node group relative z-[1] overflow-hidden rounded-2xl border p-4 transition duration-500 sm:p-5",
                     activeStep === index
-                      ? "border-white/25 bg-white/10 shadow-xl"
-                      : "border-white/8 bg-white/[0.03] hover:border-white/15 hover:bg-white/[0.06]",
+                      ? "border-white/25 bg-[#161a35] shadow-xl"
+                      : "border-white/8 bg-[#12152c] hover:border-white/15 hover:bg-[#161a35]",
                     step.glow,
                     activeStep === index && "shadow-lg",
                   )}
@@ -261,8 +258,8 @@ export function CodeQuestIntro({ playerId, username }: { playerId: string; usern
           <div className="mt-5 flex flex-wrap items-center gap-2 rounded-2xl border border-dashed border-white/15 bg-white/[0.03] px-4 py-3.5">
             <Swords size={15} className="shrink-0 text-rose-300" />
             <p className="text-xs text-white/55 sm:text-sm">
-              <span className="font-semibold text-white/90">Pro tip:</span> Read a guide, then practice the same topic
-              in Learn. Arena battles unlock as you level up.
+              <span className="font-semibold text-white/90">Pro tip:</span> Read a guide, then try Arena or Game mode
+              to practice with real code checks.
             </p>
           </div>
 
@@ -275,11 +272,11 @@ export function CodeQuestIntro({ playerId, username }: { playerId: string; usern
               Browse guides
             </Link>
             <Link
-              href="/learn"
+              href="/challenges"
               className="inline-flex items-center gap-2 rounded-xl border border-white/15 bg-white/5 px-5 py-2.5 text-sm font-bold text-white backdrop-blur transition hover:bg-white/10"
             >
               <Code2 size={15} />
-              Start practicing
+              Go to Arena
             </Link>
             {firstVisit ? (
               <button

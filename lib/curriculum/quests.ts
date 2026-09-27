@@ -1,8 +1,10 @@
+import { sideQuests } from "@/lib/curriculum/side-quests";
 import type { Quest } from "@/lib/types";
 
 export const quests: Quest[] = [
   {
     id: "first-spark",
+    kind: "main",
     title: "First Spark",
     description: "Clear any lesson.",
     xp: 30,
@@ -114,3 +116,15 @@ export const quests: Quest[] = [
     metric: { type: "allLanguages" },
   },
 ];
+
+export { sideQuests };
+
+export const allQuests: Quest[] = [...quests, ...sideQuests];
+
+export function getQuest(id: string) {
+  return allQuests.find((quest) => quest.id === id);
+}
+
+export function mainQuests() {
+  return quests;
+}

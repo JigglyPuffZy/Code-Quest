@@ -15,7 +15,7 @@ import {
   topicsByCategory,
 } from "@/lib/guides/index";
 import { catalogStats } from "@/lib/guides/catalog";
-import { hasCodePractice, practiceLanguageForGuide } from "@/lib/curriculum/links";
+import { hasCodePractice } from "@/lib/curriculum/links";
 import { markGuideRead } from "@/lib/guides/progress";
 import type { GuideCategory, GuideTopicId } from "@/lib/guides/types";
 import { ArrowLeft, ArrowRight, BookOpen, CheckCircle2, Clock, Database, Play } from "lucide-react";
@@ -146,7 +146,6 @@ export function TopicGuideList({ topicId }: { topicId: string }) {
   const style = getTopicStyle(topicId);
   const minutes = totalGuideMinutes(topicId);
   const hasPractice = hasCodePractice(topicId);
-  const practiceLang = practiceLanguageForGuide(topicId);
 
   return (
     <div>
@@ -216,10 +215,10 @@ export function TopicGuideList({ topicId }: { topicId: string }) {
           </div>
         </div>
         <Link
-          href={practiceLang ? `/learn/${practiceLang}` : `/guides/${topicId}`}
+          href={hasPractice ? "/challenges" : `/guides/${topicId}`}
           className="shrink-0 rounded-xl bg-primary px-5 py-2.5 text-center text-sm font-semibold text-primary-foreground shadow-sm shadow-primary/20 transition hover:bg-primary-hover"
         >
-          {hasPractice ? "Go to Practice" : "Continue Reading"}
+          {hasPractice ? "Go to Arena" : "Continue Reading"}
         </Link>
       </div>
     </div>
@@ -244,7 +243,6 @@ export function GuideReader({ topicId, slug }: { topicId: string; slug: string }
   const progress = ((index + 1) / lessons.length) * 100;
   const style = getTopicStyle(topicId as GuideTopicId);
   const hasPractice = hasCodePractice(topicId);
-  const practiceLang = practiceLanguageForGuide(topicId);
 
   return (
     <div className="-mt-6 sm:-mt-8">
@@ -332,14 +330,14 @@ export function GuideReader({ topicId, slug }: { topicId: string; slug: string }
           {hasPractice ? (
             <div className={`mt-6 flex items-center justify-between gap-4 rounded-2xl border p-5 ${style.soft}`}>
               <p className="text-sm">
-                <span className="font-semibold">Want to try it yourself?</span>
-                <span className="text-muted"> Practice {topic.name} with real code checks.</span>
+                <span className="font-semibold">Ready to code?</span>
+                <span className="text-muted"> Try Arena battles with real code checks.</span>
               </p>
               <Link
-                href={`/learn/${practiceLang ?? topicId}`}
+                href="/challenges"
                 className="shrink-0 rounded-xl bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-sm shadow-primary/20 hover:bg-primary-hover"
               >
-                Practice
+                Go to Arena
               </Link>
             </div>
           ) : null}

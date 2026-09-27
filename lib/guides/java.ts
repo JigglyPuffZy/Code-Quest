@@ -74,7 +74,7 @@ export const javaGuides: GuideLesson[] = [
     minutes: 14,
     order: 6,
     blocks: [
-      { type: "code", code: 'public class Player {\n    String name;\n    int level;\n\n    public Player(String name, int level) {\n        this.name = name;\n        this.level = level;\n    }\n\n    public void levelUp() {\n        level++;\n    }\n}\n\nPlayer p = new Player("Mia", 1);\np.levelUp();' },
+      { type: "code", code: 'public class Player {\n    String name;\n    int level;\n\n    public Player(String name, int level) {\n        this.name = name;\n        this.level = level;\n    }\n\n    public void levelUp() {\n        level++;\n    }\n\n    public static void main(String[] args) {\n        Player p = new Player("Mia", 1);\n        p.levelUp();\n    }\n}' },
       { type: "p", text: "A class is a blueprint. new creates an object (instance). Fields hold data, methods define behavior." },
     ],
   },
@@ -99,7 +99,7 @@ export const javaGuides: GuideLesson[] = [
     minutes: 12,
     order: 8,
     blocks: [
-      { type: "code", code: 'public class Animal {\n    void speak() {\n        System.out.println("...");\n    }\n}\n\npublic class Dog extends Animal {\n    @Override\n    void speak() {\n        System.out.println("Woof!");\n    }\n}' },
+      { type: "code", code: 'class Animal {\n    void speak() {\n        System.out.println("...");\n    }\n}\n\npublic class Dog extends Animal {\n    @Override\n    void speak() {\n        System.out.println("Woof!");\n    }\n}' },
       { type: "p", text: "extends creates a child class. @Override replaces a parent method. super calls the parent version." },
     ],
   },

@@ -1,4 +1,6 @@
 import { createPlayer } from "@/lib/gamification";
+import { normalizeSkillDifficulty } from "@/lib/difficulty";
+import { parseGameTrack } from "@/lib/game/ids";
 import type { Player } from "@/lib/types";
 
 const GUEST_KEY = "codequest.guest.v1";
@@ -23,9 +25,16 @@ function read(key: string): Player | null {
       lastActive: parsed.lastActive ?? null,
       completedLessons: Array.isArray(parsed.completedLessons) ? parsed.completedLessons : [],
       completedChallenges: Array.isArray(parsed.completedChallenges) ? parsed.completedChallenges : [],
+      completedGameLevels: Array.isArray(parsed.completedGameLevels) ? parsed.completedGameLevels : [],
       claimedQuests: Array.isArray(parsed.claimedQuests) ? parsed.claimedQuests : [],
       unlockedAchievements: Array.isArray(parsed.unlockedAchievements) ? parsed.unlockedAchievements : [],
       lastLessonId: parsed.lastLessonId ?? null,
+      skillDifficulty: normalizeSkillDifficulty(parsed.skillDifficulty),
+      gameTrack: parseGameTrack(parsed.gameTrack),
+      frontendFramework: parsed.frontendFramework ?? "react",
+      frontendLanguage: parsed.frontendLanguage ?? "typescript",
+      backendFramework: parsed.backendFramework ?? "express",
+      backendLanguage: parsed.backendLanguage ?? "javascript",
       createdAt: parsed.createdAt ?? new Date().toISOString(),
       updatedAt: parsed.updatedAt ?? new Date().toISOString(),
     };

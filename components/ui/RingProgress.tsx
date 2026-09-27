@@ -1,14 +1,25 @@
+"use client";
+
+import { useId } from "react";
+
 export function RingProgress({
   value,
   size = 88,
   stroke = 6,
+  trackColor = "#e0e7ff",
+  fromColor = "#4f46e5",
+  toColor = "#818cf8",
   children,
 }: {
   value: number;
   size?: number;
   stroke?: number;
+  trackColor?: string;
+  fromColor?: string;
+  toColor?: string;
   children?: React.ReactNode;
 }) {
+  const gradId = useId().replace(/:/g, "");
   const r = (size - stroke) / 2;
   const c = 2 * Math.PI * r;
   const offset = c - (Math.min(100, Math.max(0, value)) / 100) * c;
@@ -16,13 +27,13 @@ export function RingProgress({
   return (
     <div className="relative inline-grid place-items-center" style={{ width: size, height: size }}>
       <svg width={size} height={size} className="-rotate-90" aria-hidden>
-        <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="#e0e7ff" strokeWidth={stroke} />
+        <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke={trackColor} strokeWidth={stroke} />
         <circle
           cx={size / 2}
           cy={size / 2}
           r={r}
           fill="none"
-          stroke="url(#xpGrad)"
+          stroke={`url(#${gradId})`}
           strokeWidth={stroke}
           strokeLinecap="round"
           strokeDasharray={c}
@@ -30,9 +41,9 @@ export function RingProgress({
           className="transition-[stroke-dashoffset] duration-700"
         />
         <defs>
-          <linearGradient id="xpGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#4f46e5" />
-            <stop offset="100%" stopColor="#818cf8" />
+          <linearGradient id={gradId} x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor={fromColor} />
+            <stop offset="100%" stopColor={toColor} />
           </linearGradient>
         </defs>
       </svg>

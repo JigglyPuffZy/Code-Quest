@@ -94,7 +94,7 @@ export function Sidebar({
           })}
         </nav>
         <p className="px-2 text-xs leading-5 text-muted">
-          Learn Python and JavaScript one cleared lesson at a time.
+          Read guides, then practice in Arena or Game mode.
         </p>
       </aside>
     </>

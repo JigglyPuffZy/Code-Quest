@@ -5,9 +5,9 @@ import { Card } from "@/components/ui/Card";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { achievements } from "@/lib/curriculum/achievements";
 import { formatWhen } from "@/lib/dates";
-import { BookOpen, Crown, Flame, Globe, ScrollText, Sparkles, Star, Swords } from "lucide-react";
+import { BookOpen, Crown, Flame, Globe, ScrollText, Star, Swords } from "lucide-react";
 
-const ICONS = { spark: Sparkles, book: BookOpen, sword: Swords, flame: Flame, crown: Crown, globe: Globe, scroll: ScrollText, star: Star };
+const ICONS = { spark: Star, book: BookOpen, sword: Swords, flame: Flame, crown: Crown, globe: Globe, scroll: ScrollText, star: Star };
 
 export function AchievementGrid() {
   const { player } = usePlayer();
