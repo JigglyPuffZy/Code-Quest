@@ -75,7 +75,6 @@ export type Challenge = {
   summary: string;
   difficulty: SkillDifficulty;
   xp: number;
-  requiresLessons: number;
   blocks: ContentBlock[];
   exercise: Exercise;
 };

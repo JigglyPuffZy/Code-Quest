@@ -114,29 +114,6 @@ export function clearedChapterCount(player: Player) {
   return count;
 }
 
-export function continueLesson(player: Player): Lesson | null {
-  const preferred = player.lastLessonId ? getLesson(player.lastLessonId)?.language : undefined;
-  const allLanguages = languages.map((language) => language.id);
-  const order: LanguageId[] = preferred
-    ? [preferred, ...allLanguages.filter((id) => id !== preferred)]
-    : allLanguages;
-
-  for (const language of order) {
-    const next = lessonsFor(language).find(
-      (lesson) => isLessonUnlocked(lesson, player) && !isLessonComplete(lesson.id, player),
-    );
-    if (next) return next;
-  }
-
-  return lessons.find((lesson) => !isLessonComplete(lesson.id, player)) ?? null;
-}
-
-export function currentWorldName(language: LanguageId, player: Player) {
-  const next = lessonsFor(language).find((lesson) => !isLessonComplete(lesson.id, player));
-  if (!next) return "Path complete";
-  return worldsFor(language).find((world) => world.id === next.worldId)?.title ?? "Path";
-}
-
 export function challengesForLanguage(language: LanguageId) {
   return challenges.filter((challenge) => challenge.language === language);
 }

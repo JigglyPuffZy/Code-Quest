@@ -4,7 +4,6 @@ import { isSupabaseConfigured, supabaseKey, supabaseUrl } from "@/lib/supabase/e
 
 const PROTECTED = [
   "/dashboard",
-  "/learn",
   "/quests",
   "/challenges",
   "/game",

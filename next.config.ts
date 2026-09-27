@@ -7,6 +7,12 @@ const nextConfig: NextConfig = {
     root: path.dirname(fileURLToPath(import.meta.url)),
   },
   agentRules: false,
+  async redirects() {
+    return [
+      { source: "/learn", destination: "/guides", permanent: false },
+      { source: "/learn/:path*", destination: "/guides", permanent: false },
+    ];
+  },
 };
 
 export default nextConfig;

@@ -8,7 +8,6 @@ export const challenges: Challenge[] = [
     summary: "Return a string reversed.",
     difficulty: "beginner",
     xp: 50,
-    requiresLessons: 0,
     blocks: [
       {
         type: "p",
@@ -41,7 +40,6 @@ export const challenges: Challenge[] = [
     summary: "Return the largest of three numbers.",
     difficulty: "beginner",
     xp: 50,
-    requiresLessons: 0,
     blocks: [
       {
         type: "p",
@@ -74,7 +72,6 @@ export const challenges: Challenge[] = [
     summary: "Count a, e, i, o, and u.",
     difficulty: "expert",
     xp: 70,
-    requiresLessons: 4,
     blocks: [
       {
         type: "p",
@@ -108,7 +105,6 @@ export const challenges: Challenge[] = [
     summary: "Classic FizzBuzz for a single number.",
     difficulty: "senior",
     xp: 80,
-    requiresLessons: 4,
     blocks: [
       {
         type: "p",
@@ -150,7 +146,6 @@ export const challenges: Challenge[] = [
     summary: "Sum every number in an array.",
     difficulty: "beginner",
     xp: 50,
-    requiresLessons: 0,
     blocks: [
       {
         type: "p",
@@ -183,7 +178,6 @@ export const challenges: Challenge[] = [
     summary: "Tell whether text reads the same backward.",
     difficulty: "beginner",
     xp: 55,
-    requiresLessons: 0,
     blocks: [
       {
         type: "p",
@@ -217,7 +211,6 @@ export const challenges: Challenge[] = [
     summary: "Turn a score into A, B, C, D, or F.",
     difficulty: "expert",
     xp: 70,
-    requiresLessons: 4,
     blocks: [
       {
         type: "p",
@@ -253,7 +246,6 @@ export const challenges: Challenge[] = [
     summary: "Return a new array with every number doubled.",
     difficulty: "expert",
     xp: 75,
-    requiresLessons: 4,
     blocks: [
       {
         type: "p",
@@ -287,7 +279,6 @@ export const challenges: Challenge[] = [
     summary: "Return the first letter of a name in uppercase.",
     difficulty: "beginner",
     xp: 50,
-    requiresLessons: 0,
     blocks: [
       {
         type: "p",
@@ -319,7 +310,6 @@ export const challenges: Challenge[] = [
     summary: "Keep a level between 1 and 99.",
     difficulty: "beginner",
     xp: 55,
-    requiresLessons: 0,
     blocks: [
       {
         type: "p",
@@ -352,7 +342,6 @@ export const challenges: Challenge[] = [
     summary: "Tell whether a number is even.",
     difficulty: "mid",
     xp: 65,
-    requiresLessons: 3,
     blocks: [
       {
         type: "p",
@@ -382,7 +371,6 @@ export const challenges: Challenge[] = [
     summary: "Join two string tags with a comma.",
     difficulty: "mid",
     xp: 70,
-    requiresLessons: 3,
     blocks: [
       {
         type: "p",
@@ -411,7 +399,6 @@ export const challenges: Challenge[] = [
     summary: "Print a two-line banner from main.",
     difficulty: "beginner",
     xp: 50,
-    requiresLessons: 0,
     blocks: [
       {
         type: "p",
@@ -436,7 +423,6 @@ export const challenges: Challenge[] = [
     summary: "Print a number doubled.",
     difficulty: "beginner",
     xp: 55,
-    requiresLessons: 0,
     blocks: [
       {
         type: "p",
@@ -458,7 +444,6 @@ export const challenges: Challenge[] = [
     summary: "Print five asterisks on one line.",
     difficulty: "mid",
     xp: 65,
-    requiresLessons: 3,
     blocks: [
       {
         type: "p",
@@ -480,7 +465,6 @@ export const challenges: Challenge[] = [
     summary: "Print 1 through 5 on separate lines.",
     difficulty: "senior",
     xp: 75,
-    requiresLessons: 3,
     blocks: [
       {
         type: "p",

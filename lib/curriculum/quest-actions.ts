@@ -1,5 +1,5 @@
 import { guidePaths } from "@/lib/curriculum/guide-paths";
-import { languages, lessonsFor } from "@/lib/curriculum/index";
+import { languages } from "@/lib/curriculum/index";
 import { guidesForTopic } from "@/lib/guides/index";
 import { continueGuideHref } from "@/lib/guides/navigation";
 import { isGuideRead } from "@/lib/guides/progress";
