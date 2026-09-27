@@ -1,0 +1,1251 @@
+CodeQuest: Programming Languages & Database Systems
+Expanded reference catalog • Organized in tables by category
+This catalog consolidates the languages, query languages, database systems, and database platforms listed in the conversation. It is a broad reference, not a literal inventory of every language or database ever created. Some entries are markup formats, frameworks, APIs, services, extensions, or historical technologies rather than standalone programming languages or database engines.
+Part I — Programming Languages and Related Languages
+A. General-purpose and mainstream languages
+Language / technology
+Typical use or category
+Python
+General-purpose; automation, AI, data science, backend
+JavaScript
+Web and application programming
+TypeScript
+Typed JavaScript for applications
+Java
+Enterprise software and Android
+C
+Systems and embedded programming
+C++
+Systems, performance, and games
+C#
+Applications, games, and backend
+Go (Golang)
+Backend, cloud, and infrastructure
+Rust
+Systems programming and performance
+PHP
+Server-side web development
+Ruby
+Application and web development
+Swift
+Apple platforms
+Kotlin
+Android and multiplatform development
+Dart
+Flutter applications
+Visual Basic .NET
+Windows and .NET applications
+Delphi / Object Pascal
+Desktop and application development
+Scala
+JVM, data, and backend
+Perl
+Scripting and text processing
+Lua
+Embedded scripting and games
+Julia
+Scientific and numerical computing
+Nim
+Compiled general-purpose programming
+Crystal
+Compiled language with Ruby-like syntax
+D
+Systems and application programming
+V
+Systems programming
+Zig
+Systems programming
+Objective-C
+Apple software and legacy applications
+Groovy
+JVM scripting and development
+Apex
+Salesforce platform programming
+Hack
+PHP-derived language
+Haxe
+Cross-platform application and game development
+B. Web, markup, styling, and data formats
+Language / technology
+Typical use or category
+HTML
+Web page structure; markup language
+CSS
+Web styling language
+JSX
+JavaScript syntax extension for UI
+TSX
+TypeScript syntax extension for UI
+XML
+Markup and structured data
+JSON
+Data interchange format
+YAML
+Configuration and data serialization
+Markdown
+Lightweight markup
+SVG
+Vector graphics markup
+WebAssembly (Wasm)
+Portable low-level execution format
+XSLT
+XML transformation language
+XPath
+XML navigation/query language
+Sass / SCSS
+CSS preprocessor
+Less
+CSS preprocessor
+Stylus
+CSS preprocessor
+GraphQL
+API query language
+Web IDL
+Interface definition language
+Liquid
+Template language
+C. Mobile application languages and technologies
+Language / technology
+Typical use or category
+Kotlin
+Native Android
+Java
+Android and JVM
+Swift
+Native iOS and Apple platforms
+Objective-C
+Apple platforms; legacy code
+Dart
+Flutter applications
+JavaScript
+Cross-platform app frameworks
+TypeScript
+Typed cross-platform app development
+C#
+Cross-platform apps with .NET
+C++
+Native and performance-sensitive components
+QML
+Declarative UI language
+Lua
+Embedded application scripting
+D. Game development and scripting languages
+Language / technology
+Typical use or category
+C#
+Unity and game tooling
+C++
+Unreal Engine and game engines
+GDScript
+Godot scripting
+Lua
+Game scripting
+JavaScript
+Browser games
+TypeScript
+Web games
+Python
+Prototyping and game tools
+Verse
+Unreal Editor for Fortnite
+Haxe
+Cross-platform games
+AngelScript
+Embedded scripting
+Squirrel
+Embedded/game scripting
+GameMaker Language (GML)
+GameMaker games
+Ren'Py Script
+Visual novel scripting
+UnrealScript
+Legacy Unreal Engine scripting
+TorqueScript
+Torque game engine scripting
+NWScript
+Neverwinter Nights scripting
+Papyrus
+Bethesda game scripting
+Ink
+Interactive narrative scripting
+Twee notation
+Interactive fiction authoring
+Open Shading Language (OSL)
+Shader programming
+E. Systems programming and low-level languages
+Language / technology
+Typical use or category
+Assembly
+Processor-specific low-level programming
+C
+Systems programming
+C++
+Systems and performance programming
+Rust
+Memory-safe systems programming
+Zig
+Systems programming
+D
+Systems programming
+Ada
+Safety-critical and embedded systems
+Modula-2
+Systems and structured programming
+Modula-3
+Systems and research
+Oberon
+Systems and education
+Pascal
+Structured programming
+Forth
+Embedded and stack-based programming
+BCPL
+Historical systems language
+B
+Historical systems language
+Hare
+Systems programming
+Odin
+Systems programming
+Carbon
+Experimental C++ successor project
+nesC
+Networked embedded systems
+TinyGo
+Go for microcontrollers and constrained targets
+F. Functional programming languages
+Language / technology
+Typical use or category
+Haskell
+Pure functional programming
+Elixir
+Functional, concurrent applications
+Erlang
+Concurrent and fault-tolerant systems
+Clojure
+Lisp on the JVM
+F#
+Functional and .NET programming
+OCaml
+Functional and general-purpose programming
+Standard ML (SML)
+Functional programming
+Elm
+Functional frontend development
+PureScript
+Typed functional web development
+Reason
+ML-inspired syntax for JavaScript ecosystem
+ReScript
+Typed JavaScript compilation
+Scheme
+Lisp dialect and education
+Common Lisp
+General-purpose Lisp
+Racket
+Language-oriented programming and education
+Agda
+Dependently typed programming
+Idris
+Dependently typed programming
+Lean
+Theorem proving and functional programming
+Unison
+Distributed functional programming
+Koka
+Effect-typed functional language
+Roc
+Functional programming
+G. Data science, statistics, and scientific computing
+Language / technology
+Typical use or category
+R
+Statistics and data analysis
+Julia
+Scientific computing
+MATLAB
+Numerical computing and engineering
+Wolfram Language
+Symbolic and computational programming
+SAS
+Statistics and analytics
+Stata
+Statistical analysis
+Fortran
+Scientific and numerical computing
+Octave
+Numerical computing
+IDL
+Scientific data analysis
+Maple
+Symbolic mathematics
+Mathematica
+Computational mathematics
+Scilab
+Numerical computing
+APL
+Array-oriented programming
+J
+Array-oriented programming
+K
+Array and data-oriented programming
+Q
+Vector and database language
+Pig Latin
+Data processing language
+Stan
+Statistical modeling language
+H. Database, query, and data-access languages
+Language / technology
+Typical use or category
+SQL
+Relational database querying
+PL/SQL
+Oracle procedural SQL
+T-SQL
+Microsoft SQL Server dialect
+PL/pgSQL
+PostgreSQL procedural language
+MySQL SQL
+MySQL SQL dialect
+SQLite SQL
+SQLite SQL dialect
+Cypher
+Graph database query language
+Gremlin
+Graph traversal language
+SPARQL
+RDF and semantic data querying
+XQuery
+XML querying
+XPath
+XML navigation and querying
+AQL
+ArangoDB Query Language
+N1QL / SQL++
+Document-oriented query language family
+PartiQL
+Querying structured and semi-structured data
+Datalog
+Logic-based querying
+InfluxQL
+InfluxDB query language
+Flux
+Time-series data scripting/query language
+Kusto Query Language (KQL)
+Log and telemetry analytics
+PromQL
+Prometheus metrics querying
+MongoDB Query Language (MQL)
+MongoDB querying
+Cassandra Query Language (CQL)
+Cassandra querying
+HiveQL
+Hive SQL-like querying
+I. AI, logic, and knowledge representation
+Language / technology
+Typical use or category
+Prolog
+Logic programming
+Mercury
+Logic/functional programming
+Lisp
+AI and symbolic programming family
+Common Lisp
+General-purpose Lisp
+Scheme
+Lisp dialect
+CLIPS
+Rule-based expert systems
+Jess
+Rule engine language
+OPS5
+Production-system language
+Wolfram Language
+Symbolic computation
+Datalog
+Logic-based data querying
+STRIPS
+AI planning representation
+AIML
+Markup for conversational agents
+GDL (Game Description Language)
+Game rules representation
+Answer Set Programming (ASP)
+Declarative logic programming
+CycL
+Knowledge representation language
+J. Shell scripting and automation
+Language / technology
+Typical use or category
+Bash
+Unix shell scripting
+POSIX Shell (sh)
+Portable shell scripting
+Zsh
+Unix shell
+Fish
+Interactive shell
+PowerShell
+System administration and automation
+Windows Batch
+Windows command scripting
+AWK
+Text processing
+sed
+Stream editing
+AutoHotkey
+Desktop automation
+AutoIt
+Windows automation
+AppleScript
+Apple platform automation
+JScript
+Microsoft scripting language
+VBScript
+Windows scripting; legacy
+Tcl
+Scripting and embedded use
+Expect
+Interactive process automation
+K. Enterprise, business, and legacy languages
+Language / technology
+Typical use or category
+COBOL
+Business and legacy systems
+ABAP
+SAP application programming
+RPG
+IBM business systems
+PL/I
+Enterprise and scientific computing
+Natural
+Business application development
+MUMPS
+Healthcare and database-oriented systems
+FoxPro
+Database-centric application development
+Visual FoxPro
+Database application development; legacy
+dBASE
+Database programming
+Clipper
+Database application programming; legacy
+Progress 4GL / OpenEdge ABL
+Business applications
+Informix 4GL
+Business applications
+PowerBuilder / PowerScript
+Enterprise application development
+LotusScript
+Notes/Domino scripting
+ColdFusion Markup Language (CFML)
+Web application development
+Clarion
+Business application development
+JCL
+Mainframe job control
+Easytrieve
+Mainframe reporting
+Rexx
+Scripting and automation
+L. Hardware description and embedded languages
+Language / technology
+Typical use or category
+Verilog
+Hardware description
+SystemVerilog
+Hardware design and verification
+VHDL
+Hardware description
+Chisel
+Hardware construction language
+Bluespec SystemVerilog
+Hardware design
+SystemC
+System-level modeling
+e
+Hardware verification
+LabVIEW G
+Graphical programming and instrumentation
+Ladder Logic
+Industrial control programming
+Structured Text
+PLC programming (IEC 61131-3)
+Instruction List
+Legacy PLC language
+Sequential Function Chart
+Industrial control representation
+Arduino language
+C/C++-based embedded programming environment
+nesC
+Embedded sensor networks
+TinyGo
+Microcontroller programming
+M. Educational and visual programming
+Language / technology
+Typical use or category
+Scratch
+Block-based educational programming
+Blockly
+Visual block programming library/language environment
+Snap!
+Block-based programming
+Logo
+Educational programming
+Alice
+3D educational programming
+MIT App Inventor
+Visual mobile app development
+Microsoft MakeCode
+Block/text-based educational programming
+ScratchJr
+Early-learning visual programming
+Tynker visual programming
+Educational coding environment
+Kodu
+Visual game programming
+LabVIEW G
+Graphical programming
+Greenfoot
+Java-based programming education
+AgentSheets
+Visual simulation and game authoring
+Pencil Code
+Educational programming environment
+Turtle graphics languages
+Educational graphics programming
+N. Academic, historical, and other notable languages
+Language / technology
+Typical use or category
+ALGOL 60
+Historical algorithmic language
+ALGOL 68
+Historical general-purpose language
+Simula
+Simulation and object-oriented programming
+Smalltalk
+Object-oriented programming
+BASIC
+Beginner-oriented programming
+Visual Basic 6
+Legacy application development
+SNOBOL
+Text processing
+Icon
+String processing
+Self
+Prototype-based object-oriented language
+Eiffel
+Object-oriented programming
+Dylan
+Dynamic programming
+Pike
+General-purpose scripting
+Rebol
+Data exchange and scripting
+Red
+General-purpose programming
+Io
+Prototype-based language
+Factor
+Concatenative programming
+Joy
+Concatenative programming
+Ballerina
+Integration and network services
+Pony
+Actor-model systems programming
+Janet
+Embeddable scripting
+Raku
+General-purpose programming
+Fantom
+JVM/.NET-oriented programming
+Gosu
+JVM programming
+X10
+Parallel programming
+Chapel
+Parallel computing
+ATS
+Typed systems programming
+Curry
+Functional logic programming
+Part II — Database Systems and Platforms
+A. Relational databases (SQL)
+Database / platform
+Type or typical use
+PostgreSQL
+Relational; open-source SQL database
+MySQL
+Relational database
+MariaDB
+Relational database
+SQLite
+Embedded relational database
+Oracle Database
+Enterprise relational database
+Microsoft SQL Server
+Relational database
+IBM Db2
+Enterprise relational database
+CockroachDB
+Distributed SQL database
+TiDB
+Distributed SQL database
+Firebird
+Relational database
+H2 Database
+Java relational database; embedded/in-memory
+HSQLDB
+Java relational database
+Apache Derby
+Embedded relational database
+SAP HANA
+In-memory relational and analytical platform
+Teradata
+Analytical relational database
+Informix
+Relational database
+Sybase ASE
+Relational database
+InterBase
+Relational database
+Ingres
+Relational database
+DuckDB
+Embedded analytical database
+SingleStore
+Distributed SQL and analytics
+YugabyteDB
+Distributed SQL database
+Greenplum
+Massively parallel analytical database
+Vertica
+Analytical database
+Actian Vector
+Analytical database
+Amazon Aurora
+Managed relational database
+OceanBase
+Distributed relational database
+GaussDB
+Relational database family
+Altibase
+Hybrid in-memory/disk relational database
+TimesTen
+In-memory relational database
+B. Document databases
+Database / platform
+Type or typical use
+MongoDB
+Document database
+CouchDB
+Document database
+Couchbase
+Document and key-value database
+RavenDB
+Document database
+RethinkDB
+Document database
+MarkLogic
+Multi-model/document database
+ArangoDB
+Multi-model document/graph database
+Amazon DocumentDB
+Managed document database service
+Azure Cosmos DB (document API)
+Managed multi-model database API
+Google Cloud Firestore
+Managed document database
+Firebase Realtime Database
+Realtime JSON database
+IBM Cloudant
+Managed document database
+FerretDB
+MongoDB-compatible document database layer
+OrientDB
+Multi-model database
+LiteDB
+Embedded document database
+TinyDB
+Lightweight document database for Python
+Realm Database
+Embedded object/document-oriented database
+PouchDB
+Embedded/browser document database
+SurrealDB
+Multi-model database
+C. Key-value databases and stores
+Database / platform
+Type or typical use
+Redis
+In-memory data store; key-value and more
+Amazon DynamoDB
+Managed key-value/document database
+Riak KV
+Distributed key-value database
+Aerospike
+Distributed key-value database
+Berkeley DB
+Embedded key-value database
+LevelDB
+Embedded key-value store
+RocksDB
+Embedded key-value store
+LMDB
+Embedded key-value database
+Memcached
+In-memory caching system
+FoundationDB
+Distributed key-value database
+etcd
+Distributed key-value store
+Consul
+Distributed key-value/configuration store
+KeyDB
+Redis-compatible in-memory store
+Dragonfly
+In-memory data store
+Valkey
+In-memory data store
+Oracle NoSQL Database
+NoSQL database
+Tarantool
+In-memory database/application server
+Hazelcast
+In-memory data platform
+Apache Ignite
+In-memory computing and data platform
+Voldemort
+Distributed key-value store
+Tokyo Cabinet
+Embedded key-value database
+Kyoto Tycoon
+Key-value database server
+D. Wide-column and column-family databases
+Database / platform
+Type or typical use
+Apache Cassandra
+Wide-column distributed database
+Apache HBase
+Wide-column database
+ScyllaDB
+Wide-column distributed database
+Google Cloud Bigtable
+Managed wide-column database
+Apache Accumulo
+Sorted, distributed key-value store
+Apache Kudu
+Column-oriented data store
+Amazon Keyspaces
+Managed Cassandra-compatible service
+Hypertable
+Wide-column database
+MonetDB
+Column-oriented analytical database
+ClickHouse
+Column-oriented analytical database
+Apache Druid
+Real-time analytics database
+E. Graph databases
+Database / platform
+Type or typical use
+Neo4j
+Property graph database
+Amazon Neptune
+Managed graph database
+JanusGraph
+Distributed graph database
+ArangoDB
+Multi-model graph/document database
+OrientDB
+Multi-model graph database
+TigerGraph
+Graph analytics database
+NebulaGraph
+Distributed graph database
+Memgraph
+In-memory graph database
+Kùzu
+Embedded graph database
+Dgraph
+Distributed graph database
+GraphDB
+RDF/semantic graph database
+AllegroGraph
+Graph database
+Virtuoso
+Multi-model and RDF database
+Stardog
+Knowledge graph platform
+TerminusDB
+Document and graph database
+TypeDB
+Knowledge graph database
+HugeGraph
+Graph database
+InfiniteGraph
+Graph database
+Sparksee
+Graph database
+FalkorDB
+Graph database
+ArcadeDB
+Multi-model graph database
+AgensGraph
+PostgreSQL-based graph database
+F. Time-series databases
+Database / platform
+Type or typical use
+InfluxDB
+Time-series database
+TimescaleDB
+PostgreSQL-based time-series database
+QuestDB
+Time-series database
+Prometheus
+Metrics monitoring and time-series database
+VictoriaMetrics
+Time-series database
+OpenTSDB
+Time-series database
+Graphite
+Metrics storage and graphing
+M3DB
+Distributed time-series database
+TDengine
+Time-series database
+Apache IoTDB
+Time-series database for IoT
+Amazon Timestream
+Managed time-series database
+Azure Data Explorer
+Analytics service for telemetry/logs
+KairosDB
+Time-series database
+RRDtool
+Round-robin time-series data tool
+Warp 10
+Time-series platform
+CrateDB
+Distributed SQL database for time-series/analytics
+GreptimeDB
+Time-series database
+Beringei
+Time-series storage engine
+G. Search and full-text databases
+Database / platform
+Type or typical use
+Elasticsearch
+Search and analytics engine
+OpenSearch
+Search and analytics engine
+Apache Solr
+Search platform
+Apache Lucene
+Search library
+Meilisearch
+Search engine
+Typesense
+Search engine
+Sonic
+Search backend
+ZincSearch
+Search engine
+Quickwit
+Search engine for logs and events
+Vespa
+Search and serving platform
+Manticore Search
+Search engine
+Sphinx Search
+Full-text search engine
+Xapian
+Search library
+Bleve
+Search library
+RediSearch
+Search module
+Algolia
+Hosted search service
+Azure AI Search
+Managed search service
+Google Vertex AI Search
+Managed search service
+H. Vector databases and vector search systems
+Database / platform
+Type or typical use
+Milvus
+Vector database
+Zilliz Cloud
+Managed Milvus-based vector database
+Qdrant
+Vector database
+Weaviate
+Vector database
+Chroma
+Vector database
+Pinecone
+Managed vector database
+LanceDB
+Embedded/serverless vector database
+FAISS
+Vector similarity search library
+Vespa
+Search and vector serving platform
+Vald
+Distributed vector search engine
+Marqo
+Vector search platform
+Redis Vector Search
+Vector search capability
+PostgreSQL with pgvector
+Relational database with vector extension
+Elasticsearch vector search
+Vector search capability
+OpenSearch vector search
+Vector search capability
+MongoDB Atlas Vector Search
+Managed vector search capability
+SingleStore vector search
+Vector search capability
+ClickHouse vector search
+Vector search capability
+DuckDB with vector extensions
+Embedded analytics with vector support
+Turbopuffer
+Vector search service
+Annoy
+Approximate nearest-neighbor library
+HNSWlib
+Approximate nearest-neighbor library
+ScaNN
+Vector similarity search library
+Vearch
+Vector database
+OceanBase Vector
+Vector database capability
+I. In-memory databases and data platforms
+Database / platform
+Type or typical use
+Redis
+In-memory data store
+SAP HANA
+In-memory data platform
+SingleStore
+In-memory and distributed SQL platform
+Memcached
+In-memory cache
+VoltDB
+In-memory SQL database
+Apache Ignite
+In-memory computing platform
+Hazelcast
+In-memory data platform
+H2 (in-memory mode)
+Embedded/in-memory relational database
+DuckDB (in-memory mode)
+Embedded analytical database
+SQLite (in-memory mode)
+Embedded relational database
+Tarantool
+In-memory database
+Dragonfly
+In-memory data store
+KeyDB
+In-memory data store
+Valkey
+In-memory data store
+Apache Geode
+Distributed in-memory data platform
+eXtremeDB
+Embedded in-memory database
+J. Object-oriented and object databases
+Database / platform
+Type or typical use
+ObjectDB
+Object database
+ObjectBox
+Embedded object database
+db4o
+Historical object database
+GemStone/S
+Object database and application platform
+InterSystems Caché
+Object and multi-model database; legacy branding
+Versant Object Database
+Object database
+Objectivity/DB
+Object database
+ZODB
+Python object database
+Matisse
+Object-relational database
+Perst
+Embedded object database
+Realm Database
+Embedded object database
+WakandaDB
+Database associated with Wakanda platform
+K. Hierarchical and network databases
+Database / platform
+Type or typical use
+IBM IMS
+Hierarchical database and transaction system
+IDMS
+Network database management system
+Integrated Data Store (IDS)
+Historical network database
+Raima Database Manager
+Embedded database system
+GT.M
+Hierarchical database platform
+InterSystems IRIS
+Multi-model data platform
+Adabas
+Hierarchical/network-oriented database
+TurboIMAGE
+Hierarchical database
+Model 204
+Database management system
+InterSystems Caché
+Multi-model database; historical product
+CODASYL database systems
+Network database model family
+L. NewSQL and distributed SQL databases
+Database / platform
+Type or typical use
+CockroachDB
+Distributed SQL database
+Google Cloud Spanner
+Globally distributed relational database
+TiDB
+Distributed SQL database
+YugabyteDB
+Distributed SQL database
+VoltDB
+In-memory distributed SQL database
+NuoDB
+Distributed SQL database
+SingleStore
+Distributed SQL database
+OceanBase
+Distributed relational database
+MemSQL / SingleStore
+Distributed SQL platform; former name
+FoundationDB
+Distributed transactional key-value database
+ClustrixDB
+Distributed SQL database; historical product
+Vitess
+MySQL scaling and clustering system
+Citus
+PostgreSQL distributed database extension
+Amazon Aurora
+Managed relational database
+AlloyDB
+Managed PostgreSQL-compatible database
+M. Data warehouses and analytical databases
+Database / platform
+Type or typical use
+Snowflake
+Cloud data warehouse
+Google BigQuery
+Cloud data warehouse
+Amazon Redshift
+Cloud data warehouse
+Microsoft Fabric Warehouse
+Cloud analytical warehouse
+Azure Synapse Analytics
+Analytics platform
+Databricks SQL
+Lakehouse analytics service
+Teradata Vantage
+Analytical data platform
+ClickHouse
+Columnar analytics database
+DuckDB
+Embedded analytics database
+Apache Doris
+Real-time analytical database
+Apache Pinot
+Real-time OLAP database
+Apache Druid
+Real-time analytics database
+Vertica
+Analytical database
+Greenplum
+Parallel analytical database
+Firebolt
+Cloud analytics database
+StarRocks
+Analytical database
+Yellowbrick
+Analytical database
+Exasol
+Analytical database
+IBM Netezza
+Data warehouse appliance/platform
+SAP BW
+Enterprise data warehouse
+Oracle Autonomous Data Warehouse
+Managed analytical database
+SingleStore
+Operational and analytical database
+N. Embedded and local databases
+Database / platform
+Type or typical use
+SQLite
+Embedded relational database
+DuckDB
+Embedded analytical database
+Realm
+Embedded object database
+ObjectBox
+Embedded object database
+LevelDB
+Embedded key-value store
+RocksDB
+Embedded key-value store
+LMDB
+Embedded key-value database
+Berkeley DB
+Embedded database
+H2
+Embedded relational database
+HSQLDB
+Embedded relational database
+Apache Derby
+Embedded relational database
+LiteDB
+Embedded document database
+PouchDB
+Embedded/browser document database
+RxDB
+Local-first database
+SQLCipher
+Encrypted SQLite extension
+Isar
+Embedded local database
+Hive (Flutter database)
+Embedded Flutter database
+WatermelonDB
+Local-first mobile database
+IndexedDB
+Browser database API
+Core Data
+Apple persistence framework
+Room
+Android persistence library
+O. XML and RDF databases
+Database / platform
+Type or typical use
+BaseX
+XML database
+eXist-db
+Native XML database
+Sedna
+XML database
+MarkLogic
+Multi-model database with XML support
+Virtuoso
+RDF and multi-model database
+GraphDB
+RDF/semantic database
+Stardog
+Knowledge graph platform
+Apache Jena TDB
+RDF storage system
+RDF4J
+RDF framework and storage APIs
+AllegroGraph
+Graph/RDF database
+Blazegraph
+Graph database; historical/open-source project
+Oxigraph
+RDF database
+QLever
+RDF query engine
+Fuseki
+SPARQL server in Apache Jena
+Oracle XML DB
+XML database capability
+P. Cloud-hosted database platforms and backend services
+Database / platform
+Type or typical use
+Supabase
+Backend platform built around PostgreSQL
+Firebase
+Backend platform; Firestore and Realtime Database
+Neon
+Serverless PostgreSQL platform
+PlanetScale
+Managed database platform based on Vitess/MySQL-compatible technology
+MongoDB Atlas
+Managed MongoDB platform
+Amazon RDS
+Managed relational database service
+Amazon DynamoDB
+Managed NoSQL database
+Amazon Aurora
+Managed relational database
+Google Cloud SQL
+Managed relational database service
+Google Cloud Spanner
+Distributed relational database service
+Google Cloud Bigtable
+Managed wide-column database
+Azure SQL Database
+Managed relational database
+Azure Cosmos DB
+Managed multi-model database
+CockroachDB Cloud
+Managed distributed SQL
+Aiven
+Managed database services
+Turso
+SQLite-based distributed database service
+Upstash
+Managed data services including Redis
+Convex
+Reactive backend/database platform
+Xata
+PostgreSQL-based data platform
+Fauna
+Document-oriented database platform
+Appwrite
+Backend platform with database services
+PocketBase
+Backend platform using embedded SQLite
+Directus
+Data platform over SQL databases
+Part III — Suggested starter catalog for CodeQuest
+Language / database
+Suggested learning focus
+Python
+Programming fundamentals; variables, conditions, loops, functions
+JavaScript
+Web programming; variables, functions, arrays, DOM concepts
+HTML
+Web page structure and semantic markup
+CSS
+Styling, selectors, layout, and responsive design
+SQL
+Tables, SELECT, filtering, joins, and aggregation
+PostgreSQL
+Relational database practice and SQL projects
+SQLite
+Local database fundamentals
+C#
+Game programming and object-oriented concepts
+Lua
+Simple scripting and game logic
+Scratch / Blockly
+Visual, block-based beginner puzzles
+Notes and terminology
+A programming language is not the same as a framework, markup format, query language, database engine, or hosted service.
+Some products appear in more than one category because they support multiple data models or workloads.
+Names and product status can change. Some entries are historical, discontinued, experimental, or legacy technologies.
+This document consolidates the expanded lists discussed in the conversation; it is not a verified exhaustive census of every language or database ever created.

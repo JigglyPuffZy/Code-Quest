@@ -1,0 +1,3118 @@
+{
+  "sections": [
+    {
+      "id": "languages-a",
+      "part": "languages",
+      "letter": "A",
+      "title": "General-purpose and mainstream languages",
+      "entries": [
+        {
+          "name": "Python",
+          "use": "General-purpose; automation, AI, data science, backend",
+          "slug": "python"
+        },
+        {
+          "name": "JavaScript",
+          "use": "Web and application programming",
+          "slug": "javascript"
+        },
+        {
+          "name": "TypeScript",
+          "use": "Typed JavaScript for applications",
+          "slug": "typescript"
+        },
+        {
+          "name": "Java",
+          "use": "Enterprise software and Android",
+          "slug": "java"
+        },
+        {
+          "name": "C",
+          "use": "Systems and embedded programming",
+          "slug": "c"
+        },
+        {
+          "name": "C++",
+          "use": "Systems, performance, and games",
+          "slug": "cpp"
+        },
+        {
+          "name": "C#",
+          "use": "Applications, games, and backend",
+          "slug": "csharp"
+        },
+        {
+          "name": "Go (Golang)",
+          "use": "Backend, cloud, and infrastructure",
+          "slug": "go"
+        },
+        {
+          "name": "Rust",
+          "use": "Systems programming and performance",
+          "slug": "rust"
+        },
+        {
+          "name": "PHP",
+          "use": "Server-side web development",
+          "slug": "php"
+        },
+        {
+          "name": "Ruby",
+          "use": "Application and web development",
+          "slug": "ruby"
+        },
+        {
+          "name": "Swift",
+          "use": "Apple platforms",
+          "slug": "swift"
+        },
+        {
+          "name": "Kotlin",
+          "use": "Android and multiplatform development",
+          "slug": "kotlin"
+        },
+        {
+          "name": "Dart",
+          "use": "Flutter applications",
+          "slug": "dart"
+        },
+        {
+          "name": "Visual Basic .NET",
+          "use": "Windows and .NET applications",
+          "slug": "vb-net"
+        },
+        {
+          "name": "Delphi / Object Pascal",
+          "use": "Desktop and application development",
+          "slug": "delphi-object-pascal"
+        },
+        {
+          "name": "Scala",
+          "use": "JVM, data, and backend",
+          "slug": "scala"
+        },
+        {
+          "name": "Perl",
+          "use": "Scripting and text processing",
+          "slug": "perl"
+        },
+        {
+          "name": "Lua",
+          "use": "Embedded scripting and games",
+          "slug": "lua"
+        },
+        {
+          "name": "Julia",
+          "use": "Scientific and numerical computing",
+          "slug": "julia"
+        },
+        {
+          "name": "Nim",
+          "use": "Compiled general-purpose programming",
+          "slug": "nim"
+        },
+        {
+          "name": "Crystal",
+          "use": "Compiled language with Ruby-like syntax",
+          "slug": "crystal"
+        },
+        {
+          "name": "D",
+          "use": "Systems and application programming",
+          "slug": "d-lang"
+        },
+        {
+          "name": "V",
+          "use": "Systems programming",
+          "slug": "v"
+        },
+        {
+          "name": "Zig",
+          "use": "Systems programming",
+          "slug": "zig"
+        },
+        {
+          "name": "Objective-C",
+          "use": "Apple software and legacy applications",
+          "slug": "objective-c"
+        },
+        {
+          "name": "Groovy",
+          "use": "JVM scripting and development",
+          "slug": "groovy"
+        },
+        {
+          "name": "Apex",
+          "use": "Salesforce platform programming",
+          "slug": "apex"
+        },
+        {
+          "name": "Hack",
+          "use": "PHP-derived language",
+          "slug": "hack"
+        },
+        {
+          "name": "Haxe",
+          "use": "Cross-platform application and game development",
+          "slug": "haxe"
+        }
+      ]
+    },
+    {
+      "id": "languages-b",
+      "part": "languages",
+      "letter": "B",
+      "title": "Web, markup, styling, and data formats",
+      "entries": [
+        {
+          "name": "HTML",
+          "use": "Web page structure; markup language",
+          "slug": "html"
+        },
+        {
+          "name": "CSS",
+          "use": "Web styling language",
+          "slug": "css"
+        },
+        {
+          "name": "JSX",
+          "use": "JavaScript syntax extension for UI",
+          "slug": "jsx"
+        },
+        {
+          "name": "TSX",
+          "use": "TypeScript syntax extension for UI",
+          "slug": "tsx"
+        },
+        {
+          "name": "XML",
+          "use": "Markup and structured data",
+          "slug": "xml"
+        },
+        {
+          "name": "JSON",
+          "use": "Data interchange format",
+          "slug": "json"
+        },
+        {
+          "name": "YAML",
+          "use": "Configuration and data serialization",
+          "slug": "yaml"
+        },
+        {
+          "name": "Markdown",
+          "use": "Lightweight markup",
+          "slug": "markdown"
+        },
+        {
+          "name": "SVG",
+          "use": "Vector graphics markup",
+          "slug": "svg"
+        },
+        {
+          "name": "WebAssembly (Wasm)",
+          "use": "Portable low-level execution format",
+          "slug": "webassembly-wasm"
+        },
+        {
+          "name": "XSLT",
+          "use": "XML transformation language",
+          "slug": "xslt"
+        },
+        {
+          "name": "XPath",
+          "use": "XML navigation/query language",
+          "slug": "xpath"
+        },
+        {
+          "name": "Sass / SCSS",
+          "use": "CSS preprocessor",
+          "slug": "sass-scss"
+        },
+        {
+          "name": "Less",
+          "use": "CSS preprocessor",
+          "slug": "less"
+        },
+        {
+          "name": "Stylus",
+          "use": "CSS preprocessor",
+          "slug": "stylus"
+        },
+        {
+          "name": "GraphQL",
+          "use": "API query language",
+          "slug": "graphql"
+        },
+        {
+          "name": "Web IDL",
+          "use": "Interface definition language",
+          "slug": "web-idl"
+        },
+        {
+          "name": "Liquid",
+          "use": "Template language",
+          "slug": "liquid"
+        }
+      ]
+    },
+    {
+      "id": "languages-c",
+      "part": "languages",
+      "letter": "C",
+      "title": "Mobile application languages and technologies",
+      "entries": [
+        {
+          "name": "Kotlin",
+          "use": "Native Android",
+          "slug": "kotlin-2"
+        },
+        {
+          "name": "Java",
+          "use": "Android and JVM",
+          "slug": "java-2"
+        },
+        {
+          "name": "Swift",
+          "use": "Native iOS and Apple platforms",
+          "slug": "swift-2"
+        },
+        {
+          "name": "Objective-C",
+          "use": "Apple platforms; legacy code",
+          "slug": "objective-c-2"
+        },
+        {
+          "name": "Dart",
+          "use": "Flutter applications",
+          "slug": "dart-2"
+        },
+        {
+          "name": "JavaScript",
+          "use": "Cross-platform app frameworks",
+          "slug": "javascript-2"
+        },
+        {
+          "name": "TypeScript",
+          "use": "Typed cross-platform app development",
+          "slug": "typescript-2"
+        },
+        {
+          "name": "C#",
+          "use": "Cross-platform apps with .NET",
+          "slug": "csharp-2"
+        },
+        {
+          "name": "C++",
+          "use": "Native and performance-sensitive components",
+          "slug": "cpp-2"
+        },
+        {
+          "name": "QML",
+          "use": "Declarative UI language",
+          "slug": "qml"
+        },
+        {
+          "name": "Lua",
+          "use": "Embedded application scripting",
+          "slug": "lua-2"
+        }
+      ]
+    },
+    {
+      "id": "languages-d",
+      "part": "languages",
+      "letter": "D",
+      "title": "Game development and scripting languages",
+      "entries": [
+        {
+          "name": "C#",
+          "use": "Unity and game tooling",
+          "slug": "csharp-3"
+        },
+        {
+          "name": "C++",
+          "use": "Unreal Engine and game engines",
+          "slug": "cpp-3"
+        },
+        {
+          "name": "GDScript",
+          "use": "Godot scripting",
+          "slug": "gdscript"
+        },
+        {
+          "name": "Lua",
+          "use": "Game scripting",
+          "slug": "lua-3"
+        },
+        {
+          "name": "JavaScript",
+          "use": "Browser games",
+          "slug": "javascript-3"
+        },
+        {
+          "name": "TypeScript",
+          "use": "Web games",
+          "slug": "typescript-3"
+        },
+        {
+          "name": "Python",
+          "use": "Prototyping and game tools",
+          "slug": "python-2"
+        },
+        {
+          "name": "Verse",
+          "use": "Unreal Editor for Fortnite",
+          "slug": "verse"
+        },
+        {
+          "name": "Haxe",
+          "use": "Cross-platform games",
+          "slug": "haxe-2"
+        },
+        {
+          "name": "AngelScript",
+          "use": "Embedded scripting",
+          "slug": "angelscript"
+        },
+        {
+          "name": "Squirrel",
+          "use": "Embedded/game scripting",
+          "slug": "squirrel"
+        },
+        {
+          "name": "GameMaker Language (GML)",
+          "use": "GameMaker games",
+          "slug": "gamemaker-language-gml"
+        },
+        {
+          "name": "Ren'Py Script",
+          "use": "Visual novel scripting",
+          "slug": "ren-py-script"
+        },
+        {
+          "name": "UnrealScript",
+          "use": "Legacy Unreal Engine scripting",
+          "slug": "unrealscript"
+        },
+        {
+          "name": "TorqueScript",
+          "use": "Torque game engine scripting",
+          "slug": "torquescript"
+        },
+        {
+          "name": "NWScript",
+          "use": "Neverwinter Nights scripting",
+          "slug": "nwscript"
+        },
+        {
+          "name": "Papyrus",
+          "use": "Bethesda game scripting",
+          "slug": "papyrus"
+        },
+        {
+          "name": "Ink",
+          "use": "Interactive narrative scripting",
+          "slug": "ink"
+        },
+        {
+          "name": "Twee notation",
+          "use": "Interactive fiction authoring",
+          "slug": "twee-notation"
+        },
+        {
+          "name": "Open Shading Language (OSL)",
+          "use": "Shader programming",
+          "slug": "open-shading-language-osl"
+        }
+      ]
+    },
+    {
+      "id": "languages-e",
+      "part": "languages",
+      "letter": "E",
+      "title": "Systems programming and low-level languages",
+      "entries": [
+        {
+          "name": "Assembly",
+          "use": "Processor-specific low-level programming",
+          "slug": "assembly"
+        },
+        {
+          "name": "C",
+          "use": "Systems programming",
+          "slug": "c-2"
+        },
+        {
+          "name": "C++",
+          "use": "Systems and performance programming",
+          "slug": "cpp-4"
+        },
+        {
+          "name": "Rust",
+          "use": "Memory-safe systems programming",
+          "slug": "rust-2"
+        },
+        {
+          "name": "Zig",
+          "use": "Systems programming",
+          "slug": "zig-2"
+        },
+        {
+          "name": "D",
+          "use": "Systems programming",
+          "slug": "d-lang-2"
+        },
+        {
+          "name": "Ada",
+          "use": "Safety-critical and embedded systems",
+          "slug": "ada"
+        },
+        {
+          "name": "Modula-2",
+          "use": "Systems and structured programming",
+          "slug": "modula-2"
+        },
+        {
+          "name": "Modula-3",
+          "use": "Systems and research",
+          "slug": "modula-3"
+        },
+        {
+          "name": "Oberon",
+          "use": "Systems and education",
+          "slug": "oberon"
+        },
+        {
+          "name": "Pascal",
+          "use": "Structured programming",
+          "slug": "pascal"
+        },
+        {
+          "name": "Forth",
+          "use": "Embedded and stack-based programming",
+          "slug": "forth"
+        },
+        {
+          "name": "BCPL",
+          "use": "Historical systems language",
+          "slug": "bcpl"
+        },
+        {
+          "name": "B",
+          "use": "Historical systems language",
+          "slug": "b"
+        },
+        {
+          "name": "Hare",
+          "use": "Systems programming",
+          "slug": "hare"
+        },
+        {
+          "name": "Odin",
+          "use": "Systems programming",
+          "slug": "odin"
+        },
+        {
+          "name": "Carbon",
+          "use": "Experimental C++ successor project",
+          "slug": "carbon"
+        },
+        {
+          "name": "nesC",
+          "use": "Networked embedded systems",
+          "slug": "nesc"
+        },
+        {
+          "name": "TinyGo",
+          "use": "Go for microcontrollers and constrained targets",
+          "slug": "tinygo"
+        }
+      ]
+    },
+    {
+      "id": "languages-f",
+      "part": "languages",
+      "letter": "F",
+      "title": "Functional programming languages",
+      "entries": [
+        {
+          "name": "Haskell",
+          "use": "Pure functional programming",
+          "slug": "haskell"
+        },
+        {
+          "name": "Elixir",
+          "use": "Functional, concurrent applications",
+          "slug": "elixir"
+        },
+        {
+          "name": "Erlang",
+          "use": "Concurrent and fault-tolerant systems",
+          "slug": "erlang"
+        },
+        {
+          "name": "Clojure",
+          "use": "Lisp on the JVM",
+          "slug": "clojure"
+        },
+        {
+          "name": "F#",
+          "use": "Functional and .NET programming",
+          "slug": "fsharp"
+        },
+        {
+          "name": "OCaml",
+          "use": "Functional and general-purpose programming",
+          "slug": "ocaml"
+        },
+        {
+          "name": "Standard ML (SML)",
+          "use": "Functional programming",
+          "slug": "standard-ml-sml"
+        },
+        {
+          "name": "Elm",
+          "use": "Functional frontend development",
+          "slug": "elm"
+        },
+        {
+          "name": "PureScript",
+          "use": "Typed functional web development",
+          "slug": "purescript"
+        },
+        {
+          "name": "Reason",
+          "use": "ML-inspired syntax for JavaScript ecosystem",
+          "slug": "reason"
+        },
+        {
+          "name": "ReScript",
+          "use": "Typed JavaScript compilation",
+          "slug": "rescript"
+        },
+        {
+          "name": "Scheme",
+          "use": "Lisp dialect and education",
+          "slug": "scheme"
+        },
+        {
+          "name": "Common Lisp",
+          "use": "General-purpose Lisp",
+          "slug": "common-lisp"
+        },
+        {
+          "name": "Racket",
+          "use": "Language-oriented programming and education",
+          "slug": "racket"
+        },
+        {
+          "name": "Agda",
+          "use": "Dependently typed programming",
+          "slug": "agda"
+        },
+        {
+          "name": "Idris",
+          "use": "Dependently typed programming",
+          "slug": "idris"
+        },
+        {
+          "name": "Lean",
+          "use": "Theorem proving and functional programming",
+          "slug": "lean"
+        },
+        {
+          "name": "Unison",
+          "use": "Distributed functional programming",
+          "slug": "unison"
+        },
+        {
+          "name": "Koka",
+          "use": "Effect-typed functional language",
+          "slug": "koka"
+        },
+        {
+          "name": "Roc",
+          "use": "Functional programming",
+          "slug": "roc"
+        }
+      ]
+    },
+    {
+      "id": "languages-g",
+      "part": "languages",
+      "letter": "G",
+      "title": "Data science, statistics, and scientific computing",
+      "entries": [
+        {
+          "name": "R",
+          "use": "Statistics and data analysis",
+          "slug": "r"
+        },
+        {
+          "name": "Julia",
+          "use": "Scientific computing",
+          "slug": "julia-2"
+        },
+        {
+          "name": "MATLAB",
+          "use": "Numerical computing and engineering",
+          "slug": "matlab"
+        },
+        {
+          "name": "Wolfram Language",
+          "use": "Symbolic and computational programming",
+          "slug": "wolfram-language"
+        },
+        {
+          "name": "SAS",
+          "use": "Statistics and analytics",
+          "slug": "sas"
+        },
+        {
+          "name": "Stata",
+          "use": "Statistical analysis",
+          "slug": "stata"
+        },
+        {
+          "name": "Fortran",
+          "use": "Scientific and numerical computing",
+          "slug": "fortran"
+        },
+        {
+          "name": "Octave",
+          "use": "Numerical computing",
+          "slug": "octave"
+        },
+        {
+          "name": "IDL",
+          "use": "Scientific data analysis",
+          "slug": "idl"
+        },
+        {
+          "name": "Maple",
+          "use": "Symbolic mathematics",
+          "slug": "maple"
+        },
+        {
+          "name": "Mathematica",
+          "use": "Computational mathematics",
+          "slug": "mathematica"
+        },
+        {
+          "name": "Scilab",
+          "use": "Numerical computing",
+          "slug": "scilab"
+        },
+        {
+          "name": "APL",
+          "use": "Array-oriented programming",
+          "slug": "apl"
+        },
+        {
+          "name": "J",
+          "use": "Array-oriented programming",
+          "slug": "j"
+        },
+        {
+          "name": "K",
+          "use": "Array and data-oriented programming",
+          "slug": "k"
+        },
+        {
+          "name": "Q",
+          "use": "Vector and database language",
+          "slug": "q"
+        },
+        {
+          "name": "Pig Latin",
+          "use": "Data processing language",
+          "slug": "pig-latin"
+        },
+        {
+          "name": "Stan",
+          "use": "Statistical modeling language",
+          "slug": "stan"
+        }
+      ]
+    },
+    {
+      "id": "languages-h",
+      "part": "languages",
+      "letter": "H",
+      "title": "Database, query, and data-access languages",
+      "entries": [
+        {
+          "name": "SQL",
+          "use": "Relational database querying",
+          "slug": "sql"
+        },
+        {
+          "name": "PL/SQL",
+          "use": "Oracle procedural SQL",
+          "slug": "pl-sql"
+        },
+        {
+          "name": "T-SQL",
+          "use": "Microsoft SQL Server dialect",
+          "slug": "t-sql"
+        },
+        {
+          "name": "PL/pgSQL",
+          "use": "PostgreSQL procedural language",
+          "slug": "pl-pgsql"
+        },
+        {
+          "name": "MySQL SQL",
+          "use": "MySQL SQL dialect",
+          "slug": "mysql-sql"
+        },
+        {
+          "name": "SQLite SQL",
+          "use": "SQLite SQL dialect",
+          "slug": "sqlite-sql"
+        },
+        {
+          "name": "Cypher",
+          "use": "Graph database query language",
+          "slug": "cypher"
+        },
+        {
+          "name": "Gremlin",
+          "use": "Graph traversal language",
+          "slug": "gremlin"
+        },
+        {
+          "name": "SPARQL",
+          "use": "RDF and semantic data querying",
+          "slug": "sparql"
+        },
+        {
+          "name": "XQuery",
+          "use": "XML querying",
+          "slug": "xquery"
+        },
+        {
+          "name": "XPath",
+          "use": "XML navigation and querying",
+          "slug": "xpath-2"
+        },
+        {
+          "name": "AQL",
+          "use": "ArangoDB Query Language",
+          "slug": "aql"
+        },
+        {
+          "name": "N1QL / SQL++",
+          "use": "Document-oriented query language family",
+          "slug": "n1ql-sql"
+        },
+        {
+          "name": "PartiQL",
+          "use": "Querying structured and semi-structured data",
+          "slug": "partiql"
+        },
+        {
+          "name": "Datalog",
+          "use": "Logic-based querying",
+          "slug": "datalog"
+        },
+        {
+          "name": "InfluxQL",
+          "use": "InfluxDB query language",
+          "slug": "influxql"
+        },
+        {
+          "name": "Flux",
+          "use": "Time-series data scripting/query language",
+          "slug": "flux"
+        },
+        {
+          "name": "Kusto Query Language (KQL)",
+          "use": "Log and telemetry analytics",
+          "slug": "kusto-query-language-kql"
+        },
+        {
+          "name": "PromQL",
+          "use": "Prometheus metrics querying",
+          "slug": "promql"
+        },
+        {
+          "name": "MongoDB Query Language (MQL)",
+          "use": "MongoDB querying",
+          "slug": "mongodb-query-language-mql"
+        },
+        {
+          "name": "Cassandra Query Language (CQL)",
+          "use": "Cassandra querying",
+          "slug": "cassandra-query-language-cql"
+        },
+        {
+          "name": "HiveQL",
+          "use": "Hive SQL-like querying",
+          "slug": "hiveql"
+        }
+      ]
+    },
+    {
+      "id": "languages-i",
+      "part": "languages",
+      "letter": "I",
+      "title": "AI, logic, and knowledge representation",
+      "entries": [
+        {
+          "name": "Prolog",
+          "use": "Logic programming",
+          "slug": "prolog"
+        },
+        {
+          "name": "Mercury",
+          "use": "Logic/functional programming",
+          "slug": "mercury"
+        },
+        {
+          "name": "Lisp",
+          "use": "AI and symbolic programming family",
+          "slug": "lisp"
+        },
+        {
+          "name": "Common Lisp",
+          "use": "General-purpose Lisp",
+          "slug": "common-lisp-2"
+        },
+        {
+          "name": "Scheme",
+          "use": "Lisp dialect",
+          "slug": "scheme-2"
+        },
+        {
+          "name": "CLIPS",
+          "use": "Rule-based expert systems",
+          "slug": "clips"
+        },
+        {
+          "name": "Jess",
+          "use": "Rule engine language",
+          "slug": "jess"
+        },
+        {
+          "name": "OPS5",
+          "use": "Production-system language",
+          "slug": "ops5"
+        },
+        {
+          "name": "Wolfram Language",
+          "use": "Symbolic computation",
+          "slug": "wolfram-language-2"
+        },
+        {
+          "name": "Datalog",
+          "use": "Logic-based data querying",
+          "slug": "datalog-2"
+        },
+        {
+          "name": "STRIPS",
+          "use": "AI planning representation",
+          "slug": "strips"
+        },
+        {
+          "name": "AIML",
+          "use": "Markup for conversational agents",
+          "slug": "aiml"
+        },
+        {
+          "name": "GDL (Game Description Language)",
+          "use": "Game rules representation",
+          "slug": "gdl"
+        },
+        {
+          "name": "Answer Set Programming (ASP)",
+          "use": "Declarative logic programming",
+          "slug": "answer-set-programming-asp"
+        },
+        {
+          "name": "CycL",
+          "use": "Knowledge representation language",
+          "slug": "cycl"
+        }
+      ]
+    },
+    {
+      "id": "languages-j",
+      "part": "languages",
+      "letter": "J",
+      "title": "Shell scripting and automation",
+      "entries": [
+        {
+          "name": "Bash",
+          "use": "Unix shell scripting",
+          "slug": "bash"
+        },
+        {
+          "name": "POSIX Shell (sh)",
+          "use": "Portable shell scripting",
+          "slug": "posix-shell-sh"
+        },
+        {
+          "name": "Zsh",
+          "use": "Unix shell",
+          "slug": "zsh"
+        },
+        {
+          "name": "Fish",
+          "use": "Interactive shell",
+          "slug": "fish"
+        },
+        {
+          "name": "PowerShell",
+          "use": "System administration and automation",
+          "slug": "powershell"
+        },
+        {
+          "name": "Windows Batch",
+          "use": "Windows command scripting",
+          "slug": "windows-batch"
+        },
+        {
+          "name": "AWK",
+          "use": "Text processing",
+          "slug": "awk"
+        },
+        {
+          "name": "sed",
+          "use": "Stream editing",
+          "slug": "sed"
+        },
+        {
+          "name": "AutoHotkey",
+          "use": "Desktop automation",
+          "slug": "autohotkey"
+        },
+        {
+          "name": "AutoIt",
+          "use": "Windows automation",
+          "slug": "autoit"
+        },
+        {
+          "name": "AppleScript",
+          "use": "Apple platform automation",
+          "slug": "applescript"
+        },
+        {
+          "name": "JScript",
+          "use": "Microsoft scripting language",
+          "slug": "jscript"
+        },
+        {
+          "name": "VBScript",
+          "use": "Windows scripting; legacy",
+          "slug": "vbscript"
+        },
+        {
+          "name": "Tcl",
+          "use": "Scripting and embedded use",
+          "slug": "tcl"
+        },
+        {
+          "name": "Expect",
+          "use": "Interactive process automation",
+          "slug": "expect"
+        }
+      ]
+    },
+    {
+      "id": "languages-k",
+      "part": "languages",
+      "letter": "K",
+      "title": "Enterprise, business, and legacy languages",
+      "entries": [
+        {
+          "name": "COBOL",
+          "use": "Business and legacy systems",
+          "slug": "cobol"
+        },
+        {
+          "name": "ABAP",
+          "use": "SAP application programming",
+          "slug": "abap"
+        },
+        {
+          "name": "RPG",
+          "use": "IBM business systems",
+          "slug": "rpg"
+        },
+        {
+          "name": "PL/I",
+          "use": "Enterprise and scientific computing",
+          "slug": "pl-i"
+        },
+        {
+          "name": "Natural",
+          "use": "Business application development",
+          "slug": "natural"
+        },
+        {
+          "name": "MUMPS",
+          "use": "Healthcare and database-oriented systems",
+          "slug": "mumps"
+        },
+        {
+          "name": "FoxPro",
+          "use": "Database-centric application development",
+          "slug": "foxpro"
+        },
+        {
+          "name": "Visual FoxPro",
+          "use": "Database application development; legacy",
+          "slug": "visual-foxpro"
+        },
+        {
+          "name": "dBASE",
+          "use": "Database programming",
+          "slug": "dbase"
+        },
+        {
+          "name": "Clipper",
+          "use": "Database application programming; legacy",
+          "slug": "clipper"
+        },
+        {
+          "name": "Progress 4GL / OpenEdge ABL",
+          "use": "Business applications",
+          "slug": "progress-4gl-openedge-abl"
+        },
+        {
+          "name": "Informix 4GL",
+          "use": "Business applications",
+          "slug": "informix-4gl"
+        },
+        {
+          "name": "PowerBuilder / PowerScript",
+          "use": "Enterprise application development",
+          "slug": "powerbuilder-powerscript"
+        },
+        {
+          "name": "LotusScript",
+          "use": "Notes/Domino scripting",
+          "slug": "lotusscript"
+        },
+        {
+          "name": "ColdFusion Markup Language (CFML)",
+          "use": "Web application development",
+          "slug": "coldfusion-markup-language-cfml"
+        },
+        {
+          "name": "Clarion",
+          "use": "Business application development",
+          "slug": "clarion"
+        },
+        {
+          "name": "JCL",
+          "use": "Mainframe job control",
+          "slug": "jcl"
+        },
+        {
+          "name": "Easytrieve",
+          "use": "Mainframe reporting",
+          "slug": "easytrieve"
+        },
+        {
+          "name": "Rexx",
+          "use": "Scripting and automation",
+          "slug": "rexx"
+        }
+      ]
+    },
+    {
+      "id": "languages-l",
+      "part": "languages",
+      "letter": "L",
+      "title": "Hardware description and embedded languages",
+      "entries": [
+        {
+          "name": "Verilog",
+          "use": "Hardware description",
+          "slug": "verilog"
+        },
+        {
+          "name": "SystemVerilog",
+          "use": "Hardware design and verification",
+          "slug": "systemverilog"
+        },
+        {
+          "name": "VHDL",
+          "use": "Hardware description",
+          "slug": "vhdl"
+        },
+        {
+          "name": "Chisel",
+          "use": "Hardware construction language",
+          "slug": "chisel"
+        },
+        {
+          "name": "Bluespec SystemVerilog",
+          "use": "Hardware design",
+          "slug": "bluespec-systemverilog"
+        },
+        {
+          "name": "SystemC",
+          "use": "System-level modeling",
+          "slug": "systemc"
+        },
+        {
+          "name": "e",
+          "use": "Hardware verification",
+          "slug": "e"
+        },
+        {
+          "name": "LabVIEW G",
+          "use": "Graphical programming and instrumentation",
+          "slug": "labview-g"
+        },
+        {
+          "name": "Ladder Logic",
+          "use": "Industrial control programming",
+          "slug": "ladder-logic"
+        },
+        {
+          "name": "Structured Text",
+          "use": "PLC programming (IEC 61131-3)",
+          "slug": "structured-text"
+        },
+        {
+          "name": "Instruction List",
+          "use": "Legacy PLC language",
+          "slug": "instruction-list"
+        },
+        {
+          "name": "Sequential Function Chart",
+          "use": "Industrial control representation",
+          "slug": "sequential-function-chart"
+        },
+        {
+          "name": "Arduino language",
+          "use": "C/C++-based embedded programming environment",
+          "slug": "arduino-language"
+        },
+        {
+          "name": "nesC",
+          "use": "Embedded sensor networks",
+          "slug": "nesc-2"
+        },
+        {
+          "name": "TinyGo",
+          "use": "Microcontroller programming",
+          "slug": "tinygo-2"
+        }
+      ]
+    },
+    {
+      "id": "languages-m",
+      "part": "languages",
+      "letter": "M",
+      "title": "Educational and visual programming",
+      "entries": [
+        {
+          "name": "Scratch",
+          "use": "Block-based educational programming",
+          "slug": "scratch"
+        },
+        {
+          "name": "Blockly",
+          "use": "Visual block programming library/language environment",
+          "slug": "blockly"
+        },
+        {
+          "name": "Snap!",
+          "use": "Block-based programming",
+          "slug": "snap"
+        },
+        {
+          "name": "Logo",
+          "use": "Educational programming",
+          "slug": "logo"
+        },
+        {
+          "name": "Alice",
+          "use": "3D educational programming",
+          "slug": "alice"
+        },
+        {
+          "name": "MIT App Inventor",
+          "use": "Visual mobile app development",
+          "slug": "mit-app-inventor"
+        },
+        {
+          "name": "Microsoft MakeCode",
+          "use": "Block/text-based educational programming",
+          "slug": "microsoft-makecode"
+        },
+        {
+          "name": "ScratchJr",
+          "use": "Early-learning visual programming",
+          "slug": "scratchjr"
+        },
+        {
+          "name": "Tynker visual programming",
+          "use": "Educational coding environment",
+          "slug": "tynker-visual-programming"
+        },
+        {
+          "name": "Kodu",
+          "use": "Visual game programming",
+          "slug": "kodu"
+        },
+        {
+          "name": "LabVIEW G",
+          "use": "Graphical programming",
+          "slug": "labview-g-2"
+        },
+        {
+          "name": "Greenfoot",
+          "use": "Java-based programming education",
+          "slug": "greenfoot"
+        },
+        {
+          "name": "AgentSheets",
+          "use": "Visual simulation and game authoring",
+          "slug": "agentsheets"
+        },
+        {
+          "name": "Pencil Code",
+          "use": "Educational programming environment",
+          "slug": "pencil-code"
+        },
+        {
+          "name": "Turtle graphics languages",
+          "use": "Educational graphics programming",
+          "slug": "turtle-graphics-languages"
+        }
+      ]
+    },
+    {
+      "id": "languages-n",
+      "part": "languages",
+      "letter": "N",
+      "title": "Academic, historical, and other notable languages",
+      "entries": [
+        {
+          "name": "ALGOL 60",
+          "use": "Historical algorithmic language",
+          "slug": "algol-60"
+        },
+        {
+          "name": "ALGOL 68",
+          "use": "Historical general-purpose language",
+          "slug": "algol-68"
+        },
+        {
+          "name": "Simula",
+          "use": "Simulation and object-oriented programming",
+          "slug": "simula"
+        },
+        {
+          "name": "Smalltalk",
+          "use": "Object-oriented programming",
+          "slug": "smalltalk"
+        },
+        {
+          "name": "BASIC",
+          "use": "Beginner-oriented programming",
+          "slug": "basic"
+        },
+        {
+          "name": "Visual Basic 6",
+          "use": "Legacy application development",
+          "slug": "visual-basic-6"
+        },
+        {
+          "name": "SNOBOL",
+          "use": "Text processing",
+          "slug": "snobol"
+        },
+        {
+          "name": "Icon",
+          "use": "String processing",
+          "slug": "icon"
+        },
+        {
+          "name": "Self",
+          "use": "Prototype-based object-oriented language",
+          "slug": "self"
+        },
+        {
+          "name": "Eiffel",
+          "use": "Object-oriented programming",
+          "slug": "eiffel"
+        },
+        {
+          "name": "Dylan",
+          "use": "Dynamic programming",
+          "slug": "dylan"
+        },
+        {
+          "name": "Pike",
+          "use": "General-purpose scripting",
+          "slug": "pike"
+        },
+        {
+          "name": "Rebol",
+          "use": "Data exchange and scripting",
+          "slug": "rebol"
+        },
+        {
+          "name": "Red",
+          "use": "General-purpose programming",
+          "slug": "red"
+        },
+        {
+          "name": "Io",
+          "use": "Prototype-based language",
+          "slug": "io"
+        },
+        {
+          "name": "Factor",
+          "use": "Concatenative programming",
+          "slug": "factor"
+        },
+        {
+          "name": "Joy",
+          "use": "Concatenative programming",
+          "slug": "joy"
+        },
+        {
+          "name": "Ballerina",
+          "use": "Integration and network services",
+          "slug": "ballerina"
+        },
+        {
+          "name": "Pony",
+          "use": "Actor-model systems programming",
+          "slug": "pony"
+        },
+        {
+          "name": "Janet",
+          "use": "Embeddable scripting",
+          "slug": "janet"
+        },
+        {
+          "name": "Raku",
+          "use": "General-purpose programming",
+          "slug": "raku"
+        },
+        {
+          "name": "Fantom",
+          "use": "JVM/.NET-oriented programming",
+          "slug": "fantom"
+        },
+        {
+          "name": "Gosu",
+          "use": "JVM programming",
+          "slug": "gosu"
+        },
+        {
+          "name": "X10",
+          "use": "Parallel programming",
+          "slug": "x10"
+        },
+        {
+          "name": "Chapel",
+          "use": "Parallel computing",
+          "slug": "chapel"
+        },
+        {
+          "name": "ATS",
+          "use": "Typed systems programming",
+          "slug": "ats"
+        },
+        {
+          "name": "Curry",
+          "use": "Functional logic programming",
+          "slug": "curry"
+        }
+      ]
+    },
+    {
+      "id": "languages-a",
+      "part": "languages",
+      "letter": "A",
+      "title": "Relational databases (SQL)",
+      "entries": [
+        {
+          "name": "PostgreSQL",
+          "use": "Relational; open-source SQL database",
+          "slug": "postgresql"
+        },
+        {
+          "name": "MySQL",
+          "use": "Relational database",
+          "slug": "mysql"
+        },
+        {
+          "name": "MariaDB",
+          "use": "Relational database",
+          "slug": "mariadb"
+        },
+        {
+          "name": "SQLite",
+          "use": "Embedded relational database",
+          "slug": "sqlite"
+        },
+        {
+          "name": "Oracle Database",
+          "use": "Enterprise relational database",
+          "slug": "oracle-database"
+        },
+        {
+          "name": "Microsoft SQL Server",
+          "use": "Relational database",
+          "slug": "microsoft-sql-server"
+        },
+        {
+          "name": "IBM Db2",
+          "use": "Enterprise relational database",
+          "slug": "ibm-db2"
+        },
+        {
+          "name": "CockroachDB",
+          "use": "Distributed SQL database",
+          "slug": "cockroachdb"
+        },
+        {
+          "name": "TiDB",
+          "use": "Distributed SQL database",
+          "slug": "tidb"
+        },
+        {
+          "name": "Firebird",
+          "use": "Relational database",
+          "slug": "firebird"
+        },
+        {
+          "name": "H2 Database",
+          "use": "Java relational database; embedded/in-memory",
+          "slug": "h2-database"
+        },
+        {
+          "name": "HSQLDB",
+          "use": "Java relational database",
+          "slug": "hsqldb"
+        },
+        {
+          "name": "Apache Derby",
+          "use": "Embedded relational database",
+          "slug": "apache-derby"
+        },
+        {
+          "name": "SAP HANA",
+          "use": "In-memory relational and analytical platform",
+          "slug": "sap-hana"
+        },
+        {
+          "name": "Teradata",
+          "use": "Analytical relational database",
+          "slug": "teradata"
+        },
+        {
+          "name": "Informix",
+          "use": "Relational database",
+          "slug": "informix"
+        },
+        {
+          "name": "Sybase ASE",
+          "use": "Relational database",
+          "slug": "sybase-ase"
+        },
+        {
+          "name": "InterBase",
+          "use": "Relational database",
+          "slug": "interbase"
+        },
+        {
+          "name": "Ingres",
+          "use": "Relational database",
+          "slug": "ingres"
+        },
+        {
+          "name": "DuckDB",
+          "use": "Embedded analytical database",
+          "slug": "duckdb"
+        },
+        {
+          "name": "SingleStore",
+          "use": "Distributed SQL and analytics",
+          "slug": "singlestore"
+        },
+        {
+          "name": "YugabyteDB",
+          "use": "Distributed SQL database",
+          "slug": "yugabytedb"
+        },
+        {
+          "name": "Greenplum",
+          "use": "Massively parallel analytical database",
+          "slug": "greenplum"
+        },
+        {
+          "name": "Vertica",
+          "use": "Analytical database",
+          "slug": "vertica"
+        },
+        {
+          "name": "Actian Vector",
+          "use": "Analytical database",
+          "slug": "actian-vector"
+        },
+        {
+          "name": "Amazon Aurora",
+          "use": "Managed relational database",
+          "slug": "amazon-aurora"
+        },
+        {
+          "name": "OceanBase",
+          "use": "Distributed relational database",
+          "slug": "oceanbase"
+        },
+        {
+          "name": "GaussDB",
+          "use": "Relational database family",
+          "slug": "gaussdb"
+        },
+        {
+          "name": "Altibase",
+          "use": "Hybrid in-memory/disk relational database",
+          "slug": "altibase"
+        },
+        {
+          "name": "TimesTen",
+          "use": "In-memory relational database",
+          "slug": "timesten"
+        }
+      ]
+    },
+    {
+      "id": "languages-b",
+      "part": "languages",
+      "letter": "B",
+      "title": "Document databases",
+      "entries": [
+        {
+          "name": "MongoDB",
+          "use": "Document database",
+          "slug": "mongodb"
+        },
+        {
+          "name": "CouchDB",
+          "use": "Document database",
+          "slug": "couchdb"
+        },
+        {
+          "name": "Couchbase",
+          "use": "Document and key-value database",
+          "slug": "couchbase"
+        },
+        {
+          "name": "RavenDB",
+          "use": "Document database",
+          "slug": "ravendb"
+        },
+        {
+          "name": "RethinkDB",
+          "use": "Document database",
+          "slug": "rethinkdb"
+        },
+        {
+          "name": "MarkLogic",
+          "use": "Multi-model/document database",
+          "slug": "marklogic"
+        },
+        {
+          "name": "ArangoDB",
+          "use": "Multi-model document/graph database",
+          "slug": "arangodb"
+        },
+        {
+          "name": "Amazon DocumentDB",
+          "use": "Managed document database service",
+          "slug": "amazon-documentdb"
+        },
+        {
+          "name": "Azure Cosmos DB (document API)",
+          "use": "Managed multi-model database API",
+          "slug": "azure-cosmos-db-document-api"
+        },
+        {
+          "name": "Google Cloud Firestore",
+          "use": "Managed document database",
+          "slug": "google-cloud-firestore"
+        },
+        {
+          "name": "Firebase Realtime Database",
+          "use": "Realtime JSON database",
+          "slug": "firebase-realtime-database"
+        },
+        {
+          "name": "IBM Cloudant",
+          "use": "Managed document database",
+          "slug": "ibm-cloudant"
+        },
+        {
+          "name": "FerretDB",
+          "use": "MongoDB-compatible document database layer",
+          "slug": "ferretdb"
+        },
+        {
+          "name": "OrientDB",
+          "use": "Multi-model database",
+          "slug": "orientdb"
+        },
+        {
+          "name": "LiteDB",
+          "use": "Embedded document database",
+          "slug": "litedb"
+        },
+        {
+          "name": "TinyDB",
+          "use": "Lightweight document database for Python",
+          "slug": "tinydb"
+        },
+        {
+          "name": "Realm Database",
+          "use": "Embedded object/document-oriented database",
+          "slug": "realm-database"
+        },
+        {
+          "name": "PouchDB",
+          "use": "Embedded/browser document database",
+          "slug": "pouchdb"
+        },
+        {
+          "name": "SurrealDB",
+          "use": "Multi-model database",
+          "slug": "surrealdb"
+        }
+      ]
+    },
+    {
+      "id": "languages-c",
+      "part": "languages",
+      "letter": "C",
+      "title": "Key-value databases and stores",
+      "entries": [
+        {
+          "name": "Redis",
+          "use": "In-memory data store; key-value and more",
+          "slug": "redis"
+        },
+        {
+          "name": "Amazon DynamoDB",
+          "use": "Managed key-value/document database",
+          "slug": "amazon-dynamodb"
+        },
+        {
+          "name": "Riak KV",
+          "use": "Distributed key-value database",
+          "slug": "riak-kv"
+        },
+        {
+          "name": "Aerospike",
+          "use": "Distributed key-value database",
+          "slug": "aerospike"
+        },
+        {
+          "name": "Berkeley DB",
+          "use": "Embedded key-value database",
+          "slug": "berkeley-db"
+        },
+        {
+          "name": "LevelDB",
+          "use": "Embedded key-value store",
+          "slug": "leveldb"
+        },
+        {
+          "name": "RocksDB",
+          "use": "Embedded key-value store",
+          "slug": "rocksdb"
+        },
+        {
+          "name": "LMDB",
+          "use": "Embedded key-value database",
+          "slug": "lmdb"
+        },
+        {
+          "name": "Memcached",
+          "use": "In-memory caching system",
+          "slug": "memcached"
+        },
+        {
+          "name": "FoundationDB",
+          "use": "Distributed key-value database",
+          "slug": "foundationdb"
+        },
+        {
+          "name": "etcd",
+          "use": "Distributed key-value store",
+          "slug": "etcd"
+        },
+        {
+          "name": "Consul",
+          "use": "Distributed key-value/configuration store",
+          "slug": "consul"
+        },
+        {
+          "name": "KeyDB",
+          "use": "Redis-compatible in-memory store",
+          "slug": "keydb"
+        },
+        {
+          "name": "Dragonfly",
+          "use": "In-memory data store",
+          "slug": "dragonfly"
+        },
+        {
+          "name": "Valkey",
+          "use": "In-memory data store",
+          "slug": "valkey"
+        },
+        {
+          "name": "Oracle NoSQL Database",
+          "use": "NoSQL database",
+          "slug": "oracle-nosql-database"
+        },
+        {
+          "name": "Tarantool",
+          "use": "In-memory database/application server",
+          "slug": "tarantool"
+        },
+        {
+          "name": "Hazelcast",
+          "use": "In-memory data platform",
+          "slug": "hazelcast"
+        },
+        {
+          "name": "Apache Ignite",
+          "use": "In-memory computing and data platform",
+          "slug": "apache-ignite"
+        },
+        {
+          "name": "Voldemort",
+          "use": "Distributed key-value store",
+          "slug": "voldemort"
+        },
+        {
+          "name": "Tokyo Cabinet",
+          "use": "Embedded key-value database",
+          "slug": "tokyo-cabinet"
+        },
+        {
+          "name": "Kyoto Tycoon",
+          "use": "Key-value database server",
+          "slug": "kyoto-tycoon"
+        }
+      ]
+    },
+    {
+      "id": "languages-d",
+      "part": "languages",
+      "letter": "D",
+      "title": "Wide-column and column-family databases",
+      "entries": [
+        {
+          "name": "Apache Cassandra",
+          "use": "Wide-column distributed database",
+          "slug": "apache-cassandra"
+        },
+        {
+          "name": "Apache HBase",
+          "use": "Wide-column database",
+          "slug": "apache-hbase"
+        },
+        {
+          "name": "ScyllaDB",
+          "use": "Wide-column distributed database",
+          "slug": "scylladb"
+        },
+        {
+          "name": "Google Cloud Bigtable",
+          "use": "Managed wide-column database",
+          "slug": "google-cloud-bigtable"
+        },
+        {
+          "name": "Apache Accumulo",
+          "use": "Sorted, distributed key-value store",
+          "slug": "apache-accumulo"
+        },
+        {
+          "name": "Apache Kudu",
+          "use": "Column-oriented data store",
+          "slug": "apache-kudu"
+        },
+        {
+          "name": "Amazon Keyspaces",
+          "use": "Managed Cassandra-compatible service",
+          "slug": "amazon-keyspaces"
+        },
+        {
+          "name": "Hypertable",
+          "use": "Wide-column database",
+          "slug": "hypertable"
+        },
+        {
+          "name": "MonetDB",
+          "use": "Column-oriented analytical database",
+          "slug": "monetdb"
+        },
+        {
+          "name": "ClickHouse",
+          "use": "Column-oriented analytical database",
+          "slug": "clickhouse"
+        },
+        {
+          "name": "Apache Druid",
+          "use": "Real-time analytics database",
+          "slug": "apache-druid"
+        }
+      ]
+    },
+    {
+      "id": "languages-e",
+      "part": "languages",
+      "letter": "E",
+      "title": "Graph databases",
+      "entries": [
+        {
+          "name": "Neo4j",
+          "use": "Property graph database",
+          "slug": "neo4j"
+        },
+        {
+          "name": "Amazon Neptune",
+          "use": "Managed graph database",
+          "slug": "amazon-neptune"
+        },
+        {
+          "name": "JanusGraph",
+          "use": "Distributed graph database",
+          "slug": "janusgraph"
+        },
+        {
+          "name": "ArangoDB",
+          "use": "Multi-model graph/document database",
+          "slug": "arangodb-2"
+        },
+        {
+          "name": "OrientDB",
+          "use": "Multi-model graph database",
+          "slug": "orientdb-2"
+        },
+        {
+          "name": "TigerGraph",
+          "use": "Graph analytics database",
+          "slug": "tigergraph"
+        },
+        {
+          "name": "NebulaGraph",
+          "use": "Distributed graph database",
+          "slug": "nebulagraph"
+        },
+        {
+          "name": "Memgraph",
+          "use": "In-memory graph database",
+          "slug": "memgraph"
+        },
+        {
+          "name": "Kùzu",
+          "use": "Embedded graph database",
+          "slug": "k-zu"
+        },
+        {
+          "name": "Dgraph",
+          "use": "Distributed graph database",
+          "slug": "dgraph"
+        },
+        {
+          "name": "GraphDB",
+          "use": "RDF/semantic graph database",
+          "slug": "graphdb"
+        },
+        {
+          "name": "AllegroGraph",
+          "use": "Graph database",
+          "slug": "allegrograph"
+        },
+        {
+          "name": "Virtuoso",
+          "use": "Multi-model and RDF database",
+          "slug": "virtuoso"
+        },
+        {
+          "name": "Stardog",
+          "use": "Knowledge graph platform",
+          "slug": "stardog"
+        },
+        {
+          "name": "TerminusDB",
+          "use": "Document and graph database",
+          "slug": "terminusdb"
+        },
+        {
+          "name": "TypeDB",
+          "use": "Knowledge graph database",
+          "slug": "typedb"
+        },
+        {
+          "name": "HugeGraph",
+          "use": "Graph database",
+          "slug": "hugegraph"
+        },
+        {
+          "name": "InfiniteGraph",
+          "use": "Graph database",
+          "slug": "infinitegraph"
+        },
+        {
+          "name": "Sparksee",
+          "use": "Graph database",
+          "slug": "sparksee"
+        },
+        {
+          "name": "FalkorDB",
+          "use": "Graph database",
+          "slug": "falkordb"
+        },
+        {
+          "name": "ArcadeDB",
+          "use": "Multi-model graph database",
+          "slug": "arcadedb"
+        },
+        {
+          "name": "AgensGraph",
+          "use": "PostgreSQL-based graph database",
+          "slug": "agensgraph"
+        }
+      ]
+    },
+    {
+      "id": "languages-f",
+      "part": "languages",
+      "letter": "F",
+      "title": "Time-series databases",
+      "entries": [
+        {
+          "name": "InfluxDB",
+          "use": "Time-series database",
+          "slug": "influxdb"
+        },
+        {
+          "name": "TimescaleDB",
+          "use": "PostgreSQL-based time-series database",
+          "slug": "timescaledb"
+        },
+        {
+          "name": "QuestDB",
+          "use": "Time-series database",
+          "slug": "questdb"
+        },
+        {
+          "name": "Prometheus",
+          "use": "Metrics monitoring and time-series database",
+          "slug": "prometheus"
+        },
+        {
+          "name": "VictoriaMetrics",
+          "use": "Time-series database",
+          "slug": "victoriametrics"
+        },
+        {
+          "name": "OpenTSDB",
+          "use": "Time-series database",
+          "slug": "opentsdb"
+        },
+        {
+          "name": "Graphite",
+          "use": "Metrics storage and graphing",
+          "slug": "graphite"
+        },
+        {
+          "name": "M3DB",
+          "use": "Distributed time-series database",
+          "slug": "m3db"
+        },
+        {
+          "name": "TDengine",
+          "use": "Time-series database",
+          "slug": "tdengine"
+        },
+        {
+          "name": "Apache IoTDB",
+          "use": "Time-series database for IoT",
+          "slug": "apache-iotdb"
+        },
+        {
+          "name": "Amazon Timestream",
+          "use": "Managed time-series database",
+          "slug": "amazon-timestream"
+        },
+        {
+          "name": "Azure Data Explorer",
+          "use": "Analytics service for telemetry/logs",
+          "slug": "azure-data-explorer"
+        },
+        {
+          "name": "KairosDB",
+          "use": "Time-series database",
+          "slug": "kairosdb"
+        },
+        {
+          "name": "RRDtool",
+          "use": "Round-robin time-series data tool",
+          "slug": "rrdtool"
+        },
+        {
+          "name": "Warp 10",
+          "use": "Time-series platform",
+          "slug": "warp-10"
+        },
+        {
+          "name": "CrateDB",
+          "use": "Distributed SQL database for time-series/analytics",
+          "slug": "cratedb"
+        },
+        {
+          "name": "GreptimeDB",
+          "use": "Time-series database",
+          "slug": "greptimedb"
+        },
+        {
+          "name": "Beringei",
+          "use": "Time-series storage engine",
+          "slug": "beringei"
+        }
+      ]
+    },
+    {
+      "id": "languages-g",
+      "part": "languages",
+      "letter": "G",
+      "title": "Search and full-text databases",
+      "entries": [
+        {
+          "name": "Elasticsearch",
+          "use": "Search and analytics engine",
+          "slug": "elasticsearch"
+        },
+        {
+          "name": "OpenSearch",
+          "use": "Search and analytics engine",
+          "slug": "opensearch"
+        },
+        {
+          "name": "Apache Solr",
+          "use": "Search platform",
+          "slug": "apache-solr"
+        },
+        {
+          "name": "Apache Lucene",
+          "use": "Search library",
+          "slug": "apache-lucene"
+        },
+        {
+          "name": "Meilisearch",
+          "use": "Search engine",
+          "slug": "meilisearch"
+        },
+        {
+          "name": "Typesense",
+          "use": "Search engine",
+          "slug": "typesense"
+        },
+        {
+          "name": "Sonic",
+          "use": "Search backend",
+          "slug": "sonic"
+        },
+        {
+          "name": "ZincSearch",
+          "use": "Search engine",
+          "slug": "zincsearch"
+        },
+        {
+          "name": "Quickwit",
+          "use": "Search engine for logs and events",
+          "slug": "quickwit"
+        },
+        {
+          "name": "Vespa",
+          "use": "Search and serving platform",
+          "slug": "vespa"
+        },
+        {
+          "name": "Manticore Search",
+          "use": "Search engine",
+          "slug": "manticore-search"
+        },
+        {
+          "name": "Sphinx Search",
+          "use": "Full-text search engine",
+          "slug": "sphinx-search"
+        },
+        {
+          "name": "Xapian",
+          "use": "Search library",
+          "slug": "xapian"
+        },
+        {
+          "name": "Bleve",
+          "use": "Search library",
+          "slug": "bleve"
+        },
+        {
+          "name": "RediSearch",
+          "use": "Search module",
+          "slug": "redisearch"
+        },
+        {
+          "name": "Algolia",
+          "use": "Hosted search service",
+          "slug": "algolia"
+        },
+        {
+          "name": "Azure AI Search",
+          "use": "Managed search service",
+          "slug": "azure-ai-search"
+        },
+        {
+          "name": "Google Vertex AI Search",
+          "use": "Managed search service",
+          "slug": "google-vertex-ai-search"
+        }
+      ]
+    },
+    {
+      "id": "languages-h",
+      "part": "languages",
+      "letter": "H",
+      "title": "Vector databases and vector search systems",
+      "entries": [
+        {
+          "name": "Milvus",
+          "use": "Vector database",
+          "slug": "milvus"
+        },
+        {
+          "name": "Zilliz Cloud",
+          "use": "Managed Milvus-based vector database",
+          "slug": "zilliz-cloud"
+        },
+        {
+          "name": "Qdrant",
+          "use": "Vector database",
+          "slug": "qdrant"
+        },
+        {
+          "name": "Weaviate",
+          "use": "Vector database",
+          "slug": "weaviate"
+        },
+        {
+          "name": "Chroma",
+          "use": "Vector database",
+          "slug": "chroma"
+        },
+        {
+          "name": "Pinecone",
+          "use": "Managed vector database",
+          "slug": "pinecone"
+        },
+        {
+          "name": "LanceDB",
+          "use": "Embedded/serverless vector database",
+          "slug": "lancedb"
+        },
+        {
+          "name": "FAISS",
+          "use": "Vector similarity search library",
+          "slug": "faiss"
+        },
+        {
+          "name": "Vespa",
+          "use": "Search and vector serving platform",
+          "slug": "vespa-2"
+        },
+        {
+          "name": "Vald",
+          "use": "Distributed vector search engine",
+          "slug": "vald"
+        },
+        {
+          "name": "Marqo",
+          "use": "Vector search platform",
+          "slug": "marqo"
+        },
+        {
+          "name": "Redis Vector Search",
+          "use": "Vector search capability",
+          "slug": "redis-vector-search"
+        },
+        {
+          "name": "PostgreSQL with pgvector",
+          "use": "Relational database with vector extension",
+          "slug": "postgresql-with-pgvector"
+        },
+        {
+          "name": "Elasticsearch vector search",
+          "use": "Vector search capability",
+          "slug": "elasticsearch-vector-search"
+        },
+        {
+          "name": "OpenSearch vector search",
+          "use": "Vector search capability",
+          "slug": "opensearch-vector-search"
+        },
+        {
+          "name": "MongoDB Atlas Vector Search",
+          "use": "Managed vector search capability",
+          "slug": "mongodb-atlas-vector-search"
+        },
+        {
+          "name": "SingleStore vector search",
+          "use": "Vector search capability",
+          "slug": "singlestore-vector-search"
+        },
+        {
+          "name": "ClickHouse vector search",
+          "use": "Vector search capability",
+          "slug": "clickhouse-vector-search"
+        },
+        {
+          "name": "DuckDB with vector extensions",
+          "use": "Embedded analytics with vector support",
+          "slug": "duckdb-with-vector-extensions"
+        },
+        {
+          "name": "Turbopuffer",
+          "use": "Vector search service",
+          "slug": "turbopuffer"
+        },
+        {
+          "name": "Annoy",
+          "use": "Approximate nearest-neighbor library",
+          "slug": "annoy"
+        },
+        {
+          "name": "HNSWlib",
+          "use": "Approximate nearest-neighbor library",
+          "slug": "hnswlib"
+        },
+        {
+          "name": "ScaNN",
+          "use": "Vector similarity search library",
+          "slug": "scann"
+        },
+        {
+          "name": "Vearch",
+          "use": "Vector database",
+          "slug": "vearch"
+        },
+        {
+          "name": "OceanBase Vector",
+          "use": "Vector database capability",
+          "slug": "oceanbase-vector"
+        }
+      ]
+    },
+    {
+      "id": "languages-i",
+      "part": "languages",
+      "letter": "I",
+      "title": "In-memory databases and data platforms",
+      "entries": [
+        {
+          "name": "Redis",
+          "use": "In-memory data store",
+          "slug": "redis-2"
+        },
+        {
+          "name": "SAP HANA",
+          "use": "In-memory data platform",
+          "slug": "sap-hana-2"
+        },
+        {
+          "name": "SingleStore",
+          "use": "In-memory and distributed SQL platform",
+          "slug": "singlestore-2"
+        },
+        {
+          "name": "Memcached",
+          "use": "In-memory cache",
+          "slug": "memcached-2"
+        },
+        {
+          "name": "VoltDB",
+          "use": "In-memory SQL database",
+          "slug": "voltdb"
+        },
+        {
+          "name": "Apache Ignite",
+          "use": "In-memory computing platform",
+          "slug": "apache-ignite-2"
+        },
+        {
+          "name": "Hazelcast",
+          "use": "In-memory data platform",
+          "slug": "hazelcast-2"
+        },
+        {
+          "name": "H2 (in-memory mode)",
+          "use": "Embedded/in-memory relational database",
+          "slug": "h2"
+        },
+        {
+          "name": "DuckDB (in-memory mode)",
+          "use": "Embedded analytical database",
+          "slug": "duckdb-2"
+        },
+        {
+          "name": "SQLite (in-memory mode)",
+          "use": "Embedded relational database",
+          "slug": "sqlite-2"
+        },
+        {
+          "name": "Tarantool",
+          "use": "In-memory database",
+          "slug": "tarantool-2"
+        },
+        {
+          "name": "Dragonfly",
+          "use": "In-memory data store",
+          "slug": "dragonfly-2"
+        },
+        {
+          "name": "KeyDB",
+          "use": "In-memory data store",
+          "slug": "keydb-2"
+        },
+        {
+          "name": "Valkey",
+          "use": "In-memory data store",
+          "slug": "valkey-2"
+        },
+        {
+          "name": "Apache Geode",
+          "use": "Distributed in-memory data platform",
+          "slug": "apache-geode"
+        },
+        {
+          "name": "eXtremeDB",
+          "use": "Embedded in-memory database",
+          "slug": "extremedb"
+        }
+      ]
+    },
+    {
+      "id": "languages-j",
+      "part": "languages",
+      "letter": "J",
+      "title": "Object-oriented and object databases",
+      "entries": [
+        {
+          "name": "ObjectDB",
+          "use": "Object database",
+          "slug": "objectdb"
+        },
+        {
+          "name": "ObjectBox",
+          "use": "Embedded object database",
+          "slug": "objectbox"
+        },
+        {
+          "name": "db4o",
+          "use": "Historical object database",
+          "slug": "db4o"
+        },
+        {
+          "name": "GemStone/S",
+          "use": "Object database and application platform",
+          "slug": "gemstone-s"
+        },
+        {
+          "name": "InterSystems Caché",
+          "use": "Object and multi-model database; legacy branding",
+          "slug": "intersystems-cach"
+        },
+        {
+          "name": "Versant Object Database",
+          "use": "Object database",
+          "slug": "versant-object-database"
+        },
+        {
+          "name": "Objectivity/DB",
+          "use": "Object database",
+          "slug": "objectivity-db"
+        },
+        {
+          "name": "ZODB",
+          "use": "Python object database",
+          "slug": "zodb"
+        },
+        {
+          "name": "Matisse",
+          "use": "Object-relational database",
+          "slug": "matisse"
+        },
+        {
+          "name": "Perst",
+          "use": "Embedded object database",
+          "slug": "perst"
+        },
+        {
+          "name": "Realm Database",
+          "use": "Embedded object database",
+          "slug": "realm-database-2"
+        },
+        {
+          "name": "WakandaDB",
+          "use": "Database associated with Wakanda platform",
+          "slug": "wakandadb"
+        }
+      ]
+    },
+    {
+      "id": "languages-k",
+      "part": "languages",
+      "letter": "K",
+      "title": "Hierarchical and network databases",
+      "entries": [
+        {
+          "name": "IBM IMS",
+          "use": "Hierarchical database and transaction system",
+          "slug": "ibm-ims"
+        },
+        {
+          "name": "IDMS",
+          "use": "Network database management system",
+          "slug": "idms"
+        },
+        {
+          "name": "Integrated Data Store (IDS)",
+          "use": "Historical network database",
+          "slug": "integrated-data-store-ids"
+        },
+        {
+          "name": "Raima Database Manager",
+          "use": "Embedded database system",
+          "slug": "raima-database-manager"
+        },
+        {
+          "name": "GT.M",
+          "use": "Hierarchical database platform",
+          "slug": "gt-m"
+        },
+        {
+          "name": "InterSystems IRIS",
+          "use": "Multi-model data platform",
+          "slug": "intersystems-iris"
+        },
+        {
+          "name": "Adabas",
+          "use": "Hierarchical/network-oriented database",
+          "slug": "adabas"
+        },
+        {
+          "name": "TurboIMAGE",
+          "use": "Hierarchical database",
+          "slug": "turboimage"
+        },
+        {
+          "name": "Model 204",
+          "use": "Database management system",
+          "slug": "model-204"
+        },
+        {
+          "name": "InterSystems Caché",
+          "use": "Multi-model database; historical product",
+          "slug": "intersystems-cach-2"
+        },
+        {
+          "name": "CODASYL database systems",
+          "use": "Network database model family",
+          "slug": "codasyl-database-systems"
+        }
+      ]
+    },
+    {
+      "id": "languages-l",
+      "part": "languages",
+      "letter": "L",
+      "title": "NewSQL and distributed SQL databases",
+      "entries": [
+        {
+          "name": "CockroachDB",
+          "use": "Distributed SQL database",
+          "slug": "cockroachdb-2"
+        },
+        {
+          "name": "Google Cloud Spanner",
+          "use": "Globally distributed relational database",
+          "slug": "google-cloud-spanner"
+        },
+        {
+          "name": "TiDB",
+          "use": "Distributed SQL database",
+          "slug": "tidb-2"
+        },
+        {
+          "name": "YugabyteDB",
+          "use": "Distributed SQL database",
+          "slug": "yugabytedb-2"
+        },
+        {
+          "name": "VoltDB",
+          "use": "In-memory distributed SQL database",
+          "slug": "voltdb-2"
+        },
+        {
+          "name": "NuoDB",
+          "use": "Distributed SQL database",
+          "slug": "nuodb"
+        },
+        {
+          "name": "SingleStore",
+          "use": "Distributed SQL database",
+          "slug": "singlestore-3"
+        },
+        {
+          "name": "OceanBase",
+          "use": "Distributed relational database",
+          "slug": "oceanbase-2"
+        },
+        {
+          "name": "MemSQL / SingleStore",
+          "use": "Distributed SQL platform; former name",
+          "slug": "memsql-singlestore"
+        },
+        {
+          "name": "FoundationDB",
+          "use": "Distributed transactional key-value database",
+          "slug": "foundationdb-2"
+        },
+        {
+          "name": "ClustrixDB",
+          "use": "Distributed SQL database; historical product",
+          "slug": "clustrixdb"
+        },
+        {
+          "name": "Vitess",
+          "use": "MySQL scaling and clustering system",
+          "slug": "vitess"
+        },
+        {
+          "name": "Citus",
+          "use": "PostgreSQL distributed database extension",
+          "slug": "citus"
+        },
+        {
+          "name": "Amazon Aurora",
+          "use": "Managed relational database",
+          "slug": "amazon-aurora-2"
+        },
+        {
+          "name": "AlloyDB",
+          "use": "Managed PostgreSQL-compatible database",
+          "slug": "alloydb"
+        }
+      ]
+    },
+    {
+      "id": "languages-m",
+      "part": "languages",
+      "letter": "M",
+      "title": "Data warehouses and analytical databases",
+      "entries": [
+        {
+          "name": "Snowflake",
+          "use": "Cloud data warehouse",
+          "slug": "snowflake"
+        },
+        {
+          "name": "Google BigQuery",
+          "use": "Cloud data warehouse",
+          "slug": "google-bigquery"
+        },
+        {
+          "name": "Amazon Redshift",
+          "use": "Cloud data warehouse",
+          "slug": "amazon-redshift"
+        },
+        {
+          "name": "Microsoft Fabric Warehouse",
+          "use": "Cloud analytical warehouse",
+          "slug": "microsoft-fabric-warehouse"
+        },
+        {
+          "name": "Azure Synapse Analytics",
+          "use": "Analytics platform",
+          "slug": "azure-synapse-analytics"
+        },
+        {
+          "name": "Databricks SQL",
+          "use": "Lakehouse analytics service",
+          "slug": "databricks-sql"
+        },
+        {
+          "name": "Teradata Vantage",
+          "use": "Analytical data platform",
+          "slug": "teradata-vantage"
+        },
+        {
+          "name": "ClickHouse",
+          "use": "Columnar analytics database",
+          "slug": "clickhouse-2"
+        },
+        {
+          "name": "DuckDB",
+          "use": "Embedded analytics database",
+          "slug": "duckdb-3"
+        },
+        {
+          "name": "Apache Doris",
+          "use": "Real-time analytical database",
+          "slug": "apache-doris"
+        },
+        {
+          "name": "Apache Pinot",
+          "use": "Real-time OLAP database",
+          "slug": "apache-pinot"
+        },
+        {
+          "name": "Apache Druid",
+          "use": "Real-time analytics database",
+          "slug": "apache-druid-2"
+        },
+        {
+          "name": "Vertica",
+          "use": "Analytical database",
+          "slug": "vertica-2"
+        },
+        {
+          "name": "Greenplum",
+          "use": "Parallel analytical database",
+          "slug": "greenplum-2"
+        },
+        {
+          "name": "Firebolt",
+          "use": "Cloud analytics database",
+          "slug": "firebolt"
+        },
+        {
+          "name": "StarRocks",
+          "use": "Analytical database",
+          "slug": "starrocks"
+        },
+        {
+          "name": "Yellowbrick",
+          "use": "Analytical database",
+          "slug": "yellowbrick"
+        },
+        {
+          "name": "Exasol",
+          "use": "Analytical database",
+          "slug": "exasol"
+        },
+        {
+          "name": "IBM Netezza",
+          "use": "Data warehouse appliance/platform",
+          "slug": "ibm-netezza"
+        },
+        {
+          "name": "SAP BW",
+          "use": "Enterprise data warehouse",
+          "slug": "sap-bw"
+        },
+        {
+          "name": "Oracle Autonomous Data Warehouse",
+          "use": "Managed analytical database",
+          "slug": "oracle-autonomous-data-warehouse"
+        },
+        {
+          "name": "SingleStore",
+          "use": "Operational and analytical database",
+          "slug": "singlestore-4"
+        }
+      ]
+    },
+    {
+      "id": "languages-n",
+      "part": "languages",
+      "letter": "N",
+      "title": "Embedded and local databases",
+      "entries": [
+        {
+          "name": "SQLite",
+          "use": "Embedded relational database",
+          "slug": "sqlite-3"
+        },
+        {
+          "name": "DuckDB",
+          "use": "Embedded analytical database",
+          "slug": "duckdb-4"
+        },
+        {
+          "name": "Realm",
+          "use": "Embedded object database",
+          "slug": "realm"
+        },
+        {
+          "name": "ObjectBox",
+          "use": "Embedded object database",
+          "slug": "objectbox-2"
+        },
+        {
+          "name": "LevelDB",
+          "use": "Embedded key-value store",
+          "slug": "leveldb-2"
+        },
+        {
+          "name": "RocksDB",
+          "use": "Embedded key-value store",
+          "slug": "rocksdb-2"
+        },
+        {
+          "name": "LMDB",
+          "use": "Embedded key-value database",
+          "slug": "lmdb-2"
+        },
+        {
+          "name": "Berkeley DB",
+          "use": "Embedded database",
+          "slug": "berkeley-db-2"
+        },
+        {
+          "name": "H2",
+          "use": "Embedded relational database",
+          "slug": "h2-2"
+        },
+        {
+          "name": "HSQLDB",
+          "use": "Embedded relational database",
+          "slug": "hsqldb-2"
+        },
+        {
+          "name": "Apache Derby",
+          "use": "Embedded relational database",
+          "slug": "apache-derby-2"
+        },
+        {
+          "name": "LiteDB",
+          "use": "Embedded document database",
+          "slug": "litedb-2"
+        },
+        {
+          "name": "PouchDB",
+          "use": "Embedded/browser document database",
+          "slug": "pouchdb-2"
+        },
+        {
+          "name": "RxDB",
+          "use": "Local-first database",
+          "slug": "rxdb"
+        },
+        {
+          "name": "SQLCipher",
+          "use": "Encrypted SQLite extension",
+          "slug": "sqlcipher"
+        },
+        {
+          "name": "Isar",
+          "use": "Embedded local database",
+          "slug": "isar"
+        },
+        {
+          "name": "Hive (Flutter database)",
+          "use": "Embedded Flutter database",
+          "slug": "hive"
+        },
+        {
+          "name": "WatermelonDB",
+          "use": "Local-first mobile database",
+          "slug": "watermelondb"
+        },
+        {
+          "name": "IndexedDB",
+          "use": "Browser database API",
+          "slug": "indexeddb"
+        },
+        {
+          "name": "Core Data",
+          "use": "Apple persistence framework",
+          "slug": "core-data"
+        },
+        {
+          "name": "Room",
+          "use": "Android persistence library",
+          "slug": "room"
+        }
+      ]
+    },
+    {
+      "id": "languages-o",
+      "part": "languages",
+      "letter": "O",
+      "title": "XML and RDF databases",
+      "entries": [
+        {
+          "name": "BaseX",
+          "use": "XML database",
+          "slug": "basex"
+        },
+        {
+          "name": "eXist-db",
+          "use": "Native XML database",
+          "slug": "exist-db"
+        },
+        {
+          "name": "Sedna",
+          "use": "XML database",
+          "slug": "sedna"
+        },
+        {
+          "name": "MarkLogic",
+          "use": "Multi-model database with XML support",
+          "slug": "marklogic-2"
+        },
+        {
+          "name": "Virtuoso",
+          "use": "RDF and multi-model database",
+          "slug": "virtuoso-2"
+        },
+        {
+          "name": "GraphDB",
+          "use": "RDF/semantic database",
+          "slug": "graphdb-2"
+        },
+        {
+          "name": "Stardog",
+          "use": "Knowledge graph platform",
+          "slug": "stardog-2"
+        },
+        {
+          "name": "Apache Jena TDB",
+          "use": "RDF storage system",
+          "slug": "apache-jena-tdb"
+        },
+        {
+          "name": "RDF4J",
+          "use": "RDF framework and storage APIs",
+          "slug": "rdf4j"
+        },
+        {
+          "name": "AllegroGraph",
+          "use": "Graph/RDF database",
+          "slug": "allegrograph-2"
+        },
+        {
+          "name": "Blazegraph",
+          "use": "Graph database; historical/open-source project",
+          "slug": "blazegraph"
+        },
+        {
+          "name": "Oxigraph",
+          "use": "RDF database",
+          "slug": "oxigraph"
+        },
+        {
+          "name": "QLever",
+          "use": "RDF query engine",
+          "slug": "qlever"
+        },
+        {
+          "name": "Fuseki",
+          "use": "SPARQL server in Apache Jena",
+          "slug": "fuseki"
+        },
+        {
+          "name": "Oracle XML DB",
+          "use": "XML database capability",
+          "slug": "oracle-xml-db"
+        }
+      ]
+    },
+    {
+      "id": "languages-p",
+      "part": "languages",
+      "letter": "P",
+      "title": "Cloud-hosted database platforms and backend services",
+      "entries": [
+        {
+          "name": "Supabase",
+          "use": "Backend platform built around PostgreSQL",
+          "slug": "supabase"
+        },
+        {
+          "name": "Firebase",
+          "use": "Backend platform; Firestore and Realtime Database",
+          "slug": "firebase"
+        },
+        {
+          "name": "Neon",
+          "use": "Serverless PostgreSQL platform",
+          "slug": "neon"
+        },
+        {
+          "name": "PlanetScale",
+          "use": "Managed database platform based on Vitess/MySQL-compatible technology",
+          "slug": "planetscale"
+        },
+        {
+          "name": "MongoDB Atlas",
+          "use": "Managed MongoDB platform",
+          "slug": "mongodb-atlas"
+        },
+        {
+          "name": "Amazon RDS",
+          "use": "Managed relational database service",
+          "slug": "amazon-rds"
+        },
+        {
+          "name": "Amazon DynamoDB",
+          "use": "Managed NoSQL database",
+          "slug": "amazon-dynamodb-2"
+        },
+        {
+          "name": "Amazon Aurora",
+          "use": "Managed relational database",
+          "slug": "amazon-aurora-3"
+        },
+        {
+          "name": "Google Cloud SQL",
+          "use": "Managed relational database service",
+          "slug": "google-cloud-sql"
+        },
+        {
+          "name": "Google Cloud Spanner",
+          "use": "Distributed relational database service",
+          "slug": "google-cloud-spanner-2"
+        },
+        {
+          "name": "Google Cloud Bigtable",
+          "use": "Managed wide-column database",
+          "slug": "google-cloud-bigtable-2"
+        },
+        {
+          "name": "Azure SQL Database",
+          "use": "Managed relational database",
+          "slug": "azure-sql-database"
+        },
+        {
+          "name": "Azure Cosmos DB",
+          "use": "Managed multi-model database",
+          "slug": "azure-cosmos-db"
+        },
+        {
+          "name": "CockroachDB Cloud",
+          "use": "Managed distributed SQL",
+          "slug": "cockroachdb-cloud"
+        },
+        {
+          "name": "Aiven",
+          "use": "Managed database services",
+          "slug": "aiven"
+        },
+        {
+          "name": "Turso",
+          "use": "SQLite-based distributed database service",
+          "slug": "turso"
+        },
+        {
+          "name": "Upstash",
+          "use": "Managed data services including Redis",
+          "slug": "upstash"
+        },
+        {
+          "name": "Convex",
+          "use": "Reactive backend/database platform",
+          "slug": "convex"
+        },
+        {
+          "name": "Xata",
+          "use": "PostgreSQL-based data platform",
+          "slug": "xata"
+        },
+        {
+          "name": "Fauna",
+          "use": "Document-oriented database platform",
+          "slug": "fauna"
+        },
+        {
+          "name": "Appwrite",
+          "use": "Backend platform with database services",
+          "slug": "appwrite"
+        },
+        {
+          "name": "PocketBase",
+          "use": "Backend platform using embedded SQLite",
+          "slug": "pocketbase"
+        },
+        {
+          "name": "Directus",
+          "use": "Data platform over SQL databases",
+          "slug": "directus"
+        },
+        {
+          "name": "Python",
+          "use": "Programming fundamentals; variables, conditions, loops, functions",
+          "slug": "python-3"
+        },
+        {
+          "name": "JavaScript",
+          "use": "Web programming; variables, functions, arrays, DOM concepts",
+          "slug": "javascript-4"
+        },
+        {
+          "name": "HTML",
+          "use": "Web page structure and semantic markup",
+          "slug": "html-2"
+        },
+        {
+          "name": "CSS",
+          "use": "Styling, selectors, layout, and responsive design",
+          "slug": "css-2"
+        },
+        {
+          "name": "SQL",
+          "use": "Tables, SELECT, filtering, joins, and aggregation",
+          "slug": "sql-2"
+        },
+        {
+          "name": "PostgreSQL",
+          "use": "Relational database practice and SQL projects",
+          "slug": "postgresql-2"
+        },
+        {
+          "name": "SQLite",
+          "use": "Local database fundamentals",
+          "slug": "sqlite-4"
+        },
+        {
+          "name": "C#",
+          "use": "Game programming and object-oriented concepts",
+          "slug": "csharp-4"
+        },
+        {
+          "name": "Lua",
+          "use": "Simple scripting and game logic",
+          "slug": "lua-4"
+        },
+        {
+          "name": "Scratch / Blockly",
+          "use": "Visual, block-based beginner puzzles",
+          "slug": "scratch-blockly"
+        }
+      ]
+    }
+  ],
+  "stats": {
+    "sections": 30,
+    "entries": 574
+  }
+}

@@ -1,0 +1,67 @@
+import { totalXp } from "@/lib/gamification";
+import type { Player, TimestampedId } from "@/lib/types";
+
+export type ProfileRow = {
+  id: string;
+  username: string;
+  email: string | null;
+  avatar: string;
+  xp: number;
+  streak: number;
+  best_streak: number;
+  last_active: string | null;
+  completed_lessons: TimestampedId[] | null;
+  completed_challenges: TimestampedId[] | null;
+  claimed_quests: TimestampedId[] | null;
+  unlocked_achievements: TimestampedId[] | null;
+  last_lesson_id: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
+function entries(value: TimestampedId[] | null | undefined): TimestampedId[] {
+  if (!Array.isArray(value)) return [];
+  return value.filter((entry) => entry && typeof entry.id === "string" && typeof entry.at === "string");
+}
+
+export function rowToPlayer(row: ProfileRow): Player {
+  return {
+    id: row.id,
+    username: row.username || "Apprentice",
+    avatar: row.avatar || "nova",
+    streak: row.streak ?? 0,
+    bestStreak: row.best_streak ?? row.streak ?? 0,
+    lastActive: row.last_active,
+    completedLessons: entries(row.completed_lessons),
+    completedChallenges: entries(row.completed_challenges),
+    claimedQuests: entries(row.claimed_quests),
+    unlockedAchievements: entries(row.unlocked_achievements),
+    lastLessonId: row.last_lesson_id,
+    createdAt: row.created_at,
+    updatedAt: row.updated_at,
+  };
+}
+
+export function playerToRow(player: Player, email?: string | null) {
+  return {
+    id: player.id,
+    username: player.username,
+    email: email ?? null,
+    avatar: player.avatar,
+    xp: totalXp(player),
+    streak: player.streak,
+    best_streak: player.bestStreak,
+    last_active: player.lastActive,
+    completed_lessons: player.completedLessons,
+    completed_challenges: player.completedChallenges,
+    claimed_quests: player.claimedQuests,
+    unlocked_achievements: player.unlockedAchievements,
+    last_lesson_id: player.lastLessonId,
+    created_at: player.createdAt,
+    updated_at: player.updatedAt,
+  };
+}
+
+export function missingTable(message: string) {
+  return /profiles|schema cache|does not exist|relation/i.test(message);
+}
