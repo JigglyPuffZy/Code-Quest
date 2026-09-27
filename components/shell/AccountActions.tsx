@@ -11,7 +11,7 @@ export function AccountActions({ compact = false }: { compact?: boolean }) {
   if (email || !supabaseEnabled) return null;
 
   const btnClass = cn(
-    "inline-flex items-center gap-1.5 rounded-xl border border-line bg-white text-xs font-semibold text-muted shadow-sm transition",
+    "inline-flex items-center gap-1.5 rounded-xl border border-line bg-surface text-xs font-semibold text-muted shadow-sm transition",
     "hover:border-primary-200 hover:text-primary disabled:opacity-50",
     compact ? "px-2.5 py-2" : "px-3.5 py-2",
   );

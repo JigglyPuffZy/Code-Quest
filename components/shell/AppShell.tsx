@@ -5,6 +5,7 @@ import { AccountActions } from "@/components/shell/AccountActions";
 import { HubNav } from "@/components/shell/HubNav";
 import { Logo } from "@/components/shell/Logo";
 import { PlayerHud } from "@/components/shell/PlayerHud";
+import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { ErrorState, LoadingState } from "@/components/ui/States";
 import { cn } from "@/lib/cn";
 import { X } from "lucide-react";
@@ -33,7 +34,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div className="min-h-screen bg-white pb-32 text-ink sm:pb-28">
+    <div className="min-h-screen bg-canvas pb-32 text-ink sm:pb-28">
       <div className="app-backdrop pointer-events-none fixed inset-0" />
 
       <header
@@ -50,6 +51,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               <span className="shell-demo-badge hidden sm:inline-flex">Demo mode</span>
             ) : null}
 
+            <ThemeToggle />
             <AccountActions compact={isGuideLesson} />
 
             {player ? (
@@ -85,19 +87,14 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             </Link>
           </div>
         ) : null}
-        {ready && player ? (
-          <div className="rise">
-            {error ? <ErrorState message={error} onRetry={() => void refresh()} /> : null}
-            {children}
-          </div>
-        ) : null}
+        {ready && player ? <div className="rise">{children}</div> : null}
       </main>
 
       <HubNav />
 
       <div className="fixed bottom-28 right-4 z-40 flex w-[min(100%-2rem,280px)] flex-col gap-2 sm:bottom-24">
         {toasts.map((toast) => (
-          <div key={toast.id} className="rounded-xl border border-line bg-white p-3 shadow-lg">
+          <div key={toast.id} className="rounded-xl border border-line bg-surface p-3 shadow-lg">
             <div className="flex items-start justify-between gap-2">
               <div>
                 <p className="text-sm font-semibold">{toast.title}</p>

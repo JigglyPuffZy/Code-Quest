@@ -5,6 +5,7 @@ import { AuthMobileStrip } from "@/components/auth/AuthMobileStrip";
 import { usePlayer } from "@/components/player/PlayerProvider";
 import { AvatarPicker } from "@/components/profile/AvatarPicker";
 import { Logo } from "@/components/shell/Logo";
+import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { Button } from "@/components/ui/Button";
 import { loginUsernameError } from "@/lib/auth/username";
 import { usernameError } from "@/lib/username";
@@ -19,7 +20,7 @@ function safeNext(value: string | null) {
 }
 
 const inputClass =
-  "w-full rounded-xl border border-line bg-white px-4 py-3 text-sm outline-none transition placeholder:text-muted/60 focus:border-primary focus:ring-2 focus:ring-primary/15";
+  "w-full rounded-xl border border-line bg-surface px-4 py-3 text-sm outline-none transition placeholder:text-muted/60 focus:border-primary focus:ring-2 focus:ring-primary/15";
 
 export function AuthScreen({ mode }: { mode: "login" | "signup" }) {
   const { supabaseEnabled, signIn, signUp, setLocalIdentity, refresh, ready } = usePlayer();
@@ -89,17 +90,18 @@ export function AuthScreen({ mode }: { mode: "login" | "signup" }) {
   }
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-white">
+    <div className="relative min-h-screen overflow-hidden bg-canvas">
       <div className="auth-hero-grid pointer-events-none fixed inset-0 lg:hidden" aria-hidden />
       <div className="relative grid min-h-screen lg:grid-cols-[1.08fr_0.92fr]">
         <AuthHero mode={mode} />
 
         <div className="auth-form-side relative flex flex-col justify-center px-5 py-8 sm:px-10 lg:px-12 xl:px-16">
           <div className="auth-form-rise mx-auto w-full max-w-[400px]">
-            <div className="mb-3 flex justify-end lg:hidden">
+            <div className="mb-3 flex items-center justify-end gap-2 lg:hidden">
+              <ThemeToggle />
               <Link
                 href="/"
-                className="rounded-full border border-line bg-white px-3 py-1.5 text-xs font-semibold text-muted shadow-sm transition hover:border-primary-200 hover:text-primary"
+                className="rounded-full border border-line bg-surface px-3 py-1.5 text-xs font-semibold text-muted shadow-sm transition hover:border-primary-200 hover:text-primary"
               >
                 ← Home
               </Link>
@@ -107,7 +109,7 @@ export function AuthScreen({ mode }: { mode: "login" | "signup" }) {
 
             <AuthMobileStrip mode={mode} />
 
-            <div className="auth-panel relative mt-5 overflow-hidden rounded-2xl border border-line bg-white p-6 shadow-2xl shadow-slate-900/[0.06] sm:p-8 lg:mt-0">
+            <div className="auth-panel relative mt-5 overflow-hidden rounded-2xl border border-line bg-surface p-6 shadow-2xl shadow-slate-900/[0.06] sm:p-8 lg:mt-0">
               <div className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-primary-400 via-primary to-violet-400" aria-hidden />
               <div className="mb-6 hidden lg:block">
                 <Logo href="/" size="lg" glow subtitle="Academy" />

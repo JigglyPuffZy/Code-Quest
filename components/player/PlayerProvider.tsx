@@ -90,8 +90,14 @@ const PlayerContext = createContext<PlayerContextValue | null>(null);
 
 const emptyLevel: LevelInfo = { level: 1, title: "Initiate", into: 0, needed: 80 };
 
+function isBenignAuthError(error: unknown) {
+  const message = (error instanceof Error ? error.message : String(error)).toLowerCase();
+  return message.includes("auth session missing") || message.includes("session not found");
+}
+
 function friendlyError(error: unknown) {
   const message = error instanceof Error ? error.message : "Something went wrong.";
+  if (isBenignAuthError(error)) return "";
   if (missingTable(message)) {
     return "Supabase is connected, but the profiles table is missing. Run supabase/schema.sql in the SQL editor.";
   }
@@ -153,7 +159,15 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
           const { error: saveError } = await createClient()
             .from("profiles")
             .upsert(playerToRow(latest, emailRef.current));
-          if (saveError) setError(friendlyError(saveError));
+          if (saveError) {
+            const detail = friendlyError(saveError);
+            if (detail) {
+              setToasts((current) => [
+                { id: crypto.randomUUID(), title: "Could not sync progress", detail },
+                ...current,
+              ].slice(0, 4));
+            }
+          }
           return;
         }
         writeGuest(latest);
@@ -171,10 +185,11 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
 
   const loadAccount = useCallback(async () => {
     const supabase = createClient();
-    const { data, error: userError } = await supabase.auth.getUser();
-    if (userError) throw userError;
+    const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
+    if (sessionError && !isBenignAuthError(sessionError)) throw sessionError;
 
-    if (!data.user) {
+    const user = sessionData.session?.user;
+    if (!user) {
       emailRef.current = null;
       setEmail(null);
       const guest = grantAchievements(touchStreak(loadGuestOrCreate())).player;
@@ -182,13 +197,13 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
       return;
     }
 
-    emailRef.current = data.user.email ?? null;
-    setEmail(data.user.email ?? null);
+    emailRef.current = user.email ?? null;
+    setEmail(user.email ?? null);
 
     const { data: row, error: profileError } = await supabase
       .from("profiles")
       .select("*")
-      .eq("id", data.user.id)
+      .eq("id", user.id)
       .maybeSingle();
 
     if (profileError) throw profileError;
@@ -196,13 +211,13 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
     let next = row
       ? rowToPlayer(row as ProfileRow)
       : createPlayer({
-          id: data.user.id,
-          username: String(data.user.user_metadata?.username || data.user.email?.split("@")[0] || "Apprentice"),
-          avatar: String(data.user.user_metadata?.avatar || "nova"),
+          id: user.id,
+          username: String(user.user_metadata?.username || user.email?.split("@")[0] || "Apprentice"),
+          avatar: String(user.user_metadata?.avatar || "nova"),
         });
 
     const guest = readGuest();
-    const mergeKey = `codequest.merged.${data.user.id}`;
+    const mergeKey = `codequest.merged.${user.id}`;
     if (guest && !window.localStorage.getItem(mergeKey)) {
       next = mergePlayers(guest, next);
       window.localStorage.setItem(mergeKey, "1");
@@ -212,11 +227,12 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
     next = grantAchievements(touchStreak(next)).player;
     const { error: saveError } = await supabase
       .from("profiles")
-      .upsert(playerToRow(next, data.user.email ?? null));
+      .upsert(playerToRow(next, user.email ?? null));
     if (saveError) throw saveError;
     writeUserCache(next);
     playerRef.current = next;
     setPlayer(next);
+    setError(null);
   }, [applyPlayer]);
 
   const refresh = useCallback(async () => {
@@ -245,7 +261,10 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
         }
         await loadAccount();
       } catch (loadError) {
-        if (!cancelled) setError(friendlyError(loadError));
+        if (!cancelled) {
+          const message = friendlyError(loadError);
+          if (message) setError(message);
+        }
       } finally {
         if (!cancelled) setReady(true);
       }
@@ -290,6 +309,7 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
         throw new Error(signInError.message || "Could not log in.");
       }
 
+      setError(null);
       await loadAccount();
     },
     [loadAccount],
