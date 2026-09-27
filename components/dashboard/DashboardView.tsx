@@ -113,7 +113,7 @@ export function DashboardView() {
       <DashboardZone
         step={3}
         title="Quick navigation"
-        hint="Shortcuts to the main areas of CodeQuest. Hover the row to pause scrolling."
+        hint="Shortcuts to the main areas of CodeQuest. Swipe on mobile or hover to pause on desktop."
       >
         <JumpLane embedded />
       </DashboardZone>

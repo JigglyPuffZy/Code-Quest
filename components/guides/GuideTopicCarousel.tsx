@@ -1,6 +1,7 @@
 "use client";
 
 import { TechLogoBadge } from "@/components/icons/TechLogo";
+import { MarqueeLane } from "@/components/ui/MarqueeLane";
 import { guidesForTopic, totalGuideMinutes } from "@/lib/guides/index";
 import { getTopicStyle } from "@/lib/guides/styles";
 import type { GuideTopic, GuideTopicId } from "@/lib/guides/types";
@@ -130,37 +131,38 @@ export function GuideTopicCarousel({
     <div className="space-y-2 pb-1">
       <div className="flex items-center justify-between gap-3 px-1">
         <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted">Courses</p>
-        <span className="text-[10px] text-muted">Hover to pause</span>
+        <span className="text-[10px] text-muted">
+          <span className="md:hidden">Swipe to browse</span>
+          <span className="hidden md:inline">Hover to pause</span>
+        </span>
       </div>
 
-      <div className="marquee-viewport guide-marquee -mx-1">
-        <div className="marquee-track guide-marquee-track">
-          {loop.map((item, index) => {
-            if (item.kind === "home") {
-              return <HomeCard key={`home-${index}`} active={!activeId} />;
-            }
-            const { topic } = item;
-            const style = getTopicStyle(topic.id);
-            const lessons = guidesForTopic(topic.id);
-            const minutes = totalGuideMinutes(topic.id);
-            return (
-              <TopicCard
-                key={`${topic.id}-${index}`}
-                href={`/guides/${topic.id}`}
-                topicId={topic.id}
-                name={topic.name}
-                sub={topic.tagline}
-                meta={`${lessons.length} lessons · ${minutes}m`}
-                soft={style.soft}
-                accent={style.accent}
-                ring={style.ring}
-                bar={style.bar}
-                active={activeId === topic.id}
-              />
-            );
-          })}
-        </div>
-      </div>
+      <MarqueeLane className="guide-marquee" trackClassName="guide-marquee-track">
+        {loop.map((item, index) => {
+          if (item.kind === "home") {
+            return <HomeCard key={`home-${index}`} active={!activeId} />;
+          }
+          const { topic } = item;
+          const style = getTopicStyle(topic.id);
+          const lessons = guidesForTopic(topic.id);
+          const minutes = totalGuideMinutes(topic.id);
+          return (
+            <TopicCard
+              key={`${topic.id}-${index}`}
+              href={`/guides/${topic.id}`}
+              topicId={topic.id}
+              name={topic.name}
+              sub={topic.tagline}
+              meta={`${lessons.length} lessons · ${minutes}m`}
+              soft={style.soft}
+              accent={style.accent}
+              ring={style.ring}
+              bar={style.bar}
+              active={activeId === topic.id}
+            />
+          );
+        })}
+      </MarqueeLane>
     </div>
   );
 }

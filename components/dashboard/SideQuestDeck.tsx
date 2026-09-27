@@ -2,6 +2,7 @@
 
 import { usePlayer } from "@/components/player/PlayerProvider";
 import { Button } from "@/components/ui/Button";
+import { MarqueeLane } from "@/components/ui/MarqueeLane";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 import { questPlayHref, questPlayLabel } from "@/lib/curriculum/quest-actions";
 import { SIDE_QUEST_COUNT } from "@/lib/curriculum/side-quests";
@@ -116,7 +117,10 @@ export function SideQuestDeck({ embedded = false }: { embedded?: boolean }) {
             </p>
           </div>
           <div className="flex items-center gap-3">
-            <span className="hidden text-[10px] text-muted sm:inline">Hover to pause</span>
+            <span className="hidden text-[10px] text-muted sm:inline">
+              <span className="md:hidden">Swipe to browse</span>
+              <span className="hidden md:inline">Hover to pause</span>
+            </span>
             <Link
               href="/quests"
               className="inline-flex items-center gap-1 rounded-full border border-line px-3 py-1.5 text-[10px] font-bold text-muted transition hover:border-teal-200 hover:text-teal-700"
@@ -142,18 +146,16 @@ export function SideQuestDeck({ embedded = false }: { embedded?: boolean }) {
         </div>
       )}
 
-      <div className="marquee-viewport -mx-1">
-        <div className="marquee-track side-quest-marquee-track">
-          {[...active, ...active].map((status, index) => (
-            <SideQuestCard
-              key={`${status.quest.id}-${index}`}
-              status={status}
-              player={player}
-              onClaim={claimQuest}
-            />
-          ))}
-        </div>
-      </div>
+      <MarqueeLane trackClassName="side-quest-marquee-track">
+        {[...active, ...active].map((status, index) => (
+          <SideQuestCard
+            key={`${status.quest.id}-${index}`}
+            status={status}
+            player={player}
+            onClaim={claimQuest}
+          />
+        ))}
+      </MarqueeLane>
 
       {active.length === 0 ? (
         <p className="rounded-2xl border border-dashed border-line bg-surface-2 px-4 py-6 text-center text-sm text-muted">

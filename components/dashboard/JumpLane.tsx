@@ -1,6 +1,7 @@
 "use client";
 
 import { TechLogoBadge } from "@/components/icons/TechLogo";
+import { MarqueeLane } from "@/components/ui/MarqueeLane";
 import { cn } from "@/lib/cn";
 import type { GuideTopicId } from "@/lib/guides/types";
 import { ArrowRight, BookOpen, Swords, Target, Trophy } from "lucide-react";
@@ -171,17 +172,18 @@ export function JumpLane({ embedded = false }: { embedded?: boolean }) {
             <p className="mb-1 text-[10px] font-bold uppercase tracking-[0.2em] text-muted">Navigate</p>
             <h2 className="text-lg font-bold tracking-tight">Jump to</h2>
           </div>
-          <span className="text-[10px] text-muted">Hover to pause</span>
+          <span className="text-[10px] text-muted">
+            <span className="md:hidden">Swipe to browse</span>
+            <span className="hidden md:inline">Hover to pause</span>
+          </span>
         </div>
       ) : null}
 
-      <div className="marquee-viewport -mx-1">
-        <div className="marquee-track">
-          {loop.map((item, index) => (
-            <JumpTile key={`${item.href}-${index}`} item={item} />
-          ))}
-        </div>
-      </div>
+      <MarqueeLane>
+        {loop.map((item, index) => (
+          <JumpTile key={`${item.href}-${index}`} item={item} />
+        ))}
+      </MarqueeLane>
     </section>
   );
 }

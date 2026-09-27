@@ -323,6 +323,35 @@ body {
   animation-play-state: paused;
 }
 
+@media (max-width: 767px) {
+  .marquee-viewport--touch {
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity;
+    mask-image: none;
+    scrollbar-width: none;
+    touch-action: pan-x;
+  }
+
+  .marquee-viewport--touch::-webkit-scrollbar {
+    display: none;
+  }
+
+  .marquee-viewport--touch .marquee-track {
+    animation: none !important;
+    transform: none !important;
+    width: max-content;
+    flex-wrap: nowrap;
+  }
+
+  .marquee-viewport--touch .marquee-track > * {
+    scroll-snap-align: start;
+    flex-shrink: 0;
+  }
+}
+
 @keyframes marquee {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
@@ -1039,5 +1068,15 @@ body {
   .orbit-card:hover, .guide-card:hover { transform: none; }
   .marquee-track,
   .guide-marquee-track,
-  .side-quest-marquee-track { animation: none; flex-wrap: wrap; width: auto; }
+  .side-quest-marquee-track {
+    animation: none !important;
+    transform: none !important;
+    flex-wrap: nowrap;
+    width: max-content;
+  }
+
+  .marquee-viewport--touch {
+    overflow-x: auto;
+    mask-image: none;
+  }
 }

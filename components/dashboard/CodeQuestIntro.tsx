@@ -16,7 +16,7 @@ import {
   Zap,
 } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const PATH_STEPS = [
   {
@@ -56,6 +56,7 @@ export function CodeQuestIntro({ playerId, username }: { playerId: string; usern
   const [firstVisit, setFirstVisit] = useState(false);
   const [ready, setReady] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
+  const pathRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const dismissed = readIntroDismissed(playerId);
@@ -71,6 +72,14 @@ export function CodeQuestIntro({ playerId, username }: { playerId: string; usern
     }, 2800);
     return () => window.clearInterval(timer);
   }, [expanded]);
+
+  useEffect(() => {
+    if (!expanded) return;
+    const lane = pathRef.current;
+    if (!lane) return;
+    const card = lane.children.item(activeStep) as HTMLElement | null;
+    card?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+  }, [activeStep, expanded]);
 
   function dismiss() {
     writeIntroDismissed(playerId);
@@ -201,16 +210,37 @@ export function CodeQuestIntro({ playerId, username }: { playerId: string; usern
                 <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-white/40">Your loop</p>
                 <h3 className="mt-1 text-lg font-bold text-white">How you play</h3>
               </div>
-              <p className="hidden text-xs text-white/40 sm:block">Follow the path · earn XP · level up</p>
+              <p className="text-xs text-white/40">
+                <span className="sm:hidden">Swipe the path</span>
+                <span className="hidden sm:inline">Follow the path · earn XP · level up</span>
+              </p>
             </div>
 
-            <div className="cq-intro-path relative grid gap-3 sm:grid-cols-3 sm:gap-4">
+            <div className="mb-3 flex justify-center gap-1.5 sm:hidden">
+              {PATH_STEPS.map((step, index) => (
+                <button
+                  key={step.step}
+                  type="button"
+                  aria-label={`Show ${step.title} step`}
+                  onClick={() => setActiveStep(index)}
+                  className={cn(
+                    "h-1.5 rounded-full transition-all",
+                    activeStep === index ? "w-5 bg-primary-300" : "w-1.5 bg-white/25",
+                  )}
+                />
+              ))}
+            </div>
+
+            <div
+              ref={pathRef}
+              className="cq-intro-path relative -mx-5 flex gap-3 overflow-x-auto px-5 pb-2 snap-x snap-mandatory [-ms-overflow-style:none] [scrollbar-width:none] sm:mx-0 sm:grid sm:grid-cols-3 sm:gap-4 sm:overflow-visible sm:px-0 sm:pb-0 [&::-webkit-scrollbar]:hidden"
+            >
               {PATH_STEPS.map((step, index) => (
                 <Link
                   key={step.step}
                   href={step.href}
                   className={cn(
-                    "cq-intro-node group relative z-[1] overflow-hidden rounded-2xl border p-4 transition duration-500 sm:p-5",
+                    "cq-intro-node group relative z-[1] min-w-[min(82vw,17rem)] shrink-0 snap-center overflow-hidden rounded-2xl border p-4 transition duration-500 sm:min-w-0 sm:shrink sm:p-5",
                     activeStep === index
                       ? "border-white/25 bg-[#161a35] shadow-xl"
                       : "border-white/8 bg-[#12152c] hover:border-white/15 hover:bg-[#161a35]",
