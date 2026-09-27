@@ -4,7 +4,7 @@ import type { ButtonHTMLAttributes } from "react";
 const variants = {
   primary: "bg-primary text-primary-foreground shadow-sm shadow-primary/20 hover:bg-primary-hover disabled:bg-primary/40",
   gold: "bg-primary text-primary-foreground shadow-sm shadow-primary/20 hover:bg-primary-hover disabled:bg-primary/40",
-  ghost: "border border-line bg-surface text-ink hover:bg-primary-50 hover:border-primary-200 disabled:opacity-50 dark:hover:bg-primary-100/20",
+  ghost: "border border-line bg-surface text-ink hover:bg-primary-50 hover:border-primary-200 disabled:opacity-50",
   arena:
     "border border-slate-600 bg-slate-800 text-slate-50 hover:border-slate-500 hover:bg-slate-700 disabled:opacity-50",
   danger: "border border-danger/20 bg-danger/5 text-danger hover:bg-danger/10 disabled:opacity-50",

@@ -50,24 +50,6 @@ html {
   background: var(--color-canvas);
 }
 
-html.dark {
-  color-scheme: dark;
-  --color-canvas: #0b1020;
-  --color-surface: #111827;
-  --color-surface-2: #1a2234;
-  --color-surface-3: #243044;
-  --color-ink: #f1f5f9;
-  --color-panel: #111827;
-  --color-panel-2: #1a2234;
-  --color-line: #2d3a52;
-  --color-mist: #f1f5f9;
-  --color-muted: #94a3b8;
-  --color-primary-50: #1e1b4b;
-  --color-primary-100: #312e81;
-  --color-primary-200: #4338ca;
-  --color-primary-foreground: #ffffff;
-}
-
 body {
   min-height: 100%;
   background: var(--color-canvas);

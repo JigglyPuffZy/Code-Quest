@@ -5,7 +5,6 @@ import { AccountActions } from "@/components/shell/AccountActions";
 import { HubNav } from "@/components/shell/HubNav";
 import { Logo } from "@/components/shell/Logo";
 import { PlayerHud } from "@/components/shell/PlayerHud";
-import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { ErrorState, LoadingState } from "@/components/ui/States";
 import { cn } from "@/lib/cn";
 import { X } from "lucide-react";
@@ -51,7 +50,6 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               <span className="shell-demo-badge hidden sm:inline-flex">Demo mode</span>
             ) : null}
 
-            <ThemeToggle />
             <AccountActions compact={isGuideLesson} />
 
             {player ? (

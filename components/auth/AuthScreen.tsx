@@ -5,7 +5,6 @@ import { AuthMobileStrip } from "@/components/auth/AuthMobileStrip";
 import { usePlayer } from "@/components/player/PlayerProvider";
 import { AvatarPicker } from "@/components/profile/AvatarPicker";
 import { Logo } from "@/components/shell/Logo";
-import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { Button } from "@/components/ui/Button";
 import { loginUsernameError } from "@/lib/auth/username";
 import { usernameError } from "@/lib/username";
@@ -97,8 +96,7 @@ export function AuthScreen({ mode }: { mode: "login" | "signup" }) {
 
         <div className="auth-form-side relative flex flex-col justify-center px-5 py-8 sm:px-10 lg:px-12 xl:px-16">
           <div className="auth-form-rise mx-auto w-full max-w-[400px]">
-            <div className="mb-3 flex items-center justify-end gap-2 lg:hidden">
-              <ThemeToggle />
+            <div className="mb-3 flex justify-end lg:hidden">
               <Link
                 href="/"
                 className="rounded-full border border-line bg-surface px-3 py-1.5 text-xs font-semibold text-muted shadow-sm transition hover:border-primary-200 hover:text-primary"
