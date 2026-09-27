@@ -10,7 +10,7 @@ export function HubNav() {
 
   return (
     <nav
-      className="fixed bottom-3 left-1/2 z-50 w-[calc(100%-1rem)] max-w-2xl -translate-x-1/2 hub-dock px-1 py-1.5 sm:bottom-5 sm:w-[calc(100%-1.5rem)] sm:px-1.5"
+      className="fixed bottom-3 left-1/2 z-50 hidden w-[calc(100%-1rem)] max-w-2xl -translate-x-1/2 hub-dock px-1 py-1.5 md:block sm:bottom-5 sm:w-[calc(100%-1.5rem)] sm:px-1.5"
       aria-label="Main navigation"
     >
       <ul className="flex items-center justify-between gap-0 overflow-x-auto sm:justify-center sm:gap-0.5">

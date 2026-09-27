@@ -3,6 +3,7 @@
 import { usePlayer } from "@/components/player/PlayerProvider";
 import { AccountActions } from "@/components/shell/AccountActions";
 import { HubNav } from "@/components/shell/HubNav";
+import { MobileMenu } from "@/components/shell/MobileMenu";
 import { Logo } from "@/components/shell/Logo";
 import { PlayerHud } from "@/components/shell/PlayerHud";
 import { ErrorState, LoadingState } from "@/components/ui/States";
@@ -33,7 +34,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div className="min-h-screen bg-canvas pb-32 text-ink sm:pb-28">
+    <div className="min-h-screen bg-canvas pb-6 text-ink md:pb-28">
       <div className="app-backdrop pointer-events-none fixed inset-0" />
 
       <header
@@ -43,7 +44,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         )}
       >
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-2 px-4 py-2.5 sm:gap-3 sm:px-8 sm:py-3">
-          <Logo href="/dashboard" glow />
+          <div className="flex items-center gap-2">
+            {player ? <MobileMenu /> : null}
+            <Logo href="/dashboard" glow />
+          </div>
 
           <div className="flex items-center gap-2 sm:gap-2.5">
             {!supabaseEnabled ? (
@@ -90,7 +94,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
       <HubNav />
 
-      <div className="fixed bottom-28 right-4 z-40 flex w-[min(100%-2rem,280px)] flex-col gap-2 sm:bottom-24">
+      <div className="fixed bottom-4 right-4 z-40 flex w-[min(100%-2rem,280px)] flex-col gap-2 md:bottom-24">
         {toasts.map((toast) => (
           <div key={toast.id} className="rounded-xl border border-line bg-surface p-3 shadow-lg">
             <div className="flex items-start justify-between gap-2">

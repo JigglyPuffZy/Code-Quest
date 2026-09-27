@@ -218,6 +218,36 @@ body {
   color: var(--color-primary);
 }
 
+@keyframes mobile-menu-in {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes mobile-menu-item-in {
+  from {
+    opacity: 0;
+    transform: translateX(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.mobile-menu-panel {
+  animation: mobile-menu-in 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.mobile-menu-item {
+  animation: mobile-menu-item-in 0.32s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
 .orbit-card {
   border-radius: 1rem;
   border: 1px solid var(--color-line);
