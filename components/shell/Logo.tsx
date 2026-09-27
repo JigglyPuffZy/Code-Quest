@@ -42,7 +42,7 @@ export function Logo({
         className="transition-transform duration-300 group-hover:scale-[1.04] group-active:scale-95"
       />
       {compact ? null : (
-        <span className="flex min-w-0 flex-col leading-none">
+        <span className="hidden min-w-0 flex-col leading-none sm:flex">
           <span className="flex items-baseline gap-0.5">
             <span className="text-[15px] font-bold tracking-tight text-ink sm:text-base">Code</span>
             <span className="bg-gradient-to-r from-primary-600 via-primary-500 to-violet-500 bg-clip-text text-[15px] font-extrabold tracking-tight text-transparent sm:text-base">

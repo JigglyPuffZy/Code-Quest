@@ -1,11 +1,13 @@
 "use client";
 
+import { Avatar } from "@/components/player/Avatar";
 import { usePlayer } from "@/components/player/PlayerProvider";
 import { AccountActions } from "@/components/shell/AccountActions";
 import { HubNav } from "@/components/shell/HubNav";
 import { MobileMenu } from "@/components/shell/MobileMenu";
 import { Logo } from "@/components/shell/Logo";
 import { PlayerHud } from "@/components/shell/PlayerHud";
+import { RingProgress } from "@/components/ui/RingProgress";
 import { ErrorState, LoadingState } from "@/components/ui/States";
 import { cn } from "@/lib/cn";
 import { X } from "lucide-react";
@@ -43,29 +45,56 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           isGuideLesson && "border-transparent",
         )}
       >
-        <div className="mx-auto flex max-w-6xl items-center justify-between gap-2 px-4 py-2.5 sm:gap-3 sm:px-8 sm:py-3">
-          <div className="flex items-center gap-2">
-            {player ? <MobileMenu /> : null}
-            <Logo href="/dashboard" glow />
-          </div>
-
-          <div className="flex items-center gap-2 sm:gap-2.5">
-            {!supabaseEnabled ? (
-              <span className="shell-demo-badge hidden sm:inline-flex">Demo mode</span>
-            ) : null}
-
-            <AccountActions compact={isGuideLesson} />
-
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-2.5 sm:px-8 sm:py-3">
+          <div className="flex min-w-0 items-center gap-1.5">
             {player ? (
-              <PlayerHud
+              <MobileMenu
                 player={player}
                 level={level}
                 xpPct={xpPct}
-                compact={isGuideLesson}
                 onLogout={() => void logout()}
                 logoutPending={logoutPending}
               />
             ) : null}
+            <Logo href="/dashboard" glow />
+          </div>
+
+          <div className="flex shrink-0 items-center gap-2">
+            {!supabaseEnabled ? (
+              <span className="shell-demo-badge hidden sm:inline-flex">Demo mode</span>
+            ) : null}
+
+            <div className="hidden md:block">
+              <AccountActions compact={isGuideLesson} />
+            </div>
+
+            {player ? (
+              <>
+                <div className="md:hidden">
+                  <Link
+                    href="/profile"
+                    className="grid h-10 w-10 place-items-center rounded-xl transition hover:bg-primary-50"
+                    aria-label={`${player.username}, level ${level.level}`}
+                  >
+                    <RingProgress value={xpPct} size={40} stroke={3}>
+                      <Avatar id={player.avatar} size="sm" className="h-8 w-8 rounded-lg border-0 text-[10px]" />
+                    </RingProgress>
+                  </Link>
+                </div>
+                <div className="hidden md:block">
+                  <PlayerHud
+                    player={player}
+                    level={level}
+                    xpPct={xpPct}
+                    compact={isGuideLesson}
+                    onLogout={() => void logout()}
+                    logoutPending={logoutPending}
+                  />
+                </div>
+              </>
+            ) : (
+              <AccountActions compact={isGuideLesson} />
+            )}
           </div>
         </div>
       </header>
