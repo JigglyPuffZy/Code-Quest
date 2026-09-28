@@ -7,10 +7,10 @@ import { cn } from "@/lib/cn";
 import {
   ArrowRight,
   BookOpen,
-  Code2,
-  Flame,
+  FlaskConical,
+  Radio,
   Swords,
-  Trophy,
+  Users,
   Zap,
 } from "lucide-react";
 import Link from "next/link";
@@ -18,7 +18,7 @@ import Link from "next/link";
 const STATS = [
   { label: "Guide courses", value: "23" },
   { label: "Code paths", value: "4" },
-  { label: "Arena battles", value: "16+" },
+  { label: "Duel formats", value: "1v1" },
 ];
 
 const FEATURES = [
@@ -29,21 +29,21 @@ const FEATURES = [
     accent: "from-primary-500/20 to-transparent",
   },
   {
-    icon: Code2,
-    title: "Practice paths",
-    text: "Python, JavaScript, TypeScript & Java with real sandbox checks.",
+    icon: FlaskConical,
+    title: "Run before submit",
+    text: "See sample test cases beside each problem. Run them first, then submit for a full grade.",
     accent: "from-sky-500/15 to-transparent",
   },
   {
     icon: Swords,
-    title: "Arena challenges",
-    text: "Standalone coding battles. Unlock harder fights as you level up.",
+    title: "Live duels",
+    text: "Challenge online rivals from the leaderboard. Set series length, timer, and difficulty — first correct answer wins the round.",
     accent: "from-rose-500/15 to-transparent",
   },
   {
-    icon: Trophy,
-    title: "Quests & XP",
-    text: "Earn XP, keep streaks alive, and claim quest rewards.",
+    icon: Users,
+    title: "Leaderboard & quests",
+    text: "See who's online, climb the ranks, earn XP, and keep streaks alive across quests and arena runs.",
     accent: "from-amber-500/15 to-transparent",
   },
 ];
@@ -64,9 +64,10 @@ const MARQUEE_TECH = [
 const TERMINAL_LINES = [
   ">>> Welcome to Dev Ladder",
   '>>> hero.login("you")',
-  ">>> Loading paths... OK",
-  ">>> XP system: ONLINE",
-  ">>> Ready. Type learn() to begin.",
+  ">>> Visible tests: loaded",
+  ">>> Leaderboard: rivals online",
+  '>>> duel.invite("coder42") ... sent',
+  ">>> Ready. Run code, then duel.",
 ];
 
 export function LandingPage() {
@@ -114,15 +115,15 @@ export function LandingPage() {
         <main className="mt-14 lg:mt-20">
           <div className="grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
             <div>
-              <p className="landing-rise landing-rise-1 tag">Gamified coding academy</p>
+              <p className="landing-rise landing-rise-1 tag">Guides, practice & live duels</p>
               <h1 className="landing-rise landing-rise-2 mega-title mt-5 max-w-2xl">
                 Learn code.
                 <br />
-                <span className="landing-gradient-text">Level up for real.</span>
+                <span className="landing-gradient-text">Duel rivals. Climb up.</span>
               </h1>
               <p className="landing-rise landing-rise-3 mt-6 max-w-lg text-base leading-relaxed text-muted">
-                Guides, practice paths, arena challenges, and quests — everything connected so you
-                actually finish what you start.
+                Read guides, run visible test cases before you submit, and challenge online coders
+                on the leaderboard — best-of series, round timers, and server-graded wins.
               </p>
 
               <div className="landing-rise landing-rise-4 mt-8 flex flex-wrap gap-3">
@@ -198,12 +199,12 @@ export function LandingPage() {
               </div>
 
               <div className="landing-float-badge landing-float-a absolute -left-4 top-8 flex items-center gap-2 rounded-full border border-line bg-white px-3 py-2 text-xs font-bold shadow-lg sm:-left-8">
-                <Flame size={14} className="text-amber-500" />
-                Streak bonus
+                <Radio size={14} className="text-emerald-500" />
+                Rivals online
               </div>
               <div className="landing-float-badge landing-float-b absolute -right-2 bottom-16 flex items-center gap-2 rounded-full border border-line bg-white px-3 py-2 text-xs font-bold shadow-lg sm:-right-6">
-                <Trophy size={14} className="text-primary" />
-                Quest ready
+                <Swords size={14} className="text-primary" />
+                Duel invite
               </div>
             </div>
           </div>
@@ -261,7 +262,7 @@ export function LandingPage() {
           <section className="landing-cta mt-20 overflow-hidden rounded-3xl border border-primary-200/60 bg-gradient-to-br from-primary-50 via-white to-white p-8 text-center sm:p-12">
             <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">Ready to enter the academy?</h2>
             <p className="mx-auto mt-3 max-w-md text-sm text-muted">
-              Create your hero, pick a path, and start earning XP in minutes.
+              Create your hero, practice with visible tests, then challenge someone on the leaderboard.
             </p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
               <Link
