@@ -1024,12 +1024,187 @@ body {
   animation: rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-.landing-feature {
-  animation: rise 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
 .landing-cta {
   animation: rise 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Scroll-reveal sections */
+.landing-reveal .landing-section-tag,
+.landing-reveal .landing-topics-label {
+  opacity: 0;
+  transform: translateY(12px);
+}
+
+.landing-reveal .landing-section-title {
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+.landing-reveal .landing-feature-card {
+  opacity: 0;
+  transform: translateY(28px) scale(0.97);
+}
+
+.landing-reveal.landing-topics-band {
+  opacity: 0;
+  transform: translateY(24px);
+}
+
+.landing-reveal.is-visible .landing-section-tag {
+  animation: landing-fade-up 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.05s both;
+}
+
+.landing-reveal.is-visible .landing-section-title {
+  animation: landing-fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.12s both;
+}
+
+.landing-reveal.is-visible .landing-section-title::after {
+  animation: landing-line-grow 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.35s both;
+}
+
+.landing-reveal.is-visible .landing-feature-card {
+  animation: landing-feature-in 0.75s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(0.2s + var(--feature-delay, 0s));
+}
+
+.landing-reveal.is-visible .landing-topics-label {
+  animation: landing-fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
+}
+
+.landing-reveal.is-visible.landing-topics-band {
+  animation: landing-fade-up 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes landing-fade-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes landing-feature-in {
+  from { opacity: 0; transform: translateY(28px) scale(0.97); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes landing-line-grow {
+  from { transform: scaleX(0); opacity: 0.4; }
+  to { transform: scaleX(1); opacity: 1; }
+}
+
+.landing-section-title {
+  position: relative;
+  display: inline-block;
+}
+
+.landing-section-title::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -0.55rem;
+  width: 3.5rem;
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--color-primary-400), #818cf8, var(--color-primary-600));
+  transform: translateX(-50%) scaleX(0);
+  transform-origin: center;
+}
+
+.landing-feature-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1rem;
+  border: 1px solid var(--color-line);
+  background: #ffffff;
+  padding: 1.5rem;
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.35s ease,
+    border-color 0.35s ease;
+}
+
+.landing-feature-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    135deg,
+    color-mix(in oklab, var(--color-primary) 0%, transparent),
+    color-mix(in oklab, var(--color-primary) 35%, transparent),
+    color-mix(in oklab, #818cf8 0%, transparent)
+  );
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.landing-feature-card:hover {
+  transform: translateY(-6px);
+  border-color: color-mix(in oklab, var(--color-primary) 28%, var(--color-line));
+  box-shadow:
+    0 20px 40px color-mix(in oklab, var(--color-primary) 10%, transparent),
+    0 8px 16px rgba(15, 23, 42, 0.04);
+}
+
+.landing-feature-card:hover::before {
+  opacity: 1;
+}
+
+.landing-feature-shine {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 38%,
+    rgba(255, 255, 255, 0.55) 50%,
+    transparent 62%
+  );
+  transform: translateX(-120%);
+  transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+
+.landing-feature-card:hover .landing-feature-shine {
+  transform: translateX(120%);
+}
+
+.landing-feature-icon {
+  transition: transform 0.4s cubic-bezier(0.34, 1.45, 0.64, 1);
+}
+
+.landing-feature-card:hover .landing-feature-icon {
+  transform: scale(1.1) rotate(-4deg);
+}
+
+.landing-marquee-viewport {
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 3rem,
+    #000 calc(100% - 3rem),
+    transparent
+  );
+}
+
+.landing-marquee-track {
+  animation-duration: 42s;
+}
+
+.landing-marquee-chip {
+  transition:
+    transform 0.28s cubic-bezier(0.34, 1.3, 0.64, 1),
+    box-shadow 0.28s ease,
+    border-color 0.28s ease;
+}
+
+.landing-marquee-chip:hover {
+  transform: translateY(-4px) scale(1.04);
+  border-color: color-mix(in oklab, var(--color-primary) 35%, var(--color-line));
+  box-shadow: 0 10px 24px color-mix(in oklab, var(--color-primary) 12%, transparent);
 }
 
 .auth-hero {
@@ -1081,7 +1256,13 @@ body {
   .auth-stat-icon, .auth-tech-pop, .auth-footer-stat,
   .auth-sub-fade, .auth-xp-panel, .auth-dot,
   .landing-terminal-line, .auth-code-line, .auth-code-line-done,
-  .landing-stat, .landing-feature, .landing-cta,
+  .landing-stat, .landing-feature-card, .landing-cta,
+  .landing-reveal .landing-section-tag,
+  .landing-reveal .landing-section-title,
+  .landing-reveal .landing-feature-card,
+  .landing-reveal .landing-topics-label,
+  .landing-reveal.is-visible.landing-topics-band,
+  .landing-reveal.landing-topics-band,
   .auth-tech-chip, .auth-panel,
   .landing-orb, .auth-hero-glow,
   .landing-gradient-text,
@@ -1089,7 +1270,16 @@ body {
   .dl-intro-welcome, .dl-intro-badge, .dl-intro-body, .dl-intro-node,
   .dl-intro-float-a, .dl-intro-float-b, .dl-intro-scan,
   .dl-intro-orb, .dl-intro-gradient-text { animation: none; transition: none; }
-  .orbit-card:hover, .guide-card:hover { transform: none; }
+  .orbit-card:hover, .guide-card:hover,
+  .landing-feature-card:hover, .landing-marquee-chip:hover { transform: none; }
+  .landing-reveal .landing-section-tag,
+  .landing-reveal .landing-section-title,
+  .landing-reveal .landing-feature-card,
+  .landing-reveal .landing-topics-label,
+  .landing-reveal.landing-topics-band {
+    opacity: 1;
+    transform: none;
+  }
   .marquee-track,
   .guide-marquee-track,
   .side-quest-marquee-track {

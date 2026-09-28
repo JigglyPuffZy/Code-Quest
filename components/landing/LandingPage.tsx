@@ -4,6 +4,7 @@ import { TechLogo } from "@/components/icons/TechLogo";
 import { Logo } from "@/components/shell/Logo";
 import { usePlayer } from "@/components/player/PlayerProvider";
 import { cn } from "@/lib/cn";
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import {
   ArrowRight,
   BookOpen,
@@ -76,6 +77,52 @@ const TERMINAL_LINES = [
   '>>> duel.invite("coder42") ... sent',
   ">>> Ready. Run code, then duel.",
 ];
+
+function useReveal(rootMargin = "0px 0px -10% 0px") {
+  const ref = useRef<HTMLElement>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const node = ref.current;
+    if (!node) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.15, rootMargin },
+    );
+
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [rootMargin]);
+
+  return { ref, visible };
+}
+
+function Reveal({
+  children,
+  className,
+  as: Tag = "div",
+}: {
+  children: ReactNode;
+  className?: string;
+  as?: "div" | "section";
+}) {
+  const { ref, visible } = useReveal();
+
+  return (
+    <Tag
+      ref={ref}
+      className={cn("landing-reveal", visible && "is-visible", className)}
+    >
+      {children}
+    </Tag>
+  );
+}
 
 export function LandingPage() {
   const { ready, email, supabaseEnabled } = usePlayer();
@@ -238,47 +285,50 @@ export function LandingPage() {
             </div>
           </div>
 
-          <section className="mt-24 sm:mt-32">
-            <div className="landing-rise text-center">
-              <p className="tag mx-auto">Why Dev Ladder</p>
-              <h2 className="mt-3 text-2xl font-bold tracking-tight sm:text-3xl">Built to keep you going</h2>
+          <Reveal as="section" className="mt-24 sm:mt-32">
+            <div className="landing-section-head text-center">
+              <p className="tag mx-auto landing-section-tag">Why Dev Ladder</p>
+              <h2 className="landing-section-title mt-3 text-2xl font-bold tracking-tight sm:text-3xl">
+                Built to keep you going
+              </h2>
             </div>
             <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {FEATURES.map((feature, index) => (
                 <article
                   key={feature.title}
-                  className={cn(
-                    "landing-feature group relative overflow-hidden rounded-2xl border border-line bg-white p-6 transition duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-900/5",
-                  )}
-                  style={{ animationDelay: `${index * 0.1}s` }}
+                  className="landing-feature-card group"
+                  style={{ "--feature-delay": `${index * 0.1}s` } as CSSProperties}
                 >
+                  <div className="landing-feature-shine" aria-hidden />
                   <div
                     className={cn(
-                      "pointer-events-none absolute inset-0 bg-gradient-to-br opacity-0 transition group-hover:opacity-100",
+                      "pointer-events-none absolute inset-0 bg-gradient-to-br opacity-0 transition duration-500 group-hover:opacity-100",
                       feature.accent,
                     )}
                     aria-hidden
                   />
-                  <span className="relative grid h-11 w-11 place-items-center rounded-xl bg-primary-50 text-primary">
+                  <span className="landing-feature-icon relative grid h-11 w-11 place-items-center rounded-xl bg-primary-50 text-primary">
                     <feature.icon size={20} />
                   </span>
-                  <h3 className="relative mt-4 font-bold">{feature.title}</h3>
+                  <h3 className="relative mt-4 font-bold transition-colors duration-300 group-hover:text-primary">
+                    {feature.title}
+                  </h3>
                   <p className="relative mt-2 text-sm leading-relaxed text-muted">{feature.text}</p>
                 </article>
               ))}
             </div>
-          </section>
+          </Reveal>
 
-          <section className="mt-20 overflow-hidden rounded-2xl border border-line bg-surface-2 py-8">
-            <p className="mb-6 text-center text-[10px] font-bold uppercase tracking-[0.25em] text-muted">
+          <Reveal as="section" className="landing-topics-band mt-20 overflow-hidden rounded-2xl border border-line bg-surface-2 py-8">
+            <p className="landing-topics-label mb-6 text-center text-[10px] font-bold uppercase tracking-[0.25em] text-muted">
               Topics you can learn
             </p>
-            <div className="marquee-viewport px-2">
-              <div className="marquee-track">
+            <div className="marquee-viewport landing-marquee-viewport px-2">
+              <div className="marquee-track landing-marquee-track">
                 {[...MARQUEE_TECH, ...MARQUEE_TECH].map((id, index) => (
                   <span
                     key={`${id}-${index}`}
-                    className="inline-flex items-center gap-2 rounded-xl border border-line bg-white px-4 py-2.5 shadow-sm"
+                    className="landing-marquee-chip inline-flex items-center gap-2 rounded-xl border border-line bg-white px-4 py-2.5 shadow-sm"
                   >
                     <TechLogo topicId={id} size={18} />
                     <span className="text-sm font-semibold capitalize">{id === "htmlcss" ? "HTML & CSS" : id}</span>
@@ -286,7 +336,7 @@ export function LandingPage() {
                 ))}
               </div>
             </div>
-          </section>
+          </Reveal>
 
           <section className="landing-cta mt-20 overflow-hidden rounded-3xl border border-primary-200/60 bg-gradient-to-br from-primary-50 via-white to-white p-8 text-center sm:p-12">
             <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">Ready to enter the academy?</h2>
