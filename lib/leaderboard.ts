@@ -4,6 +4,7 @@ export type BoardEntry = {
   avatar: string;
   xp: number;
   streak: number;
+  lastSeenAt?: string | null;
 };
 
 export const demoRivals: BoardEntry[] = [

@@ -8,6 +8,7 @@ const PROTECTED = [
   "/challenges",
   "/game",
   "/leaderboard",
+  "/duel",
   "/achievements",
   "/profile",
 ];

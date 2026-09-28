@@ -21,12 +21,19 @@ export async function fetchLeaderboard(limit = 25, force = false) {
   inflight = (async () => {
     const { data, error } = await createClient()
       .from("profiles")
-      .select("id, username, avatar, xp, streak")
+      .select("id, username, avatar, xp, streak, last_seen_at")
       .order("xp", { ascending: false })
       .limit(limit);
 
     if (error) throw error;
-    const rows = (data ?? []) as BoardEntry[];
+    const rows = (data ?? []).map((row) => ({
+      id: row.id,
+      username: row.username,
+      avatar: row.avatar,
+      xp: row.xp,
+      streak: row.streak,
+      lastSeenAt: (row as { last_seen_at?: string | null }).last_seen_at ?? null,
+    })) as BoardEntry[];
     cache = { at: Date.now(), rows };
     return rows;
   })();

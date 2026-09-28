@@ -1,6 +1,7 @@
 "use client";
 
 import { avatarById } from "@/lib/avatars";
+import { heartbeatPresence } from "@/lib/duels/client";
 import { storageKey } from "@/lib/storage-keys";
 import { getChallenge, getLesson } from "@/lib/curriculum/index";
 import { parseGameLevelId, xpForGameLevel } from "@/lib/game";
@@ -323,6 +324,22 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
       cancelled = true;
     };
   }, [applyPlayer, loadAccount]);
+
+  useEffect(() => {
+    if (!supabaseEnabled || !email) return;
+    void heartbeatPresence();
+    const timer = window.setInterval(() => {
+      void heartbeatPresence();
+    }, 45_000);
+    const onVisible = () => {
+      if (document.visibilityState === "visible") void heartbeatPresence();
+    };
+    document.addEventListener("visibilitychange", onVisible);
+    return () => {
+      window.clearInterval(timer);
+      document.removeEventListener("visibilitychange", onVisible);
+    };
+  }, [supabaseEnabled, email]);
 
   const signIn = useCallback(
     async (username: string, password: string) => {
