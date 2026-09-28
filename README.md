@@ -1,6 +1,8 @@
-# Dev-Ladder
+# Dev Ladder
 
 A bright, game-like academy for learning Python and JavaScript. Lessons, quests, and coding challenges award XP. Progress is stored in the browser until Supabase is connected.
+
+**Live site:** set `NEXT_PUBLIC_SITE_URL` to your deploy URL (e.g. `https://dev-ladder.vercel.app`).
 
 ## Design
 

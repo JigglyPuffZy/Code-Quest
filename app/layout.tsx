@@ -1,4 +1,6 @@
 import { PlayerProvider } from "@/components/player/PlayerProvider";
+import { APP_NAME } from "@/lib/branding";
+import { siteMetadata, siteUrl } from "@/lib/site";
 import type { Metadata } from "next";
 import { JetBrains_Mono, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
@@ -13,13 +15,29 @@ const code = JetBrains_Mono({
   variable: "--font-code",
 });
 
+const baseUrl = siteUrl();
+
 export const metadata: Metadata = {
+  metadataBase: new URL(baseUrl),
+  applicationName: APP_NAME,
   title: {
-    default: "Dev Ladder",
-    template: "%s · Dev Ladder",
+    default: APP_NAME,
+    template: `%s · ${APP_NAME}`,
   },
-  description:
-    "Read coding guides, complete quests, and practice in Arena and Game mode — a calm, focused coding academy.",
+  description: siteMetadata.description,
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: baseUrl,
+    siteName: APP_NAME,
+    title: APP_NAME,
+    description: siteMetadata.description,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: APP_NAME,
+    description: siteMetadata.description,
+  },
   icons: {
     icon: "/icon.svg",
     apple: "/icon.svg",
