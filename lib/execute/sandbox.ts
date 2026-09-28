@@ -5,9 +5,22 @@ const WANDBOX_URL = "https://wandbox.org/api/compile.json";
 const COMPILERS: Record<LanguageId, string> = {
   python: "cpython-3.12.7",
   javascript: "nodejs-20.17.0",
-  typescript: "typescript-5.5.2",
-  java: "openjdk-17.0.2",
+  typescript: "typescript-5.6.2",
+  java: "openjdk-jdk-22+36",
 };
+
+/** Wandbox saves single-file Java as prog.java — drop public so class Main still runs. */
+function prepareJavaCode(code: string) {
+  return code.replace(/\bpublic\s+(?=class\s+\w)/g, "");
+}
+
+function buildRequest(language: LanguageId, code: string, stdin: string) {
+  return {
+    compiler: COMPILERS[language],
+    code: language === "java" ? prepareJavaCode(code) : code,
+    stdin,
+  };
+}
 
 type WandboxResponse = {
   status?: string;
@@ -32,15 +45,17 @@ export async function runInSandbox(
     method: "POST",
     headers: { "Content-Type": "application/json" },
     signal: AbortSignal.timeout(20_000),
-    body: JSON.stringify({
-      compiler: COMPILERS[language],
-      code,
-      stdin,
-    }),
+    body: JSON.stringify(buildRequest(language, code, stdin)),
   });
 
   if (!response.ok) {
-    throw new Error(`The code sandbox returned ${response.status}.`);
+    const detail = (await response.text().catch(() => "")).trim();
+    if (detail.includes("Unknown compiler")) {
+      throw new Error("This language runtime is temporarily unavailable. Try again shortly.");
+    }
+    throw new Error(
+      detail ? `The code sandbox failed: ${detail}` : `The code sandbox returned ${response.status}.`,
+    );
   }
 
   const data = (await response.json()) as WandboxResponse;
