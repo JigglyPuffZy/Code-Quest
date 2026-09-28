@@ -2,6 +2,7 @@ import { findExercise } from "@/lib/curriculum/index";
 import { isSkillDifficulty, normalizeSkillDifficulty } from "@/lib/difficulty";
 import type { GameStackPrefs } from "@/lib/game/banks";
 import { gradeExercise } from "@/lib/execute/grade";
+import type { GradeStreamEvent } from "@/lib/execute/grade-progress";
 import { runInSandbox } from "@/lib/execute/sandbox";
 import type { LanguageId } from "@/lib/types";
 import { NextResponse } from "next/server";
@@ -66,6 +67,7 @@ export async function POST(request: Request) {
     id?: string;
     difficulty?: string;
     stack?: GameStackPrefs;
+    stream?: boolean;
   };
 
   if (typeof payload.code !== "string" || payload.code.length > MAX_CODE) {
@@ -74,13 +76,14 @@ export async function POST(request: Request) {
       { status: 400 },
     );
   }
+  const sourceCode = payload.code;
 
   try {
     if (payload.mode === "run") {
       if (!isLanguage(payload.language)) {
         return NextResponse.json({ error: "Choose a supported language." }, { status: 400 });
       }
-      const run = await runInSandbox(payload.language, payload.code);
+      const run = await runInSandbox(payload.language, sourceCode);
       return NextResponse.json({ engine: "wandbox", ...run });
     }
 
@@ -91,18 +94,49 @@ export async function POST(request: Request) {
       const difficulty = payload.difficulty && isSkillDifficulty(payload.difficulty)
         ? payload.difficulty
         : normalizeSkillDifficulty(payload.difficulty);
-      const stack = payload.kind === "game" ? payload.stack : undefined;
-      if (
-        !payload.id ||
-        !findExercise(
-          payload.kind,
-          payload.id,
-          payload.kind === "game" ? { stack } : undefined,
-        )
-      ) {
+      const kind = payload.kind;
+      const exerciseId = payload.id;
+      const stack = kind === "game" ? payload.stack : undefined;
+      if (!exerciseId || !findExercise(kind, exerciseId, kind === "game" ? { stack } : undefined)) {
         return NextResponse.json({ error: "Unknown exercise." }, { status: 404 });
       }
-      const result = await gradeExercise(payload.kind, payload.id, payload.code, difficulty, stack);
+      const gradedId: string = exerciseId;
+
+      if (payload.stream) {
+        const encoder = new TextEncoder();
+        const stream = new ReadableStream({
+          async start(controller) {
+            const send = (event: GradeStreamEvent) => {
+              controller.enqueue(encoder.encode(`${JSON.stringify(event)}\n`));
+            };
+            try {
+              const result = await gradeExercise(
+                kind,
+                gradedId,
+                sourceCode,
+                difficulty,
+                stack,
+                (progress) => send({ type: "progress", ...progress }),
+              );
+              send({ type: "result", data: result });
+            } catch (error) {
+              const message =
+                error instanceof Error ? error.message : "The sandbox could not run your code.";
+              send({ type: "error", message: `${message} Nothing was marked correct.` });
+            } finally {
+              controller.close();
+            }
+          },
+        });
+        return new Response(stream, {
+          headers: {
+            "Content-Type": "application/x-ndjson",
+            "Cache-Control": "no-store",
+          },
+        });
+      }
+
+      const result = await gradeExercise(kind, gradedId, sourceCode, difficulty, stack);
       return NextResponse.json(result);
     }
 

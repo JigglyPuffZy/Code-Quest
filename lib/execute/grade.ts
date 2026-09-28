@@ -1,6 +1,7 @@
 import { findExercise } from "@/lib/curriculum/index";
 import type { SkillDifficulty } from "@/lib/difficulty";
 import type { GameStackPrefs } from "@/lib/game/banks";
+import type { GradeProgress } from "@/lib/execute/grade-progress";
 import { applySeniorDifficulty } from "@/lib/execute/senior-overlay";
 import { runInSandbox } from "@/lib/execute/sandbox";
 import type {
@@ -271,7 +272,19 @@ export async function gradeExercise(
   code: string,
   difficulty?: SkillDifficulty,
   stack?: GameStackPrefs,
+  onProgress?: (progress: GradeProgress) => void,
 ) {
+  const report = (
+    percent: number,
+    label: string,
+    phase: GradeProgress["phase"],
+    extra?: Pick<GradeProgress, "completedTests" | "totalTests">,
+  ) => {
+    onProgress?.({ percent, label, phase, ...extra });
+  };
+
+  report(5, "Preparing your submission…", "prepare");
+
   const record = findExercise(kind, id, kind === "game" ? { stack } : undefined);
   if (!record) {
     throw new Error("That exercise does not exist.");
@@ -282,14 +295,32 @@ export async function gradeExercise(
   const tests = exercise.tests;
   const performance = exercise.performance;
   const stdin = tests.type === "stdout" ? tests.stdin ?? "" : "";
+  const visibleCount = tests.type === "stdout" ? 1 : tests.cases.length;
+  const perfCount = performance?.cases.length ?? 0;
+
+  report(
+    12,
+    visibleCount === 1 ? "Running output check in sandbox…" : `Running ${visibleCount} visible tests…`,
+    "visible",
+    { completedTests: 0, totalTests: visibleCount },
+  );
+
   const program = buildHarness(record.language, code, tests, performance, "visible");
   const run = await runInSandbox(record.language, program, stdin);
+
+  report(
+    performance && perfCount > 0 ? 52 : 88,
+    visibleCount === 1 ? "Output check complete" : `${visibleCount} visible tests complete`,
+    "visible",
+    { completedTests: visibleCount, totalTests: visibleCount },
+  );
 
   if (tests.type === "stdout") {
     const actual = normalizeOutput(run.stdout);
     const expected = normalizeOutput(tests.expected);
     const crashed = run.exitCode !== null && run.exitCode !== 0;
     const passed = actual === expected && !crashed;
+    report(100, "Grading complete", "finalize", { completedTests: 1, totalTests: 1 });
     return {
       engine: "wandbox" as const,
       passed,
@@ -311,6 +342,10 @@ export async function gradeExercise(
   }));
 
   if (!performance || !graded.every((item) => item.passed)) {
+    report(100, "Grading complete", "finalize", {
+      completedTests: visibleCount,
+      totalTests: visibleCount,
+    });
     return {
       engine: "wandbox" as const,
       passed: graded.every((item) => item.passed),
@@ -319,10 +354,28 @@ export async function gradeExercise(
     };
   }
 
+  report(
+    58,
+    perfCount === 1 ? "Running performance check…" : `Running ${perfCount} performance tests…`,
+    "performance",
+    { completedTests: 0, totalTests: perfCount },
+  );
+
   const perfProgram = buildHarness(record.language, code, tests, performance, "performance");
   const perfRun = await runInSandbox(record.language, perfProgram, stdin);
+
+  report(92, "Performance tests complete", "performance", {
+    completedTests: perfCount,
+    totalTests: perfCount,
+  });
+
   const perfGraded = gradePerformance(performance, tests.functionName, perfRun.stdout, perfRun.stderr);
   const allTests = [...graded, ...perfGraded];
+
+  report(100, "Grading complete", "finalize", {
+    completedTests: visibleCount + perfCount,
+    totalTests: visibleCount + perfCount,
+  });
 
   return {
     engine: "wandbox" as const,

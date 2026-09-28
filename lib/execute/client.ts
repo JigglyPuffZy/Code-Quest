@@ -1,4 +1,6 @@
 import type { SkillDifficulty } from "@/lib/difficulty";
+import type { GradeProgress } from "@/lib/execute/grade-progress";
+import { readGradeStream } from "@/lib/execute/read-stream";
 import type { GameStackPrefs } from "@/lib/game/banks";
 import type { GradeResponse, LanguageId, RunResponse } from "@/lib/types";
 
@@ -27,6 +29,19 @@ export async function gradeCode(
   difficulty?: SkillDifficulty,
   stack?: GameStackPrefs,
   signal?: AbortSignal,
+  onProgress?: (progress: GradeProgress) => void,
 ) {
-  return (await post({ mode: "grade", kind, id, code, difficulty, stack }, signal)) as GradeResponse;
+  const response = await fetch("/api/execute", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ mode: "grade", kind, id, code, difficulty, stack, stream: true }),
+    signal,
+  });
+
+  if (!response.ok) {
+    const data = (await response.json().catch(() => ({}))) as { error?: string };
+    throw new Error(data.error || "The sandbox could not run your code. Nothing was marked correct.");
+  }
+
+  return readGradeStream(response, onProgress);
 }

@@ -1,8 +1,10 @@
 "use client";
 
 import { Button } from "@/components/ui/Button";
+import { ProgressBar } from "@/components/ui/ProgressBar";
 import { CodeEditor } from "@/components/workspace/CodeEditor";
 import { cn } from "@/lib/cn";
+import type { GradeProgress } from "@/lib/execute/grade-progress";
 import { gradeCode, runCode } from "@/lib/execute/client";
 import type { GradeResponse, LanguageId, RunResponse } from "@/lib/types";
 import { Check, Play, Terminal, X } from "lucide-react";
@@ -46,6 +48,7 @@ export function CodeWorkspace({
   const [grade, setGrade] = useState<GradeResponse | null>(null);
   const [error, setError] = useState("");
   const [rewardNote, setRewardNote] = useState("");
+  const [gradeProgress, setGradeProgress] = useState<GradeProgress | null>(null);
   const abortRef = useRef<AbortController | null>(null);
   const isGame = theme === "game";
 
@@ -70,12 +73,22 @@ export function CodeWorkspace({
     setRunning(mode);
     setError("");
     setRewardNote("");
+    setGradeProgress(null);
     try {
       if (mode === "run") {
         setOutput(await runCode(language, code, controller.signal));
         setGrade(null);
       } else {
-        const result = await gradeCode(kind, exerciseId, code, skillDifficulty, gameStack, controller.signal);
+        setGradeProgress({ percent: 5, label: "Preparing your submission…", phase: "prepare" });
+        const result = await gradeCode(
+          kind,
+          exerciseId,
+          code,
+          skillDifficulty,
+          gameStack,
+          controller.signal,
+          (progress) => setGradeProgress(progress),
+        );
         setGrade(result);
         setOutput(null);
         if (result.passed) {
@@ -95,6 +108,7 @@ export function CodeWorkspace({
       if (abortRef.current === controller) {
         abortRef.current = null;
         setRunning(null);
+        setGradeProgress(null);
       }
     }
   }
@@ -181,20 +195,35 @@ export function CodeWorkspace({
           Output
         </div>
         <div className="space-y-2 px-3 py-3 font-mono text-xs leading-5 sm:px-4">
-          {running === "grade" && expectedTests ? (
-            <ul className="space-y-1.5">
-              {Array.from({ length: expectedTests }, (_, index) => (
-                <li
-                  key={index}
-                  className={cn(
-                    "animate-pulse rounded-lg border px-3 py-2.5",
-                    isGame ? "border-slate-800 bg-slate-950" : "border-line bg-surface",
-                  )}
-                >
-                  <p className={isGame ? "text-slate-400" : "text-muted"}>Checking test {index + 1}…</p>
-                </li>
-              ))}
-            </ul>
+          {running === "grade" && gradeProgress ? (
+            <div
+              className={cn(
+                "rounded-lg border px-3 py-3",
+                isGame ? "border-slate-800 bg-slate-950" : "border-line bg-surface",
+              )}
+            >
+              <div className="mb-2 flex items-center justify-between gap-3 text-[11px]">
+                <span className={cn("font-medium", isGame ? "text-slate-200" : "text-ink")}>
+                  {gradeProgress.label}
+                </span>
+                <span className={cn("tabular-nums font-bold", isGame ? "text-cyan-300" : "text-primary")}>
+                  {gradeProgress.percent}%
+                </span>
+              </div>
+              <ProgressBar
+                value={gradeProgress.percent}
+                label={gradeProgress.label}
+                fast
+                className={isGame ? "bg-slate-800" : undefined}
+                barClassName={isGame ? "bg-gradient-to-r from-cyan-400 to-primary" : undefined}
+              />
+              {gradeProgress.totalTests ? (
+                <p className={cn("mt-2 text-[10px]", isGame ? "text-slate-500" : "text-muted")}>
+                  {gradeProgress.completedTests ?? 0} / {gradeProgress.totalTests} checks
+                  {gradeProgress.phase === "performance" ? " · performance phase" : null}
+                </p>
+              ) : null}
+            </div>
           ) : null}
           {running === "run" ? <p className={isGame ? "text-cyan-300" : "text-primary"}>Running…</p> : null}
           {error ? <p className="text-danger">{error}</p> : null}
