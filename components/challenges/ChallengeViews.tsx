@@ -8,7 +8,7 @@ import { ErrorState, EmptyState } from "@/components/ui/States";
 import { cn } from "@/lib/cn";
 import { challenges, getChallenge, languageInfo } from "@/lib/curriculum/index";
 import type { SkillDifficulty } from "@/lib/difficulty";
-import { difficultyLabel } from "@/lib/difficulty";
+import { difficultyLabel, guidesAllowedForDifficulty } from "@/lib/difficulty";
 import {
   challengeLockMessage,
   isChallengeComplete,
@@ -310,15 +310,16 @@ export function ChallengePlayer({ challengeId }: { challengeId: string }) {
   const cleared = isChallengeComplete(challenge.id, player);
   const hintDifficulty = sessionDifficulty ?? player.skillDifficulty;
 
-  const guideFooter = challenge.guideTopicId ? (
-    <Link
-      href={`/guides/${challenge.guideTopicId}`}
-      className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline"
-    >
-      <BookOpen size={14} />
-      Read {languageInfo(challenge.language).name} guide
-    </Link>
-  ) : undefined;
+  const guideFooter =
+    challenge.guideTopicId && guidesAllowedForDifficulty(hintDifficulty) ? (
+      <Link
+        href={`/guides/${challenge.guideTopicId}`}
+        className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline"
+      >
+        <BookOpen size={14} />
+        Read {languageInfo(challenge.language).name} guide
+      </Link>
+    ) : undefined;
 
   if (!started) {
     return (

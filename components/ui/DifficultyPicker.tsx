@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/cn";
 import {
-  hintsAllowedForDifficulty,
+  helpLimitLabel,
   SKILL_DIFFICULTIES,
   SKILL_DIFFICULTY_ORDER,
   type SkillDifficulty,
@@ -55,9 +55,9 @@ function DifficultyEmoji({
   );
 }
 
-function hintBadge(difficulty: SkillDifficulty, variant: "light" | "dark") {
-  const allowed = hintsAllowedForDifficulty(difficulty);
-  const label = allowed === 0 ? "No hints" : allowed === 1 ? "1 hint" : `${allowed} hints`;
+function helpBadge(difficulty: SkillDifficulty, variant: "light" | "dark") {
+  const label = helpLimitLabel(difficulty);
+  const hasHelp = difficulty === "beginner";
 
   return (
     <span
@@ -65,9 +65,9 @@ function hintBadge(difficulty: SkillDifficulty, variant: "light" | "dark") {
         "inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-bold",
         variant === "dark"
           ? "bg-white/10 text-white/75"
-          : allowed === 0
-            ? "bg-slate-100 text-slate-600"
-            : "bg-amber-50 text-amber-700",
+          : hasHelp
+            ? "bg-amber-50 text-amber-700"
+            : "bg-slate-100 text-slate-600",
       )}
     >
       <Lightbulb size={9} />
@@ -191,7 +191,7 @@ export function DifficultyPicker({
               ) : null}
 
               {!compact && active && revealed.has(id) ? (
-                <span className="mt-2">{hintBadge(id, variant)}</span>
+                <span className="mt-2">{helpBadge(id, variant)}</span>
               ) : null}
 
               {active ? (

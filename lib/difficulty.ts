@@ -37,7 +37,7 @@ export const SKILL_DIFFICULTIES: Record<
   mid: {
     label: "Mid-Level",
     rank: "Developer",
-    vibe: "Double thumbs — keep going!",
+    vibe: "No guides — you're on your own.",
     blurb: "Standard campaign pace for everyday practice.",
     gameLevelOffset: 0,
     xpMultiplier: 1.15,
@@ -91,17 +91,13 @@ export function difficultyShort(difficulty: SkillDifficulty) {
 
 /** How many hints a player may reveal for a given skill difficulty. */
 export function hintsAllowedForDifficulty(difficulty: SkillDifficulty): number {
-  switch (difficulty) {
-    case "beginner":
-      return 2;
-    case "mid":
-      return 1;
-    case "expert":
-    case "senior":
-      return 0;
-    default:
-      return 0;
-  }
+  if (difficulty === "beginner") return 2;
+  return 0;
+}
+
+/** Whether in-game guide links (read guide, Big O, etc.) are shown. */
+export function guidesAllowedForDifficulty(difficulty: SkillDifficulty): boolean {
+  return difficulty === "beginner";
 }
 
 export function hintLimitLabel(difficulty: SkillDifficulty): string {
@@ -109,4 +105,19 @@ export function hintLimitLabel(difficulty: SkillDifficulty): string {
   if (allowed === 0) return "No hints on this difficulty";
   if (allowed === 1) return "1 hint available";
   return `${allowed} hints available`;
+}
+
+export function guideLimitLabel(difficulty: SkillDifficulty): string {
+  return guidesAllowedForDifficulty(difficulty)
+    ? "Guide links available"
+    : "No guide links on this difficulty";
+}
+
+export function helpLimitLabel(difficulty: SkillDifficulty): string {
+  const hints = hintsAllowedForDifficulty(difficulty);
+  const guides = guidesAllowedForDifficulty(difficulty);
+  if (hints > 0 && guides) return `${hints} hints · guides available`;
+  if (hints > 0) return `${hints} hints available`;
+  if (!guides) return "No hints or guides";
+  return hintLimitLabel(difficulty);
 }

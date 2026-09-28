@@ -7,6 +7,7 @@ import { CodeWorkspace } from "@/components/workspace/CodeWorkspace";
 import { cn } from "@/lib/cn";
 import {
   difficultyLabel,
+  guidesAllowedForDifficulty,
   hintLimitLabel,
   hintsAllowedForDifficulty,
   SKILL_DIFFICULTIES,
@@ -196,11 +197,16 @@ export function ChallengeExerciseView({
                   Hidden large-input tests enforce{" "}
                   <strong className="font-semibold text-ink">
                     {challenge.exercise.performance.expectedComplexity}
-                  </strong>{" "}
-                  — see{" "}
-                  <Link href="/guides/python/time-complexity" className="font-semibold text-primary hover:underline">
-                    Big O guide
-                  </Link>
+                  </strong>
+                  {guidesAllowedForDifficulty(hintDifficulty) ? (
+                    <>
+                      {" "}
+                      — see{" "}
+                      <Link href="/guides/python/time-complexity" className="font-semibold text-primary hover:underline">
+                        Big O guide
+                      </Link>
+                    </>
+                  ) : null}
                   .
                 </>
               ) : null}
@@ -225,13 +231,13 @@ export function ChallengeExerciseView({
             </article>
           )}
 
-          <article className="rounded-2xl border border-line bg-white p-4 sm:p-5">
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <p className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-muted">
-                <Lightbulb size={11} className="text-amber-500" />
-                Hints
-              </p>
-              {maxHints > 0 ? (
+          {maxHints > 0 ? (
+            <article className="rounded-2xl border border-line bg-white p-4 sm:p-5">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <p className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-muted">
+                  <Lightbulb size={11} className="text-amber-500" />
+                  Hints
+                </p>
                 <Button
                   variant="ghost"
                   className="px-2 py-1 text-xs"
@@ -240,27 +246,25 @@ export function ChallengeExerciseView({
                 >
                   {hints >= maxHints ? "All revealed" : `Reveal hint ${hints + 1}`}
                 </Button>
-              ) : null}
-            </div>
-            {hints > 0 ? (
-              <ol className="mt-3 space-y-2">
-                {challenge.exercise.hints.slice(0, hints).map((hint, index) => (
-                  <li
-                    key={hint}
-                    className="rounded-xl border border-amber-100 bg-amber-50/80 px-3 py-2.5 text-sm text-amber-950"
-                  >
-                    <span className="font-bold text-amber-700">{index + 1}.</span> {hint}
-                  </li>
-                ))}
-              </ol>
-            ) : (
-              <p className="mt-3 text-sm text-muted">
-                {maxHints > 0
-                  ? `${hintLimitLabel(hintDifficulty)} — reveal one at a time, no XP penalty.`
-                  : hintLimitLabel(hintDifficulty)}
-              </p>
-            )}
-          </article>
+              </div>
+              {hints > 0 ? (
+                <ol className="mt-3 space-y-2">
+                  {challenge.exercise.hints.slice(0, hints).map((hint, index) => (
+                    <li
+                      key={hint}
+                      className="rounded-xl border border-amber-100 bg-amber-50/80 px-3 py-2.5 text-sm text-amber-950"
+                    >
+                      <span className="font-bold text-amber-700">{index + 1}.</span> {hint}
+                    </li>
+                  ))}
+                </ol>
+              ) : (
+                <p className="mt-3 text-sm text-muted">
+                  {hintLimitLabel(hintDifficulty)} — reveal one at a time, no XP penalty.
+                </p>
+              )}
+            </article>
+          ) : null}
 
           {footer ? (
             <div className="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3">{footer}</div>

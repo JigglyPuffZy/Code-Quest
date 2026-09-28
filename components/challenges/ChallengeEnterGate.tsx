@@ -84,7 +84,7 @@ export function ChallengeEnterGate({
       <section className="overflow-hidden rounded-2xl border border-line bg-gradient-to-br from-white via-surface-2/40 to-primary-50/30 p-4 sm:p-6">
         <h2 className="text-base font-bold sm:text-lg">Choose difficulty</h2>
         <p className="mt-1 text-sm leading-relaxed text-muted">
-          Pick how hard you want this battle — hints and challenge pace follow your choice.
+          Beginner unlocks hints and guide links. Mid-level through Senior is guide-free — no hints, no cheat sheets.
         </p>
         <div className="mt-4 sm:mt-5">
           <DifficultyPicker value={difficulty} onChange={setDifficulty} />
