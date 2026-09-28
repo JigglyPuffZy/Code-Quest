@@ -18,6 +18,8 @@ export type FunctionCase = {
   args: unknown[];
   expected: unknown;
   label?: string;
+  /** LeetCode-style example explanation shown in the mission panel */
+  explanation?: string;
 };
 
 export type TestSpec =

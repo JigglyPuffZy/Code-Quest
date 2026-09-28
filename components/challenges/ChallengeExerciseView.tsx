@@ -4,6 +4,7 @@ import { LessonCopy } from "@/components/code/CodeBlock";
 import { usePlayer } from "@/components/player/PlayerProvider";
 import { Button } from "@/components/ui/Button";
 import { CodeWorkspace } from "@/components/workspace/CodeWorkspace";
+import { LeetCodeExamples } from "@/components/workspace/LeetCodeExamples";
 import { cn } from "@/lib/cn";
 import { DifficultyStageCard, DifficultyStageChips } from "@/components/ui/DifficultyStageCard";
 import {
@@ -174,6 +175,12 @@ export function ChallengeExerciseView({
             <p className="mt-4 text-base font-semibold leading-relaxed text-ink sm:text-lg">
               {challenge.exercise.prompt}
             </p>
+            <LeetCodeExamples
+              className="mt-4"
+              exercise={challenge.exercise}
+              language={challenge.language as LanguageId}
+            />
+
             <p className="mt-3 text-xs leading-relaxed text-muted">
               Pass every automated check to clear this battle and earn XP.
               {challenge.exercise.performance ? (

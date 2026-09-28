@@ -18,6 +18,15 @@ export function scale(level: number) {
   };
 }
 
+function withExampleExplanations(cases: FunctionCase[]): FunctionCase[] {
+  return cases.map((caseItem, index) => ({
+    ...caseItem,
+    explanation:
+      caseItem.explanation ??
+      (index < 2 && caseItem.label ? `Expected result for the "${caseItem.label}" case.` : undefined),
+  }));
+}
+
 export function pyFn(
   name: string,
   body: string,
@@ -29,7 +38,7 @@ export function pyFn(
     prompt,
     starterCode: `def ${name}(${body}):\n    return None\n`,
     hints,
-    tests: { type: "function", functionName: name, cases },
+    tests: { type: "function", functionName: name, cases: withExampleExplanations(cases) },
   };
 }
 
@@ -47,7 +56,7 @@ export function jsFn(
     prompt,
     starterCode: `function ${name}(${args}${types})${ret} {\n  return "";\n}\n`,
     hints,
-    tests: { type: "function", functionName: name, cases },
+    tests: { type: "function", functionName: name, cases: withExampleExplanations(cases) },
   };
 }
 

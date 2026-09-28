@@ -4,6 +4,7 @@ import { usePlayer } from "@/components/player/PlayerProvider";
 import { Button } from "@/components/ui/Button";
 import { DifficultyStageCard, DifficultyStageChips } from "@/components/ui/DifficultyStageCard";
 import { CodeWorkspace } from "@/components/workspace/CodeWorkspace";
+import { LeetCodeExamples } from "@/components/workspace/LeetCodeExamples";
 import { cn } from "@/lib/cn";
 import {
   difficultyLabel,
@@ -210,6 +211,11 @@ export function GameExerciseView({
               Your mission
             </p>
             <p className="mt-4 text-base font-semibold leading-relaxed text-ink sm:text-lg">{record.exercise.prompt}</p>
+            <LeetCodeExamples
+              className="mt-4"
+              exercise={record.exercise}
+              language={record.language}
+            />
             <p className="mt-3 text-xs leading-relaxed text-muted">
               Pass every automated check to clear this level and unlock the next one.
             </p>
