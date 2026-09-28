@@ -7,6 +7,7 @@ import type { LanguageId } from "@/lib/types";
 import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
+export const maxDuration = 30;
 
 const MAX_CODE = 8_000;
 

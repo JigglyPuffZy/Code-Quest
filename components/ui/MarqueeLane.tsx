@@ -40,8 +40,13 @@ export function MarqueeLane({ children, className, trackClassName }: MarqueeLane
       lane.addEventListener("touchend", resume, { passive: true });
       lane.addEventListener("touchcancel", resume, { passive: true });
 
+      const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
+      const onVisibility = () => {
+        pausedRef.current = document.visibilityState !== "visible";
+      };
+
       const tick = () => {
-        if (!pausedRef.current) {
+        if (!pausedRef.current && !motion.matches) {
           lane.scrollLeft += 0.55;
           const half = rail.scrollWidth / 2;
           if (half > 0 && lane.scrollLeft >= half - 1) {
@@ -51,10 +56,12 @@ export function MarqueeLane({ children, className, trackClassName }: MarqueeLane
         raf = window.requestAnimationFrame(tick);
       };
 
+      document.addEventListener("visibilitychange", onVisibility);
       raf = window.requestAnimationFrame(tick);
 
       return () => {
         window.cancelAnimationFrame(raf);
+        document.removeEventListener("visibilitychange", onVisibility);
         lane.removeEventListener("touchstart", pause);
         lane.removeEventListener("touchend", resume);
         lane.removeEventListener("touchcancel", resume);

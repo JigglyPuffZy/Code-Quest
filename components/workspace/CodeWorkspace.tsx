@@ -6,7 +6,11 @@ import { cn } from "@/lib/cn";
 import { gradeCode, runCode } from "@/lib/execute/client";
 import type { GradeResponse, LanguageId, RunResponse } from "@/lib/types";
 import { Check, Play, Terminal, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+
+function draftKey(kind: string, exerciseId: string) {
+  return `codequest.draft.${kind}.${exerciseId}`;
+}
 
 export function CodeWorkspace({
   language,
@@ -29,35 +33,58 @@ export function CodeWorkspace({
   gameStack?: import("@/lib/game/banks").GameStackPrefs;
   theme?: "default" | "game";
 }) {
-  const [code, setCode] = useState(starterCode);
+  const [code, setCode] = useState(() => {
+    if (typeof window === "undefined") return starterCode;
+    return window.sessionStorage.getItem(draftKey(kind, exerciseId)) ?? starterCode;
+  });
   const [running, setRunning] = useState<"run" | "grade" | null>(null);
   const [output, setOutput] = useState<RunResponse | null>(null);
   const [grade, setGrade] = useState<GradeResponse | null>(null);
   const [error, setError] = useState("");
   const [rewardNote, setRewardNote] = useState("");
+  const abortRef = useRef<AbortController | null>(null);
   const isGame = theme === "game";
 
+  useEffect(() => {
+    window.sessionStorage.setItem(draftKey(kind, exerciseId), code);
+  }, [code, kind, exerciseId]);
+
+  useEffect(() => {
+    return () => {
+      abortRef.current?.abort();
+    };
+  }, []);
+
   async function execute(mode: "run" | "grade") {
+    abortRef.current?.abort();
+    const controller = new AbortController();
+    abortRef.current = controller;
+
     setRunning(mode);
     setError("");
     setRewardNote("");
     try {
       if (mode === "run") {
-        setOutput(await runCode(language, code));
+        setOutput(await runCode(language, code, controller.signal));
         setGrade(null);
       } else {
-        const result = await gradeCode(kind, exerciseId, code, skillDifficulty, gameStack);
+        const result = await gradeCode(kind, exerciseId, code, skillDifficulty, gameStack, controller.signal);
         setGrade(result);
         setOutput(null);
         if (result.passed) {
           const reward = onCleared();
           setRewardNote(reward.awarded ? `Level cleared · +${reward.xp} XP` : "Passed · XP already awarded");
+          window.sessionStorage.removeItem(draftKey(kind, exerciseId));
         }
       }
     } catch (runError) {
+      if (runError instanceof Error && runError.name === "AbortError") return;
       setError(runError instanceof Error ? runError.message : "Could not run your code.");
     } finally {
-      setRunning(null);
+      if (abortRef.current === controller) {
+        abortRef.current = null;
+        setRunning(null);
+      }
     }
   }
 

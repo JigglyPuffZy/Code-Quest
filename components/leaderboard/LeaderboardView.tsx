@@ -7,34 +7,46 @@ import { PageHeader } from "@/components/ui/PageHeader";
 import { EmptyState, ErrorState, LoadingState } from "@/components/ui/States";
 import { totalXp } from "@/lib/gamification";
 import { demoRivals, type BoardEntry } from "@/lib/leaderboard";
-import { createClient } from "@/lib/supabase/client";
+import { fetchLeaderboard, readLeaderboardCache } from "@/lib/leaderboard/fetch";
 import { useEffect, useState } from "react";
 
 export function LeaderboardView() {
-  const { player, supabaseEnabled, xp } = usePlayer();
-  const [rows, setRows] = useState<BoardEntry[] | null>(null);
+  const { player, supabaseEnabled } = usePlayer();
+  const [rows, setRows] = useState<BoardEntry[] | null>(() => readLeaderboardCache());
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(supabaseEnabled);
+  const [loading, setLoading] = useState(() => supabaseEnabled && !readLeaderboardCache());
 
   useEffect(() => {
     if (!player) return;
     if (!supabaseEnabled) {
-      const you: BoardEntry = { id: player.id, username: player.username, avatar: player.avatar, xp, streak: player.streak };
+      const you: BoardEntry = {
+        id: player.id,
+        username: player.username,
+        avatar: player.avatar,
+        xp: totalXp(player),
+        streak: player.streak,
+      };
       setRows([...demoRivals.filter((e) => e.id !== player.id), you].sort((a, b) => b.xp - a.xp || a.username.localeCompare(b.username)));
       setLoading(false);
       return;
     }
     let cancelled = false;
     (async () => {
-      setLoading(true);
-      const { data, error: queryError } = await createClient().from("profiles").select("id, username, avatar, xp, streak").order("xp", { ascending: false }).limit(25);
-      if (cancelled) return;
-      if (queryError) { setError(queryError.message); setRows(null); }
-      else setRows((data ?? []) as BoardEntry[]);
-      setLoading(false);
+      if (!readLeaderboardCache()) setLoading(true);
+      try {
+        const data = await fetchLeaderboard(25);
+        if (!cancelled) setRows(data);
+      } catch (queryError) {
+        if (!cancelled) {
+          setError(queryError instanceof Error ? queryError.message : "Could not load leaderboard.");
+          setRows(null);
+        }
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
     })();
     return () => { cancelled = true; };
-  }, [player, supabaseEnabled, xp]);
+  }, [player, supabaseEnabled]);
 
   if (!player) return null;
 

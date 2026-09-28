@@ -55,66 +55,25 @@ function casePayloads(stdout: string, count: number) {
   return payloads;
 }
 
-function buildHarness(language: LanguageId, code: string, tests: TestSpec) {
+function buildHarness(
+  language: LanguageId,
+  code: string,
+  tests: TestSpec,
+  performance?: PerformanceSpec,
+) {
   if (tests.type === "stdout") return code;
   if (!NAME.test(tests.functionName)) {
     throw new Error("This exercise has an invalid function name.");
   }
 
   const source = code.replace(/\s*$/, "");
+  const functionName = tests.functionName;
+  const perfCases = performance?.cases ?? [];
+
   if (language === "python") {
-    return `${source}
-
-import json as __json
-__cases = __json.loads(r"""${JSON.stringify(tests.cases)}""")
-for __i, __case in enumerate(__cases):
-    try:
-        __result = ${tests.functionName}(*__case["args"])
-        print("__CASE_%s__" % __i)
-        print(__json.dumps(__result))
-    except Exception as __error:
-        print("__CASE_%s__" % __i)
-        print(__json.dumps({"__error": str(__error)}))
-`;
-  }
-
-  if (language === "typescript" || language === "javascript") {
-    return `${source}
-
-const __cases = ${JSON.stringify(tests.cases)};
-for (let __i = 0; __i < __cases.length; __i++) {
-  try {
-    const __result = ${tests.functionName}(...__cases[__i].args);
-    console.log("__CASE_" + __i + "__");
-    console.log(JSON.stringify(__result));
-  } catch (__error) {
-    console.log("__CASE_" + __i + "__");
-    console.log(JSON.stringify({ __error: String(__error) }));
-  }
-}
-`;
-  }
-
-  throw new Error(`Function tests are not supported for ${language}.`);
-}
-
-function buildPerformanceHarness(
-  language: LanguageId,
-  code: string,
-  functionName: string,
-  cases: FunctionCase[],
-) {
-  if (!NAME.test(functionName)) {
-    throw new Error("This exercise has an invalid function name.");
-  }
-
-  const source = code.replace(/\s*$/, "");
-  if (language === "python") {
-    return `${source}
-
-import json as __json
-import time as __time
-__perf = __json.loads(r"""${JSON.stringify(cases)}""")
+    const perfBlock = perfCases.length
+      ? `
+__perf = __json.loads(r"""${JSON.stringify(perfCases)}""")
 for __i, __case in enumerate(__perf):
     try:
         __start = __time.perf_counter()
@@ -125,13 +84,28 @@ for __i, __case in enumerate(__perf):
     except Exception as __error:
         print("__PERF_%s__" % __i)
         print(__json.dumps({"ms": None, "error": str(__error)}))
-`;
+`
+      : "";
+
+    return `${source}
+
+import json as __json
+${perfCases.length ? "import time as __time\n" : ""}__cases = __json.loads(r"""${JSON.stringify(tests.cases)}""")
+for __i, __case in enumerate(__cases):
+    try:
+        __result = ${functionName}(*__case["args"])
+        print("__CASE_%s__" % __i)
+        print(__json.dumps(__result))
+    except Exception as __error:
+        print("__CASE_%s__" % __i)
+        print(__json.dumps({"__error": str(__error)}))
+${perfBlock}`;
   }
 
   if (language === "typescript" || language === "javascript") {
-    return `${source}
-
-const __perf = ${JSON.stringify(cases)};
+    const perfBlock = perfCases.length
+      ? `
+const __perf = ${JSON.stringify(perfCases)};
 for (let __i = 0; __i < __perf.length; __i++) {
   try {
     const __start = performance.now();
@@ -144,10 +118,26 @@ for (let __i = 0; __i < __perf.length; __i++) {
     console.log(JSON.stringify({ ms: null, error: String(__error) }));
   }
 }
-`;
+`
+      : "";
+
+    return `${source}
+
+const __cases = ${JSON.stringify(tests.cases)};
+for (let __i = 0; __i < __cases.length; __i++) {
+  try {
+    const __result = ${functionName}(...__cases[__i].args);
+    console.log("__CASE_" + __i + "__");
+    console.log(JSON.stringify(__result));
+  } catch (__error) {
+    console.log("__CASE_" + __i + "__");
+    console.log(JSON.stringify({ __error: String(__error) }));
+  }
+}
+${perfBlock}`;
   }
 
-  throw new Error(`Performance tests are not supported for ${language}.`);
+  throw new Error(`Function tests are not supported for ${language}.`);
 }
 
 function perfPayloads(stdout: string, count: number) {
@@ -272,7 +262,8 @@ export async function gradeExercise(
   }
 
   const tests = record.exercise.tests;
-  const program = buildHarness(record.language, code, tests);
+  const performance = record.exercise.performance;
+  const program = buildHarness(record.language, code, tests, performance);
   const stdin = tests.type === "stdout" ? tests.stdin ?? "" : "";
   const run = await runInSandbox(record.language, program, stdin);
 
@@ -301,7 +292,6 @@ export async function gradeExercise(
     kind: item.kind ?? "visible",
   }));
 
-  const performance = record.exercise.performance;
   if (!performance || !graded.every((item) => item.passed)) {
     return {
       engine: "wandbox" as const,
@@ -311,20 +301,13 @@ export async function gradeExercise(
     };
   }
 
-  const perfProgram = buildPerformanceHarness(
-    record.language,
-    code,
-    tests.functionName,
-    performance.cases,
-  );
-  const perfRun = await runInSandbox(record.language, perfProgram);
-  const perfGraded = gradePerformance(performance, tests.functionName, perfRun.stdout, perfRun.stderr);
+  const perfGraded = gradePerformance(performance, tests.functionName, run.stdout, run.stderr);
   const allTests = [...graded, ...perfGraded];
 
   return {
     engine: "wandbox" as const,
     passed: allTests.every((item) => item.passed),
-    stderr: clip([run.stderr, perfRun.stderr].filter(Boolean).join("\n"), 1200),
+    stderr: clip(run.stderr, 1200),
     tests: allTests,
   };
 }

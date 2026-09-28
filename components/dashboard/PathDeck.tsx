@@ -8,9 +8,16 @@ import type { GuideTopicId } from "@/lib/guides/types";
 import { cn } from "@/lib/cn";
 import { ArrowRight, BookOpen } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 
 const CORE_GUIDES: GuideTopicId[] = ["python", "javascript", "typescript", "java"];
+
+function readGuideProgressMap() {
+  const next: Record<string, number> = {};
+  for (const topic of guideTopics) {
+    next[topic.id] = Math.round(guidePathProgress(topic.id).ratio * 100);
+  }
+  return next;
+}
 
 const GUIDE_STYLE: Record<string, { soft: string; accent: string; bar: string }> = {
   python: { soft: "bg-emerald-50", accent: "text-emerald-600", bar: "bg-emerald-500" },
@@ -21,15 +28,7 @@ const GUIDE_STYLE: Record<string, { soft: string; accent: string; bar: string }>
 };
 
 export function PathDeck({ embedded = false }: { embedded?: boolean }) {
-  const [guideProgress, setGuideProgress] = useState<Record<string, number>>({});
-
-  useEffect(() => {
-    const next: Record<string, number> = {};
-    for (const topic of guideTopics) {
-      next[topic.id] = Math.round(guidePathProgress(topic.id).ratio * 100);
-    }
-    setGuideProgress(next);
-  }, []);
+  const guideProgress = readGuideProgressMap();
 
   const coreTopics = guideTopics.filter((t) => CORE_GUIDES.includes(t.id));
   const extraPaths = guidePaths.filter((p) => !CORE_GUIDES.includes(p.topicId));

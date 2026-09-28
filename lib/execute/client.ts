@@ -2,11 +2,12 @@ import type { SkillDifficulty } from "@/lib/difficulty";
 import type { GameStackPrefs } from "@/lib/game/banks";
 import type { GradeResponse, LanguageId, RunResponse } from "@/lib/types";
 
-async function post(body: unknown) {
+async function post(body: unknown, signal?: AbortSignal) {
   const response = await fetch("/api/execute", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
+    signal,
   });
   const data = (await response.json().catch(() => ({}))) as { error?: string };
   if (!response.ok) {
@@ -15,8 +16,8 @@ async function post(body: unknown) {
   return data;
 }
 
-export async function runCode(language: LanguageId, code: string) {
-  return (await post({ mode: "run", language, code })) as RunResponse;
+export async function runCode(language: LanguageId, code: string, signal?: AbortSignal) {
+  return (await post({ mode: "run", language, code }, signal)) as RunResponse;
 }
 
 export async function gradeCode(
@@ -25,6 +26,7 @@ export async function gradeCode(
   code: string,
   difficulty?: SkillDifficulty,
   stack?: GameStackPrefs,
+  signal?: AbortSignal,
 ) {
-  return (await post({ mode: "grade", kind, id, code, difficulty, stack })) as GradeResponse;
+  return (await post({ mode: "grade", kind, id, code, difficulty, stack }, signal)) as GradeResponse;
 }

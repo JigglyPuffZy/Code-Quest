@@ -4,23 +4,47 @@ import { Avatar } from "@/components/player/Avatar";
 import { usePlayer } from "@/components/player/PlayerProvider";
 import { totalXp } from "@/lib/gamification";
 import { demoRivals, type BoardEntry } from "@/lib/leaderboard";
-import { createClient } from "@/lib/supabase/client";
+import { fetchLeaderboard, readLeaderboardCache } from "@/lib/leaderboard/fetch";
 import { ArrowRight, Crown } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 
+function LeaderboardSkeleton() {
+  return (
+    <section className="rounded-2xl border border-line bg-white p-5 sm:p-6">
+      <div className="h-4 w-28 animate-pulse rounded bg-surface-2" />
+      <div className="mt-2 h-6 w-36 animate-pulse rounded bg-surface-2" />
+      <ol className="mt-4 space-y-2">
+        {Array.from({ length: 5 }).map((_, index) => (
+          <li key={index} className="flex items-center gap-3 rounded-xl bg-surface-2 px-3 py-2.5">
+            <div className="h-4 w-4 animate-pulse rounded bg-line" />
+            <div className="h-8 w-8 animate-pulse rounded-lg bg-line" />
+            <div className="min-w-0 flex-1 space-y-1.5">
+              <div className="h-3 w-24 animate-pulse rounded bg-line" />
+              <div className="h-2.5 w-14 animate-pulse rounded bg-line" />
+            </div>
+            <div className="h-4 w-10 animate-pulse rounded bg-line" />
+          </li>
+        ))}
+      </ol>
+    </section>
+  );
+}
+
 export function MiniLeaderboard() {
-  const { player, supabaseEnabled, xp } = usePlayer();
-  const [rows, setRows] = useState<BoardEntry[] | null>(null);
+  const { player, supabaseEnabled } = usePlayer();
+  const [rows, setRows] = useState<BoardEntry[] | null>(() => readLeaderboardCache());
+  const [loading, setLoading] = useState(() => !readLeaderboardCache());
 
   useEffect(() => {
     if (!player) return;
+
     if (!supabaseEnabled) {
       const you: BoardEntry = {
         id: player.id,
         username: player.username,
         avatar: player.avatar,
-        xp,
+        xp: totalXp(player),
         streak: player.streak,
       };
       setRows(
@@ -28,23 +52,28 @@ export function MiniLeaderboard() {
           (a, b) => b.xp - a.xp || a.username.localeCompare(b.username),
         ),
       );
+      setLoading(false);
       return;
     }
 
     let cancelled = false;
+    setLoading(!readLeaderboardCache());
+
     (async () => {
-      const { data } = await createClient()
-        .from("profiles")
-        .select("id, username, avatar, xp, streak")
-        .order("xp", { ascending: false })
-        .limit(8);
-      if (!cancelled) setRows((data ?? []) as BoardEntry[]);
+      try {
+        const data = await fetchLeaderboard(8);
+        if (!cancelled) setRows(data);
+      } catch {
+        if (!cancelled) setRows((current) => current ?? []);
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
     })();
 
     return () => {
       cancelled = true;
     };
-  }, [player, supabaseEnabled, xp]);
+  }, [player, supabaseEnabled]);
 
   const { top, rank } = useMemo(() => {
     if (!rows || !player) return { top: [], rank: null };
@@ -55,7 +84,8 @@ export function MiniLeaderboard() {
     };
   }, [rows, player]);
 
-  if (!player || !rows) return null;
+  if (!player) return null;
+  if (loading && !rows) return <LeaderboardSkeleton />;
 
   return (
     <section className="rounded-2xl border border-line bg-white p-5 sm:p-6">

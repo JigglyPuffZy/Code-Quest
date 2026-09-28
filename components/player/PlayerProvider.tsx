@@ -18,7 +18,14 @@ import {
   touchStreak,
   withProfile,
 } from "@/lib/gamification";
-import { clearGuest, loadGuestOrCreate, readGuest, writeGuest, writeUserCache } from "@/lib/player/storage";
+import {
+  clearGuest,
+  loadGuestOrCreate,
+  readGuest,
+  readUserCache,
+  writeGuest,
+  writeUserCache,
+} from "@/lib/player/storage";
 import { missingTable, playerToRow, rowToPlayer, type ProfileRow } from "@/lib/player/profile";
 import { questStatus } from "@/lib/progress";
 import { createClient } from "@/lib/supabase/client";
@@ -89,6 +96,7 @@ type PlayerContextValue = {
 const PlayerContext = createContext<PlayerContextValue | null>(null);
 
 const emptyLevel: LevelInfo = { level: 1, title: "Initiate", into: 0, needed: 80 };
+const PERSIST_DEBOUNCE_MS = 750;
 
 function isBenignAuthError(error: unknown) {
   const message = (error instanceof Error ? error.message : String(error)).toLowerCase();
@@ -115,6 +123,7 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
   const emailRef = useRef<string | null>(null);
   const enabledRef = useRef(isSupabaseConfigured());
   const saveQueue = useRef(Promise.resolve());
+  const persistDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     playerRef.current = player;
@@ -147,8 +156,7 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
     setToasts((current) => [...notices, ...current].slice(0, 4));
   }, []);
 
-  const persist = useCallback((next: Player) => {
-    playerRef.current = next;
+  const enqueuePersist = useCallback(() => {
     saveQueue.current = saveQueue.current
       .catch(() => undefined)
       .then(async () => {
@@ -174,11 +182,30 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
       });
   }, []);
 
+  const persist = useCallback(
+    (next: Player, immediate = false) => {
+      playerRef.current = next;
+      if (persistDebounceRef.current) {
+        clearTimeout(persistDebounceRef.current);
+        persistDebounceRef.current = null;
+      }
+      if (immediate) {
+        enqueuePersist();
+        return;
+      }
+      persistDebounceRef.current = setTimeout(() => {
+        persistDebounceRef.current = null;
+        enqueuePersist();
+      }, PERSIST_DEBOUNCE_MS);
+    },
+    [enqueuePersist],
+  );
+
   const applyPlayer = useCallback(
-    (next: Player) => {
+    (next: Player, immediate = false) => {
       playerRef.current = next;
       setPlayer(next);
-      persist(next);
+      persist(next, immediate);
     },
     [persist],
   );
@@ -199,6 +226,12 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
 
     emailRef.current = user.email ?? null;
     setEmail(user.email ?? null);
+
+    const cached = readUserCache(user.id);
+    if (cached) {
+      playerRef.current = cached;
+      setPlayer(cached);
+    }
 
     const { data: row, error: profileError } = await supabase
       .from("profiles")
@@ -256,9 +289,24 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
         if (!enabled) {
           const guest = grantAchievements(touchStreak(loadGuestOrCreate())).player;
           if (cancelled) return;
-          applyPlayer(guest);
+          applyPlayer(guest, true);
           return;
         }
+
+        const supabase = createClient();
+        const { data: sessionData } = await supabase.auth.getSession();
+        const user = sessionData.session?.user;
+        if (user) {
+          const cached = readUserCache(user.id);
+          if (cached && !cancelled) {
+            emailRef.current = user.email ?? null;
+            setEmail(user.email ?? null);
+            playerRef.current = cached;
+            setPlayer(cached);
+            setReady(true);
+          }
+        }
+
         await loadAccount();
       } catch (loadError) {
         if (!cancelled) {
@@ -380,7 +428,7 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
         username: patch.username.trim(),
         avatar: avatarById(patch.avatar).id,
       });
-      applyPlayer(next);
+      applyPlayer(next, true);
       if (emailRef.current && enabledRef.current) {
         await createClient().auth.updateUser({
           data: { username: next.username, avatar: next.avatar },
@@ -411,7 +459,7 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
       const result = markLessonComplete(current, id);
       if (!result.awarded) return { awarded: false, xp: 0 };
       setPlayer(result.player);
-      persist(result.player);
+      persist(result.player, true);
       pushNotices(current, result.player, result.fresh);
       return { awarded: true, xp };
     },
@@ -426,7 +474,7 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
       const result = markChallengeComplete(current, id);
       if (!result.awarded) return { awarded: false, xp: 0 };
       setPlayer(result.player);
-      persist(result.player);
+      persist(result.player, true);
       pushNotices(current, result.player, result.fresh);
       return { awarded: true, xp };
     },
@@ -443,7 +491,7 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
       const result = markGameLevelComplete(current, id);
       if (!result.awarded) return { awarded: false, xp: 0 };
       setPlayer(result.player);
-      persist(result.player);
+      persist(result.player, true);
       pushNotices(current, result.player, result.fresh);
       return { awarded: true, xp };
     },
@@ -460,7 +508,7 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
       const result = markQuestClaimed(current, id);
       if (!result.awarded) return { awarded: false, xp: 0 };
       setPlayer(result.player);
-      persist(result.player);
+      persist(result.player, true);
       pushNotices(current, result.player, result.fresh, {
         id: crypto.randomUUID(),
         title: "Quest claimed",
