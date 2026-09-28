@@ -2,13 +2,13 @@
 
 import { usePlayer } from "@/components/player/PlayerProvider";
 import { Button } from "@/components/ui/Button";
+import { DifficultyStageCard, DifficultyStageChips } from "@/components/ui/DifficultyStageCard";
 import { CodeWorkspace } from "@/components/workspace/CodeWorkspace";
 import { cn } from "@/lib/cn";
 import {
   difficultyLabel,
   hintLimitLabel,
   hintsAllowedForDifficulty,
-  SKILL_DIFFICULTIES,
 } from "@/lib/difficulty";
 import { playerStack } from "@/lib/game/generator";
 import { GAME_MODES } from "@/lib/game/modes";
@@ -62,7 +62,6 @@ export function GameExerciseView({
 
   const trackMeta = GAME_TRACKS[track];
   const modeMeta = GAME_MODES[record.mode];
-  const skill = SKILL_DIFFICULTIES[record.difficulty];
   const unlocked = player ? maxUnlockedGameLevel(player, track, record.difficulty) : 1;
   const campaignPct = (record.level / MAX_GAME_LEVEL) * 100;
   const maxHints = Math.min(
@@ -135,9 +134,12 @@ export function GameExerciseView({
                 Level {record.level} of {MAX_GAME_LEVEL} · {difficultyLabel(record.difficulty)} · {record.tier} tier
               </p>
             </div>
-            <div className="rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-center">
-              <p className="text-[10px] font-bold uppercase tracking-wider text-white/50">Campaign</p>
-              <p className="text-lg font-bold tabular-nums">{Math.round(campaignPct)}%</p>
+            <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:items-end">
+              <DifficultyStageCard difficulty={record.difficulty} className="w-full sm:w-auto" />
+              <div className="rounded-xl border border-white/20 bg-white/10 px-4 py-2.5 text-center">
+                <p className="text-[10px] font-bold uppercase tracking-wider text-white/60">Campaign</p>
+                <p className="text-lg font-bold tabular-nums text-white">{Math.round(campaignPct)}%</p>
+              </div>
             </div>
           </div>
 
@@ -154,11 +156,9 @@ export function GameExerciseView({
             </div>
           </div>
 
-          <div className="flex flex-wrap gap-2">
-            <span className={cn("rounded-lg px-2.5 py-1 text-[10px] font-bold uppercase", skill.soft, skill.accent)}>
-              {skill.label}
-            </span>
-            <span className="rounded-lg border border-white/10 bg-white/5 px-2.5 py-1 text-[10px] font-bold uppercase text-white/70">
+          <div className="flex flex-wrap items-center gap-2">
+            <DifficultyStageChips difficulty={record.difficulty} />
+            <span className="rounded-lg border border-white/15 bg-white/10 px-2.5 py-1 text-[10px] font-bold uppercase text-white/80">
               {modeMeta.blurb}
             </span>
           </div>

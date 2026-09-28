@@ -5,12 +5,11 @@ import { usePlayer } from "@/components/player/PlayerProvider";
 import { Button } from "@/components/ui/Button";
 import { CodeWorkspace } from "@/components/workspace/CodeWorkspace";
 import { cn } from "@/lib/cn";
+import { DifficultyStageCard, DifficultyStageChips } from "@/components/ui/DifficultyStageCard";
 import {
-  difficultyLabel,
   guidesAllowedForDifficulty,
   hintLimitLabel,
   hintsAllowedForDifficulty,
-  SKILL_DIFFICULTIES,
   type SkillDifficulty,
 } from "@/lib/difficulty";
 import { languageInfo } from "@/lib/curriculum/index";
@@ -57,7 +56,6 @@ export function ChallengeExerciseView({
   const { player, completeChallenge } = usePlayer();
   const [hints, setHints] = useState(0);
   const [step, setStep] = useState(1);
-  const skill = SKILL_DIFFICULTIES[hintDifficulty];
   const maxHints = Math.min(hintsAllowedForDifficulty(hintDifficulty), challenge.exercise.hints.length);
 
   useEffect(() => {
@@ -112,28 +110,15 @@ export function ChallengeExerciseView({
               <h1 className="mt-2 text-xl font-bold tracking-tight sm:text-3xl">{challenge.title}</h1>
               <p className="mt-1.5 text-sm leading-relaxed text-white/70">{challenge.summary}</p>
             </div>
-            <div className="flex w-full items-center justify-between gap-3 rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-center sm:w-auto sm:flex-col sm:justify-center sm:py-2.5">
-              <p className="text-[10px] font-bold uppercase tracking-wider text-white/50">Difficulty</p>
-              <p className="text-sm font-bold">{skill.label}</p>
-              {onChangeDifficulty ? (
-                <button
-                  type="button"
-                  onClick={onChangeDifficulty}
-                  className="mt-1 text-[10px] font-semibold text-primary-300 hover:text-white"
-                >
-                  Change
-                </button>
-              ) : null}
-            </div>
+            <DifficultyStageCard
+              difficulty={hintDifficulty}
+              onChange={onChangeDifficulty}
+              className="w-full sm:w-auto"
+            />
           </div>
 
-          <div className="flex flex-wrap gap-2">
-            <span className="rounded-lg bg-primary-50 px-2.5 py-1 text-[10px] font-bold uppercase text-primary">
-              {difficultyLabel(hintDifficulty)}
-            </span>
-            <span className="rounded-lg border border-white/10 bg-white/5 px-2.5 py-1 text-[10px] font-bold uppercase text-white/70">
-              {hintLimitLabel(hintDifficulty)}
-            </span>
+          <div className="flex flex-wrap items-center gap-2">
+            <DifficultyStageChips difficulty={hintDifficulty} />
             {challenge.exercise.performance ? (
               <span className="inline-flex items-center gap-1 rounded-lg border border-amber-300/30 bg-amber-400/15 px-2.5 py-1 text-[10px] font-bold uppercase text-amber-200">
                 <Timer size={11} />
