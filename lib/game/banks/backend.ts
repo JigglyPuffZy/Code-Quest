@@ -47,6 +47,24 @@ function byteBlitz(
         ['System.out.println("API Ready");'],
       );
     }
+    if (difficulty === "senior") {
+      const mod = (s.a * s.b * s.c) % Math.max(1, s.a + s.b);
+      return javaMain(
+        title(framework, difficulty, level, `Print (a*b*c) % (a+b) where a=${s.a}, b=${s.b}, c=${s.c}.`),
+        `public class Main {\n  public static void main(String[] args) {\n    int a = ${s.a};\n    int b = ${s.b};\n    int c = ${s.c};\n  }\n}\n`,
+        String(mod),
+        ["Multiply a*b*c first.", "Use % with denominator a+b."],
+      );
+    }
+    if (difficulty === "expert") {
+      const product = s.a * s.b;
+      return javaMain(
+        title(framework, difficulty, level, `Print ${s.a} × ${s.b}.`),
+        `public class Main {\n  public static void main(String[] args) {\n    int a = ${s.a};\n    int b = ${s.b};\n  }\n}\n`,
+        String(product),
+        ["Multiply with *.", "Print only the product."],
+      );
+    }
     return javaMain(
       title(framework, difficulty, level, `Print the number ${s.a + s.b}.`),
       `public class Main {\n  public static void main(String[] args) {\n    int a = ${s.a};\n    int b = ${s.b};\n  }\n}\n`,
@@ -61,6 +79,30 @@ function byteBlitz(
       starterCode: language === "python" ? 'print("")\n' : 'console.log("");\n',
       hints: ["Use print or console.log.", `Exact output: ${text}`],
       tests: { type: "stdout", expected: text },
+    };
+  }
+  if (difficulty === "expert") {
+    const product = s.a * s.b;
+    return {
+      prompt: title(framework, difficulty, level, `Print ${s.a} × ${s.b}.`),
+      starterCode:
+        language === "python"
+          ? `a = ${s.a}\nb = ${s.b}\n`
+          : `const a = ${s.a};\nconst b = ${s.b};\n`,
+      hints: ["Multiply the values."],
+      tests: { type: "stdout", expected: String(product) },
+    };
+  }
+  if (difficulty === "senior") {
+    const mod = (s.a * s.b * s.c) % Math.max(1, s.a + s.b);
+    return {
+      prompt: title(framework, difficulty, level, `Print (a*b*c) % (a+b) where a=${s.a}, b=${s.b}, c=${s.c}.`),
+      starterCode:
+        language === "python"
+          ? `a = ${s.a}\nb = ${s.b}\nc = ${s.c}\n`
+          : `const a = ${s.a};\nconst b = ${s.b};\nconst c = ${s.c};\n`,
+      hints: ["Multiply all three, then modulo by a+b."],
+      tests: { type: "stdout", expected: String(mod) },
     };
   }
   const sum = s.a + s.b;
@@ -116,11 +158,19 @@ function functionForge(
   }
   return makeFn(
     language,
-    "invoice",
-    "subtotal, tip",
-    title(framework, difficulty, level, "invoice(subtotal, tip) returns subtotal*1.1 + tip."),
-    ["Apply 10% then add tip."],
-    [{ args: [100, 5], expected: 115, label: "main" }],
+    "compound10",
+    "principal, years",
+    title(
+      framework,
+      difficulty,
+      level,
+      "compound10(principal, years) returns principal * 1.1 ** years rounded to int.",
+    ),
+    ["Fixed 10% growth per year.", "Use power for years."],
+    [
+      { args: [1000, 2], expected: 1210, label: "main" },
+      { args: [500, 0], expected: 500, label: "zero years" },
+    ],
   );
 }
 
@@ -163,11 +213,15 @@ function stringSurge(
   }
   return makeFn(
     language,
-    "slugRoute",
-    "name",
-    title(framework, difficulty, level, "slugRoute(name) lowercases and replaces spaces with dashes."),
-    ["Lowercase", "Replace spaces"],
-    [{ args: ["Code Quest"], expected: "code-quest", label: "main" }],
+    "digit_sum",
+    "n",
+    title(framework, difficulty, level, "digit_sum(n) returns the sum of decimal digits in n."),
+    ["Repeatedly take n % 10.", "Works for 0."],
+    [
+      { args: [12345], expected: 15, label: "main" },
+      { args: [0], expected: 0, label: "zero" },
+      { args: [909], expected: 18, label: "nines" },
+    ],
   );
 }
 
@@ -177,6 +231,19 @@ function loopLabyrinth(
   difficulty: SkillDifficulty,
   level: number,
 ): Exercise {
+  if (difficulty === "senior") {
+    return makeFn(
+      language,
+      "sum_multiples",
+      "n",
+      title(framework, difficulty, level, "sum_multiples(n) sums integers 1..n divisible by 3 or 5."),
+      ["Loop 1..n inclusive.", "Add when divisible by 3 or 5."],
+      [
+        { args: [15], expected: 60, label: "n=15" },
+        { args: [10], expected: 33, label: "n=10" },
+      ],
+    );
+  }
   const n = difficulty === "beginner" ? 3 : difficulty === "mid" ? 5 : 8;
   return makeFn(
     language,
@@ -239,11 +306,15 @@ function arrayArena(
   }
   return makeFn(
     language,
-    "topK",
-    "values, k",
-    title(framework, difficulty, level, "topK(values,k) returns k largest numbers descending."),
-    ["Sort desc", "Slice k items"],
-    [{ args: [[9, 1, 7], 2], expected: [9, 7], label: "main" }],
+    "longest_increasing",
+    "nums",
+    title(framework, difficulty, level, "longest_increasing(nums) returns length of longest strictly increasing subsequence."),
+    ["DP table or patience sorting idea.", "Empty array → 0."],
+    [
+      { args: [[10, 9, 2, 5, 3, 7, 101, 18]], expected: 4, label: "classic" },
+      { args: [[1, 2, 3]], expected: 3, label: "sorted" },
+      { args: [[]], expected: 0, label: "empty" },
+    ],
   );
 }
 
@@ -294,14 +365,19 @@ function logicLair(
   }
   return makeFn(
     language,
-    "healthStatus",
-    "ok, latency",
-    title(framework, difficulty, level, "healthStatus(ok,latency) returns 'degraded' if !ok or latency>500 else 'healthy'."),
-    ["Check both conditions."],
+    "route_policy",
+    "role, method",
+    title(
+      framework,
+      difficulty,
+      level,
+      "route_policy(role, method) returns 'allow' for admin, 'read' for GET on user, else 'deny'.",
+    ),
+    ["Check admin first.", "method is uppercase in tests."],
     [
-      { args: [true, 120], expected: "healthy", label: "good" },
-      { args: [false, 10], expected: "degraded", label: "down" },
-      { args: [true, 900], expected: "degraded", label: "slow" },
+      { args: ["admin", "DELETE"], expected: "allow", label: "admin" },
+      { args: ["user", "GET"], expected: "read", label: "user get" },
+      { args: ["user", "POST"], expected: "deny", label: "user post" },
     ],
   );
 }
@@ -313,7 +389,7 @@ function bossGate(
   level: number,
 ): Exercise {
   const s = scale(level);
-  const bonus = difficulty === "beginner" ? 1 : difficulty === "mid" ? s.c : difficulty === "expert" ? s.c + 3 : s.c + 8;
+  const bonus = difficulty === "beginner" ? 1 : difficulty === "mid" ? s.c : difficulty === "expert" ? s.c + 3 : s.c + 12;
   return makeFn(
     language,
     "bossMetric",

@@ -1,6 +1,7 @@
 import { findExercise } from "@/lib/curriculum/index";
 import type { SkillDifficulty } from "@/lib/difficulty";
 import type { GameStackPrefs } from "@/lib/game/banks";
+import { applySeniorDifficulty } from "@/lib/execute/senior-overlay";
 import { runInSandbox } from "@/lib/execute/sandbox";
 import type {
   FunctionCase,
@@ -268,7 +269,7 @@ export async function gradeExercise(
   kind: "lesson" | "challenge" | "game",
   id: string,
   code: string,
-  _difficulty?: SkillDifficulty,
+  difficulty?: SkillDifficulty,
   stack?: GameStackPrefs,
 ) {
   const record = findExercise(kind, id, kind === "game" ? { stack } : undefined);
@@ -276,8 +277,10 @@ export async function gradeExercise(
     throw new Error("That exercise does not exist.");
   }
 
-  const tests = record.exercise.tests;
-  const performance = record.exercise.performance;
+  const exercise =
+    kind === "game" ? record.exercise : applySeniorDifficulty(record.exercise, difficulty, id);
+  const tests = exercise.tests;
+  const performance = exercise.performance;
   const stdin = tests.type === "stdout" ? tests.stdin ?? "" : "";
   const program = buildHarness(record.language, code, tests, performance, "visible");
   const run = await runInSandbox(record.language, program, stdin);

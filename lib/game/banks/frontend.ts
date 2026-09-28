@@ -70,13 +70,19 @@ function byteBlitz(
     );
   }
   return jsFn(
-    "titleCase",
+    "longest_unique_len",
     "text",
-    componentTitle(framework, difficulty, level, "titleCase(text) capitalizes the first letter of each word."),
-    ["Split on spaces.", "Uppercase first char of each piece."],
+    componentTitle(
+      framework,
+      difficulty,
+      level,
+      "longest_unique_len(text) returns the length of the longest substring without repeating characters.",
+    ),
+    ["Sliding window with a Set.", "Shrink the window when a duplicate appears."],
     [
-      { args: ["code quest"], expected: "Code Quest", label: "two words" },
-      { args: ["a"], expected: "A", label: "single" },
+      { args: ["abcabcbb"], expected: 3, label: "abcabcbb" },
+      { args: ["bbbbb"], expected: 1, label: "bbbbb" },
+      { args: [""], expected: 0, label: "empty" },
     ],
     t,
   );
@@ -125,14 +131,14 @@ function functionForge(
     );
   }
   return jsFn(
-    "scoreTier",
-    "score",
-    componentTitle(framework, difficulty, level, "scoreTier(score) returns S/A/B/C/F using 90/80/70/60 cutoffs."),
-    ["Check from highest band down."],
+    "max_subarray_sum",
+    "nums",
+    componentTitle(framework, difficulty, level, "max_subarray_sum(nums) returns the maximum contiguous subarray sum."),
+    ["Kadane's algorithm or track running/current max.", "Single negative element counts."],
     [
-      { args: [90], expected: "S", label: "90" },
-      { args: [80], expected: "A", label: "80" },
-      { args: [59], expected: "F", label: "59" },
+      { args: [[-2, 1, -3, 4, -1, 2, 1, -5, 4]], expected: 6, label: "classic" },
+      { args: [[-5]], expected: -5, label: "single neg" },
+      { args: [[1, 2, 3]], expected: 6, label: "all positive" },
     ],
     t,
   );
@@ -182,11 +188,15 @@ function stringSurge(
     );
   }
   return jsFn(
-    "slugify",
-    "text",
-    componentTitle(framework, difficulty, level, "slugify(text) lowercases and swaps spaces for hyphens."),
-    ["toLowerCase()", "replace spaces"],
-    [{ args: ["Code Quest"], expected: "code-quest", label: "title" }],
+    "group_anagrams_key",
+    "word",
+    componentTitle(framework, difficulty, level, "group_anagrams_key(word) returns letters sorted ascending as the anagram key."),
+    ["Split into chars.", "Sort and join."],
+    [
+      { args: ["listen"], expected: "eilnst", label: "listen" },
+      { args: ["silent"], expected: "eilnst", label: "silent" },
+      { args: ["a"], expected: "a", label: "single" },
+    ],
     t,
   );
 }
@@ -198,6 +208,25 @@ function loopLabyrinth(
   level: number,
 ): Exercise {
   const t = typed(language);
+  if (difficulty === "senior") {
+    return jsFn(
+      "sum_multiples",
+      "n",
+      componentTitle(
+        framework,
+        difficulty,
+        level,
+        "sum_multiples(n) sums integers 1..n divisible by 3 or 5.",
+      ),
+      ["Loop 1..n.", "Add when i % 3 === 0 || i % 5 === 0."],
+      [
+        { args: [15], expected: 60, label: "n=15" },
+        { args: [10], expected: 33, label: "n=10" },
+        { args: [1], expected: 0, label: "n=1" },
+      ],
+      t,
+    );
+  }
   const n = difficulty === "beginner" ? 3 : difficulty === "mid" ? 5 : 8;
   return jsFn(
     "renderDots",
@@ -260,12 +289,13 @@ function arrayArena(
     );
   }
   return jsFn(
-    "topScores",
-    "scores, n",
-    componentTitle(framework, difficulty, level, "topScores(scores,n) returns the n highest numbers sorted desc."),
-    ["Sort descending.", "Slice first n items."],
+    "merge_sorted",
+    "a, b",
+    componentTitle(framework, difficulty, level, "merge_sorted(a,b) merges two sorted arrays into one sorted array."),
+    ["Two-pointer merge.", "Compare fronts and advance."],
     [
-      { args: [[9, 1, 7, 3], 2], expected: [9, 7], label: "main" },
+      { args: [[1, 3, 5], [2, 4, 6]], expected: [1, 2, 3, 4, 5, 6], label: "classic" },
+      { args: [[], [2]], expected: [2], label: "empty left" },
     ],
     t,
   );
@@ -319,14 +349,20 @@ function logicLair(
     );
   }
   return jsFn(
-    "accessLevel",
-    "role",
-    componentTitle(framework, difficulty, level, "accessLevel(role) maps admin→3, mod→2, else 1."),
-    ["if/else or switch on role string."],
+    "can_ship",
+    "paid, stock, region",
+    componentTitle(
+      framework,
+      difficulty,
+      level,
+      "can_ship(paid, stock, region) is true only when paid, stock>0, and region is not 'blocked'.",
+    ),
+    ["Combine three conditions with &&.", "Region check is case-sensitive."],
     [
-      { args: ["admin"], expected: 3, label: "admin" },
-      { args: ["mod"], expected: 2, label: "mod" },
-      { args: ["user"], expected: 1, label: "user" },
+      { args: [true, 5, "us"], expected: true, label: "ok" },
+      { args: [true, 0, "us"], expected: false, label: "no stock" },
+      { args: [false, 5, "us"], expected: false, label: "unpaid" },
+      { args: [true, 2, "blocked"], expected: false, label: "blocked" },
     ],
     t,
   );
@@ -340,7 +376,7 @@ function bossGate(
 ): Exercise {
   const s = scale(level);
   const t = typed(language);
-  const bonus = difficulty === "beginner" ? 1 : difficulty === "mid" ? s.c : difficulty === "expert" ? s.c + 2 : s.c + 6;
+  const bonus = difficulty === "beginner" ? 1 : difficulty === "mid" ? s.c : difficulty === "expert" ? s.c + 2 : s.c + 10;
   return jsFn(
     "bossReward",
     "base, mult",
@@ -349,6 +385,7 @@ function bossGate(
     [
       { args: [s.a, s.b], expected: s.a * s.b + bonus, label: "main" },
       { args: [2, 3], expected: 6 + bonus, label: "2,3" },
+      ...(difficulty === "senior" ? [{ args: [0, 99], expected: bonus, label: "zero base" }] : []),
     ],
     t,
   );

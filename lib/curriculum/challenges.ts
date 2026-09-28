@@ -114,40 +114,50 @@ export const challenges: Challenge[] = [
   {
     id: "py-fizz",
     language: "python",
-    title: "Beacon Pattern",
-    summary: "Classic FizzBuzz for a single number.",
+    title: "Signal Window",
+    summary: "Longest substring without repeating characters.",
     difficulty: "senior",
     xp: 80,
     blocks: [
       {
         type: "p",
-        text: "Multiples of 3 become Fizz, multiples of 5 become Buzz, and multiples of both become FizzBuzz. Every other number comes back as text.",
+        text: "Given a string, return the length of the longest substring where no character repeats. This is a classic sliding-window problem.",
       },
       {
         type: "ul",
         items: [
-          "Check 15 first, because those numbers are multiples of both 3 and 5.",
-          "str(n) turns a number into text.",
+          "Expand the window with a right pointer.",
+          "When you see a duplicate, shrink from the left until it is unique again.",
+          "Track the best length seen.",
         ],
       },
     ],
     exercise: {
-      prompt:
-        'Write fizzbuzz_line(n). Return "FizzBuzz", "Fizz", "Buzz", or the number as text.',
-      starterCode: "def fizzbuzz_line(n):\n    return str(n)\n",
+      prompt: "Write longest_unique(s) returning the length of the longest substring without repeating characters.",
+      starterCode: "def longest_unique(s):\n    return 0\n",
       hints: [
-        "n % 15 == 0 catches multiples of both.",
-        "Then test 3, then 5.",
-        "Otherwise return str(n).",
+        "Use a set of characters in the current window.",
+        "Move the left pointer while duplicates exist.",
       ],
       tests: {
         type: "function",
-        functionName: "fizzbuzz_line",
+        functionName: "longest_unique",
         cases: [
-          { args: [3], expected: "Fizz", label: "3" },
-          { args: [5], expected: "Buzz", label: "5" },
-          { args: [15], expected: "FizzBuzz", label: "15" },
-          { args: [2], expected: "2", label: "2" },
+          { args: ["abcabcbb"], expected: 3, label: "abcabcbb" },
+          { args: ["bbbbb"], expected: 1, label: "bbbbb" },
+          { args: ["pwwkew"], expected: 3, label: "pwwkew" },
+          { args: [""], expected: 0, label: "empty" },
+        ],
+      },
+      performance: {
+        expectedComplexity: "O(n)",
+        maxMsPerCase: 2_500,
+        cases: [
+          {
+            args: [repeatChar("abcdefghijklmnopqrstuvwxyz", 400)],
+            expected: 26,
+            label: "400 alphabet blocks",
+          },
         ],
       },
     },
@@ -517,24 +527,31 @@ export const challenges: Challenge[] = [
     id: "java-count",
     language: "java",
     guideTopicId: "java",
-    title: "Count to Five",
-    summary: "Print 1 through 5 on separate lines.",
+    title: "Square Storm",
+    summary: "Sum of squares from 1 through n — senior math loop.",
     difficulty: "senior",
     xp: 75,
     blocks: [
       {
         type: "p",
-        text: "A for loop from 1 to 5 with println inside produces five lines.",
+        text: "Compute 1² + 2² + … + n² for n = 12. Use a loop — the formula n(n+1)(2n+1)/6 also works if you know it.",
+      },
+      {
+        type: "ul",
+        items: [
+          "Loop i from 1 to 12 and accumulate i * i.",
+          "Print only the final sum on one line.",
+        ],
       },
     ],
     exercise: {
-      prompt: "Print the numbers 1, 2, 3, 4, and 5 each on their own line.",
-      starterCode: "public class Main {\n  public static void main(String[] args) {\n    // Count 1 to 5.\n  }\n}\n",
+      prompt: "Print the sum of squares from 1² through 12² (one number only).",
+      starterCode: "public class Main {\n  public static void main(String[] args) {\n    // Sum 1^2 + 2^2 + ... + 12^2\n  }\n}\n",
       hints: [
-        "for (int i = 1; i <= 5; i++)",
-        "System.out.println(i);",
+        "int sum = 0; then loop.",
+        "sum += i * i inside the loop.",
       ],
-      tests: { type: "stdout", expected: "1\n2\n3\n4\n5" },
+      tests: { type: "stdout", expected: "650" },
     },
   },
 ];

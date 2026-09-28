@@ -32,12 +32,12 @@ function byteBlitz(difficulty: SkillDifficulty, level: number): Exercise {
       tests: { type: "stdout", expected: String(product) },
     };
   }
-  const combo = s.a * s.b + s.c;
+  const mod = (s.a * s.b * s.c) % Math.max(1, s.a + s.b);
   return {
-    prompt: `SENIOR byte drill ${level}: print a*b+c where a=${s.a}, b=${s.b}, c=${s.c}.`,
+    prompt: `SENIOR byte drill ${level}: print (a*b*c) % (a+b) where a=${s.a}, b=${s.b}, c=${s.c}.`,
     starterCode: `a = ${s.a}\nb = ${s.b}\nc = ${s.c}\n`,
-    hints: ["Multiply first, then add c.", "One number on the line."],
-    tests: { type: "stdout", expected: String(combo) },
+    hints: ["Multiply all three, then use % for remainder.", "Denominator is a+b."],
+    tests: { type: "stdout", expected: String(mod) },
   };
 }
 
@@ -80,13 +80,15 @@ function functionForge(difficulty: SkillDifficulty, level: number): Exercise {
     );
   }
   return pyFn(
-    "weighted",
-    "a, b",
-    `Senior forge ${level}: weighted(a,b) returns a*2 + b.`,
-    ["Double a, then add b.", "Negatives count."],
+    "fib",
+    "n",
+    `Senior forge ${level}: fib(n) returns the nth Fibonacci number (fib(0)=0, fib(1)=1).`,
+    ["Use a loop or recursion with a base case.", "fib(10) should be 55."],
     [
-      { args: [s.a, s.b], expected: s.a * 2 + s.b, label: "main" },
-      { args: [-2, 5], expected: 1, label: "neg" },
+      { args: [10], expected: 55, label: "fib(10)" },
+      { args: [1], expected: 1, label: "fib(1)" },
+      { args: [0], expected: 0, label: "fib(0)" },
+      { args: [15], expected: 610, label: "fib(15)" },
     ],
   );
 }
@@ -130,13 +132,14 @@ function stringSurge(difficulty: SkillDifficulty, level: number): Exercise {
     );
   }
   return pyFn(
-    "slug",
+    "reverse_words",
     "text",
-    `Senior string ${level}: slug(text) lowercases and replaces spaces with dashes.`,
-    ["text.lower()", "Replace spaces with '-'."],
+    `Senior string ${level}: reverse_words(text) reverses the order of words (split on single spaces).`,
+    ["Split into words.", "Reverse the list, then join with spaces."],
     [
-      { args: ["Code Quest"], expected: "code-quest", label: "title" },
-      { args: ["A B"], expected: "a-b", label: "short" },
+      { args: ["code quest arena"], expected: "arena quest code", label: "three words" },
+      { args: ["solo"], expected: "solo", label: "one word" },
+      { args: [""], expected: "", label: "empty" },
     ],
   );
 }
@@ -146,14 +149,14 @@ function loopLabyrinth(difficulty: SkillDifficulty, level: number): Exercise {
   const target = difficulty === "beginner" ? Math.min(5, s.cap) : s.cap;
   if (difficulty === "senior") {
     return pyFn(
-      "even_sum_through",
+      "count_primes_up_to",
       "n",
-      `Senior loop ${level}: even_sum_through(n) sums even numbers from 2 through n.`,
-      ["Step by 2 in a loop.", "Include n if it is even."],
+      `Senior loop ${level}: count_primes_up_to(n) counts primes from 2 through n.`,
+      ["Test each candidate with an inner loop.", "0 and 1 are not prime."],
       [
-        { args: [6], expected: 12, label: "6" },
-        { args: [4], expected: 6, label: "4" },
-        { args: [1], expected: 0, label: "1" },
+        { args: [10], expected: 4, label: "n=10" },
+        { args: [20], expected: 8, label: "n=20" },
+        { args: [1], expected: 0, label: "n=1" },
       ],
     );
   }
@@ -208,13 +211,14 @@ function arrayArena(difficulty: SkillDifficulty, level: number): Exercise {
     );
   }
   return pyFn(
-    "count_gt",
-    "nums, threshold",
-    `Senior array ${level}: count_gt(nums, threshold) counts values strictly greater than threshold.`,
-    ["Loop and increment a counter."],
+    "two_sum_exists",
+    "nums, target",
+    `Senior array ${level}: two_sum_exists(nums, target) returns True if any two distinct indices sum to target.`,
+    ["Nested loop over pairs.", "Return early when a match is found."],
     [
-      { args: [[1, 5, 9, 2], 4], expected: 2, label: "main" },
-      { args: [[], 0], expected: 0, label: "empty" },
+      { args: [[2, 7, 11, 15], 9], expected: true, label: "classic" },
+      { args: [[1, 2, 3], 7], expected: false, label: "missing" },
+      { args: [[3, 3], 6], expected: true, label: "duplicate" },
     ],
   );
 }
@@ -258,20 +262,22 @@ function logicLair(difficulty: SkillDifficulty, level: number): Exercise {
     );
   }
   return pyFn(
-    "grade_band",
-    "score",
-    `Senior logic ${level}: grade_band(score) returns 'pass' if score>=70 else 'retry'.`,
-    ["Use a comparison.", "Return the exact strings."],
+    "admission_tier",
+    "age, score",
+    `Senior logic ${level}: admission_tier(age, score) returns 'elite' if score>=90 and age>=18, 'standard' if score>=70, else 'retry'.`,
+    ["Check elite conditions first.", "Return exact lowercase strings."],
     [
-      { args: [70], expected: "pass", label: "70" },
-      { args: [69], expected: "retry", label: "69" },
+      { args: [20, 95], expected: "elite", label: "elite" },
+      { args: [17, 95], expected: "standard", label: "young high scorer" },
+      { args: [25, 72], expected: "standard", label: "standard" },
+      { args: [30, 50], expected: "retry", label: "retry" },
     ],
   );
 }
 
 function bossGate(difficulty: SkillDifficulty, level: number): Exercise {
   const s = scale(level);
-  const c = difficulty === "beginner" ? 1 : difficulty === "mid" ? s.c : difficulty === "expert" ? s.c + 2 : s.c + 5;
+  const c = difficulty === "beginner" ? 1 : difficulty === "mid" ? s.c : difficulty === "expert" ? s.c + 2 : s.c + 12;
   return pyFn(
     "boss_stat",
     "a, b",
@@ -280,7 +286,12 @@ function bossGate(difficulty: SkillDifficulty, level: number): Exercise {
     [
       { args: [s.a, s.b], expected: s.a * s.b + c, label: "main" },
       { args: [2, 3], expected: 6 + c, label: "2,3" },
-      ...(difficulty === "senior" ? [{ args: [-2, 4], expected: -8 + c, label: "neg" }] : []),
+      ...(difficulty === "senior"
+        ? [
+            { args: [-2, 4], expected: -8 + c, label: "neg" },
+            { args: [0, 99], expected: c, label: "zero" },
+          ]
+        : []),
     ],
   );
 }

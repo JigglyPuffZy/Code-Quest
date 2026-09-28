@@ -1,7 +1,7 @@
 import { difficultyLabel, SKILL_DIFFICULTIES, type SkillDifficulty } from "@/lib/difficulty";
 import { buildTrackQuestion, type GameStackPrefs } from "@/lib/game/banks";
 import { gameLevelId, parseGameLevelId, type GameLevelKey } from "@/lib/game/ids";
-import { GAME_MODES, gameModeForLevel, tierForLevel, xpForGameLevel } from "@/lib/game/modes";
+import { effectiveGameLevel, GAME_MODES, gameModeForLevel, tierForLevel, xpForGameLevel } from "@/lib/game/modes";
 import { stackLabel, trackLanguage, type GameTrackId } from "@/lib/game/tracks";
 import type { GameLevel } from "@/lib/game/types";
 import { MAX_GAME_LEVEL } from "@/lib/game/types";
@@ -30,7 +30,8 @@ export function buildGameLevel(
   const mode = gameModeForLevel(n);
   const meta = GAME_MODES[mode];
   const skill = SKILL_DIFFICULTIES[difficulty];
-  const exercise = buildTrackQuestion(track, difficulty, mode, n, stack);
+  const scaledLevel = effectiveGameLevel(n, difficulty);
+  const exercise = buildTrackQuestion(track, difficulty, mode, scaledLevel, stack);
   const language = trackLanguage(track, {
     frontendLanguage: stack.frontendLanguage,
     backendLanguage: stack.backendLanguage,
