@@ -56,6 +56,8 @@ export function CodeQuestIntro({ playerId, username }: { playerId: string; usern
   const [firstVisit, setFirstVisit] = useState(false);
   const [ready, setReady] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
+  const [inView, setInView] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
   const pathRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -66,20 +68,36 @@ export function CodeQuestIntro({ playerId, username }: { playerId: string; usern
   }, [playerId]);
 
   useEffect(() => {
-    if (!expanded) return;
+    const section = sectionRef.current;
+    if (!section) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setInView(entry.isIntersecting),
+      { rootMargin: "0px 0px -8% 0px", threshold: 0.15 },
+    );
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, [ready]);
+
+  useEffect(() => {
+    if (!expanded || !inView) return;
     const timer = window.setInterval(() => {
       setActiveStep((current) => (current + 1) % PATH_STEPS.length);
     }, 2800);
     return () => window.clearInterval(timer);
-  }, [expanded]);
+  }, [expanded, inView]);
 
   useEffect(() => {
-    if (!expanded) return;
+    if (!expanded || !inView) return;
     const lane = pathRef.current;
     if (!lane) return;
+    if (window.matchMedia("(min-width: 640px)").matches) return;
+
     const card = lane.children.item(activeStep) as HTMLElement | null;
-    card?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
-  }, [activeStep, expanded]);
+    if (!card) return;
+
+    const targetLeft = card.offsetLeft - (lane.clientWidth - card.clientWidth) / 2;
+    lane.scrollTo({ left: Math.max(0, targetLeft), behavior: "smooth" });
+  }, [activeStep, expanded, inView]);
 
   function dismiss() {
     writeIntroDismissed(playerId);
@@ -91,6 +109,7 @@ export function CodeQuestIntro({ playerId, username }: { playerId: string; usern
 
   return (
     <section
+      ref={sectionRef}
       className={cn(
         "cq-intro-shell relative overflow-hidden rounded-3xl border border-white/10",
         expanded ? "cq-intro-welcome" : "cq-intro-collapsed",
