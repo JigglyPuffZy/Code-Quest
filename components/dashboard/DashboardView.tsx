@@ -13,6 +13,7 @@ import { SideQuestDeck } from "@/components/dashboard/SideQuestDeck";
 import { StatsStrip } from "@/components/dashboard/StatsStrip";
 import { GamePlayHero } from "@/components/game/GamePlayHero";
 import { usePlayer } from "@/components/player/PlayerProvider";
+import { LazySection } from "@/components/ui/LazySection";
 import { RingProgress } from "@/components/ui/RingProgress";
 import {
   ArrowRight,
@@ -128,34 +129,40 @@ export function DashboardView() {
       </DashboardZone>
 
       {/* 5 — Bonus */}
-      <DashboardZone
-        step={5}
-        title="Bonus missions"
-        hint="Optional side quests for extra XP — not required, but nice for a quick win."
-      >
-        <SideQuestDeck embedded />
-      </DashboardZone>
+      <LazySection minHeight={320} label="Loading bonus missions">
+        <DashboardZone
+          step={5}
+          title="Bonus missions"
+          hint="Optional side quests for extra XP — not required, but nice for a quick win."
+        >
+          <SideQuestDeck embedded />
+        </DashboardZone>
+      </LazySection>
 
       {/* 6 — Social & daily missions */}
-      <DashboardZone
-        step={6}
-        title="Compete & collect"
-        hint="Compare with others, tackle today's arena fight, and see recent rewards."
-      >
-        <div className="grid gap-6 xl:grid-cols-[1.05fr_0.95fr]">
-          <MissionDeck player={player} embedded />
-          <MiniLeaderboard />
-        </div>
-      </DashboardZone>
+      <LazySection minHeight={360} label="Loading compete and collect">
+        <DashboardZone
+          step={6}
+          title="Compete & collect"
+          hint="Compare with others, tackle today's arena fight, and see recent rewards."
+        >
+          <div className="grid gap-6 xl:grid-cols-[1.05fr_0.95fr]">
+            <MissionDeck player={player} embedded />
+            <MiniLeaderboard />
+          </div>
+        </DashboardZone>
+      </LazySection>
 
       {/* Tour — bottom so it doesn't block action */}
-      <DashboardZone
-        title="How CodeQuest works"
-        hint="New here? This quick tour explains Read → Write → Battle → Rank up."
-        panel
-      >
-        <CodeQuestIntro playerId={player.id} username={player.username} />
-      </DashboardZone>
+      <LazySection minHeight={120} label="Loading quest briefing">
+        <DashboardZone
+          title="How CodeQuest works"
+          hint="New here? Tap the briefing below for Read → Write → Battle → Rank up."
+          panel
+        >
+          <CodeQuestIntro playerId={player.id} username={player.username} />
+        </DashboardZone>
+      </LazySection>
     </div>
   );
 }

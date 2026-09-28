@@ -73,8 +73,8 @@ export function CodeEditor({
         }}
         className={
           isGame
-            ? "h-full resize-none bg-transparent px-2.5 py-2.5 font-mono text-[13px] leading-6 text-slate-100 caret-cyan-300 outline-none sm:px-3 sm:py-3 sm:text-sm"
-            : "h-full resize-none bg-transparent px-2.5 py-2.5 font-mono text-[13px] leading-6 text-ink outline-none sm:px-3 sm:py-3 sm:text-sm"
+            ? "h-full resize-none bg-transparent px-2.5 py-2.5 font-mono text-base leading-6 text-slate-100 caret-cyan-300 outline-none sm:px-3 sm:py-3 sm:text-sm"
+            : "h-full resize-none bg-transparent px-2.5 py-2.5 font-mono text-base leading-6 text-ink outline-none sm:px-3 sm:py-3 sm:text-sm"
         }
       />
     </div>

@@ -10,6 +10,25 @@ export const dynamic = "force-dynamic";
 export const maxDuration = 30;
 
 const MAX_CODE = 8_000;
+const RATE_LIMIT = 40;
+const RATE_WINDOW_MS = 60_000;
+
+const rateBuckets = new Map<string, { count: number; resetAt: number }>();
+
+function isRateLimited(request: Request) {
+  const ip =
+    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+    request.headers.get("x-real-ip") ||
+    "local";
+  const now = Date.now();
+  const bucket = rateBuckets.get(ip);
+  if (!bucket || now >= bucket.resetAt) {
+    rateBuckets.set(ip, { count: 1, resetAt: now + RATE_WINDOW_MS });
+    return false;
+  }
+  bucket.count += 1;
+  return bucket.count > RATE_LIMIT;
+}
 
 function isLanguage(value: unknown): value is LanguageId {
   return (
@@ -21,6 +40,13 @@ function isLanguage(value: unknown): value is LanguageId {
 }
 
 export async function POST(request: Request) {
+  if (isRateLimited(request)) {
+    return NextResponse.json(
+      { error: "Too many code runs. Wait a minute and try again." },
+      { status: 429 },
+    );
+  }
+
   let body: unknown;
   try {
     body = await request.json();

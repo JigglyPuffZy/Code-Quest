@@ -362,6 +362,27 @@ body {
   position: relative;
 }
 
+.dash-lazy-section {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 320px;
+}
+
+@media (max-width: 767px) {
+  .dash-hero [class*="blur-3xl"] {
+    display: none;
+  }
+
+  .cq-intro-orb,
+  .cq-intro-scan {
+    display: none;
+  }
+
+  .shell-header {
+    backdrop-filter: none;
+    background: color-mix(in oklab, var(--color-surface) 98%, transparent);
+  }
+}
+
 .dash-daily {
   animation: rise 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
 }

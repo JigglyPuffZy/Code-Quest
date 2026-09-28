@@ -75,6 +75,20 @@ export function MiniLeaderboard() {
     };
   }, [player, supabaseEnabled]);
 
+  useEffect(() => {
+    if (!player || !rows) return;
+    const xp = totalXp(player);
+    setRows((current) => {
+      if (!current) return current;
+      const next = current.map((entry) =>
+        entry.id === player.id
+          ? { ...entry, xp, streak: player.streak, username: player.username, avatar: player.avatar }
+          : entry,
+      );
+      return [...next].sort((a, b) => b.xp - a.xp || a.username.localeCompare(b.username));
+    });
+  }, [player]);
+
   const { top, rank } = useMemo(() => {
     if (!rows || !player) return { top: [], rank: null };
     const index = rows.findIndex((entry) => entry.id === player.id);

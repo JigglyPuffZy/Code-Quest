@@ -63,7 +63,7 @@ export function CodeQuestIntro({ playerId, username }: { playerId: string; usern
   useEffect(() => {
     const dismissed = readIntroDismissed(playerId);
     setFirstVisit(!dismissed);
-    setExpanded(!dismissed);
+    setExpanded(false);
     setReady(true);
   }, [playerId]);
 

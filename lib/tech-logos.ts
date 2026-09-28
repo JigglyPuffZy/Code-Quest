@@ -1,14 +1,7 @@
-import * as simpleIcons from "simple-icons";
 import type { GuideTopicId } from "@/lib/guides/types";
-import type { SimpleIcon } from "simple-icons";
+import { getSimpleIcon } from "@/lib/tech-icon-registry";
 
-const ICON_BY_SLUG = new Map<string, SimpleIcon>();
-
-for (const value of Object.values(simpleIcons)) {
-  if (value && typeof value === "object" && "slug" in value && "path" in value) {
-    ICON_BY_SLUG.set(value.slug, value as SimpleIcon);
-  }
-}
+export { getSimpleIcon };
 
 export const TOPIC_ICON_SLUGS: Record<GuideTopicId, string | string[]> = {
   python: "python",
@@ -153,10 +146,6 @@ function normalizeKey(value: string) {
     .trim();
 }
 
-export function getSimpleIcon(slug: string): SimpleIcon | undefined {
-  return ICON_BY_SLUG.get(slug);
-}
-
 export function resolveTopicIconSlugs(topicId: GuideTopicId): string[] {
   const value = TOPIC_ICON_SLUGS[topicId];
   return Array.isArray(value) ? value : [value];
@@ -174,7 +163,7 @@ export function resolveIconSlug(input: {
   if (input.slug) {
     const fromSlug = NAME_ICON_SLUGS[input.slug];
     if (fromSlug) return [fromSlug];
-    if (ICON_BY_SLUG.has(input.slug)) return [input.slug];
+    if (getSimpleIcon(input.slug)) return [input.slug];
   }
 
   if (input.name) {
@@ -184,14 +173,14 @@ export function resolveIconSlug(input: {
     const compact = norm.replace(/\s+/g, "");
     if (NAME_ICON_SLUGS[compact]) return [NAME_ICON_SLUGS[compact]];
 
-    if (ICON_BY_SLUG.has(compact)) return [compact];
+    if (getSimpleIcon(compact)) return [compact];
 
     const hyphen = norm.replace(/\s+/g, "-");
-    if (ICON_BY_SLUG.has(hyphen)) return [hyphen];
+    if (getSimpleIcon(hyphen)) return [hyphen];
 
     const firstWord = norm.split(" ")[0];
     if (NAME_ICON_SLUGS[firstWord]) return [NAME_ICON_SLUGS[firstWord]];
-    if (ICON_BY_SLUG.has(firstWord)) return [firstWord];
+    if (getSimpleIcon(firstWord)) return [firstWord];
   }
 
   return [];
