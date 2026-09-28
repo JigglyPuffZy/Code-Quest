@@ -222,10 +222,9 @@ export function GameExerciseView({
           </article>
 
           <VisibleTestCases
-            tests={record.exercise.tests}
+            exercise={record.exercise}
             results={runResults}
             running={runTestsRunning}
-            theme="game"
           />
 
           <article className="rounded-2xl border border-line bg-white p-5">

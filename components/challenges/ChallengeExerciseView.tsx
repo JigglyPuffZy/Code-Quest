@@ -204,7 +204,7 @@ export function ChallengeExerciseView({
           </article>
 
           <VisibleTestCases
-            tests={challenge.exercise.tests}
+            exercise={challenge.exercise}
             results={runResults}
             running={runTestsRunning}
           />

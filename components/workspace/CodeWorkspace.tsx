@@ -6,8 +6,9 @@ import { CodeEditor } from "@/components/workspace/CodeEditor";
 import { cn } from "@/lib/cn";
 import type { GradeProgress } from "@/lib/execute/grade-progress";
 import { gradeCode, runVisibleTests } from "@/lib/execute/client";
+import { summarizeRunResults } from "@/lib/execute/visible-tests";
 import type { GradeResponse, GradeTest, LanguageId, TestSpec } from "@/lib/types";
-import { Check, Play, Terminal, X } from "lucide-react";
+import { Check, CheckCircle2, Play, Terminal, X, XCircle } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 function draftKey(kind: string, exerciseId: string, difficulty?: string) {
@@ -52,8 +53,10 @@ export function CodeWorkspace({
   const [error, setError] = useState("");
   const [rewardNote, setRewardNote] = useState("");
   const [gradeProgress, setGradeProgress] = useState<GradeProgress | null>(null);
+  const [lastAction, setLastAction] = useState<"run" | "grade" | null>(null);
   const abortRef = useRef<AbortController | null>(null);
   const isGame = theme === "game";
+  const runSummary = lastAction === "run" && grade ? summarizeRunResults(grade.tests) : null;
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
@@ -74,9 +77,11 @@ export function CodeWorkspace({
     abortRef.current = controller;
 
     setRunning(mode);
+    setLastAction(mode);
     setError("");
     setRewardNote("");
     setGradeProgress(null);
+    if (mode === "run") setGrade(null);
     try {
       if (mode === "run") {
         onRunStateChange?.({ running: true, results: null });
@@ -190,11 +195,18 @@ export function CodeWorkspace({
         onChange={setCode}
         onSubmit={() => void execute("grade")}
       />
-      <p className={cn("text-xs leading-relaxed sm:text-[11px]", isGame ? "text-slate-400" : "text-muted")}>
-        {isGame
-          ? "Run tests to preview checks · Submit when ready for full grading"
-          : "Run tests to preview checks. XP only when Submit passes all checks."}
-      </p>
+      <div
+        className={cn(
+          "rounded-xl border px-3 py-2.5 text-xs leading-relaxed sm:text-[11px]",
+          isGame ? "border-slate-800 bg-slate-950/50 text-slate-400" : "border-line bg-surface text-muted",
+        )}
+      >
+        <p>
+          <strong className={isGame ? "text-slate-200" : "text-ink"}>Run tests</strong> checks the examples beside
+          your mission. <strong className={isGame ? "text-slate-200" : "text-ink"}>Submit</strong> runs hidden
+          checks{expectedTests && expectedTests > (tests?.type === "function" ? tests.cases.length : 1) ? " and awards XP" : ""}.
+        </p>
+      </div>
       <div
         className={cn(
           "overflow-hidden rounded-xl border",
@@ -243,13 +255,45 @@ export function CodeWorkspace({
             </div>
           ) : null}
           {running === "run" ? (
-            <p className={isGame ? "text-cyan-300" : "text-primary"}>Running visible test cases…</p>
+            <p className={isGame ? "text-cyan-300" : "text-primary"}>Running examples…</p>
           ) : null}
           {error ? <p className="text-danger">{error}</p> : null}
           {rewardNote ? (
             <p className={cn("font-semibold", isGame ? "text-emerald-400" : "text-primary")}>{rewardNote}</p>
           ) : null}
-          {grade ? (
+          {lastAction === "run" && grade && runSummary ? (
+            <div
+              className={cn(
+                "rounded-lg border px-3 py-3 font-sans",
+                isGame ? "border-slate-800 bg-slate-950" : "border-line bg-surface",
+                runSummary.allPassed
+                  ? isGame
+                    ? "border-emerald-500/30"
+                    : "border-emerald-200 bg-emerald-50/60"
+                  : isGame
+                    ? "border-rose-500/30"
+                    : "border-rose-200 bg-rose-50/60",
+              )}
+            >
+              <p
+                className={cn(
+                  "flex items-center gap-2 text-sm font-semibold",
+                  runSummary.allPassed ? "text-ok" : "text-danger",
+                )}
+              >
+                {runSummary.allPassed ? <CheckCircle2 size={16} /> : <XCircle size={16} />}
+                {runSummary.allPassed
+                  ? `All ${runSummary.total} examples passed`
+                  : `${runSummary.passed} of ${runSummary.total} examples passed`}
+              </p>
+              <p className={cn("mt-1.5 text-[11px] leading-relaxed", isGame ? "text-slate-400" : "text-muted")}>
+                {runSummary.allPassed
+                  ? "Submit when you are ready for hidden checks."
+                  : "See the Examples panel for input, expected output, and what you returned."}
+              </p>
+            </div>
+          ) : null}
+          {lastAction === "grade" && grade ? (
             <ul className="space-y-1.5">
               {grade.tests.map((test) => (
                 <li
@@ -275,7 +319,10 @@ export function CodeWorkspace({
             </ul>
           ) : null}
           {!running && !error && !grade ? (
-            <p className={isGame ? "text-slate-500" : "text-muted"}>Run tests or submit to see results.</p>
+            <p className={isGame ? "text-slate-500" : "text-muted"}>
+              Press <strong className={isGame ? "text-slate-300" : "text-ink"}>Run tests</strong> to try the examples,
+              or <strong className={isGame ? "text-slate-300" : "text-ink"}>Submit</strong> for the full grade.
+            </p>
           ) : null}
         </div>
       </div>
