@@ -5,6 +5,8 @@ import { usePlayer } from "@/components/player/PlayerProvider";
 import { AccountActions } from "@/components/shell/AccountActions";
 import { HubNav } from "@/components/shell/HubNav";
 import { MobileMenu } from "@/components/shell/MobileMenu";
+import { MobileNav } from "@/components/shell/MobileNav";
+import { isInGameSession } from "@/components/shell/nav";
 import { Logo } from "@/components/shell/Logo";
 import { PlayerHud } from "@/components/shell/PlayerHud";
 import { RingProgress } from "@/components/ui/RingProgress";
@@ -22,6 +24,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const isGuides = pathname.startsWith("/guides");
   const isGuideLesson = /^\/guides\/[^/]+\/[^/]+/.test(pathname);
+  const inGameSession = isInGameSession(pathname);
+  const showMobileNav = Boolean(player) && !inGameSession;
   const xpPct = level.needed ? (level.into / level.needed) * 100 : 0;
 
   async function logout() {
@@ -36,7 +40,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div className="min-h-screen bg-canvas pb-6 text-ink md:pb-28">
+    <div className={cn("min-h-screen bg-canvas text-ink md:pb-28", showMobileNav ? "pb-24" : "pb-6")}>
       <div className="app-backdrop pointer-events-none fixed inset-0" />
 
       <header
@@ -118,9 +122,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             </Link>
           </div>
         ) : null}
-        {ready && player ? <div className="rise">{children}</div> : null}
+        {ready && player ? <div className={inGameSession ? undefined : "rise"}>{children}</div> : null}
       </main>
 
+      {showMobileNav ? <MobileNav /> : null}
       <HubNav />
 
       <div className="fixed bottom-4 right-4 z-40 flex w-[min(100%-2rem,280px)] flex-col gap-2 md:bottom-24">

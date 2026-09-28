@@ -31,3 +31,7 @@ export const NAV_ITEMS: NavItem[] = [
 export function isActive(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
+
+export function isInGameSession(pathname: string) {
+  return /^\/challenges\/[^/]+$/.test(pathname) || /^\/game\/[^/]+\/\d+$/.test(pathname);
+}

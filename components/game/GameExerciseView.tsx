@@ -203,7 +203,7 @@ export function GameExerciseView({
 
       <div className="grid gap-6 xl:grid-cols-2 xl:items-start">
         {/* Mission panel */}
-        <div className="space-y-4 xl:max-h-[calc(100vh-11rem)] xl:overflow-y-auto xl:pr-1">
+        <div className="order-2 space-y-4 xl:order-1 xl:max-h-[calc(100vh-11rem)] xl:overflow-y-auto xl:pr-1">
           <article className="overflow-hidden rounded-2xl border border-primary-200 bg-gradient-to-br from-primary-50 via-white to-violet-50/40 p-5 shadow-sm">
             <p className="inline-flex items-center gap-1.5 rounded-full bg-primary px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-primary-foreground">
               <Target size={11} />
@@ -272,7 +272,7 @@ export function GameExerciseView({
         </div>
 
         {/* Code panel */}
-        <div className="xl:sticky xl:top-20">
+        <div className="order-1 xl:order-2 xl:sticky xl:top-20">
           <article className="overflow-hidden rounded-2xl border border-slate-800 bg-slate-950 shadow-xl shadow-slate-900/20">
             <div className="flex items-center justify-between gap-3 border-b border-slate-800 px-4 py-3">
               <div>
@@ -293,8 +293,13 @@ export function GameExerciseView({
                 alreadyCleared={cleared}
                 theme="game"
                 onCleared={() => completeGameLevel(record.id)}
-                skillDifficulty={player?.skillDifficulty}
+                skillDifficulty={record.difficulty}
                 gameStack={player ? playerStack(player) : undefined}
+                expectedTests={
+                  record.exercise.tests.type === "stdout"
+                    ? 1
+                    : record.exercise.tests.cases.length + (record.exercise.performance?.cases.length ?? 0)
+                }
               />
             </div>
           </article>

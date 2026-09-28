@@ -26,7 +26,11 @@ import {
   Zap,
 } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+function challengeStartedKey(challengeId: string) {
+  return `codequest.challenge.${challengeId}.started`;
+}
 
 const FILTERS = ["all", "python", "javascript", "typescript", "java"] as const;
 
@@ -286,8 +290,17 @@ export function ChallengeList() {
 
 export function ChallengePlayer({ challengeId }: { challengeId: string }) {
   const { player, setSkillDifficulty } = usePlayer();
-  const [started, setStarted] = useState(false);
+  const [started, setStarted] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return window.sessionStorage.getItem(challengeStartedKey(challengeId)) === "1";
+  });
   const [sessionDifficulty, setSessionDifficulty] = useState<SkillDifficulty | null>(null);
+
+  useEffect(() => {
+    if (!player) return;
+    const match = getChallenge(challengeId);
+    if (match && isChallengeComplete(match.id, player)) setStarted(true);
+  }, [challengeId, player]);
 
   if (!player) return null;
   const challenge = getChallenge(challengeId);
@@ -316,6 +329,7 @@ export function ChallengePlayer({ challengeId }: { challengeId: string }) {
         onStart={(difficulty) => {
           setSkillDifficulty(difficulty);
           setSessionDifficulty(difficulty);
+          window.sessionStorage.setItem(challengeStartedKey(challengeId), "1");
           setStarted(true);
         }}
       />

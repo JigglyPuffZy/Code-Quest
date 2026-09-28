@@ -368,7 +368,9 @@ body {
 }
 
 @media (max-width: 767px) {
-  .dash-hero [class*="blur-3xl"] {
+  .dash-hero [class*="blur-3xl"],
+  .game-stage-header [class*="blur-3xl"],
+  .arena-hero [class*="blur-3xl"] {
     display: none;
   }
 

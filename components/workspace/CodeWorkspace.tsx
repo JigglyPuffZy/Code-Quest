@@ -8,8 +8,9 @@ import type { GradeResponse, LanguageId, RunResponse } from "@/lib/types";
 import { Check, Play, Terminal, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
-function draftKey(kind: string, exerciseId: string) {
-  return `codequest.draft.${kind}.${exerciseId}`;
+function draftKey(kind: string, exerciseId: string, difficulty?: string) {
+  const base = `codequest.draft.${kind}.${exerciseId}`;
+  return difficulty ? `${base}.${difficulty}` : base;
 }
 
 export function CodeWorkspace({
@@ -22,6 +23,7 @@ export function CodeWorkspace({
   skillDifficulty,
   gameStack,
   theme = "default",
+  expectedTests,
 }: {
   language: LanguageId;
   starterCode: string;
@@ -32,10 +34,12 @@ export function CodeWorkspace({
   skillDifficulty?: import("@/lib/difficulty").SkillDifficulty;
   gameStack?: import("@/lib/game/banks").GameStackPrefs;
   theme?: "default" | "game";
+  expectedTests?: number;
 }) {
+  const difficultyKey = skillDifficulty ?? "default";
   const [code, setCode] = useState(() => {
     if (typeof window === "undefined") return starterCode;
-    return window.sessionStorage.getItem(draftKey(kind, exerciseId)) ?? starterCode;
+    return window.sessionStorage.getItem(draftKey(kind, exerciseId, difficultyKey)) ?? starterCode;
   });
   const [running, setRunning] = useState<"run" | "grade" | null>(null);
   const [output, setOutput] = useState<RunResponse | null>(null);
@@ -46,8 +50,11 @@ export function CodeWorkspace({
   const isGame = theme === "game";
 
   useEffect(() => {
-    window.sessionStorage.setItem(draftKey(kind, exerciseId), code);
-  }, [code, kind, exerciseId]);
+    const timer = window.setTimeout(() => {
+      window.sessionStorage.setItem(draftKey(kind, exerciseId, difficultyKey), code);
+    }, 400);
+    return () => window.clearTimeout(timer);
+  }, [code, kind, exerciseId, difficultyKey]);
 
   useEffect(() => {
     return () => {
@@ -72,9 +79,13 @@ export function CodeWorkspace({
         setGrade(result);
         setOutput(null);
         if (result.passed) {
-          const reward = onCleared();
-          setRewardNote(reward.awarded ? `Level cleared · +${reward.xp} XP` : "Passed · XP already awarded");
-          window.sessionStorage.removeItem(draftKey(kind, exerciseId));
+          window.sessionStorage.removeItem(draftKey(kind, exerciseId, difficultyKey));
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              const reward = onCleared();
+              setRewardNote(reward.awarded ? `Level cleared · +${reward.xp} XP` : "Passed · XP already awarded");
+            });
+          });
         }
       }
     } catch (runError) {
@@ -115,20 +126,30 @@ export function CodeWorkspace({
             variant={isGame ? "arena" : "ghost"}
             className="w-full px-3 py-2.5 text-sm shadow-none sm:w-auto sm:px-3.5"
             onClick={() => void execute("run")}
-            disabled={running !== null}
+            disabled={running === "run"}
           >
             <Play size={15} className={isGame ? "text-cyan-300" : undefined} />
             {running === "run" ? "Running…" : "Run"}
           </Button>
-          <Button
-            variant="primary"
-            className="w-full px-3 py-2.5 text-sm shadow-md shadow-primary/30 sm:w-auto sm:px-3.5"
-            onClick={() => void execute("grade")}
-            disabled={running !== null}
-          >
-            <Terminal size={15} />
-            {running === "grade" ? "Checking…" : alreadyCleared ? "Recheck" : "Submit"}
-          </Button>
+          {running === "grade" ? (
+            <Button
+              variant="ghost"
+              className="w-full px-3 py-2.5 text-sm sm:w-auto sm:px-3.5"
+              onClick={() => abortRef.current?.abort()}
+            >
+              <X size={15} />
+              Cancel
+            </Button>
+          ) : (
+            <Button
+              variant="primary"
+              className="w-full px-3 py-2.5 text-sm shadow-md shadow-primary/30 sm:w-auto sm:px-3.5"
+              onClick={() => void execute("grade")}
+            >
+              <Terminal size={15} />
+              {alreadyCleared ? "Recheck" : "Submit"}
+            </Button>
+          )}
         </div>
       </div>
       <CodeEditor
@@ -160,7 +181,22 @@ export function CodeWorkspace({
           Output
         </div>
         <div className="space-y-2 px-3 py-3 font-mono text-xs leading-5 sm:px-4">
-          {running ? <p className={isGame ? "text-cyan-300" : "text-primary"}>Running…</p> : null}
+          {running === "grade" && expectedTests ? (
+            <ul className="space-y-1.5">
+              {Array.from({ length: expectedTests }, (_, index) => (
+                <li
+                  key={index}
+                  className={cn(
+                    "animate-pulse rounded-lg border px-3 py-2.5",
+                    isGame ? "border-slate-800 bg-slate-950" : "border-line bg-surface",
+                  )}
+                >
+                  <p className={isGame ? "text-slate-400" : "text-muted"}>Checking test {index + 1}…</p>
+                </li>
+              ))}
+            </ul>
+          ) : null}
+          {running === "run" ? <p className={isGame ? "text-cyan-300" : "text-primary"}>Running…</p> : null}
           {error ? <p className="text-danger">{error}</p> : null}
           {rewardNote ? (
             <p className={cn("font-semibold", isGame ? "text-emerald-400" : "text-primary")}>{rewardNote}</p>

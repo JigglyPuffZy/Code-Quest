@@ -33,6 +33,13 @@ const STEPS = [
   { label: "Run & submit" },
 ];
 
+function expectedTestCount(exercise: Challenge["exercise"]) {
+  if (exercise.tests.type === "stdout") return 1;
+  const visible = exercise.tests.cases.length;
+  const perf = exercise.performance?.cases.length ?? 0;
+  return visible + perf;
+}
+
 export function ChallengeExerciseView({
   challenge,
   cleared,
@@ -172,7 +179,7 @@ export function ChallengeExerciseView({
       </div>
 
       <div className="grid gap-4 sm:gap-6 xl:grid-cols-2 xl:items-start">
-        <div className="space-y-3 sm:space-y-4 xl:max-h-[calc(100vh-11rem)] xl:overflow-y-auto xl:pr-1">
+        <div className="order-2 space-y-3 sm:space-y-4 xl:order-1 xl:max-h-[calc(100vh-11rem)] xl:overflow-y-auto xl:pr-1">
           <article className="overflow-hidden rounded-2xl border border-primary-200 bg-gradient-to-br from-primary-50 via-white to-white p-4 shadow-sm sm:p-5">
             <p className="inline-flex items-center gap-1.5 rounded-full bg-primary px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-primary-foreground">
               <Target size={11} />
@@ -260,7 +267,7 @@ export function ChallengeExerciseView({
           ) : null}
         </div>
 
-        <div className="xl:sticky xl:top-20">
+        <div className="order-1 xl:order-2 xl:sticky xl:top-20">
           <article className="overflow-hidden rounded-2xl border border-slate-800 bg-slate-950 shadow-xl shadow-slate-900/20">
             <div className="flex items-center justify-between gap-3 border-b border-slate-800 px-3 py-3 sm:px-4">
               <div className="min-w-0">
@@ -281,7 +288,8 @@ export function ChallengeExerciseView({
                 alreadyCleared={cleared}
                 theme="game"
                 onCleared={() => completeChallenge(challenge.id)}
-                skillDifficulty={player?.skillDifficulty}
+                skillDifficulty={hintDifficulty}
+                expectedTests={expectedTestCount(challenge.exercise)}
               />
             </div>
           </article>

@@ -1,7 +1,7 @@
 "use client";
 
 import type { LanguageId } from "@/lib/types";
-import { useRef } from "react";
+import { useMemo, useRef } from "react";
 
 export function CodeEditor({
   code,
@@ -17,7 +17,11 @@ export function CodeEditor({
   theme?: "default" | "game";
 }) {
   const isGame = theme === "game";
-  const lines = Math.max(code.split("\n").length, 12);
+  const lineCount = Math.max(code.split("\n").length, 12);
+  const gutterLines = useMemo(
+    () => Array.from({ length: lineCount }, (_, index) => index + 1),
+    [lineCount],
+  );
   const indent = language === "python" || language === "java" ? "    " : "  ";
   const gutterRef = useRef<HTMLDivElement>(null);
 
@@ -38,8 +42,8 @@ export function CodeEditor({
             : "select-none overflow-hidden border-r border-line bg-surface-3 py-3 text-right font-mono text-[11px] leading-6 text-muted"
         }
       >
-        {Array.from({ length: lines }, (_, index) => (
-          <div key={index} className="px-1.5">{index + 1}</div>
+        {gutterLines.map((line) => (
+          <div key={line} className="px-1.5">{line}</div>
         ))}
       </div>
       <label className="sr-only" htmlFor="code-editor">Code editor</label>

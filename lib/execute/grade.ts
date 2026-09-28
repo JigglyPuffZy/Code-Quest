@@ -55,11 +55,14 @@ function casePayloads(stdout: string, count: number) {
   return payloads;
 }
 
+type HarnessMode = "visible" | "performance" | "all";
+
 function buildHarness(
   language: LanguageId,
   code: string,
   tests: TestSpec,
   performance?: PerformanceSpec,
+  mode: HarnessMode = "all",
 ) {
   if (tests.type === "stdout") return code;
   if (!NAME.test(tests.functionName)) {
@@ -69,9 +72,12 @@ function buildHarness(
   const source = code.replace(/\s*$/, "");
   const functionName = tests.functionName;
   const perfCases = performance?.cases ?? [];
+  const includeVisible = mode === "visible" || mode === "all";
+  const includePerf = mode === "performance" || mode === "all";
 
   if (language === "python") {
-    const perfBlock = perfCases.length
+    const perfBlock =
+      includePerf && perfCases.length
       ? `
 __perf = __json.loads(r"""${JSON.stringify(perfCases)}""")
 for __i, __case in enumerate(__perf):
@@ -87,10 +93,8 @@ for __i, __case in enumerate(__perf):
 `
       : "";
 
-    return `${source}
-
-import json as __json
-${perfCases.length ? "import time as __time\n" : ""}__cases = __json.loads(r"""${JSON.stringify(tests.cases)}""")
+    const visibleBlock = includeVisible
+      ? `__cases = __json.loads(r"""${JSON.stringify(tests.cases)}""")
 for __i, __case in enumerate(__cases):
     try:
         __result = ${functionName}(*__case["args"])
@@ -99,11 +103,18 @@ for __i, __case in enumerate(__cases):
     except Exception as __error:
         print("__CASE_%s__" % __i)
         print(__json.dumps({"__error": str(__error)}))
-${perfBlock}`;
+`
+      : "";
+
+    return `${source}
+
+import json as __json
+${includePerf && perfCases.length ? "import time as __time\n" : ""}${visibleBlock}${perfBlock}`;
   }
 
   if (language === "typescript" || language === "javascript") {
-    const perfBlock = perfCases.length
+    const perfBlock =
+      includePerf && perfCases.length
       ? `
 const __perf = ${JSON.stringify(perfCases)};
 for (let __i = 0; __i < __perf.length; __i++) {
@@ -121,9 +132,8 @@ for (let __i = 0; __i < __perf.length; __i++) {
 `
       : "";
 
-    return `${source}
-
-const __cases = ${JSON.stringify(tests.cases)};
+    const visibleBlock = includeVisible
+      ? `const __cases = ${JSON.stringify(tests.cases)};
 for (let __i = 0; __i < __cases.length; __i++) {
   try {
     const __result = ${functionName}(...__cases[__i].args);
@@ -134,7 +144,12 @@ for (let __i = 0; __i < __cases.length; __i++) {
     console.log(JSON.stringify({ __error: String(__error) }));
   }
 }
-${perfBlock}`;
+`
+      : "";
+
+    return `${source}
+
+${visibleBlock}${perfBlock}`;
   }
 
   throw new Error(`Function tests are not supported for ${language}.`);
@@ -263,8 +278,8 @@ export async function gradeExercise(
 
   const tests = record.exercise.tests;
   const performance = record.exercise.performance;
-  const program = buildHarness(record.language, code, tests, performance);
   const stdin = tests.type === "stdout" ? tests.stdin ?? "" : "";
+  const program = buildHarness(record.language, code, tests, performance, "visible");
   const run = await runInSandbox(record.language, program, stdin);
 
   if (tests.type === "stdout") {
@@ -301,13 +316,15 @@ export async function gradeExercise(
     };
   }
 
-  const perfGraded = gradePerformance(performance, tests.functionName, run.stdout, run.stderr);
+  const perfProgram = buildHarness(record.language, code, tests, performance, "performance");
+  const perfRun = await runInSandbox(record.language, perfProgram, stdin);
+  const perfGraded = gradePerformance(performance, tests.functionName, perfRun.stdout, perfRun.stderr);
   const allTests = [...graded, ...perfGraded];
 
   return {
     engine: "wandbox" as const,
     passed: allTests.every((item) => item.passed),
-    stderr: clip(run.stderr, 1200),
+    stderr: clip(perfRun.stderr || run.stderr, 1200),
     tests: allTests,
   };
 }
