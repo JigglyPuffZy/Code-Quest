@@ -1,3 +1,4 @@
+import { rangeArray, repeatChar } from "@/lib/curriculum/performance-cases";
 import type { Challenge } from "@/lib/types";
 
 export const challenges: Challenge[] = [
@@ -77,6 +78,10 @@ export const challenges: Challenge[] = [
         type: "p",
         text: "Walk each character, lowercase it, and add one when it is a vowel. y stays a consonant for this challenge.",
       },
+      {
+        type: "p",
+        text: "Target time complexity: O(n) — one pass over the string. Nested loops over the same string will fail the hidden large-input check.",
+      },
     ],
     exercise: {
       prompt:
@@ -86,6 +91,7 @@ export const challenges: Challenge[] = [
         "text.lower() makes the case check easier.",
         "A string can hold the vowels: \"aeiou\".",
         "Add 1 for each matching character.",
+        "Avoid nested loops over the same string — aim for O(n).",
       ],
       tests: {
         type: "function",
@@ -94,6 +100,13 @@ export const challenges: Challenge[] = [
           { args: ["CodeQuest"], expected: 4, label: "CodeQuest" },
           { args: ["xyz"], expected: 0, label: "xyz" },
           { args: ["AeIoU"], expected: 5, label: "AeIoU" },
+        ],
+      },
+      performance: {
+        expectedComplexity: "O(n)",
+        maxMsPerCase: 2_000,
+        cases: [
+          { args: [repeatChar("a", 40_000)], expected: 40_000, label: "40k vowels" },
         ],
       },
     },
@@ -151,6 +164,10 @@ export const challenges: Challenge[] = [
         type: "p",
         text: "reduce walks an array and keeps a running value. Start it at 0 so an empty array returns 0 instead of failing.",
       },
+      {
+        type: "p",
+        text: "Target time complexity: O(n) — add each number once.",
+      },
     ],
     exercise: {
       prompt: "Write sum(nums) and return the total of the array.",
@@ -169,6 +186,17 @@ export const challenges: Challenge[] = [
           { args: [[]], expected: 0, label: "empty" },
         ],
       },
+      performance: {
+        expectedComplexity: "O(n)",
+        maxMsPerCase: 2_500,
+        cases: [
+          {
+            args: [rangeArray(30_000)],
+            expected: (30_000 * (30_000 - 1)) / 2,
+            label: "30k items",
+          },
+        ],
+      },
     },
   },
   {
@@ -183,6 +211,10 @@ export const challenges: Challenge[] = [
         type: "p",
         text: "Lowercase the text, reverse it, and compare. Level and level should both pass. This challenge does not strip spaces.",
       },
+      {
+        type: "p",
+        text: "Target time complexity: O(n). A single reverse + compare is fine; comparing every character in nested loops is not.",
+      },
     ],
     exercise: {
       prompt:
@@ -192,6 +224,7 @@ export const challenges: Challenge[] = [
         "toLowerCase() removes the case difference.",
         "split, reverse, and join rebuild the string backward.",
         "Compare the cleaned text with ===.",
+        "One pass or one reverse is O(n) — avoid O(n²) nested scans.",
       ],
       tests: {
         type: "function",
@@ -200,6 +233,13 @@ export const challenges: Challenge[] = [
           { args: ["Level"], expected: true, label: "Level" },
           { args: ["quest"], expected: false, label: "quest" },
           { args: ["a"], expected: true, label: "a" },
+        ],
+      },
+      performance: {
+        expectedComplexity: "O(n)",
+        maxMsPerCase: 2_000,
+        cases: [
+          { args: [repeatChar("a", 50_000)], expected: true, label: "50k palindrome" },
         ],
       },
     },
@@ -251,6 +291,10 @@ export const challenges: Challenge[] = [
         type: "p",
         text: "map builds a new array by running a function on each item. It does not change the original. Multiply each number by 2.",
       },
+      {
+        type: "p",
+        text: "Target time complexity: O(n) — visit each element once. Hidden tests use a large array.",
+      },
     ],
     exercise: {
       prompt: "Write doubleAll(nums) and return a new array where each number is doubled.",
@@ -259,6 +303,7 @@ export const challenges: Challenge[] = [
         "map returns a new array.",
         "Multiply the current number by 2.",
         "An empty array should return an empty array.",
+        "A single loop or map is O(n).",
       ],
       tests: {
         type: "function",
@@ -267,6 +312,17 @@ export const challenges: Challenge[] = [
           { args: [[1, 2, 3]], expected: [2, 4, 6], label: "1, 2, 3" },
           { args: [[0, -2]], expected: [0, -4], label: "0, -2" },
           { args: [[]], expected: [], label: "empty" },
+        ],
+      },
+      performance: {
+        expectedComplexity: "O(n)",
+        maxMsPerCase: 2_500,
+        cases: [
+          {
+            args: [rangeArray(25_000)],
+            expected: rangeArray(25_000).map((value) => value * 2),
+            label: "25k items",
+          },
         ],
       },
     },

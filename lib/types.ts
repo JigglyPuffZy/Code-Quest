@@ -24,11 +24,21 @@ export type TestSpec =
   | { type: "stdout"; expected: string; stdin?: string }
   | { type: "function"; functionName: string; cases: FunctionCase[] };
 
+export type PerformanceSpec = {
+  /** Shown in Arena UI, e.g. "O(n)" */
+  expectedComplexity: string;
+  /** Hidden large-input cases — checked after visible tests pass */
+  cases: FunctionCase[];
+  /** Max milliseconds per performance case inside the sandbox */
+  maxMsPerCase?: number;
+};
+
 export type Exercise = {
   prompt: string;
   starterCode: string;
   hints: string[];
   tests: TestSpec;
+  performance?: PerformanceSpec;
 };
 
 export type Lesson = {
@@ -172,6 +182,8 @@ export type GradeTest = {
   passed: boolean;
   expected: string;
   actual: string;
+  /** performance = hidden large-input timing check */
+  kind?: "visible" | "performance";
 };
 
 export type GradeResponse = {

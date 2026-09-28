@@ -151,4 +151,20 @@ export const pythonGuides: GuideLesson[] = [
       { type: "ul", items: ["ValueError — bad conversion or value", "TypeError — wrong type used", "FileNotFoundError — missing file", "ZeroDivisionError — divide by zero"] },
     ],
   },
+  {
+    slug: "time-complexity",
+    topicId: "python",
+    title: "Time Complexity (Big O)",
+    summary: "Why efficient code matters — and how Arena checks it.",
+    minutes: 12,
+    order: 11,
+    blocks: [
+      { type: "p", text: "Time complexity describes how runtime grows as input size grows. We write it with Big O notation: O(1), O(n), O(n²), and so on." },
+      { type: "ul", items: ["O(1) — constant time, size barely matters", "O(n) — one pass over n items (a single loop)", "O(n²) — nested loops over the same data — often too slow for large inputs"] },
+      { type: "code", caption: "O(n) — one loop", code: "def count_vowels(text):\n    total = 0\n    for ch in text.lower():\n        if ch in \"aeiou\":\n            total += 1\n    return total" },
+      { type: "code", caption: "O(n²) — avoid on big strings", code: "def slow_count(text):\n    total = 0\n    for i in range(len(text)):\n        for j in range(len(text)):\n            if text[i].lower() in \"aeiou\":\n                total += 1\n                break\n    return total" },
+      { type: "p", text: "In CodeQuest Arena, visible tests use small inputs. Expert challenges also run hidden large-input checks. Brute-force O(n²) code may pass tiny tests but fail with Time limit exceeded on big data — just like coding interviews." },
+      { type: "p", text: "Rule of thumb: if you loop inside another loop over the same collection, ask yourself if one pass is enough." },
+    ],
+  },
 ];

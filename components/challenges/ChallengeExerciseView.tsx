@@ -21,6 +21,7 @@ import {
   Lightbulb,
   Swords,
   Target,
+  Timer,
   Trophy,
 } from "lucide-react";
 import Link from "next/link";
@@ -125,6 +126,12 @@ export function ChallengeExerciseView({
             <span className="rounded-lg border border-white/10 bg-white/5 px-2.5 py-1 text-[10px] font-bold uppercase text-white/70">
               {hintLimitLabel(hintDifficulty)}
             </span>
+            {challenge.exercise.performance ? (
+              <span className="inline-flex items-center gap-1 rounded-lg border border-amber-300/30 bg-amber-400/15 px-2.5 py-1 text-[10px] font-bold uppercase text-amber-200">
+                <Timer size={11} />
+                Target {challenge.exercise.performance.expectedComplexity}
+              </span>
+            ) : null}
           </div>
         </div>
       </section>
@@ -176,6 +183,20 @@ export function ChallengeExerciseView({
             </p>
             <p className="mt-3 text-xs leading-relaxed text-muted">
               Pass every automated check to clear this battle and earn XP.
+              {challenge.exercise.performance ? (
+                <>
+                  {" "}
+                  Hidden large-input tests enforce{" "}
+                  <strong className="font-semibold text-ink">
+                    {challenge.exercise.performance.expectedComplexity}
+                  </strong>{" "}
+                  — see{" "}
+                  <Link href="/guides/python/time-complexity" className="font-semibold text-primary hover:underline">
+                    Big O guide
+                  </Link>
+                  .
+                </>
+              ) : null}
             </p>
           </article>
 

@@ -156,12 +156,19 @@ export function CodeWorkspace({
                   className={cn(
                     "rounded-lg border px-3 py-2.5 sm:px-2.5 sm:py-2",
                     isGame ? "border-slate-800 bg-slate-950" : "border-line bg-surface",
+                    test.kind === "performance" && !test.passed && "border-amber-300/60 bg-amber-50/80",
                   )}
                 >
                   <p className={test.passed ? "flex items-center gap-1.5 text-ok" : "flex items-center gap-1.5 text-danger"}>
                     {test.passed ? <Check size={13} /> : <X size={13} />}
                     {test.name}
                   </p>
+                  {!test.passed || test.kind === "performance" ? (
+                    <p className="mt-1 text-[11px] text-muted">
+                      {test.actual}
+                      {!test.passed ? ` · expected ${test.expected}` : null}
+                    </p>
+                  ) : null}
                 </li>
               ))}
             </ul>
