@@ -4,7 +4,7 @@ import { usePlayer } from "@/components/player/PlayerProvider";
 import { Button } from "@/components/ui/Button";
 import { DifficultyStageCard, DifficultyStageChips } from "@/components/ui/DifficultyStageCard";
 import { CodeWorkspace } from "@/components/workspace/CodeWorkspace";
-import { LeetCodeExamples } from "@/components/workspace/LeetCodeExamples";
+import { VisibleTestCases } from "@/components/workspace/VisibleTestCases";
 import { cn } from "@/lib/cn";
 import {
   difficultyLabel,
@@ -16,6 +16,7 @@ import { GAME_MODES } from "@/lib/game/modes";
 import { maxUnlockedGameLevel } from "@/lib/game/progress";
 import { GAME_TRACKS, type GameTrackId } from "@/lib/game/tracks";
 import type { GameLevel } from "@/lib/game/types";
+import type { GradeTest } from "@/lib/types";
 import { MAX_GAME_LEVEL } from "@/lib/game/types";
 import {
   ArrowLeft,
@@ -55,10 +56,14 @@ export function GameExerciseView({
   const { player, completeGameLevel } = usePlayer();
   const [hints, setHints] = useState(0);
   const [step, setStep] = useState(1);
+  const [runResults, setRunResults] = useState<GradeTest[] | null>(null);
+  const [runTestsRunning, setRunTestsRunning] = useState(false);
 
   useEffect(() => {
     setHints(0);
     setStep(1);
+    setRunResults(null);
+    setRunTestsRunning(false);
   }, [record.id]);
 
   const trackMeta = GAME_TRACKS[track];
@@ -211,15 +216,17 @@ export function GameExerciseView({
               Your mission
             </p>
             <p className="mt-4 text-base font-semibold leading-relaxed text-ink sm:text-lg">{record.exercise.prompt}</p>
-            <LeetCodeExamples
-              className="mt-4"
-              exercise={record.exercise}
-              language={record.language}
-            />
             <p className="mt-3 text-xs leading-relaxed text-muted">
               Pass every automated check to clear this level and unlock the next one.
             </p>
           </article>
+
+          <VisibleTestCases
+            tests={record.exercise.tests}
+            results={runResults}
+            running={runTestsRunning}
+            theme="game"
+          />
 
           <article className="rounded-2xl border border-line bg-white p-5">
             <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted">Briefing</p>
@@ -304,6 +311,11 @@ export function GameExerciseView({
                     ? 1
                     : record.exercise.tests.cases.length + (record.exercise.performance?.cases.length ?? 0)
                 }
+                tests={record.exercise.tests}
+                onRunStateChange={({ running, results }) => {
+                  setRunTestsRunning(running);
+                  setRunResults(results);
+                }}
               />
             </div>
           </article>

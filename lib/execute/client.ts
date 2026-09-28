@@ -22,6 +22,17 @@ export async function runCode(language: LanguageId, code: string, signal?: Abort
   return (await post({ mode: "run", language, code }, signal)) as RunResponse;
 }
 
+export async function runVisibleTests(
+  kind: "lesson" | "challenge" | "game",
+  id: string,
+  code: string,
+  difficulty?: SkillDifficulty,
+  stack?: GameStackPrefs,
+  signal?: AbortSignal,
+) {
+  return (await post({ mode: "run-tests", kind, id, code, difficulty, stack }, signal)) as GradeResponse;
+}
+
 export async function gradeCode(
   kind: "lesson" | "challenge" | "game",
   id: string,

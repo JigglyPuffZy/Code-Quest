@@ -5,8 +5,8 @@ import { ProgressBar } from "@/components/ui/ProgressBar";
 import { CodeEditor } from "@/components/workspace/CodeEditor";
 import { cn } from "@/lib/cn";
 import type { GradeProgress } from "@/lib/execute/grade-progress";
-import { gradeCode, runCode } from "@/lib/execute/client";
-import type { GradeResponse, LanguageId, RunResponse } from "@/lib/types";
+import { gradeCode, runVisibleTests } from "@/lib/execute/client";
+import type { GradeResponse, GradeTest, LanguageId, TestSpec } from "@/lib/types";
 import { Check, Play, Terminal, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
@@ -26,6 +26,8 @@ export function CodeWorkspace({
   gameStack,
   theme = "default",
   expectedTests,
+  tests,
+  onRunStateChange,
 }: {
   language: LanguageId;
   starterCode: string;
@@ -37,6 +39,8 @@ export function CodeWorkspace({
   gameStack?: import("@/lib/game/banks").GameStackPrefs;
   theme?: "default" | "game";
   expectedTests?: number;
+  tests?: TestSpec;
+  onRunStateChange?: (state: { running: boolean; results: GradeTest[] | null }) => void;
 }) {
   const difficultyKey = skillDifficulty ?? "default";
   const [code, setCode] = useState(() => {
@@ -44,7 +48,6 @@ export function CodeWorkspace({
     return window.sessionStorage.getItem(draftKey(kind, exerciseId, difficultyKey)) ?? starterCode;
   });
   const [running, setRunning] = useState<"run" | "grade" | null>(null);
-  const [output, setOutput] = useState<RunResponse | null>(null);
   const [grade, setGrade] = useState<GradeResponse | null>(null);
   const [error, setError] = useState("");
   const [rewardNote, setRewardNote] = useState("");
@@ -76,8 +79,17 @@ export function CodeWorkspace({
     setGradeProgress(null);
     try {
       if (mode === "run") {
-        setOutput(await runCode(language, code, controller.signal));
-        setGrade(null);
+        onRunStateChange?.({ running: true, results: null });
+        const result = await runVisibleTests(
+          kind,
+          exerciseId,
+          code,
+          skillDifficulty,
+          gameStack,
+          controller.signal,
+        );
+        setGrade(result);
+        onRunStateChange?.({ running: false, results: result.tests });
       } else {
         setGradeProgress({ percent: 5, label: "Preparing your submission…", phase: "prepare" });
         const result = await gradeCode(
@@ -90,7 +102,7 @@ export function CodeWorkspace({
           (progress) => setGradeProgress(progress),
         );
         setGrade(result);
-        setOutput(null);
+        onRunStateChange?.({ running: false, results: null });
         if (result.passed) {
           window.sessionStorage.removeItem(draftKey(kind, exerciseId, difficultyKey));
           requestAnimationFrame(() => {
@@ -102,8 +114,12 @@ export function CodeWorkspace({
         }
       }
     } catch (runError) {
-      if (runError instanceof Error && runError.name === "AbortError") return;
+      if (runError instanceof Error && runError.name === "AbortError") {
+        onRunStateChange?.({ running: false, results: null });
+        return;
+      }
       setError(runError instanceof Error ? runError.message : "Could not run your code.");
+      onRunStateChange?.({ running: false, results: null });
     } finally {
       if (abortRef.current === controller) {
         abortRef.current = null;
@@ -140,10 +156,10 @@ export function CodeWorkspace({
             variant={isGame ? "arena" : "ghost"}
             className="w-full px-3 py-2.5 text-sm shadow-none sm:w-auto sm:px-3.5"
             onClick={() => void execute("run")}
-            disabled={running === "run"}
+            disabled={running !== null}
           >
             <Play size={15} className={isGame ? "text-cyan-300" : undefined} />
-            {running === "run" ? "Running…" : "Run"}
+            {running === "run" ? "Running…" : tests ? "Run tests" : "Run"}
           </Button>
           {running === "grade" ? (
             <Button
@@ -159,6 +175,7 @@ export function CodeWorkspace({
               variant="primary"
               className="w-full px-3 py-2.5 text-sm shadow-md shadow-primary/30 sm:w-auto sm:px-3.5"
               onClick={() => void execute("grade")}
+              disabled={running === "run"}
             >
               <Terminal size={15} />
               {alreadyCleared ? "Recheck" : "Submit"}
@@ -175,8 +192,8 @@ export function CodeWorkspace({
       />
       <p className={cn("text-xs leading-relaxed sm:text-[11px]", isGame ? "text-slate-400" : "text-muted")}>
         {isGame
-          ? "Real sandbox · tap Submit when ready · all checks must pass"
-          : "Runs in a real sandbox. XP only when all checks pass."}
+          ? "Run tests to preview checks · Submit when ready for full grading"
+          : "Run tests to preview checks. XP only when Submit passes all checks."}
       </p>
       <div
         className={cn(
@@ -225,20 +242,12 @@ export function CodeWorkspace({
               ) : null}
             </div>
           ) : null}
-          {running === "run" ? <p className={isGame ? "text-cyan-300" : "text-primary"}>Running…</p> : null}
+          {running === "run" ? (
+            <p className={isGame ? "text-cyan-300" : "text-primary"}>Running visible test cases…</p>
+          ) : null}
           {error ? <p className="text-danger">{error}</p> : null}
           {rewardNote ? (
             <p className={cn("font-semibold", isGame ? "text-emerald-400" : "text-primary")}>{rewardNote}</p>
-          ) : null}
-          {output ? (
-            <div>
-              <pre className={cn("whitespace-pre-wrap break-words", isGame ? "text-slate-100" : "text-ink")}>
-                {output.stdout || "(no output)"}
-              </pre>
-              {output.stderr ? (
-                <pre className="mt-1 whitespace-pre-wrap break-words text-danger">{output.stderr}</pre>
-              ) : null}
-            </div>
           ) : null}
           {grade ? (
             <ul className="space-y-1.5">
@@ -265,8 +274,8 @@ export function CodeWorkspace({
               ))}
             </ul>
           ) : null}
-          {!running && !error && !output && !grade ? (
-            <p className={isGame ? "text-slate-500" : "text-muted"}>Run or submit to see results.</p>
+          {!running && !error && !grade ? (
+            <p className={isGame ? "text-slate-500" : "text-muted"}>Run tests or submit to see results.</p>
           ) : null}
         </div>
       </div>

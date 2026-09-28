@@ -4,7 +4,7 @@ import { LessonCopy } from "@/components/code/CodeBlock";
 import { usePlayer } from "@/components/player/PlayerProvider";
 import { Button } from "@/components/ui/Button";
 import { CodeWorkspace } from "@/components/workspace/CodeWorkspace";
-import { LeetCodeExamples } from "@/components/workspace/LeetCodeExamples";
+import { VisibleTestCases } from "@/components/workspace/VisibleTestCases";
 import { cn } from "@/lib/cn";
 import { DifficultyStageCard, DifficultyStageChips } from "@/components/ui/DifficultyStageCard";
 import {
@@ -14,7 +14,7 @@ import {
   type SkillDifficulty,
 } from "@/lib/difficulty";
 import { languageInfo } from "@/lib/curriculum/index";
-import type { Challenge, LanguageId } from "@/lib/types";
+import type { Challenge, GradeTest, LanguageId } from "@/lib/types";
 import {
   ArrowLeft,
   CheckCircle2,
@@ -57,11 +57,15 @@ export function ChallengeExerciseView({
   const { player, completeChallenge } = usePlayer();
   const [hints, setHints] = useState(0);
   const [step, setStep] = useState(1);
+  const [runResults, setRunResults] = useState<GradeTest[] | null>(null);
+  const [runTestsRunning, setRunTestsRunning] = useState(false);
   const maxHints = Math.min(hintsAllowedForDifficulty(hintDifficulty), challenge.exercise.hints.length);
 
   useEffect(() => {
     setHints(0);
     setStep(1);
+    setRunResults(null);
+    setRunTestsRunning(false);
   }, [challenge.id, hintDifficulty]);
 
   const briefing = challenge.blocks.flatMap((block) =>
@@ -175,12 +179,6 @@ export function ChallengeExerciseView({
             <p className="mt-4 text-base font-semibold leading-relaxed text-ink sm:text-lg">
               {challenge.exercise.prompt}
             </p>
-            <LeetCodeExamples
-              className="mt-4"
-              exercise={challenge.exercise}
-              language={challenge.language as LanguageId}
-            />
-
             <p className="mt-3 text-xs leading-relaxed text-muted">
               Pass every automated check to clear this battle and earn XP.
               {challenge.exercise.performance ? (
@@ -204,6 +202,12 @@ export function ChallengeExerciseView({
               ) : null}
             </p>
           </article>
+
+          <VisibleTestCases
+            tests={challenge.exercise.tests}
+            results={runResults}
+            running={runTestsRunning}
+          />
 
           {briefing.length > 0 ? (
             <article className="rounded-2xl border border-line bg-white p-4 sm:p-5">
@@ -286,6 +290,11 @@ export function ChallengeExerciseView({
                 onCleared={() => completeChallenge(challenge.id)}
                 skillDifficulty={hintDifficulty}
                 expectedTests={expectedTestCount(challenge.exercise)}
+                tests={challenge.exercise.tests}
+                onRunStateChange={({ running, results }) => {
+                  setRunTestsRunning(running);
+                  setRunResults(results);
+                }}
               />
             </div>
           </article>

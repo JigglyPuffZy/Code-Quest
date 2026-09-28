@@ -266,14 +266,21 @@ function gradePerformance(
   });
 }
 
+export type GradeExerciseOptions = {
+  visibleOnly?: boolean;
+  onProgress?: (progress: GradeProgress) => void;
+};
+
 export async function gradeExercise(
   kind: "lesson" | "challenge" | "game",
   id: string,
   code: string,
   difficulty?: SkillDifficulty,
   stack?: GameStackPrefs,
-  onProgress?: (progress: GradeProgress) => void,
+  options?: GradeExerciseOptions,
 ) {
+  const visibleOnly = options?.visibleOnly ?? false;
+  const onProgress = options?.onProgress;
   const report = (
     percent: number,
     label: string,
@@ -283,17 +290,18 @@ export async function gradeExercise(
     onProgress?.({ percent, label, phase, ...extra });
   };
 
-  report(5, "Preparing your submission…", "prepare");
+  report(5, visibleOnly ? "Running visible tests…" : "Preparing your submission…", "prepare");
 
   const record = findExercise(kind, id, kind === "game" ? { stack } : undefined);
   if (!record) {
     throw new Error("That exercise does not exist.");
   }
 
-  const exercise =
+  const gradedExercise =
     kind === "game" ? record.exercise : applySeniorDifficulty(record.exercise, difficulty, id);
+  const exercise = visibleOnly ? record.exercise : gradedExercise;
   const tests = exercise.tests;
-  const performance = exercise.performance;
+  const performance = visibleOnly ? undefined : exercise.performance;
   const stdin = tests.type === "stdout" ? tests.stdin ?? "" : "";
   const visibleCount = tests.type === "stdout" ? 1 : tests.cases.length;
   const perfCount = performance?.cases.length ?? 0;
@@ -341,8 +349,8 @@ export async function gradeExercise(
     kind: item.kind ?? "visible",
   }));
 
-  if (!performance || !graded.every((item) => item.passed)) {
-    report(100, "Grading complete", "finalize", {
+  if (visibleOnly || !performance || !graded.every((item) => item.passed)) {
+    report(100, visibleOnly ? "Visible tests complete" : "Grading complete", "finalize", {
       completedTests: visibleCount,
       totalTests: visibleCount,
     });

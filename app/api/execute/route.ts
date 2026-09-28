@@ -110,14 +110,9 @@ export async function POST(request: Request) {
               controller.enqueue(encoder.encode(`${JSON.stringify(event)}\n`));
             };
             try {
-              const result = await gradeExercise(
-                kind,
-                gradedId,
-                sourceCode,
-                difficulty,
-                stack,
-                (progress) => send({ type: "progress", ...progress }),
-              );
+              const result = await gradeExercise(kind, gradedId, sourceCode, difficulty, stack, {
+                onProgress: (progress) => send({ type: "progress", ...progress }),
+              });
               send({ type: "result", data: result });
             } catch (error) {
               const message =
@@ -137,6 +132,25 @@ export async function POST(request: Request) {
       }
 
       const result = await gradeExercise(kind, gradedId, sourceCode, difficulty, stack);
+      return NextResponse.json(result);
+    }
+
+    if (payload.mode === "run-tests") {
+      if (payload.kind !== "lesson" && payload.kind !== "challenge" && payload.kind !== "game") {
+        return NextResponse.json({ error: "Unknown exercise." }, { status: 400 });
+      }
+      const difficulty = payload.difficulty && isSkillDifficulty(payload.difficulty)
+        ? payload.difficulty
+        : normalizeSkillDifficulty(payload.difficulty);
+      const kind = payload.kind;
+      const exerciseId = payload.id;
+      const stack = kind === "game" ? payload.stack : undefined;
+      if (!exerciseId || !findExercise(kind, exerciseId, kind === "game" ? { stack } : undefined)) {
+        return NextResponse.json({ error: "Unknown exercise." }, { status: 404 });
+      }
+      const result = await gradeExercise(kind, exerciseId, sourceCode, difficulty, stack, {
+        visibleOnly: true,
+      });
       return NextResponse.json(result);
     }
 
