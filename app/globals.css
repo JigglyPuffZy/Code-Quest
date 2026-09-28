@@ -728,6 +728,7 @@ body {
 .landing-rise-3, .auth-rise-3 { animation-delay: 0.2s; }
 .landing-rise-4 { animation-delay: 0.28s; }
 .landing-rise-5 { animation-delay: 0.36s; }
+.landing-rise-6 { animation-delay: 0.44s; }
 
 .auth-form-rise { animation-delay: 0.1s; }
 

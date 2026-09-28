@@ -7,6 +7,7 @@ import { cn } from "@/lib/cn";
 import {
   ArrowRight,
   BookOpen,
+  Code2,
   FlaskConical,
   Radio,
   Swords,
@@ -16,10 +17,16 @@ import {
 import Link from "next/link";
 
 const STATS = [
-  { label: "Guide courses", value: "23" },
-  { label: "Code paths", value: "4" },
-  { label: "Duel formats", value: "1v1" },
+  { label: "Guide courses", value: "23", icon: BookOpen },
+  { label: "Code paths", value: "4", icon: Code2 },
+  { label: "Duel formats", value: "1v1", icon: Swords },
 ];
+
+const HERO_HIGHLIGHTS = [
+  { icon: FlaskConical, label: "Visible test cases" },
+  { icon: Swords, label: "Live 1v1 duels" },
+  { icon: Radio, label: "Online leaderboard" },
+] as const;
 
 const FEATURES = [
   {
@@ -115,18 +122,36 @@ export function LandingPage() {
         <main className="mt-14 lg:mt-20">
           <div className="grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
             <div>
-              <p className="landing-rise landing-rise-1 tag">Guides, practice & live duels</p>
+              <p className="landing-rise landing-rise-1 tag">
+                <span className="relative flex h-1.5 w-1.5" aria-hidden>
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-50" />
+                  <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-primary" />
+                </span>
+                Guides, practice & live duels
+              </p>
               <h1 className="landing-rise landing-rise-2 mega-title mt-5 max-w-2xl">
                 Learn code.
                 <br />
                 <span className="landing-gradient-text">Duel rivals. Climb up.</span>
               </h1>
-              <p className="landing-rise landing-rise-3 mt-6 max-w-lg text-base leading-relaxed text-muted">
-                Read guides, run visible test cases before you submit, and challenge online coders
-                on the leaderboard — best-of series, round timers, and server-graded wins.
+              <p className="landing-rise landing-rise-3 mt-6 max-w-xl text-base leading-relaxed text-muted sm:text-[1.05rem]">
+                Run visible tests before you submit, challenge online coders on the leaderboard,
+                and win best-of series with round timers — all server-graded.
               </p>
 
-              <div className="landing-rise landing-rise-4 mt-8 flex flex-wrap gap-3">
+              <ul className="landing-rise landing-rise-4 mt-6 flex flex-wrap gap-2">
+                {HERO_HIGHLIGHTS.map((item) => (
+                  <li
+                    key={item.label}
+                    className="inline-flex items-center gap-1.5 rounded-full border border-line bg-white/90 px-3 py-1.5 text-xs font-semibold text-ink shadow-sm backdrop-blur-sm"
+                  >
+                    <item.icon size={13} className="text-primary" aria-hidden />
+                    {item.label}
+                  </li>
+                ))}
+              </ul>
+
+              <div className="landing-rise landing-rise-5 mt-8 flex flex-wrap gap-3">
                 <Link
                   href={enter}
                   className="group inline-flex items-center gap-2 rounded-full bg-primary px-7 py-3.5 text-sm font-bold text-white shadow-lg shadow-primary/20 transition hover:bg-primary-hover hover:shadow-xl hover:shadow-primary/25"
@@ -134,35 +159,39 @@ export function LandingPage() {
                   {ready && email ? "Continue quest" : "Start free"}
                   <ArrowRight size={16} className="transition group-hover:translate-x-0.5" />
                 </Link>
-                {supabaseEnabled ? (
-                  <>
-                    <Link
-                      href="/signup"
-                      className="rounded-full border border-primary-200 bg-primary-50 px-7 py-3.5 text-sm font-bold text-primary backdrop-blur transition hover:border-primary-300 hover:bg-primary-100"
-                    >
-                      Sign up free
-                    </Link>
-                    <Link
-                      href="/login"
-                      className="rounded-full border border-line bg-white/90 px-7 py-3.5 text-sm font-bold backdrop-blur transition hover:border-primary-200 hover:shadow-md"
-                    >
-                      Log in
-                    </Link>
-                  </>
+                {ready && email ? (
+                  <Link
+                    href="/leaderboard"
+                    className="inline-flex items-center gap-2 rounded-full border border-primary-200 bg-primary-50 px-7 py-3.5 text-sm font-bold text-primary backdrop-blur transition hover:border-primary-300 hover:bg-primary-100"
+                  >
+                    <Swords size={15} aria-hidden />
+                    Find a duel
+                  </Link>
+                ) : supabaseEnabled ? (
+                  <Link
+                    href="/login"
+                    className="rounded-full border border-line bg-white/90 px-7 py-3.5 text-sm font-bold backdrop-blur transition hover:border-primary-200 hover:shadow-md"
+                  >
+                    Log in
+                  </Link>
                 ) : null}
-                <Link
-                  href="/guides"
-                  className="rounded-full border border-line bg-white/80 px-7 py-3.5 text-sm font-bold backdrop-blur transition hover:border-primary-200"
-                >
-                  Browse guides
-                </Link>
               </div>
 
-              <div className="landing-rise landing-rise-5 mt-10 grid grid-cols-3 gap-3 sm:max-w-md">
+              <div className="landing-rise landing-rise-6 mt-10 grid grid-cols-3 gap-3 sm:max-w-lg">
                 {STATS.map((stat) => (
-                  <div key={stat.label} className="landing-stat rounded-2xl border border-line bg-white/80 p-4 text-center backdrop-blur-sm">
+                  <div
+                    key={stat.label}
+                    className="landing-stat group rounded-2xl border border-line bg-white/80 p-4 text-center backdrop-blur-sm transition duration-300 hover:-translate-y-0.5 hover:border-primary-200 hover:shadow-lg hover:shadow-primary/5"
+                  >
+                    <stat.icon
+                      size={16}
+                      className="mx-auto mb-2 text-primary/50 transition group-hover:text-primary"
+                      aria-hidden
+                    />
                     <p className="text-2xl font-extrabold tabular-nums text-primary">{stat.value}</p>
-                    <p className="mt-0.5 text-[10px] font-semibold uppercase tracking-wider text-muted">{stat.label}</p>
+                    <p className="mt-0.5 text-[10px] font-semibold uppercase tracking-wider text-muted">
+                      {stat.label}
+                    </p>
                   </div>
                 ))}
               </div>
