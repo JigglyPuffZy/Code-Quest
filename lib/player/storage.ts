@@ -1,12 +1,17 @@
 import { createPlayer } from "@/lib/gamification";
 import { normalizeSkillDifficulty } from "@/lib/difficulty";
 import { parseGameTrack } from "@/lib/game/ids";
+import { migrateStorageKey, storageKey } from "@/lib/storage-keys";
 import type { Player } from "@/lib/types";
 
-const GUEST_KEY = "codequest.guest.v1";
+const GUEST_KEY = storageKey("guest", "v1");
 
 function userKey(id: string) {
-  return `codequest.user.${id}.v1`;
+  return storageKey("user", id, "v1");
+}
+
+function ensureMigrated() {
+  migrateStorageKey(["guest.v1"], GUEST_KEY);
 }
 
 function read(key: string): Player | null {
@@ -44,6 +49,7 @@ function read(key: string): Player | null {
 }
 
 export function readGuest() {
+  ensureMigrated();
   return read(GUEST_KEY);
 }
 
@@ -56,7 +62,9 @@ export function clearGuest() {
 }
 
 export function readUserCache(id: string) {
-  return read(userKey(id));
+  const key = userKey(id);
+  migrateStorageKey([`user.${id}.v1`], key);
+  return read(key);
 }
 
 export function writeUserCache(player: Player) {

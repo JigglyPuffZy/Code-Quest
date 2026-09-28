@@ -130,7 +130,7 @@ function buildWhenToUse(name: string, use: string, part: CatalogPart, kind: Cata
 
 function buildBeginnerTip(name: string, guideTopicId?: GuideTopicId, part?: CatalogPart) {
   if (guideTopicId) {
-    return `CodeQuest already has a full step-by-step course for **${name}**. Start there if you want lessons instead of a quick reference.`;
+    return `Dev Ladder already has a full step-by-step course for **${name}**. Start there if you want lessons instead of a quick reference.`;
   }
   if (part === "databases") {
     return `New to databases? Learn **SQL basics** first, then explore how ${name} fits the problem you are solving.`;

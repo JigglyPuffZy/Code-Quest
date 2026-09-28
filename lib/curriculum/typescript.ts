@@ -78,13 +78,13 @@ export const typescriptLessons: Lesson[] = [
       },
     ],
     exercise: {
-      prompt: "Print exactly: Hello, CodeQuest!",
+      prompt: "Print exactly: Hello, DevLadder!",
       starterCode: "// Log the academy greeting.\n",
       hints: [
         "Use console.log with quotes around the text.",
-        'console.log("Hello, CodeQuest!");',
+        'console.log("Hello, DevLadder!");',
       ],
-      tests: { type: "stdout", expected: "Hello, CodeQuest!" },
+      tests: { type: "stdout", expected: "Hello, DevLadder!" },
     },
   },
   {
@@ -151,7 +151,7 @@ export const typescriptLessons: Lesson[] = [
         functionName: "greet",
         cases: [
           { args: ["Nova"], expected: "Hello, Nova", label: "Nova" },
-          { args: ["CodeQuest"], expected: "Hello, CodeQuest", label: "CodeQuest" },
+          { args: ["DevLadder"], expected: "Hello, DevLadder", label: "DevLadder" },
         ],
       },
     },

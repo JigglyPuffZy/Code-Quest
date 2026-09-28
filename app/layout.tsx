@@ -15,8 +15,8 @@ const code = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Code Quest",
-    template: "%s · Code Quest",
+    default: "Dev Ladder",
+    template: "%s · Dev Ladder",
   },
   description:
     "Read coding guides, complete quests, and practice in Arena and Game mode — a calm, focused coding academy.",

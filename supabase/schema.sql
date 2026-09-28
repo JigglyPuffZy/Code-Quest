@@ -1,4 +1,4 @@
--- CodeQuest profile storage.
+-- DevLadder profile storage.
 -- For Supabase SQL Editor, use: supabase/run-in-sql-editor.sql (complete + idempotent)
 
 create table if not exists public.profiles (

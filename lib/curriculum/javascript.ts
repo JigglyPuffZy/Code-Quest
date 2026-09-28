@@ -93,14 +93,14 @@ export const javascriptLessons: Lesson[] = [
       },
     ],
     exercise: {
-      prompt: "Log exactly this line: Hello, CodeQuest!",
+      prompt: "Log exactly this line: Hello, DevLadder!",
       starterCode: "// Send the academy greeting to the console.\n",
       hints: [
         "Use console.log.",
         "Put the greeting in quotes.",
-        'console.log("Hello, CodeQuest!");',
+        'console.log("Hello, DevLadder!");',
       ],
-      tests: { type: "stdout", expected: "Hello, CodeQuest!" },
+      tests: { type: "stdout", expected: "Hello, DevLadder!" },
     },
   },
   {

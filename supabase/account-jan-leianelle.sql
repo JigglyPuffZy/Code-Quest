@@ -1,5 +1,5 @@
 -- ============================================================
--- CodeQuest — Jan Leianelle Mari P Delacruz
+-- DevLadder — Jan Leianelle Mari P Delacruz
 -- Supabase → SQL → New query → Run ONE section at a time
 --
 -- Login username: Jan Leianelle

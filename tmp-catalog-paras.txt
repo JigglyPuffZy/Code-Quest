@@ -1,4 +1,4 @@
-CodeQuest: Programming Languages & Database Systems
+DevLadder: Programming Languages & Database Systems
 Expanded reference catalog • Organized in tables by category
 This catalog consolidates the languages, query languages, database systems, and database platforms listed in the conversation. It is a broad reference, not a literal inventory of every language or database ever created. Some entries are markup formats, frameworks, APIs, services, extensions, or historical technologies rather than standalone programming languages or database engines.
 Part I — Programming Languages and Related Languages
@@ -1221,7 +1221,7 @@ PocketBase
 Backend platform using embedded SQLite
 Directus
 Data platform over SQL databases
-Part III — Suggested starter catalog for CodeQuest
+Part III — Suggested starter catalog for DevLadder
 Language / database
 Suggested learning focus
 Python

@@ -69,7 +69,7 @@ export const pythonLessons: Lesson[] = [
     language: "python",
     worldId: "spark-village",
     chapterId: "py-voice",
-    title: "Hello, CodeQuest",
+    title: "Hello, DevLadder",
     summary: "Print an exact greeting.",
     xp: 20,
     minutes: 4,
@@ -93,14 +93,14 @@ export const pythonLessons: Lesson[] = [
       },
     ],
     exercise: {
-      prompt: "Print exactly this line: Hello, CodeQuest!",
+      prompt: "Print exactly this line: Hello, DevLadder!",
       starterCode: "# Print the academy greeting.\n",
       hints: [
         "Call the print function.",
         "The greeting needs quotes around it.",
-        'print("Hello, CodeQuest!")',
+        'print("Hello, DevLadder!")',
       ],
-      tests: { type: "stdout", expected: "Hello, CodeQuest!" },
+      tests: { type: "stdout", expected: "Hello, DevLadder!" },
     },
   },
   {

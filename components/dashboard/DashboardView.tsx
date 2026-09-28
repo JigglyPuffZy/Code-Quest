@@ -1,7 +1,7 @@
 "use client";
 
 import { ActiveQuestCard } from "@/components/dashboard/ActiveQuestCard";
-import { CodeQuestIntro } from "@/components/dashboard/CodeQuestIntro";
+import { DevLadderIntro } from "@/components/dashboard/DevLadderIntro";
 import { DailyGoalCard } from "@/components/dashboard/DailyGoalCard";
 import { DashboardZone } from "@/components/dashboard/DashboardZone";
 import { JumpLane } from "@/components/dashboard/JumpLane";
@@ -114,7 +114,7 @@ export function DashboardView() {
       <DashboardZone
         step={3}
         title="Quick navigation"
-        hint="Shortcuts to the main areas of CodeQuest. Swipe on mobile or hover to pause on desktop."
+        hint="Shortcuts to the main areas of Dev Ladder. Swipe on mobile or hover to pause on desktop."
       >
         <JumpLane embedded />
       </DashboardZone>
@@ -156,11 +156,11 @@ export function DashboardView() {
       {/* Tour — bottom so it doesn't block action */}
       <LazySection minHeight={120} label="Loading quest briefing">
         <DashboardZone
-          title="How CodeQuest works"
+          title="How Dev Ladder works"
           hint="New here? Tap the briefing below for Read → Write → Battle → Rank up."
           panel
         >
-          <CodeQuestIntro playerId={player.id} username={player.username} />
+          <DevLadderIntro playerId={player.id} username={player.username} />
         </DashboardZone>
       </LazySection>
     </div>

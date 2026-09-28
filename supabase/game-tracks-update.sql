@@ -1,5 +1,5 @@
 -- ============================================================
--- CodeQuest — GAME TRACKS UPDATE (new query file)
+-- DevLadder — GAME TRACKS UPDATE (new query file)
 -- Run in Supabase SQL Editor after run-in-sql-editor.sql
 -- Safe to run multiple times.
 -- ============================================================

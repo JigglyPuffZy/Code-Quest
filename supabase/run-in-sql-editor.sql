@@ -1,5 +1,5 @@
 -- ============================================================
--- CodeQuest — COMPLETE SUPABASE SETUP (paste all, then Run)
+-- DevLadder — COMPLETE SUPABASE SETUP (paste all, then Run)
 -- Dashboard → SQL → New query
 -- Safe to run multiple times.
 -- ============================================================

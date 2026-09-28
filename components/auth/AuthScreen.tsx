@@ -210,7 +210,7 @@ export function AuthScreen({ mode }: { mode: "login" | "signup" }) {
                     <span className="auth-pulse">Working…</span>
                   ) : (
                     <span className="inline-flex items-center gap-2">
-                      {mode === "login" ? "Enter CodeQuest" : "Start your quest"}
+                      {mode === "login" ? "Enter Dev Ladder" : "Start your quest"}
                       <ArrowRight size={15} className="transition group-hover:translate-x-0.5" />
                     </span>
                   )}

@@ -24,7 +24,7 @@ export const javascriptGuides: GuideLesson[] = [
     order: 2,
     blocks: [
       { type: "p", text: "Use let for values that change, const for values that stay fixed. Avoid var in modern code." },
-      { type: "code", code: 'let score = 0;\nconst appName = "CodeQuest";\nscore = 10;\n\nlet name = "Jordan";\nlet active = true;\nlet price = 9.99;' },
+      { type: "code", code: 'let score = 0;\nconst appName = "DevLadder";\nscore = 10;\n\nlet name = "Jordan";\nlet active = true;\nlet price = 9.99;' },
       { type: "p", text: "Main types: number, string, boolean, undefined, null, object, symbol, bigint. typeof tells you the type." },
       { type: "code", code: 'console.log(typeof name);     // "string"\nconsole.log(typeof score);    // "number"' },
     ],

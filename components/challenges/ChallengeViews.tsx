@@ -6,6 +6,7 @@ import { TechLogo, TechLogoBadge } from "@/components/icons/TechLogo";
 import { usePlayer } from "@/components/player/PlayerProvider";
 import { ErrorState, EmptyState } from "@/components/ui/States";
 import { cn } from "@/lib/cn";
+import { storageKey } from "@/lib/storage-keys";
 import { challenges, getChallenge, languageInfo } from "@/lib/curriculum/index";
 import type { SkillDifficulty } from "@/lib/difficulty";
 import { difficultyLabel, guidesAllowedForDifficulty } from "@/lib/difficulty";
@@ -29,7 +30,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 function challengeStartedKey(challengeId: string) {
-  return `codequest.challenge.${challengeId}.started`;
+  return storageKey("challenge", challengeId, "started");
 }
 
 const FILTERS = ["all", "python", "javascript", "typescript", "java"] as const;

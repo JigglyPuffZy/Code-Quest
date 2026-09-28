@@ -112,7 +112,7 @@ export function CatalogEntryView({ slug }: { slug: string }) {
               <div className="flex-1">
                 <p className="font-semibold text-ink">Full course available</p>
                 <p className="mt-1 text-sm text-muted">
-                  CodeQuest has a complete lesson path for {entry.name} with step-by-step explanations.
+                  Dev Ladder has a complete lesson path for {entry.name} with step-by-step explanations.
                 </p>
                 <Link
                   href={`/guides/${entry.guideTopicId}`}

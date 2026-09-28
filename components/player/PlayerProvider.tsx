@@ -1,6 +1,7 @@
 "use client";
 
 import { avatarById } from "@/lib/avatars";
+import { storageKey } from "@/lib/storage-keys";
 import { getChallenge, getLesson } from "@/lib/curriculum/index";
 import { parseGameLevelId, xpForGameLevel } from "@/lib/game";
 import { getQuest } from "@/lib/curriculum/quests";
@@ -250,7 +251,7 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
         });
 
     const guest = readGuest();
-    const mergeKey = `codequest.merged.${user.id}`;
+    const mergeKey = storageKey("merged", user.id);
     if (guest && !window.localStorage.getItem(mergeKey)) {
       next = mergePlayers(guest, next);
       window.localStorage.setItem(mergeKey, "1");

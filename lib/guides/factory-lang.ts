@@ -145,7 +145,7 @@ function buildLanguageCourse(cfg: LangProfile): GuideLesson[] {
           "Build a tiny project (calculator, todo list, quiz game)",
           "Read official docs when you get stuck",
           "Learn one library or framework for your goal (web, mobile, data)",
-          "Practice in CodeQuest Arena or Game mode to check your code",
+          "Practice in Dev Ladder Arena or Game mode to check your code",
         ] },
         { type: "p", text: "Mistakes are normal. Every professional developer still searches Google daily. Keep going." },
       ],

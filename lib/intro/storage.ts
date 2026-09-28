@@ -1,8 +1,12 @@
-const PREFIX = "codequest.intro.v1";
+import { migrateStorageKey, storageKey } from "@/lib/storage-keys";
+
+const PREFIX = storageKey("intro", "v1");
 
 export function readIntroDismissed(playerId: string) {
   if (typeof window === "undefined") return false;
-  return window.localStorage.getItem(`${PREFIX}.${playerId}`) === "1";
+  const key = `${PREFIX}.${playerId}`;
+  migrateStorageKey([`intro.v1.${playerId}`], key);
+  return window.localStorage.getItem(key) === "1";
 }
 
 export function writeIntroDismissed(playerId: string) {

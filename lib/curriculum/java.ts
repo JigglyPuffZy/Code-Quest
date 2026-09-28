@@ -78,13 +78,13 @@ export const javaLessons: Lesson[] = [
       },
     ],
     exercise: {
-      prompt: "Print exactly: Hello, CodeQuest!",
+      prompt: "Print exactly: Hello, DevLadder!",
       starterCode: "public class Main {\n  public static void main(String[] args) {\n    // Print the greeting.\n  }\n}\n",
       hints: [
         "Use System.out.println with quotes.",
-        'System.out.println("Hello, CodeQuest!");',
+        'System.out.println("Hello, DevLadder!");',
       ],
-      tests: { type: "stdout", expected: "Hello, CodeQuest!" },
+      tests: { type: "stdout", expected: "Hello, DevLadder!" },
     },
   },
   {

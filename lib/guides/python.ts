@@ -163,7 +163,7 @@ export const pythonGuides: GuideLesson[] = [
       { type: "ul", items: ["O(1) — constant time, size barely matters", "O(n) — one pass over n items (a single loop)", "O(n²) — nested loops over the same data — often too slow for large inputs"] },
       { type: "code", caption: "O(n) — one loop", code: "def count_vowels(text):\n    total = 0\n    for ch in text.lower():\n        if ch in \"aeiou\":\n            total += 1\n    return total" },
       { type: "code", caption: "O(n²) — avoid on big strings", code: "def slow_count(text):\n    total = 0\n    for i in range(len(text)):\n        for j in range(len(text)):\n            if text[i].lower() in \"aeiou\":\n                total += 1\n                break\n    return total" },
-      { type: "p", text: "In CodeQuest Arena, visible tests use small inputs. Expert challenges also run hidden large-input checks. Brute-force O(n²) code may pass tiny tests but fail with Time limit exceeded on big data — just like coding interviews." },
+      { type: "p", text: "In Dev Ladder Arena, visible tests use small inputs. Expert challenges also run hidden large-input checks. Brute-force O(n²) code may pass tiny tests but fail with Time limit exceeded on big data — just like coding interviews." },
       { type: "p", text: "Rule of thumb: if you loop inside another loop over the same collection, ask yourself if one pass is enough." },
     ],
   },

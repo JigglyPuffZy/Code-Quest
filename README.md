@@ -1,10 +1,10 @@
-# Code-Quest
+# Dev-Ladder
 
 A bright, game-like academy for learning Python and JavaScript. Lessons, quests, and coding challenges award XP. Progress is stored in the browser until Supabase is connected.
 
 ## Design
 
-CodeQuest uses a light, candy-colored arcade UI — level shields, rainbow XP bars, adventure-map learning paths, and a floating mobile dock. The code editor and console stay dark for readability while the rest of the app stays bright and playful.
+Dev Ladder uses a light, candy-colored arcade UI — level shields, rainbow XP bars, adventure-map learning paths, and a floating mobile dock. The code editor and console stay dark for readability while the rest of the app stays bright and playful.
 
 ## Scripts
 

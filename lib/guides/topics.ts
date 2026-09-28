@@ -163,7 +163,7 @@ export const guideTopics: GuideTopic[] = [
     name: "Supabase",
     category: "databases",
     tagline: "Backend as a service",
-    description: "PostgreSQL + auth + APIs in the cloud — what CodeQuest uses for accounts.",
+    description: "PostgreSQL + auth + APIs in the cloud — what Dev Ladder uses for accounts.",
   },
 ];
 

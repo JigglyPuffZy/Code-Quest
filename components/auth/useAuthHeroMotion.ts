@@ -7,7 +7,7 @@ function easeOutCubic(t: number) {
 }
 
 const CODE_LINES = [
-  'hero = "CodeQuest"',
+  'hero = "DevLadder"',
   "level = 1",
   "xp += 50",
   'print("Welcome back!")',

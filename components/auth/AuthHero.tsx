@@ -1,6 +1,6 @@
 "use client";
 
-import { CodeQuestMark } from "@/components/icons/CodeQuestMark";
+import { DevLadderMark } from "@/components/icons/DevLadderMark";
 import { TechLogo } from "@/components/icons/TechLogo";
 import { useAuthHeroMotion } from "@/components/auth/useAuthHeroMotion";
 import { cn } from "@/lib/cn";
@@ -111,7 +111,7 @@ export function AuthHero({
       <div className="auth-bento relative mx-auto flex h-full min-h-screen max-w-2xl flex-col gap-6 px-8 py-10 xl:px-10 xl:py-12">
         <div className="auth-rise auth-rise-1 flex items-center justify-between gap-4">
           <span className="auth-pill tag auth-tag-glow inline-flex items-center gap-2 py-1.5 pl-1.5 pr-3">
-            <CodeQuestMark size={24} />
+            <DevLadderMark size={24} />
             <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-primary">Academy</span>
           </span>
           <span className="auth-level-pill inline-flex items-center gap-2 rounded-full border border-primary-200 bg-white/90 px-3 py-1.5 text-xs font-bold text-primary shadow-sm">

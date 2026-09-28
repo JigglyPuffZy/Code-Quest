@@ -3,7 +3,7 @@
 import { cn } from "@/lib/cn";
 import { useId } from "react";
 
-export function CodeQuestMark({
+export function DevLadderMark({
   size = 36,
   className,
   glow = false,
@@ -13,12 +13,12 @@ export function CodeQuestMark({
   glow?: boolean;
 }) {
   const id = useId().replace(/:/g, "");
-  const gradId = `cq-grad-${id}`;
-  const shineId = `cq-shine-${id}`;
+  const gradId = `dl-grad-${id}`;
+  const shineId = `dl-shine-${id}`;
 
   return (
     <span
-      className={cn("relative inline-flex shrink-0", glow && "cq-mark-glow", className)}
+      className={cn("relative inline-flex shrink-0", glow && "dl-mark-glow", className)}
       style={{ width: size, height: size }}
       aria-hidden
     >

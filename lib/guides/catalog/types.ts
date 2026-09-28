@@ -47,5 +47,5 @@ export type CatalogSection = Omit<CatalogSectionRaw, "entries"> & {
 export const CATALOG_PART_LABELS: Record<CatalogPart, string> = {
   languages: "Programming Languages & Related Technologies",
   databases: "Database Systems & Platforms",
-  starter: "Suggested Starters for CodeQuest",
+  starter: "Suggested Starters for Dev Ladder",
 };

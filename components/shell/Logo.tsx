@@ -1,4 +1,4 @@
-import { CodeQuestMark } from "@/components/icons/CodeQuestMark";
+import { DevLadderMark } from "@/components/icons/DevLadderMark";
 import { cn } from "@/lib/cn";
 import Link from "next/link";
 
@@ -34,9 +34,9 @@ export function Logo({
         "group inline-flex min-h-11 min-w-11 items-center gap-2.5 rounded-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary sm:min-h-0 sm:min-w-0",
         className,
       )}
-      aria-label="CodeQuest home"
+      aria-label="Dev Ladder home"
     >
-      <CodeQuestMark
+      <DevLadderMark
         size={compact ? 34 : markSize}
         glow={glow}
         className="transition-transform duration-300 group-hover:scale-[1.04] group-active:scale-95"
@@ -44,9 +44,9 @@ export function Logo({
       {compact ? null : (
         <span className="hidden min-w-0 flex-col leading-none sm:flex">
           <span className="flex items-baseline gap-0.5">
-            <span className="text-[15px] font-bold tracking-tight text-ink sm:text-base">Code</span>
+            <span className="text-[15px] font-bold tracking-tight text-ink sm:text-base">Dev</span>
             <span className="bg-gradient-to-r from-primary-600 via-primary-500 to-violet-500 bg-clip-text text-[15px] font-extrabold tracking-tight text-transparent sm:text-base">
-              Quest
+              Ladder
             </span>
           </span>
           {subtitle ? (

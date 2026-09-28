@@ -63,7 +63,7 @@ function byteBlitz(
       componentTitle(framework, difficulty, level, "truncate(text, max) returns text sliced to max chars with '…' if longer."),
       ["Compare length to max.", "Slice and add ellipsis when needed."],
       [
-        { args: ["CodeQuest", 4], expected: "Code…", label: "long" },
+        { args: ["DevLadder", 4], expected: "DevL…", label: "long" },
         { args: ["Hi", 5], expected: "Hi", label: "short" },
       ],
       t,

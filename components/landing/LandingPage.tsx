@@ -62,7 +62,7 @@ const MARQUEE_TECH = [
 ] as const;
 
 const TERMINAL_LINES = [
-  ">>> Welcome to CodeQuest",
+  ">>> Welcome to Dev Ladder",
   '>>> hero.login("you")',
   ">>> Loading paths... OK",
   ">>> XP system: ONLINE",
@@ -176,7 +176,7 @@ export function LandingPage() {
                     <span className="h-2.5 w-2.5 rounded-full bg-emerald-400" />
                   </div>
                   <span className="font-mono text-[10px] font-medium uppercase tracking-widest text-muted">
-                    codequest.init
+                    devladder.init
                   </span>
                 </div>
                 <div className="space-y-1 font-mono text-sm leading-7">
@@ -210,7 +210,7 @@ export function LandingPage() {
 
           <section className="mt-24 sm:mt-32">
             <div className="landing-rise text-center">
-              <p className="tag mx-auto">Why CodeQuest</p>
+              <p className="tag mx-auto">Why Dev Ladder</p>
               <h2 className="mt-3 text-2xl font-bold tracking-tight sm:text-3xl">Built to keep you going</h2>
             </div>
             <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">

@@ -7,13 +7,16 @@ import { cn } from "@/lib/cn";
 import type { GradeProgress } from "@/lib/execute/grade-progress";
 import { gradeCode, runVisibleTests } from "@/lib/execute/client";
 import { summarizeRunResults } from "@/lib/execute/visible-tests";
+import { migrateSessionKey, storageKey } from "@/lib/storage-keys";
 import type { GradeResponse, GradeTest, LanguageId, TestSpec } from "@/lib/types";
 import { Check, CheckCircle2, Play, Terminal, X, XCircle } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 function draftKey(kind: string, exerciseId: string, difficulty?: string) {
-  const base = `codequest.draft.${kind}.${exerciseId}`;
-  return difficulty ? `${base}.${difficulty}` : base;
+  const base = storageKey("draft", kind, exerciseId);
+  const key = difficulty ? `${base}.${difficulty}` : base;
+  migrateSessionKey([`draft.${kind}.${exerciseId}${difficulty ? `.${difficulty}` : ""}`], key);
+  return key;
 }
 
 export function CodeWorkspace({

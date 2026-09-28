@@ -2,7 +2,9 @@ import { guidesForTopic } from "@/lib/guides/index";
 import type { GuideTopicId } from "@/lib/guides/types";
 import { guidePaths } from "@/lib/curriculum/guide-paths";
 
-const STORAGE_KEY = "codequest-guide-progress";
+import { migrateStorageKey, storageKey } from "@/lib/storage-keys";
+
+const STORAGE_KEY = storageKey("guide-progress");
 
 type GuideProgressStore = {
   read: Record<string, string[]>;
@@ -10,6 +12,7 @@ type GuideProgressStore = {
 
 function readStore(): GuideProgressStore {
   if (typeof window === "undefined") return { read: {} };
+  migrateStorageKey([], STORAGE_KEY, ["codequest-guide-progress", "DevLadder-guide-progress"]);
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY);
     if (!raw) return { read: {} };

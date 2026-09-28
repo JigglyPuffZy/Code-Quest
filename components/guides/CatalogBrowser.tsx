@@ -141,7 +141,7 @@ export function CatalogBrowser({ compact = false }: { compact?: boolean }) {
           Programming Languages &amp; Database Catalog
         </h2>
         <p className="mt-3 max-w-3xl text-sm leading-relaxed text-muted sm:text-base">
-          The full reference from the CodeQuest catalog document — organized in tables so you can quickly see what each
+          The full reference from the Dev Ladder catalog document — organized in tables so you can quickly see what each
           language or database is for, in plain and understandable language.
         </p>
       </header>
@@ -208,7 +208,7 @@ export function CatalogBrowser({ compact = false }: { compact?: boolean }) {
             </div>
             <p className="text-sm font-semibold">Suggested starters</p>
             <p className="mt-1 text-xs leading-relaxed text-muted">
-              Beginner-friendly picks for learning paths inside CodeQuest.
+              Beginner-friendly picks for learning paths inside Dev Ladder.
             </p>
           </div>
         </div>

@@ -6,7 +6,7 @@ import { pyFn, scale } from "@/lib/game/banks/shared";
 function byteBlitz(difficulty: SkillDifficulty, level: number): Exercise {
   const s = scale(level);
   if (difficulty === "beginner") {
-    const text = level === 1 ? "Hello CodeQuest" : `Beginner ${level}`;
+    const text = level === 1 ? "Hello DevLadder" : `Beginner ${level}`;
     return {
       prompt: `Print exactly: ${text}`,
       starterCode: 'print("")\n',
@@ -114,7 +114,7 @@ function stringSurge(difficulty: SkillDifficulty, level: number): Exercise {
       "Write first_three(text) returning the first 3 characters.",
       ["Slice with text[:3]."],
       [
-        { args: ["CodeQuest"], expected: "Cod", label: "CodeQuest" },
+        { args: ["DevLadder"], expected: "Dev", label: "DevLadder" },
         { args: ["go"], expected: "go", label: "go" },
       ],
     );
@@ -137,7 +137,7 @@ function stringSurge(difficulty: SkillDifficulty, level: number): Exercise {
     `Senior string ${level}: reverse_words(text) reverses the order of words (split on single spaces).`,
     ["Split into words.", "Reverse the list, then join with spaces."],
     [
-      { args: ["code quest arena"], expected: "arena quest code", label: "three words" },
+      { args: ["Dev Ladder arena"], expected: "arena Ladder Dev", label: "three words" },
       { args: ["solo"], expected: "solo", label: "one word" },
       { args: [""], expected: "", label: "empty" },
     ],

@@ -1,6 +1,6 @@
 "use client";
 
-import { CodeQuestMark } from "@/components/icons/CodeQuestMark";
+import { DevLadderMark } from "@/components/icons/DevLadderMark";
 import { BookOpen, Flame, Zap } from "lucide-react";
 
 export function AuthMobileStrip({ mode }: { mode: "login" | "signup" | "forgot" }) {
@@ -13,7 +13,7 @@ export function AuthMobileStrip({ mode }: { mode: "login" | "signup" | "forgot" 
       <div className="pointer-events-none absolute -bottom-10 left-8 h-24 w-24 rounded-full bg-violet-400/10 blur-2xl" aria-hidden />
 
       <div className="relative flex items-center gap-3">
-        <CodeQuestMark size={48} glow className="auth-mobile-logo" />
+        <DevLadderMark size={48} glow className="auth-mobile-logo" />
         <div className="min-w-0">
           <div className="flex items-baseline gap-0.5">
             <span className="text-lg font-bold tracking-tight text-ink">Code</span>

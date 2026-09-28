@@ -97,7 +97,7 @@ export const challenges: Challenge[] = [
         type: "function",
         functionName: "count_vowels",
         cases: [
-          { args: ["CodeQuest"], expected: 4, label: "CodeQuest" },
+          { args: ["DevLadder"], expected: 4, label: "DevLadder" },
           { args: ["xyz"], expected: 0, label: "xyz" },
           { args: ["AeIoU"], expected: 5, label: "AeIoU" },
         ],
@@ -472,13 +472,13 @@ export const challenges: Challenge[] = [
       },
     ],
     exercise: {
-      prompt: 'Print "CodeQuest" on the first line and "Arena" on the second.',
+      prompt: 'Print "DevLadder" on the first line and "Arena" on the second.',
       starterCode: "public class Main {\n  public static void main(String[] args) {\n    // Print two lines.\n  }\n}\n",
       hints: [
-        'System.out.println("CodeQuest");',
+        'System.out.println("DevLadder");',
         'System.out.println("Arena");',
       ],
-      tests: { type: "stdout", expected: "CodeQuest\nArena" },
+      tests: { type: "stdout", expected: "DevLadder\nArena" },
     },
   },
   {
