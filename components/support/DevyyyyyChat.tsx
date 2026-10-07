@@ -3,7 +3,7 @@
 import { cn } from "@/lib/cn";
 import { parseAppPath } from "@/lib/support/page-context";
 import { storageKey } from "@/lib/storage-keys";
-import { Loader2, Send, Sparkles, X } from "lucide-react";
+import { Loader2, Send, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
@@ -42,18 +42,39 @@ function readStored(): ChatMessage[] {
   }
 }
 
-function DevyyyyyAvatar({ className }: { className?: string }) {
+function DevyyyyyAvatar({
+  className,
+  smiling = false,
+  alt = "",
+}: {
+  className?: string;
+  smiling?: boolean;
+  alt?: string;
+}) {
   return (
     <span
       className={cn(
-        "grid place-items-center rounded-2xl bg-gradient-to-br from-primary-400 via-primary-600 to-violet-800 text-white shadow-inner",
+        "relative inline-block shrink-0 overflow-hidden rounded-full bg-primary-100 shadow-inner",
         className,
       )}
-      aria-hidden
     >
-      <span className="relative flex h-[1.15em] w-[1.15em] items-center justify-center">
-        <Sparkles size="0.85em" strokeWidth={2.4} />
-      </span>
+      <img
+        src="/devyyyyy/face.jpg"
+        alt={alt}
+        className={cn(
+          "absolute inset-0 h-full w-full object-cover object-top transition-opacity duration-200",
+          smiling ? "opacity-0" : "opacity-100 group-hover:opacity-0",
+        )}
+      />
+      <img
+        src="/devyyyyy/face-smile.jpg"
+        alt=""
+        aria-hidden
+        className={cn(
+          "absolute inset-0 h-full w-full object-cover object-top transition-opacity duration-200",
+          smiling ? "opacity-100" : "opacity-0 group-hover:opacity-100",
+        )}
+      />
     </span>
   );
 }
@@ -159,7 +180,7 @@ export function DevyyyyyChat({ variant = "app" }: { variant?: "app" | "landing" 
           aria-label="devyyyyy chat"
         >
           <header className="flex items-start gap-3 border-b border-primary-50 bg-gradient-to-br from-primary-50 via-white to-white px-4 py-3.5">
-            <DevyyyyyAvatar className="mt-0.5 h-10 w-10 text-base" />
+            <DevyyyyyAvatar className="mt-0.5 h-10 w-10" smiling alt="devyyyyy" />
             <div className="min-w-0 flex-1">
               <p className="text-sm font-bold tracking-tight text-ink">devyyyyy</p>
               <p className="text-[11px] font-medium text-muted">Your coding buddy · knows this page</p>
@@ -189,7 +210,7 @@ export function DevyyyyyChat({ variant = "app" }: { variant?: "app" | "landing" 
                 className={cn("flex", message.role === "user" ? "justify-end" : "justify-start")}
               >
                 {message.role === "assistant" ? (
-                  <DevyyyyyAvatar className="mr-2 mt-1 h-7 w-7 shrink-0 text-[11px]" />
+                  <DevyyyyyAvatar className="mr-2 mt-1 h-7 w-7" alt="" />
                 ) : null}
                 <p
                   className={cn(
@@ -247,18 +268,19 @@ export function DevyyyyyChat({ variant = "app" }: { variant?: "app" | "landing" 
         </section>
       ) : null}
 
-      {open ? null : (
-        <button
-          type="button"
-          onClick={() => setOpen(true)}
-          className="pointer-events-auto inline-flex items-center gap-2 rounded-full border border-primary-100 bg-white py-2 pl-2 pr-3.5 text-sm font-bold text-ink shadow-[0_10px_28px_rgba(79,70,229,0.22)] transition hover:-translate-y-0.5 hover:border-primary-200"
-          aria-expanded={false}
-          aria-label="Open devyyyyy chat"
-        >
-          <DevyyyyyAvatar className="h-9 w-9 text-sm" />
-          <span className="pr-0.5">devyyyyy</span>
-        </button>
-      )}
+      <button
+        type="button"
+        onClick={() => setOpen((current) => !current)}
+        className={cn(
+          "group pointer-events-auto inline-flex items-center gap-2 rounded-full border border-primary-100 bg-white py-2 pl-2 pr-3.5 text-sm font-bold text-ink shadow-[0_10px_28px_rgba(79,70,229,0.22)] transition hover:-translate-y-0.5 hover:border-primary-200",
+          open && "max-sm:hidden",
+        )}
+        aria-expanded={open}
+        aria-label={open ? "Close devyyyyy chat" : "Open devyyyyy chat"}
+      >
+        <DevyyyyyAvatar className="h-9 w-9" smiling={open} alt="devyyyyy" />
+        <span className="pr-0.5">devyyyyy</span>
+      </button>
     </div>
   );
 }
