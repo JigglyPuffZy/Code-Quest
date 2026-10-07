@@ -1,6 +1,7 @@
 "use client";
 
 import { Avatar } from "@/components/player/Avatar";
+import { DevyyyyyChat } from "@/components/support/DevyyyyyChat";
 import { usePlayer } from "@/components/player/PlayerProvider";
 import { AccountActions } from "@/components/shell/AccountActions";
 import { HubNav } from "@/components/shell/HubNav";
@@ -143,6 +144,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           </div>
         ))}
       </div>
+
+      <DevyyyyyChat variant="app" />
     </div>
   );
 }

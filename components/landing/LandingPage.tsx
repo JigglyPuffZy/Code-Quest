@@ -1,6 +1,7 @@
 "use client";
 
 import { TechLogo } from "@/components/icons/TechLogo";
+import { DevyyyyyChat } from "@/components/support/DevyyyyyChat";
 import { Logo } from "@/components/shell/Logo";
 import { usePlayer } from "@/components/player/PlayerProvider";
 import { cn } from "@/lib/cn";
@@ -366,6 +367,8 @@ export function LandingPage() {
           </section>
         </main>
       </div>
+
+      <DevyyyyyChat variant="landing" />
     </div>
   );
 }
