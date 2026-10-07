@@ -12,7 +12,9 @@ export type LanguageId = "python" | "javascript" | "typescript" | "java";
 export type ContentBlock =
   | { type: "p"; text: string }
   | { type: "ul"; items: string[] }
-  | { type: "code"; code: string; caption?: string };
+  | { type: "code"; code: string; caption?: string }
+  | { type: "tip"; title?: string; text: string }
+  | { type: "steps"; title?: string; items: string[] };
 
 export type FunctionCase = {
   args: unknown[];

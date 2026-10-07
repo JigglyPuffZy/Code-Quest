@@ -1,4 +1,14 @@
 import type { GuideLesson, GuideTopicId } from "@/lib/guides/types";
+import { guideHasPractice } from "@/lib/guides/practice";
+
+const PRACTICE_NOTE =
+  "Scroll to Practice this lesson below when you're ready. Read first, then type the code yourself — that's how it sticks.";
+
+function practiceTip(topicId: GuideTopicId, slug: string) {
+  return guideHasPractice(topicId, slug)
+    ? [{ type: "tip" as const, title: "Practice", text: PRACTICE_NOTE }]
+    : [];
+}
 
 type LangProfile = {
   id: GuideTopicId;
@@ -45,6 +55,7 @@ function buildLanguageCourse(cfg: LangProfile): GuideLesson[] {
         { type: "code", caption: "Your first program", code: cfg.hello },
         { type: "p", text: "Don't worry if you don't understand every symbol yet. Copy the example, run it, then change one word and run again. That is how you learn." },
         { type: "ul", items: ["Read code from top to bottom", "Fix one error at a time", "Practice a little every day"] },
+        ...practiceTip(id, "introduction"),
       ],
     },
     {
@@ -60,6 +71,7 @@ function buildLanguageCourse(cfg: LangProfile): GuideLesson[] {
         { type: "p", text: `Common types in ${name}:` },
         { type: "ul", items: cfg.types },
         { type: "p", text: cfg.tip },
+        ...practiceTip(id, "variables-and-types"),
       ],
     },
     {
@@ -74,6 +86,7 @@ function buildLanguageCourse(cfg: LangProfile): GuideLesson[] {
         { type: "p", text: "An expression is anything that produces a value: 2 + 2, name + \"!\", score >= 60." },
         { type: "code", caption: "Examples", code: cfg.operators },
         { type: "p", text: "Comparisons return true or false. You use those results in if statements next." },
+        ...practiceTip(id, "operators"),
       ],
     },
     {
@@ -88,6 +101,7 @@ function buildLanguageCourse(cfg: LangProfile): GuideLesson[] {
         { type: "code", caption: "If / else", code: cfg.condition },
         { type: "p", text: "Only one branch runs. Put the most specific checks first. Use else for the default case." },
         { type: "ul", items: ["if — runs when condition is true", "else if — checks another condition", "else — runs when nothing matched"] },
+        ...practiceTip(id, "conditionals"),
       ],
     },
     {
@@ -102,6 +116,7 @@ function buildLanguageCourse(cfg: LangProfile): GuideLesson[] {
         { type: "code", caption: "Loop example", code: cfg.loop },
         { type: "p", text: "Always make sure the loop can end. An infinite loop freezes your program." },
         { type: "ul", items: ["for — repeat a set number of times or over a collection", "while — repeat while a condition stays true", "break — exit early when you're done"] },
+        ...practiceTip(id, "loops"),
       ],
     },
     {
@@ -115,6 +130,7 @@ function buildLanguageCourse(cfg: LangProfile): GuideLesson[] {
         { type: "p", text: "A function is a mini-program inside your program. You define it once, then call it by name. Parameters pass data in; return sends a result back." },
         { type: "code", caption: "Define and call", code: cfg.function },
         { type: "p", text: "Good functions do one clear job. Short names like calculateTotal or greetUser help you remember what they do." },
+        ...practiceTip(id, "functions"),
       ],
     },
     {
@@ -129,6 +145,7 @@ function buildLanguageCourse(cfg: LangProfile): GuideLesson[] {
         { type: "p", text: "You can add items, remove items, loop over them, and search. Each language has its own collection types — arrays, lists, maps, or dictionaries." },
         { type: "code", caption: "Working with a list", code: cfg.collection },
         { type: "ul", items: collectionNotes },
+        ...practiceTip(id, "data-structures"),
       ],
     },
     {

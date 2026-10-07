@@ -1,5 +1,8 @@
 import type { GuideLesson } from "@/lib/guides/types";
 
+const PRACTICE_NOTE =
+  "Scroll to Practice this lesson below when you're ready. Read first, then type the code yourself — that's how it sticks.";
+
 export const pythonGuides: GuideLesson[] = [
   {
     slug: "introduction",
@@ -14,6 +17,16 @@ export const pythonGuides: GuideLesson[] = [
       { type: "code", caption: "Your first program", code: 'print("Hello, World!")\nprint("Welcome to Python")' },
       { type: "p", text: "print() displays text on the screen. Text inside quotes is called a string. Each line is one instruction." },
       { type: "ul", items: ["Python uses indentation (spaces) to group code blocks", "Comments start with # and are ignored by the computer", "Python is case-sensitive: Name and name are different"] },
+      {
+        type: "steps",
+        title: "How to read the example",
+        items: [
+          "print() is a command that shows text on the screen.",
+          "Text inside quotes is a string — a piece of text.",
+          "Each line is one instruction; Python runs them top to bottom.",
+        ],
+      },
+      { type: "tip", title: "Ready to try?", text: PRACTICE_NOTE },
     ],
   },
   {
@@ -30,6 +43,7 @@ export const pythonGuides: GuideLesson[] = [
       { type: "ul", items: ["int — whole numbers like 0, 42, -7", "float — decimal numbers like 3.14", "str — text in quotes", "bool — True or False"] },
       { type: "code", caption: "Check a type", code: 'x = 10\nprint(type(x))  # <class \'int\'>\n\ny = "hello"\nprint(type(y))  # <class \'str\'>' },
       { type: "p", text: "You can change what a variable holds by assigning again. The old value is replaced." },
+      { type: "tip", title: "Practice", text: PRACTICE_NOTE },
     ],
   },
   {
@@ -46,6 +60,7 @@ export const pythonGuides: GuideLesson[] = [
       { type: "code", code: 'print(5 > 3)    # True\nprint(5 == "5") # False — different types' },
       { type: "p", text: "Logical operators combine conditions: and, or, not." },
       { type: "code", code: "age = 20\nhas_id = True\nprint(age >= 18 and has_id)  # True" },
+      { type: "tip", title: "Practice", text: PRACTICE_NOTE },
     ],
   },
   {
@@ -60,6 +75,16 @@ export const pythonGuides: GuideLesson[] = [
       { type: "code", caption: "Grading example", code: 'score = 85\n\nif score >= 90:\n    print("A")\nelif score >= 80:\n    print("B")\nelif score >= 70:\n    print("C")\nelse:\n    print("Keep practicing")' },
       { type: "p", text: "Indentation matters! The code under if must be indented (usually 4 spaces). All lines at the same indent level belong to the same block." },
       { type: "p", text: "You can nest if statements inside other blocks for more complex logic." },
+      {
+        type: "steps",
+        title: "How if / elif / else works",
+        items: [
+          "if — runs when the condition is True.",
+          "elif — checks another condition if the first failed.",
+          "else — runs when nothing above matched.",
+        ],
+      },
+      { type: "tip", title: "Practice", text: PRACTICE_NOTE },
     ],
   },
   {
@@ -77,6 +102,7 @@ export const pythonGuides: GuideLesson[] = [
       { type: "p", text: "A while loop repeats as long as a condition stays True. Always make sure the condition can become False, or you get an infinite loop." },
       { type: "code", code: "count = 0\nwhile count < 3:\n    print(count)\n    count += 1" },
       { type: "ul", items: ["break — exit the loop early", "continue — skip to the next iteration"] },
+      { type: "tip", title: "Practice", text: PRACTICE_NOTE },
     ],
   },
   {
@@ -92,6 +118,7 @@ export const pythonGuides: GuideLesson[] = [
       { type: "p", text: "Parameters are inputs. return sends a value back to the caller. A function without return gives None." },
       { type: "code", caption: "Default parameter", code: 'def power(base, exponent=2):\n    return base ** exponent\n\nprint(power(3))     # 9\nprint(power(3, 3))  # 27' },
       { type: "p", text: "Keep functions small and focused. One function should do one clear job." },
+      { type: "tip", title: "Practice", text: PRACTICE_NOTE },
     ],
   },
   {
@@ -107,6 +134,7 @@ export const pythonGuides: GuideLesson[] = [
       { type: "p", text: "Common list methods: append, remove, pop, sort, reverse. Slicing gets a sub-list: items[1:3]." },
       { type: "p", text: "A tuple is like a list but cannot be changed after creation. Use () instead of []:" },
       { type: "code", code: 'point = (3, 7)\nprint(point[0])  # 3' },
+      { type: "tip", title: "Practice", text: PRACTICE_NOTE },
     ],
   },
   {

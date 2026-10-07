@@ -36,17 +36,44 @@ export function CodeBlock({ code, caption }: { code: string; caption?: string })
 export function LessonCopy({
   blocks,
 }: {
-  blocks: Array<{ type: "p"; text: string } | { type: "ul"; items: string[] } | { type: "code"; code: string; caption?: string }>;
+  blocks: import("@/lib/types").ContentBlock[];
 }) {
   return (
     <div className="space-y-5">
       {blocks.map((block, index) => {
-        if (block.type === "p") return <p key={index}>{block.text}</p>;
+        if (block.type === "p") {
+          return <p key={index} className="leading-relaxed text-ink">{block.text}</p>;
+        }
         if (block.type === "ul") {
           return (
             <ul key={index} className="list-disc space-y-2 pl-5 marker:text-slate-400">
-              {block.items.map((item) => <li key={item}>{item}</li>)}
+              {block.items.map((item) => <li key={item} className="leading-relaxed">{item}</li>)}
             </ul>
+          );
+        }
+        if (block.type === "tip") {
+          return (
+            <aside
+              key={index}
+              className="rounded-xl border border-primary/20 bg-primary/5 px-4 py-3.5 text-sm leading-relaxed text-ink"
+            >
+              {block.title ? (
+                <p className="mb-1 text-xs font-bold uppercase tracking-wide text-primary">{block.title}</p>
+              ) : null}
+              <p>{block.text}</p>
+            </aside>
+          );
+        }
+        if (block.type === "steps") {
+          return (
+            <div key={index} className="rounded-xl border border-line bg-surface-2/80 px-4 py-3.5">
+              {block.title ? (
+                <p className="mb-2 text-xs font-bold uppercase tracking-wide text-muted">{block.title}</p>
+              ) : null}
+              <ol className="list-decimal space-y-2 pl-5 marker:font-semibold marker:text-primary">
+                {block.items.map((item) => <li key={item} className="leading-relaxed pl-1">{item}</li>)}
+              </ol>
+            </div>
           );
         }
         return <CodeBlock key={index} code={block.code} caption={block.caption} />;
