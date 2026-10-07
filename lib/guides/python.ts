@@ -149,6 +149,7 @@ export const pythonGuides: GuideLesson[] = [
       { type: "code", code: 'student = {\n    "name": "Mia",\n    "age": 17,\n    "course": "Python"\n}\n\nprint(student["name"])\nstudent["age"] = 18' },
       { type: "p", text: "Loop over keys, values, or both:" },
       { type: "code", code: 'for key, value in student.items():\n    print(key, "->", value)' },
+      { type: "tip", title: "Practice", text: PRACTICE_NOTE },
     ],
   },
   {
@@ -177,6 +178,7 @@ export const pythonGuides: GuideLesson[] = [
       { type: "code", code: 'try:\n    age = int(input("Enter age: "))\n    print("You are", age)\nexcept ValueError:\n    print("Please enter a valid number")' },
       { type: "p", text: "You can catch specific error types. A finally block always runs for cleanup." },
       { type: "ul", items: ["ValueError — bad conversion or value", "TypeError — wrong type used", "FileNotFoundError — missing file", "ZeroDivisionError — divide by zero"] },
+      { type: "tip", title: "Practice", text: PRACTICE_NOTE },
     ],
   },
   {

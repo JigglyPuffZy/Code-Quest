@@ -300,6 +300,7 @@ export const javascriptGuides: GuideLesson[] = [
         type: "code",
         code: "const { name, age } = user;\nconst [first, second] = nums;  // arrays use square brackets",
       },
+      { type: "tip", title: "Practice", text: PRACTICE_NOTE },
     ],
   },
   {

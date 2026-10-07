@@ -24,7 +24,7 @@ export type FunctionCase = {
 };
 
 export type TestSpec =
-  | { type: "stdout"; expected: string; stdin?: string }
+  | { type: "stdout"; expected: string; stdin?: string; exampleInput?: string }
   | { type: "function"; functionName: string; cases: FunctionCase[] };
 
 export type PerformanceSpec = {

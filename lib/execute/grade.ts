@@ -154,7 +154,78 @@ for (let __i = 0; __i < __cases.length; __i++) {
 ${visibleBlock}${perfBlock}`;
   }
 
+  if (language === "java") {
+    const visibleCases = includeVisible ? tests.cases : [];
+    return buildJavaFunctionHarness(source, functionName, visibleCases);
+  }
+
   throw new Error(`Function tests are not supported for ${language}.`);
+}
+
+function javaLiteral(value: unknown): string {
+  if (typeof value === "number" && Number.isInteger(value)) return String(value);
+  if (typeof value === "boolean") return value ? "true" : "false";
+  if (typeof value === "string") return JSON.stringify(value);
+  if (Array.isArray(value) && value.every((item) => typeof item === "number" && Number.isInteger(item))) {
+    return `new int[]{${value.join(", ")}}`;
+  }
+  throw new Error("This Java exercise uses an unsupported argument type.");
+}
+
+function buildJavaFunctionHarness(code: string, functionName: string, cases: FunctionCase[]) {
+  const calls = cases
+    .map((item, index) => {
+      const args = item.args.map(javaLiteral).join(", ");
+      return `    System.out.println("__CASE_${index}__");
+    try {
+      System.out.println(__json(${functionName}(${args})));
+    } catch (Exception __error) {
+      System.out.println("{\\"__error\\":\\"" + __error.toString().replace("\\\\", "/").replace("\\"", "'") + "\\"}");
+    }`;
+    })
+    .join("\n");
+
+  const helpers = `
+  static String __json(int v) { return Integer.toString(v); }
+  static String __json(boolean v) { return v ? "true" : "false"; }
+  static String __json(double v) {
+    if (v == (long) v) return Long.toString((long) v);
+    return Double.toString(v);
+  }
+  static String __json(String v) {
+    if (v == null) return "null";
+    StringBuilder sb = new StringBuilder();
+    sb.append('"');
+    for (int i = 0; i < v.length(); i++) {
+      char ch = v.charAt(i);
+      if (ch == '\\\\' || ch == '"') sb.append('\\\\');
+      sb.append(ch);
+    }
+    sb.append('"');
+    return sb.toString();
+  }
+  static String __json(int[] v) {
+    StringBuilder sb = new StringBuilder();
+    sb.append('[');
+    for (int i = 0; i < v.length; i++) {
+      if (i > 0) sb.append(',');
+      sb.append(v[i]);
+    }
+    sb.append(']');
+    return sb.toString();
+  }
+`;
+
+  const injected = `public static void main(String[] args) {\n${calls}\n  }\n${helpers}`;
+  const replaced = code.replace(
+    /public\s+static\s+void\s+main\s*\(\s*String\s*\[\s*]\s+\w+\s*\)\s*\{[\s\S]*?\n  \}/,
+    injected.trim(),
+  );
+  if (replaced !== code) return replaced;
+
+  const lastBrace = code.lastIndexOf("}");
+  if (lastBrace === -1) return `${code}\n${injected}\n`;
+  return `${code.slice(0, lastBrace)}${injected}\n${code.slice(lastBrace)}`;
 }
 
 function perfPayloads(stdout: string, count: number) {

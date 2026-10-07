@@ -6,18 +6,34 @@ import {
   GUIDE_PRACTICE_XP,
   getGuidePractice,
   guideHasPractice,
+  guidePracticeCount,
 } from "@/lib/guides/practice";
 import {
   isGuidePracticeComplete,
-  markGuidePracticeComplete,
+  markGuidePracticeQuestionPassed,
+  passedGuidePracticeIndices,
 } from "@/lib/guides/progress";
 import type { GradeTest } from "@/lib/types";
-import { CheckCircle2, Code2, Lightbulb, Sparkles } from "lucide-react";
-import { useState } from "react";
+import { CheckCircle2, Code2, Lightbulb, RefreshCw, Sparkles } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
 
 function expectedTestCount(exercise: NonNullable<ReturnType<typeof getGuidePractice>>["exercise"]) {
   if (exercise.tests.type === "stdout") return 1;
   return exercise.tests.cases.length;
+}
+
+function pickQuestion(total: number, passed: number[], current: number | null) {
+  const unused = Array.from({ length: total }, (_, index) => index).filter(
+    (index) => !passed.includes(index) && index !== current,
+  );
+  if (unused.length > 0) {
+    return unused[Math.floor(Math.random() * unused.length)]!;
+  }
+  const others = Array.from({ length: total }, (_, index) => index).filter((index) => index !== current);
+  if (others.length > 0) {
+    return others[Math.floor(Math.random() * others.length)]!;
+  }
+  return current ?? 0;
 }
 
 const HOW_TO_STEPS = [
@@ -25,18 +41,53 @@ const HOW_TO_STEPS = [
   "Write code in the editor. Start from the starter code and fill in the blanks.",
   "Click Run tests to check your work without submitting. Fix anything that fails.",
   "When every test passes, click Submit to complete the practice and earn XP.",
+  "Still stuck? Click Try another question for a different beginner task on the same idea.",
 ];
 
 export function GuidePracticePanel({ topicId, slug }: { topicId: string; slug: string }) {
-  const practice = guideHasPractice(topicId, slug) ? getGuidePractice(topicId, slug) : null;
+  const total = guideHasPractice(topicId, slug) ? guidePracticeCount(topicId, slug) : 0;
+  const [questionIndex, setQuestionIndex] = useState(0);
+  const [picked, setPicked] = useState(false);
+  const [passedIndices, setPassedIndices] = useState<number[]>([]);
+  const [lessonCleared, setLessonCleared] = useState(false);
   const [runResults, setRunResults] = useState<GradeTest[] | null>(null);
   const [runTestsRunning, setRunTestsRunning] = useState(false);
   const [hintsOpen, setHintsOpen] = useState(false);
 
-  if (!practice) return null;
+  useEffect(() => {
+    const passed = passedGuidePracticeIndices(topicId, slug);
+    setPassedIndices(passed);
+    setLessonCleared(isGuidePracticeComplete(topicId, slug));
+    setQuestionIndex(pickQuestion(total, passed, null));
+    setPicked(true);
+    setRunResults(null);
+    setHintsOpen(false);
+  }, [topicId, slug, total]);
 
-  const cleared = isGuidePracticeComplete(topicId, slug);
+  const practice = useMemo(
+    () => (total > 0 ? getGuidePractice(topicId, slug, questionIndex) : null),
+    [topicId, slug, questionIndex, total],
+  );
+
+  if (total === 0) return null;
+  if (!picked || !practice) {
+    return (
+      <section className="mt-14 scroll-mt-24" id="practice">
+        <p className="text-sm text-muted">Loading a practice question…</p>
+      </section>
+    );
+  }
+
+  const passedThis = passedIndices.includes(questionIndex);
   const hints = practice.exercise.hints;
+
+  function goToAnotherQuestion() {
+    const next = pickQuestion(total, passedIndices, questionIndex);
+    setQuestionIndex(next);
+    setRunResults(null);
+    setRunTestsRunning(false);
+    setHintsOpen(false);
+  }
 
   return (
     <section className="mt-14 scroll-mt-24" id="practice">
@@ -44,12 +95,12 @@ export function GuidePracticePanel({ topicId, slug }: { topicId: string; slug: s
         <span className="grid size-10 shrink-0 place-items-center rounded-xl border border-line bg-white shadow-sm">
           <Code2 size={18} className="text-primary" />
         </span>
-        <div>
+        <div className="min-w-0 flex-1">
           <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted">Try it yourself</p>
           <h2 className="mt-1 text-xl font-bold tracking-tight">Practice this lesson</h2>
           <p className="mt-1 text-sm leading-relaxed text-muted">
-            Apply what you just read. No pressure — run tests as many times as you need.
-            {cleared ? (
+            Apply what you just read. No pressure — try another question until it clicks.
+            {lessonCleared ? (
               <span className="ml-1 inline-flex items-center gap-1 font-medium text-ok">
                 <CheckCircle2 size={14} />
                 Practice complete
@@ -57,6 +108,14 @@ export function GuidePracticePanel({ topicId, slug }: { topicId: string; slug: s
             ) : (
               <span className="ml-1 font-medium text-primary">+{GUIDE_PRACTICE_XP} XP on first pass.</span>
             )}
+          </p>
+          <p className="mt-2 text-sm font-medium text-ink">
+            Question {questionIndex + 1} of {total}
+            {passedIndices.length > 0 ? (
+              <span className="ml-2 font-normal text-muted">
+                You&apos;ve got {passedIndices.length} of {total}
+              </span>
+            ) : null}
           </p>
         </div>
       </div>
@@ -70,6 +129,22 @@ export function GuidePracticePanel({ topicId, slug }: { topicId: string; slug: s
             ))}
           </ol>
         </article>
+
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <p className="text-sm text-muted">
+            {passedThis
+              ? "You already passed this one. Try another to keep practicing."
+              : "If this question is confusing, generate a different one — same lesson, new story."}
+          </p>
+          <button
+            type="button"
+            onClick={goToAnotherQuestion}
+            className="inline-flex items-center gap-2 rounded-xl border border-line bg-white px-3.5 py-2 text-sm font-semibold text-ink shadow-sm transition hover:border-ink"
+          >
+            <RefreshCw size={14} />
+            {passedThis ? "Next question" : "Try another question"}
+          </button>
+        </div>
 
         <article className="rounded-2xl border border-line bg-white p-4 sm:p-5">
           <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted">Your task</p>
@@ -99,7 +174,7 @@ export function GuidePracticePanel({ topicId, slug }: { topicId: string; slug: s
               <ol className="mt-3 space-y-2">
                 {hints.map((hint, index) => (
                   <li
-                    key={hint}
+                    key={`${hint}-${index}`}
                     className="rounded-xl border border-amber-100 bg-white/80 px-3 py-2.5 text-sm leading-relaxed text-amber-950"
                   >
                     <span className="font-bold text-amber-700">{index + 1}.</span> {hint}
@@ -132,9 +207,11 @@ export function GuidePracticePanel({ topicId, slug }: { topicId: string; slug: s
               starterCode={practice.exercise.starterCode}
               kind="guide"
               exerciseId={practice.exerciseId}
-              alreadyCleared={cleared}
+              alreadyCleared={passedThis}
               onCleared={() => {
-                const firstTime = markGuidePracticeComplete(topicId, slug);
+                const firstTime = markGuidePracticeQuestionPassed(topicId, slug, questionIndex);
+                setPassedIndices(passedGuidePracticeIndices(topicId, slug));
+                if (firstTime) setLessonCleared(true);
                 return {
                   awarded: firstTime,
                   xp: firstTime ? GUIDE_PRACTICE_XP : 0,

@@ -9,21 +9,31 @@ const STORAGE_KEY = storageKey("guide-progress");
 type GuideProgressStore = {
   read: Record<string, string[]>;
   practiced: Record<string, string[]>;
+  passedByLesson: Record<string, number[]>;
 };
 
+function emptyStore(): GuideProgressStore {
+  return { read: {}, practiced: {}, passedByLesson: {} };
+}
+
+function lessonQuestionKey(topicId: string, slug: string) {
+  return `${topicId}::${slug}`;
+}
+
 function readStore(): GuideProgressStore {
-  if (typeof window === "undefined") return { read: {}, practiced: {} };
+  if (typeof window === "undefined") return emptyStore();
   migrateStorageKey([], STORAGE_KEY, ["codequest-guide-progress", "DevLadder-guide-progress"]);
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY);
-    if (!raw) return { read: {}, practiced: {} };
+    if (!raw) return emptyStore();
     const parsed = JSON.parse(raw) as GuideProgressStore;
     return {
       read: parsed?.read ?? {},
       practiced: parsed?.practiced ?? {},
+      passedByLesson: parsed?.passedByLesson ?? {},
     };
   } catch {
-    return { read: {}, practiced: {} };
+    return emptyStore();
   }
 }
 
@@ -59,6 +69,26 @@ export function markGuidePracticeComplete(topicId: string, slug: string) {
 export function isGuidePracticeComplete(topicId: string, slug: string) {
   const store = readStore();
   return (store.practiced[topicId] ?? []).includes(slug);
+}
+
+export function passedGuidePracticeIndices(topicId: string, slug: string) {
+  const store = readStore();
+  return store.passedByLesson[lessonQuestionKey(topicId, slug)] ?? [];
+}
+
+export function isGuidePracticeQuestionPassed(topicId: string, slug: string, index: number) {
+  return passedGuidePracticeIndices(topicId, slug).includes(index);
+}
+
+/** Marks a question passed. Returns true if this is the first time the lesson is completed. */
+export function markGuidePracticeQuestionPassed(topicId: string, slug: string, index: number) {
+  const store = readStore();
+  const key = lessonQuestionKey(topicId, slug);
+  const passed = new Set(store.passedByLesson[key] ?? []);
+  passed.add(index);
+  store.passedByLesson[key] = [...passed].sort((a, b) => a - b);
+  writeStore(store);
+  return markGuidePracticeComplete(topicId, slug);
 }
 
 export function guidesReadForTopic(topicId: string) {

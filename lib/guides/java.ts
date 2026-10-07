@@ -175,6 +175,7 @@ export const javaGuides: GuideLesson[] = [
         title: "Key idea",
         text: "new Player(...) creates an object. this refers to the current object inside its own methods.",
       },
+      { type: "tip", title: "Practice", text: PRACTICE_NOTE },
     ],
   },
   {
@@ -224,6 +225,7 @@ export const javaGuides: GuideLesson[] = [
         type: "p",
         text: "extends creates the child. @Override replaces a parent method. super calls the parent's version when you still need it.",
       },
+      { type: "tip", title: "Practice", text: PRACTICE_NOTE },
     ],
   },
   {
@@ -247,6 +249,7 @@ export const javaGuides: GuideLesson[] = [
         title: "Why it matters",
         text: "deposit checks amount > 0 before changing balance — outsiders can't set balance to -999 by accident.",
       },
+      { type: "tip", title: "Practice", text: PRACTICE_NOTE },
     ],
   },
   {
@@ -269,6 +272,7 @@ export const javaGuides: GuideLesson[] = [
         type: "p",
         text: "finally always runs — useful for cleanup. Some exceptions are checked and must be handled or declared. Use throw when your code detects an invalid state.",
       },
+      { type: "tip", title: "Practice", text: PRACTICE_NOTE },
     ],
   },
 ];

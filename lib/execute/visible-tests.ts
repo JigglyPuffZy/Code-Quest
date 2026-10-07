@@ -16,6 +16,13 @@ function formatValue(value: unknown) {
   return JSON.stringify(value);
 }
 
+function stdoutExampleInput(tests: Extract<TestSpec, { type: "stdout" }>) {
+  if (tests.exampleInput?.trim()) return tests.exampleInput.trim();
+  const stdin = tests.stdin?.trim();
+  if (stdin) return `Typed input:\n${stdin}`;
+  return "No extra input. Use the values already in the starter code, then print the expected output.";
+}
+
 function caseInput(functionName: string, item: FunctionCase) {
   const args = item.args.map((arg) => formatValue(arg)).join(", ");
   return `${functionName}(${args})`;
@@ -26,8 +33,8 @@ export function listVisibleTestCases(tests: TestSpec): VisibleTestCase[] {
     return [
       {
         id: "stdout",
-        title: "Program output",
-        input: tests.stdin ? `stdin = ${JSON.stringify(tests.stdin)}` : "// Your program runs with no stdin",
+        title: "Example 1",
+        input: stdoutExampleInput(tests),
         expected: tests.expected,
       },
     ];
@@ -48,12 +55,11 @@ export function listVisibleTestDisplay(
   const { tests, starterCode } = exercise;
 
   if (tests.type === "stdout") {
-    const stdin = tests.stdin?.trim();
     return [
       {
         id: "stdout",
-        title: "Program output",
-        input: stdin ? `stdin = ${JSON.stringify(stdin)}` : "// main() runs your code",
+        title: "Example 1",
+        input: stdoutExampleInput(tests),
         expected: tests.expected,
       },
     ];
