@@ -119,7 +119,7 @@ function JumpTile({ item }: { item: JumpItem }) {
       href={item.href}
       className={cn(
         "jump-tile group relative flex w-[9.5rem] flex-col gap-3 p-4 sm:w-[10.5rem]",
-        "rounded-2xl border border-line bg-white",
+        "rounded-2xl border border-line bg-surface",
         "transition-all duration-200 hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-lg hover:shadow-slate-900/5",
       )}
     >

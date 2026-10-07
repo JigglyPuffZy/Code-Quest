@@ -6,9 +6,9 @@ export function RingProgress({
   value,
   size = 88,
   stroke = 6,
-  trackColor = "#e0e7ff",
-  fromColor = "#4f46e5",
-  toColor = "#818cf8",
+  trackColor = "var(--dl-ring-track)",
+  fromColor = "var(--dl-ring-from)",
+  toColor = "var(--dl-ring-to)",
   children,
 }: {
   value: number;

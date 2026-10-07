@@ -37,7 +37,7 @@ function TopicCard({
       href={href}
       className={cn(
         "guide-topic-card group relative flex w-[8.75rem] flex-col gap-2.5 p-3.5 sm:w-[9.5rem]",
-        "rounded-2xl border bg-white transition-all duration-200",
+        "rounded-2xl border border-line bg-surface transition-all duration-200",
         active
           ? cn("border-slate-300 shadow-md shadow-slate-900/5 ring-2 ring-primary/30", soft)
           : "border-line hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-lg hover:shadow-slate-900/5",
@@ -88,7 +88,7 @@ function HomeCard({ active }: { active: boolean }) {
       href="/guides"
       className={cn(
         "guide-topic-card group relative flex w-[8.75rem] flex-col gap-2.5 p-3.5 sm:w-[9.5rem]",
-        "rounded-2xl border bg-white transition-all duration-200",
+        "rounded-2xl border border-line bg-surface transition-all duration-200",
         active
           ? "border-slate-300 bg-surface-2 shadow-md ring-2 ring-primary/30"
           : "border-line hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-lg hover:shadow-slate-900/5",

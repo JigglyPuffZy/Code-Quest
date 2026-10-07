@@ -11,7 +11,7 @@ export function ContinueGuideCard() {
   if (!next) {
     return (
       <Link href="/guides" className="group block h-full">
-        <article className="flex h-full flex-col justify-between rounded-2xl border border-line bg-white p-5 sm:p-6 transition hover:-translate-y-0.5 hover:shadow-md">
+        <article className="flex h-full flex-col justify-between rounded-2xl border border-line bg-surface p-5 sm:p-6 transition hover:-translate-y-0.5 hover:shadow-md">
           <div>
             <p className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-primary">
               <BookOpen size={11} />
@@ -31,7 +31,7 @@ export function ContinueGuideCard() {
   return (
     <Link href={`/guides/${next.topicId}/${next.slug}`} className="group block h-full">
       <article
-        className="relative flex h-full flex-col justify-between overflow-hidden rounded-2xl border border-primary-200 bg-gradient-to-br from-primary-50 via-white to-white p-5 transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-primary/10 sm:p-6"
+        className="relative flex h-full flex-col justify-between overflow-hidden rounded-2xl border border-primary-200 bg-gradient-to-br from-primary-50 via-surface to-surface p-5 transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-primary/10 sm:p-6"
       >
         <div>
           <p className="inline-flex items-center gap-1.5 rounded-full bg-primary px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-primary-foreground">

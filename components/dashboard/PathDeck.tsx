@@ -66,7 +66,7 @@ export function PathDeck({ embedded = false }: { embedded?: boolean }) {
               key={topic.id}
               href={`/guides/${topic.id}`}
               className={cn(
-                "group relative flex items-center gap-4 overflow-hidden rounded-2xl border border-line bg-white p-4 transition",
+                "group relative flex items-center gap-4 overflow-hidden rounded-2xl border border-line bg-surface p-4 transition",
                 "hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-lg hover:shadow-slate-900/5",
               )}
             >
@@ -93,7 +93,7 @@ export function PathDeck({ embedded = false }: { embedded?: boolean }) {
                 <Link
                   key={path.topicId}
                   href={`/guides/${path.topicId}`}
-                  className="flex items-center gap-3 rounded-xl border border-line bg-white p-3 transition hover:border-slate-300 hover:shadow-md"
+                  className="flex items-center gap-3 rounded-xl border border-line bg-surface p-3 transition hover:border-slate-300 hover:shadow-md"
                 >
                   <TechLogoBadge topicId={path.topicId} name={path.name} size={18} soft="bg-surface-2" ring="ring-line" />
                   <div className="min-w-0 flex-1">
@@ -111,7 +111,7 @@ export function PathDeck({ embedded = false }: { embedded?: boolean }) {
       {!embedded ? (
         <Link
           href="/guides"
-          className="path-ribbon group relative flex items-center gap-4 overflow-hidden rounded-2xl border border-primary-200/60 bg-gradient-to-br from-primary-50/90 via-white to-white p-4 sm:gap-5 sm:p-5 transition hover:-translate-y-0.5 hover:shadow-lg"
+          className="path-ribbon group relative flex items-center gap-4 overflow-hidden rounded-2xl border border-primary-200/60 bg-gradient-to-br from-primary-50/90 via-surface to-surface p-4 sm:gap-5 sm:p-5 transition hover:-translate-y-0.5 hover:shadow-lg"
         >
           <div className="absolute inset-y-0 left-0 w-1 bg-primary-500" aria-hidden />
           <span className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-primary-50 ring-1 ring-primary-100">

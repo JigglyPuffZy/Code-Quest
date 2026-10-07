@@ -77,7 +77,7 @@ export function GameExerciseView({
 
   if (locked) {
     return (
-      <div className="flex min-h-[55vh] flex-col items-center justify-center rounded-2xl border border-line bg-gradient-to-b from-surface-2 to-white p-8 text-center">
+      <div className="flex min-h-[55vh] flex-col items-center justify-center rounded-2xl border border-line bg-gradient-to-b from-surface-2 to-surface p-8 text-center">
         <div className="grid size-16 place-items-center rounded-2xl bg-slate-900 text-white shadow-lg">
           <Lock size={28} />
         </div>
@@ -185,7 +185,7 @@ export function GameExerciseView({
                 "flex items-center gap-3 rounded-xl border px-3 py-2.5 text-left transition",
                 active && "border-primary-300 bg-primary-50 shadow-sm",
                 done && !active && "border-emerald-200 bg-emerald-50/50",
-                !active && !done && "border-line bg-white hover:bg-surface-2",
+                !active && !done && "border-line bg-surface hover:bg-surface-2",
               )}
             >
               <span
@@ -210,7 +210,7 @@ export function GameExerciseView({
       <div className="grid gap-6 xl:grid-cols-2 xl:items-start">
         {/* Mission panel */}
         <div className="order-2 space-y-4 xl:order-1 xl:max-h-[calc(100vh-11rem)] xl:overflow-y-auto xl:pr-1">
-          <article className="overflow-hidden rounded-2xl border border-primary-200 bg-gradient-to-br from-primary-50 via-white to-violet-50/40 p-5 shadow-sm">
+          <article className="overflow-hidden rounded-2xl border border-primary-200 bg-gradient-to-br from-primary-50 via-surface to-violet-50/40 p-5 shadow-sm">
             <p className="inline-flex items-center gap-1.5 rounded-full bg-primary px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-primary-foreground">
               <Target size={11} />
               Your mission
@@ -227,7 +227,7 @@ export function GameExerciseView({
             running={runTestsRunning}
           />
 
-          <article className="rounded-2xl border border-line bg-white p-5">
+          <article className="rounded-2xl border border-line bg-surface p-5">
             <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted">Briefing</p>
             <ul className="mt-3 space-y-2 text-sm leading-relaxed text-muted">
               {record.blocks
@@ -242,7 +242,7 @@ export function GameExerciseView({
           </article>
 
           {maxHints > 0 ? (
-            <article className="rounded-2xl border border-line bg-white p-5">
+            <article className="rounded-2xl border border-line bg-surface p-5">
               <div className="flex items-center justify-between gap-2">
                 <p className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-muted">
                   <Lightbulb size={11} className="text-amber-500" />

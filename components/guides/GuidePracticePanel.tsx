@@ -116,7 +116,7 @@ export function GuidePracticePanel({ topicId, slug }: { topicId: string; slug: s
   return (
     <section className="mt-14 scroll-mt-24" id="practice">
       <div className="mb-5 flex items-start gap-3">
-        <span className="grid size-10 shrink-0 place-items-center rounded-xl border border-line bg-white shadow-sm">
+        <span className="grid size-10 shrink-0 place-items-center rounded-xl border border-line bg-surface shadow-sm">
           <Code2 size={18} className="text-primary" />
         </span>
         <div className="min-w-0 flex-1">
@@ -178,7 +178,7 @@ export function GuidePracticePanel({ topicId, slug }: { topicId: string; slug: s
             <button
               type="button"
               onClick={goToAnotherQuestion}
-              className="inline-flex items-center gap-2 rounded-xl border border-line bg-white px-3.5 py-2 text-sm font-semibold text-ink shadow-sm transition hover:border-ink"
+              className="inline-flex items-center gap-2 rounded-xl border border-line bg-surface px-3.5 py-2 text-sm font-semibold text-ink shadow-sm transition hover:border-ink"
             >
               <RefreshCw size={14} />
               {passedThis ? "Next question" : "Try another question"}
@@ -186,7 +186,7 @@ export function GuidePracticePanel({ topicId, slug }: { topicId: string; slug: s
           </div>
         </div>
 
-        <article className="rounded-2xl border border-line bg-white p-4 sm:p-5">
+        <article className="rounded-2xl border border-line bg-surface p-4 sm:p-5">
           <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted">Your task</p>
           <p className="mt-3 whitespace-pre-line text-sm leading-relaxed text-ink">{practice.exercise.prompt}</p>
         </article>
@@ -215,7 +215,7 @@ export function GuidePracticePanel({ topicId, slug }: { topicId: string; slug: s
                 {hints.map((hint, index) => (
                   <li
                     key={`${hint}-${index}`}
-                    className="rounded-xl border border-amber-100 bg-white/80 px-3 py-2.5 text-sm leading-relaxed text-amber-950"
+                    className="rounded-xl border border-amber-100 bg-surface/80 px-3 py-2.5 text-sm leading-relaxed text-amber-950"
                   >
                     <span className="font-bold text-amber-700">{index + 1}.</span> {hint}
                   </li>

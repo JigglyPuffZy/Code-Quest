@@ -10,7 +10,7 @@ import Link from "next/link";
 import { useState } from "react";
 
 const inputClass =
-  "w-full rounded-xl border border-line bg-white px-4 py-3 text-sm outline-none transition placeholder:text-muted/60 focus:border-primary focus:ring-2 focus:ring-primary/15";
+  "w-full rounded-xl border border-line bg-surface px-4 py-3 text-sm outline-none transition placeholder:text-muted/60 focus:border-primary focus:ring-2 focus:ring-primary/15";
 
 export function ForgotPasswordScreen() {
   const [username, setUsername] = useState("");
@@ -49,7 +49,7 @@ export function ForgotPasswordScreen() {
   }
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-white">
+    <div className="relative min-h-screen overflow-hidden bg-canvas">
       <div className="auth-hero-grid pointer-events-none fixed inset-0 lg:hidden" aria-hidden />
       <div className="relative grid min-h-screen lg:grid-cols-[1.08fr_0.92fr]">
         <AuthHero mode="forgot" />
@@ -59,7 +59,7 @@ export function ForgotPasswordScreen() {
             <div className="mb-3 flex justify-end lg:hidden">
               <Link
                 href="/login"
-                className="rounded-full border border-line bg-white px-3 py-1.5 text-xs font-semibold text-muted shadow-sm transition hover:border-primary-200 hover:text-primary"
+                className="rounded-full border border-line bg-surface px-3 py-1.5 text-xs font-semibold text-muted shadow-sm transition hover:border-primary-200 hover:text-primary"
               >
                 ← Log in
               </Link>
@@ -67,7 +67,7 @@ export function ForgotPasswordScreen() {
 
             <AuthMobileStrip mode="forgot" />
 
-            <div className="auth-panel relative mt-5 overflow-hidden rounded-2xl border border-line bg-white p-6 shadow-2xl shadow-slate-900/[0.06] sm:p-8 lg:mt-0">
+            <div className="auth-panel relative mt-5 overflow-hidden rounded-2xl border border-line bg-surface p-6 shadow-2xl shadow-slate-900/[0.06] sm:p-8 lg:mt-0">
               <div className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-primary-400 via-primary to-violet-400" aria-hidden />
               <div className="mb-6 hidden lg:block">
                 <Logo href="/" size="lg" glow subtitle="Academy" />

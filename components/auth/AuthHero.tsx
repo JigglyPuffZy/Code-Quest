@@ -114,7 +114,7 @@ export function AuthHero({
             <DevLadderMark size={24} />
             <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-primary">Academy</span>
           </span>
-          <span className="auth-level-pill inline-flex items-center gap-2 rounded-full border border-primary-200 bg-white/90 px-3 py-1.5 text-xs font-bold text-primary shadow-sm">
+          <span className="auth-level-pill inline-flex items-center gap-2 rounded-full border border-primary-200 bg-surface/90 px-3 py-1.5 text-xs font-bold text-primary shadow-sm">
             <span className="auth-level-badge relative grid h-6 w-6 place-items-center rounded-full bg-primary text-[10px] text-white">
               1
             </span>
@@ -135,7 +135,7 @@ export function AuthHero({
             <div
               key={step.n}
               className={cn(
-                "auth-step-card rounded-xl border bg-white/80 px-3 py-3 shadow-sm transition-all duration-500",
+                "auth-step-card rounded-xl border bg-surface/80 px-3 py-3 shadow-sm transition-all duration-500",
                 activeStep === index
                   ? "auth-step-active border-primary-300 shadow-md shadow-primary/10"
                   : "border-line/80",
@@ -160,7 +160,7 @@ export function AuthHero({
           <div className="auth-terminal-wrap relative flex items-center justify-center">
             <div className="auth-terminal-ring pointer-events-none absolute inset-4 rounded-3xl" aria-hidden />
             <div className="auth-terminal-tilt w-full">
-              <div className="auth-terminal auth-terminal-shine relative overflow-hidden rounded-2xl border border-white/80 bg-white shadow-2xl shadow-primary/20">
+              <div className="auth-terminal auth-terminal-shine relative overflow-hidden rounded-2xl border border-line bg-surface shadow-2xl shadow-primary/20">
                 <div className="flex items-center justify-between border-b border-line/60 bg-slate-50/90 px-4 py-2.5">
                   <div className="flex gap-1.5">
                     <span className="auth-dot h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
@@ -188,7 +188,7 @@ export function AuthHero({
                       </div>
                     ) : null}
                   </pre>
-                  <div className="auth-xp-panel mt-4 rounded-xl border border-primary-100 bg-white p-3">
+                  <div className="auth-xp-panel mt-4 rounded-xl border border-primary-100 bg-surface p-3">
                     <div className="mb-1.5 flex justify-between text-[10px] font-semibold">
                       <span className="text-muted">Progress to Level 2</span>
                       <span className="auth-xp-count text-primary tabular-nums">{xpPercent}%</span>
@@ -209,7 +209,7 @@ export function AuthHero({
             {STAT_CARDS.map((card, index) => (
               <div
                 key={card.label}
-                className="auth-stat-card auth-stat-slide group flex flex-1 items-center gap-3 rounded-2xl border border-line/70 bg-white/95 p-3 shadow-sm transition hover:-translate-y-1 hover:border-primary-200 hover:shadow-lg"
+                className="auth-stat-card auth-stat-slide group flex flex-1 items-center gap-3 rounded-2xl border border-line/70 bg-surface/95 p-3 shadow-sm transition hover:-translate-y-1 hover:border-primary-200 hover:shadow-lg"
                 style={{ animationDelay: card.delay }}
               >
                 <span
@@ -236,7 +236,7 @@ export function AuthHero({
             {TECH.map((id, index) => (
               <span
                 key={id}
-                className="auth-tech-chip auth-tech-pop inline-flex items-center gap-2 rounded-full border border-line bg-white px-3 py-2 text-xs font-bold shadow-sm transition hover:-translate-y-0.5 hover:border-primary-300 hover:shadow-md"
+                className="auth-tech-chip auth-tech-pop inline-flex items-center gap-2 rounded-full border border-line bg-surface px-3 py-2 text-xs font-bold shadow-sm transition hover:-translate-y-0.5 hover:border-primary-300 hover:shadow-md"
                 style={{ animationDelay: `${0.9 + index * 0.06}s` }}
               >
                 <TechLogo topicId={id} size={16} />

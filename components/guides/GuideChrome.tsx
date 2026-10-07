@@ -18,7 +18,7 @@ export function GuideCourseTabs({ activeId }: { activeId?: GuideTopicId }) {
   const visible = topicsInCategory(category);
 
   return (
-    <div className="guide-tabs -mx-5 mb-8 border-b border-line bg-white px-5 sm:-mx-8 sm:px-8">
+    <div className="guide-tabs -mx-5 mb-8 border-b border-line bg-surface px-5 sm:-mx-8 sm:px-8">
       <div className="mx-auto max-w-5xl space-y-2 py-3">
         <div className="flex gap-1 overflow-x-auto">
           {CATEGORY_FILTERS.map((item) => (
@@ -68,7 +68,7 @@ export function GuideLessonHero({
   const progress = ((lessonIndex + 1) / lessonTotal) * 100;
 
   return (
-    <div className="guide-hero -mx-5 mb-8 overflow-hidden border-b border-line bg-white sm:-mx-8">
+    <div className="guide-hero -mx-5 mb-8 overflow-hidden border-b border-line bg-surface sm:-mx-8">
       <div className="mx-auto max-w-5xl px-5 pb-8 pt-2 sm:px-8">
         <div className="flex items-center justify-between gap-3">
           <div className="flex min-w-0 items-center gap-2 text-sm">

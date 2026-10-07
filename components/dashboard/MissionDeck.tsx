@@ -34,13 +34,13 @@ export function MissionDeck({ player, embedded = false }: { player: Player; embe
         <Link
           href={`/challenges/${daily.id}`}
           className={cn(
-            "group relative overflow-hidden rounded-2xl border border-rose-200/70 bg-gradient-to-br from-rose-50/90 via-white to-white p-6 lg:p-7",
+            "group relative overflow-hidden rounded-2xl border border-rose-200/70 bg-gradient-to-br from-rose-50/90 via-surface to-surface p-6 lg:p-7",
             !embedded && "lg:col-span-3",
           )}
         >
           <div className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-rose-200/40 blur-3xl" />
           <div className="relative">
-            <p className="inline-flex items-center gap-1.5 rounded-full border border-rose-200/80 bg-white/80 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-rose-600">
+            <p className="inline-flex items-center gap-1.5 rounded-full border border-rose-200/80 bg-surface/80 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-rose-600">
               <Swords size={11} />
               Daily battle
             </p>
@@ -51,7 +51,7 @@ export function MissionDeck({ player, embedded = false }: { player: Player; embe
                 className={cn(
                   "inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold transition",
                   dailyCleared
-                    ? "border border-line bg-white text-ink group-hover:bg-surface-2"
+                    ? "border border-line bg-surface text-ink group-hover:bg-surface-2"
                     : "bg-primary text-primary-foreground group-hover:bg-primary-hover",
                 )}
               >
@@ -102,7 +102,7 @@ export function MissionDeck({ player, embedded = false }: { player: Player; embe
           >
             <div className="pointer-events-none absolute -bottom-8 -right-8 h-36 w-36 rounded-full bg-primary-200/20 blur-3xl" />
             <div className="relative text-center sm:text-left">
-              <span className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-white text-2xl ring-1 ring-line sm:mx-0">
+              <span className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-surface text-2xl ring-1 ring-line sm:mx-0">
                 <Medal size={26} className="text-muted" strokeWidth={1.5} />
               </span>
               <h3 className="mt-4 text-lg font-bold">Earn your first badge</h3>

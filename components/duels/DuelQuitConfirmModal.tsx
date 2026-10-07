@@ -31,7 +31,7 @@ export function DuelQuitConfirmModal({
       onClick={onClose}
     >
       <div
-        className="w-full max-w-md overflow-hidden rounded-3xl border border-line bg-white shadow-2xl"
+        className="w-full max-w-md overflow-hidden rounded-3xl border border-line bg-surface shadow-2xl"
         onClick={(event) => event.stopPropagation()}
       >
         <div className="bg-gradient-to-r from-rose-500 via-primary-500 to-violet-500 px-5 py-4 text-white">

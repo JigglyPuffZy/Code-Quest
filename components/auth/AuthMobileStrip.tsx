@@ -8,7 +8,7 @@ export function AuthMobileStrip({ mode }: { mode: "login" | "signup" | "forgot" 
     mode === "login" ? "Welcome back, hero." : mode === "signup" ? "Join the quest." : "Reset your password.";
 
   return (
-    <div className="auth-mobile-strip relative overflow-hidden rounded-2xl border border-primary-100 bg-gradient-to-br from-primary-50 via-white to-violet-50/80 p-5 shadow-sm shadow-primary/5 lg:hidden">
+    <div className="auth-mobile-strip relative overflow-hidden rounded-2xl border border-primary-100 bg-gradient-to-br from-primary-50 via-surface to-violet-50/80 p-5 shadow-sm shadow-primary/5 lg:hidden">
       <div className="pointer-events-none absolute -right-8 -top-8 h-28 w-28 rounded-full bg-primary/15 blur-2xl" aria-hidden />
       <div className="pointer-events-none absolute -bottom-10 left-8 h-24 w-24 rounded-full bg-violet-400/10 blur-2xl" aria-hidden />
 
@@ -36,7 +36,7 @@ export function AuthMobileStrip({ mode }: { mode: "login" | "signup" | "forgot" 
         ].map(({ icon: Icon, label }) => (
           <span
             key={label}
-            className="inline-flex items-center gap-1.5 rounded-full border border-white/80 bg-white/90 px-3 py-1.5 text-[10px] font-bold text-muted shadow-sm"
+            className="inline-flex items-center gap-1.5 rounded-full border border-line bg-surface/90 px-3 py-1.5 text-[10px] font-bold text-muted shadow-sm"
           >
             <Icon size={12} className="text-primary" />
             {label}

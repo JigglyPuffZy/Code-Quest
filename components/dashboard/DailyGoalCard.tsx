@@ -14,7 +14,7 @@ export function DailyGoalCard() {
   const pct = goal.ratio * 100;
 
   return (
-    <article className="dash-daily relative overflow-hidden rounded-2xl border border-line bg-white p-5 sm:p-6">
+    <article className="dash-daily relative overflow-hidden rounded-2xl border border-line bg-surface p-5 sm:p-6">
       <div className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-amber-200/30 blur-3xl" aria-hidden />
       <div className="relative flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
         <div className="min-w-0">

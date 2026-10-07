@@ -137,7 +137,7 @@ export function DifficultyPicker({
                     : cn("is-active border-transparent shadow-md", meta.soft, "ring-2", meta.ring)
                   : variant === "dark"
                     ? "border-white/12 bg-white/8 text-white/90 hover:border-white/20 hover:bg-white/12"
-                    : "border-line bg-white hover:border-slate-300",
+                    : "border-line bg-surface hover:border-line",
               )}
             >
               <div

@@ -22,9 +22,9 @@ export function DailyPracticeReminder() {
   if (done >= DAILY_TARGET) return null;
 
   return (
-    <article className="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-violet-200 bg-gradient-to-r from-violet-50 to-white px-4 py-3.5 sm:px-5">
+    <article className="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-primary-200 bg-gradient-to-r from-primary-50 to-surface px-4 py-3.5 sm:px-5">
       <div className="flex items-start gap-3">
-        <Bell className="mt-0.5 size-5 shrink-0 text-violet-600" />
+        <Bell className="mt-0.5 size-5 shrink-0 text-primary" />
         <div>
           <p className="text-sm font-bold text-ink">Daily practice reminder</p>
           <p className="text-sm text-muted">
@@ -34,7 +34,7 @@ export function DailyPracticeReminder() {
       </div>
       <Link
         href="/guides"
-        className="inline-flex items-center gap-2 rounded-xl bg-violet-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-violet-700"
+        className="inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-sm hover:bg-primary-hover"
       >
         <Zap size={14} />
         Practice now

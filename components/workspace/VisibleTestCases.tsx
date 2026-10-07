@@ -124,7 +124,7 @@ function ExampleCard({
       <div
         className={cn(
           "flex items-center justify-between gap-2 border-b px-3 py-2",
-          dark ? "border-slate-800 bg-slate-900/80" : "border-line bg-white",
+          dark ? "border-slate-800 bg-slate-900/80" : "border-line bg-surface",
         )}
       >
         <p className={cn("font-sans text-xs font-semibold", dark ? "text-slate-200" : "text-ink")}>
@@ -210,14 +210,14 @@ export function VisibleTestCases({
     <article
       className={cn(
         "overflow-hidden rounded-2xl border shadow-sm",
-        dark ? "border-slate-700 bg-slate-900/60" : "border-line bg-white",
+        dark ? "border-slate-700 bg-slate-900/60" : "border-line bg-surface",
       )}
     >
       {/* Header */}
       <div
         className={cn(
           "border-b px-4 py-4 sm:px-5",
-          dark ? "border-slate-800 bg-slate-950/50" : "border-line bg-gradient-to-r from-surface-2 to-white",
+          dark ? "border-slate-800 bg-slate-950/50" : "border-line bg-gradient-to-r from-surface-2 to-surface",
         )}
       >
         <div className="flex flex-wrap items-start justify-between gap-3">

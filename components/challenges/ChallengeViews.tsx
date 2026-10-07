@@ -56,7 +56,7 @@ function ChallengeCard({
   const body = (
     <article
       className={cn(
-        "group relative overflow-hidden rounded-2xl border bg-white transition-all duration-200",
+        "group relative overflow-hidden rounded-2xl border border-line bg-surface transition-all duration-200",
         open
           ? "border-line hover:-translate-y-0.5 hover:border-primary-200 hover:shadow-lg hover:shadow-primary/10"
           : "border-line/80 bg-surface-2/50",
@@ -187,7 +187,7 @@ export function ChallengeList() {
             ].map((stat) => (
               <div
                 key={stat.label}
-                className="rounded-xl border border-line bg-white px-3 py-3 text-center sm:px-5"
+                className="rounded-xl border border-line bg-surface px-3 py-3 text-center sm:px-5"
               >
                 <p
                   className={cn(
@@ -217,7 +217,7 @@ export function ChallengeList() {
 
           <Link href={`/challenges/${daily.id}`} className="group block">
             <article
-              className="relative overflow-hidden rounded-2xl border border-primary-200 bg-gradient-to-br from-primary-50/80 via-white to-white p-4 transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-primary/10 sm:p-7"
+              className="relative overflow-hidden rounded-2xl border border-primary-200 bg-gradient-to-br from-primary-50/80 via-surface to-surface p-4 transition hover:-translate-y-0.5 hover:shadow-lg hover:shadow-primary/10 sm:p-7"
             >
               <div className="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-primary/20 blur-2xl" />
               <div className="relative flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
@@ -235,7 +235,7 @@ export function ChallengeList() {
                   className={cn(
                     "inline-flex min-h-12 w-full shrink-0 items-center justify-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold transition sm:min-h-0 sm:w-fit",
                     dailyDone
-                      ? "border border-primary-200 bg-white text-primary group-hover:bg-primary-50"
+                      ? "border border-primary-200 bg-surface text-primary group-hover:bg-primary-50"
                       : "bg-primary text-primary-foreground group-hover:bg-primary-hover",
                   )}
                 >
@@ -248,7 +248,7 @@ export function ChallengeList() {
         </section>
       ) : null}
 
-      <div className="guide-tabs -mx-4 border-b border-line bg-white px-4 sm:-mx-8 sm:px-8">
+      <div className="guide-tabs -mx-4 border-b border-line bg-surface px-4 sm:-mx-8 sm:px-8">
         <div className="flex gap-1.5 overflow-x-auto py-2.5 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {FILTERS.map((item) => {
             const active = filter === item;

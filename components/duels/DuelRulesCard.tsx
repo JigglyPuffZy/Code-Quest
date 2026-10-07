@@ -10,7 +10,7 @@ export function DuelRulesCard({ rules, hostName }: { rules: DuelRules; hostName?
   const diff = SKILL_DIFFICULTIES[rules.skillDifficulty];
 
   return (
-    <div className="rounded-2xl border border-violet-200 bg-gradient-to-br from-violet-50/80 via-white to-white p-4">
+    <div className="rounded-2xl border border-violet-200 bg-gradient-to-br from-violet-50/80 via-surface to-surface p-4">
       <p className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-violet-600">
         <Settings2 size={12} />
         Duel rules
@@ -21,15 +21,15 @@ export function DuelRulesCard({ rules, hostName }: { rules: DuelRules; hostName?
         </p>
       ) : null}
       <dl className="mt-3 grid gap-2 text-sm sm:grid-cols-3">
-        <div className="rounded-xl border border-line bg-white px-3 py-2">
+        <div className="rounded-xl border border-line bg-surface px-3 py-2">
           <dt className="text-[10px] font-bold uppercase text-muted">Series</dt>
           <dd className="font-bold text-ink">{wins}</dd>
         </div>
-        <div className="rounded-xl border border-line bg-white px-3 py-2">
+        <div className="rounded-xl border border-line bg-surface px-3 py-2">
           <dt className="text-[10px] font-bold uppercase text-muted">Timer</dt>
           <dd className="font-bold text-ink">{timer}</dd>
         </div>
-        <div className="rounded-xl border border-line bg-white px-3 py-2">
+        <div className="rounded-xl border border-line bg-surface px-3 py-2">
           <dt className="text-[10px] font-bold uppercase text-muted">Difficulty</dt>
           <dd className="font-bold text-ink">{diff.label}</dd>
         </div>

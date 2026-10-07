@@ -135,7 +135,7 @@ export function LeaderboardView() {
         }
       />
 
-      <div className="mb-4 flex flex-wrap items-center gap-3 rounded-2xl border border-line bg-gradient-to-r from-rose-50/80 via-white to-violet-50/60 px-4 py-3">
+      <div className="mb-4 flex flex-wrap items-center gap-3 rounded-2xl border border-line bg-gradient-to-r from-rose-50/80 via-surface to-violet-50/60 px-4 py-3">
         <span className="grid size-10 place-items-center rounded-xl bg-gradient-to-br from-rose-500 to-violet-500 text-white shadow-md">
           <Swords size={18} />
         </span>

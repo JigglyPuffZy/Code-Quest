@@ -33,7 +33,7 @@ export function DashboardZone({
               {step}
             </span>
           ) : Icon ? (
-            <span className="flex size-9 shrink-0 items-center justify-center rounded-xl border border-line bg-white text-primary">
+            <span className="flex size-9 shrink-0 items-center justify-center rounded-xl border border-line bg-surface text-primary">
               <Icon size={17} />
             </span>
           ) : null}

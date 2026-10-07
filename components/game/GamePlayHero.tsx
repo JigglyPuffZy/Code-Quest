@@ -62,7 +62,7 @@ export function GamePlayHero() {
 
           <Link
             href={playHref}
-            className="inline-flex shrink-0 items-center justify-center gap-2 self-start rounded-xl bg-white px-5 py-3 text-sm font-bold text-slate-900 shadow-lg shadow-black/20 transition hover:bg-primary-50 hover:shadow-xl"
+            className="inline-flex shrink-0 items-center justify-center gap-2 self-start rounded-xl bg-surface px-5 py-3 text-sm font-bold text-ink shadow-lg shadow-black/20 transition hover:bg-primary-50 hover:shadow-xl"
           >
             <Play size={16} fill="currentColor" />
             Play L{level.level}

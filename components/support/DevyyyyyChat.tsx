@@ -191,14 +191,14 @@ export function DevyyyyyChat({ variant = "app" }: { variant?: "app" | "landing" 
       {open ? (
         <section
           className={cn(
-            "pointer-events-auto flex w-[min(100vw-1.5rem,24rem)] flex-col overflow-hidden border border-primary-100 bg-white shadow-[0_18px_50px_rgba(79,70,229,0.18)]",
+            "pointer-events-auto flex w-[min(100vw-1.5rem,24rem)] flex-col overflow-hidden border border-primary-100 bg-surface shadow-[0_18px_50px_rgba(79,70,229,0.18)]",
             "max-sm:fixed max-sm:inset-x-0 max-sm:bottom-0 max-sm:w-full max-sm:rounded-t-3xl",
             "sm:max-h-[min(560px,70vh)] sm:rounded-3xl",
             "max-sm:h-[min(92dvh,640px)]",
           )}
           aria-label="devyyyyy chat"
         >
-          <header className="flex items-start gap-3 border-b border-primary-50 bg-gradient-to-br from-primary-50 via-white to-white px-4 py-3.5">
+          <header className="flex items-start gap-3 border-b border-primary-50 bg-gradient-to-br from-primary-50 via-surface to-canvas px-4 py-3.5">
             <DevyyyyyAvatar className="mt-0.5 h-10 w-10" smiling alt="devyyyyy" />
             <div className="min-w-0 flex-1">
               <p className="text-sm font-bold tracking-tight text-ink">devyyyyy</p>
@@ -219,7 +219,7 @@ export function DevyyyyyChat({ variant = "app" }: { variant?: "app" | "landing" 
 
           <div ref={listRef} className="min-h-0 flex-1 space-y-3 overflow-y-auto bg-surface-2/70 px-3.5 py-3.5">
             {messages.length === 0 ? (
-              <div className="rounded-2xl border border-dashed border-primary-100 bg-white px-3.5 py-3 text-sm leading-relaxed text-muted">
+              <div className="rounded-2xl border border-dashed border-primary-100 bg-surface px-3.5 py-3 text-sm leading-relaxed text-muted">
                 {WELCOME}
               </div>
             ) : null}
@@ -236,7 +236,7 @@ export function DevyyyyyChat({ variant = "app" }: { variant?: "app" | "landing" 
                     "max-w-[85%] whitespace-pre-wrap rounded-2xl px-3.5 py-2.5 text-[13px] leading-relaxed",
                     message.role === "user"
                       ? "rounded-br-md bg-primary text-white"
-                      : "rounded-bl-md border border-line bg-white text-ink",
+                      : "rounded-bl-md border border-line bg-surface text-ink",
                   )}
                 >
                   {message.content}
@@ -253,7 +253,7 @@ export function DevyyyyyChat({ variant = "app" }: { variant?: "app" | "landing" 
           </div>
 
           <form
-            className="border-t border-line bg-white p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]"
+            className="border-t border-line bg-surface p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]"
             onSubmit={(event) => {
               event.preventDefault();
               void sendMessage();
@@ -291,7 +291,7 @@ export function DevyyyyyChat({ variant = "app" }: { variant?: "app" | "landing" 
         type="button"
         onClick={() => (open ? closeChat() : openChat())}
         className={cn(
-          "group pointer-events-auto inline-flex items-center gap-2 rounded-full border border-primary-100 bg-white py-2 pl-2 pr-3.5 text-sm font-bold text-ink shadow-[0_10px_28px_rgba(79,70,229,0.22)] transition hover:-translate-y-0.5 hover:border-primary-200",
+          "group pointer-events-auto inline-flex items-center gap-2 rounded-full border border-primary-100 bg-surface py-2 pl-2 pr-3.5 text-sm font-bold text-ink shadow-[0_10px_28px_rgba(79,70,229,0.22)] transition hover:-translate-y-0.5 hover:border-primary-200",
           open && "max-sm:hidden",
         )}
         aria-expanded={open}

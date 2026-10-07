@@ -39,7 +39,7 @@ export function CatalogEntryView({ slug }: { slug: string }) {
             <span className="rounded-full border border-line bg-surface-2 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-muted">
               {CATALOG_PART_LABELS[entry.part]}
             </span>
-            <span className="rounded-full border border-line bg-white px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-muted">
+            <span className="rounded-full border border-line bg-surface px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-muted">
               {entry.kind}
             </span>
           </div>
@@ -49,7 +49,7 @@ export function CatalogEntryView({ slug }: { slug: string }) {
               name={entry.name}
               topicId={entry.guideTopicId}
               size={28}
-              soft="bg-white"
+              soft="bg-surface"
               ring="ring-line"
             />
             <h1 className="text-3xl font-bold tracking-tight text-ink sm:text-4xl">{entry.name}</h1>
@@ -57,7 +57,7 @@ export function CatalogEntryView({ slug }: { slug: string }) {
           <p className="mt-2 text-sm text-muted">{entry.sectionTitle}</p>
         </header>
 
-        <div className="mt-8 overflow-hidden rounded-2xl border border-line bg-white">
+        <div className="mt-8 overflow-hidden rounded-2xl border border-line bg-surface">
           <table className="w-full text-sm">
             <tbody>
               <tr className="border-b border-line">
@@ -106,7 +106,7 @@ export function CatalogEntryView({ slug }: { slug: string }) {
         {entry.guideTopicId && (
           <div className="mt-10 rounded-2xl border border-primary/20 bg-primary/5 p-5">
             <div className="flex items-start gap-3">
-              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-white text-primary">
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-surface text-primary">
                 <BookOpen size={18} />
               </span>
               <div className="flex-1">

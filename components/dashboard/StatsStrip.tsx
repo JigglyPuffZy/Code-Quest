@@ -22,7 +22,7 @@ export function StatsStrip() {
       {ITEMS.map(({ key, label, hint, icon: Icon }) => (
         <div
           key={key}
-          className="rounded-xl border border-line/80 bg-white/80 px-3 py-2.5 backdrop-blur-sm"
+          className="rounded-xl border border-line/80 bg-surface/90 px-3 py-2.5 backdrop-blur-sm"
         >
           <p className="flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider text-muted">
             <Icon size={11} className="text-primary" />

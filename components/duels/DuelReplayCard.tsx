@@ -12,7 +12,7 @@ export function DuelReplayCard({ duel }: { duel: DuelSnapshot }) {
   const youWon = duel.winnerId === you.id;
 
   return (
-    <article className="rounded-2xl border border-line bg-white p-5 shadow-sm">
+    <article className="rounded-2xl border border-line bg-surface p-5 shadow-sm">
       <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted">Match replay</p>
       <h2 className="mt-2 text-lg font-bold">Final score</h2>
       <div className="mt-4 flex items-center justify-center gap-6">

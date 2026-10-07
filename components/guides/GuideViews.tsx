@@ -52,7 +52,7 @@ export function GuidesHome() {
         </p>
       </header>
 
-      <section className="mb-12 overflow-hidden rounded-2xl border border-line bg-white p-5 sm:p-6">
+      <section className="mb-12 overflow-hidden rounded-2xl border border-line bg-surface p-5 sm:p-6">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="max-w-2xl">
             <div className="mb-2 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wide text-primary">
@@ -196,7 +196,7 @@ export function TopicGuideList({ topicId }: { topicId: string }) {
                 href={`/guides/${topicId}/${lesson.slug}`}
                 className="group flex items-center gap-4 py-5 transition hover:bg-surface-2/60 sm:rounded-xl sm:px-4"
               >
-                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-line bg-white text-sm font-bold text-muted shadow-sm transition group-hover:border-ink group-hover:text-ink">
+                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-line bg-surface text-sm font-bold text-muted shadow-sm transition group-hover:border-ink group-hover:text-ink">
                   {index + 1}
                 </span>
                 <div className="min-w-0 flex-1">

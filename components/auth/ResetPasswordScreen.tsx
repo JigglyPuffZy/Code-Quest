@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const inputClass =
-  "w-full rounded-xl border border-line bg-white px-4 py-3 text-sm outline-none transition placeholder:text-muted/60 focus:border-primary focus:ring-2 focus:ring-primary/15";
+  "w-full rounded-xl border border-line bg-surface px-4 py-3 text-sm outline-none transition placeholder:text-muted/60 focus:border-primary focus:ring-2 focus:ring-primary/15";
 
 export function ResetPasswordScreen() {
   const { refresh, supabaseEnabled, email } = usePlayer();
@@ -58,11 +58,11 @@ export function ResetPasswordScreen() {
 
   if (!supabaseEnabled) {
     return (
-      <div className="relative min-h-screen overflow-hidden bg-white">
+      <div className="relative min-h-screen overflow-hidden bg-canvas">
         <div className="auth-hero-grid pointer-events-none fixed inset-0" aria-hidden />
         <div className="relative mx-auto flex min-h-screen max-w-md flex-col justify-center px-5 py-10">
           <Logo glow subtitle="Academy" />
-          <div className="auth-panel mt-6 rounded-2xl border border-line bg-white p-6 text-sm text-muted shadow-xl">
+          <div className="auth-panel mt-6 rounded-2xl border border-line bg-surface p-6 text-sm text-muted shadow-xl">
             Password reset needs Supabase to be configured.
           </div>
         </div>
@@ -71,14 +71,14 @@ export function ResetPasswordScreen() {
   }
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-white">
+    <div className="relative min-h-screen overflow-hidden bg-canvas">
       <div className="auth-hero-grid pointer-events-none fixed inset-0" aria-hidden />
       <div className="relative mx-auto flex min-h-screen max-w-md flex-col justify-center px-5 py-8 sm:px-8">
         <div className="auth-form-rise">
           <div className="mb-3 flex justify-end">
             <Link
               href="/login"
-              className="rounded-full border border-line bg-white px-3 py-1.5 text-xs font-semibold text-muted shadow-sm transition hover:border-primary-200 hover:text-primary"
+              className="rounded-full border border-line bg-surface px-3 py-1.5 text-xs font-semibold text-muted shadow-sm transition hover:border-primary-200 hover:text-primary"
             >
               ← Log in
             </Link>
@@ -86,7 +86,7 @@ export function ResetPasswordScreen() {
 
           <AuthMobileStrip mode="forgot" />
 
-          <div className="auth-panel relative mt-5 overflow-hidden rounded-2xl border border-line bg-white p-6 shadow-2xl shadow-slate-900/[0.06] sm:p-8">
+          <div className="auth-panel relative mt-5 overflow-hidden rounded-2xl border border-line bg-surface p-6 shadow-2xl shadow-slate-900/[0.06] sm:p-8">
             <div className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-primary-400 via-primary to-violet-400" aria-hidden />
             <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary">New password</p>
             <h1 className="mt-2 text-2xl font-bold tracking-tight">Choose a new password</h1>

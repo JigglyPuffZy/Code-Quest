@@ -84,7 +84,7 @@ export function GameHub({ track }: { track: GameTrackId }) {
           </div>
           <Link
             href={`/game/${track}/${current.level}`}
-            className="inline-flex w-fit items-center gap-2 rounded-xl bg-white px-5 py-3 text-sm font-bold text-slate-900 shadow-lg transition hover:bg-primary-50"
+            className="inline-flex w-fit items-center gap-2 rounded-xl bg-surface px-5 py-3 text-sm font-bold text-ink shadow-lg transition hover:bg-primary-50"
           >
             <Play size={16} fill="currentColor" />
             Play level {current.level}
@@ -92,7 +92,7 @@ export function GameHub({ track }: { track: GameTrackId }) {
         </div>
       </section>
 
-      <section className="rounded-2xl border border-line bg-white p-5 sm:p-6">
+      <section className="rounded-2xl border border-line bg-surface p-5 sm:p-6">
         <StackPicker
           track={track}
           frontendFramework={player.frontendFramework}
@@ -104,7 +104,7 @@ export function GameHub({ track }: { track: GameTrackId }) {
         />
       </section>
 
-      <section className="space-y-4 rounded-2xl border border-line bg-white p-5 sm:p-6">
+      <section className="space-y-4 rounded-2xl border border-line bg-surface p-5 sm:p-6">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div>
             <h2 className="text-lg font-bold">Level map</h2>
@@ -147,7 +147,7 @@ export function GameHub({ track }: { track: GameTrackId }) {
                   "relative flex aspect-square flex-col items-center justify-center rounded-xl border text-center transition",
                   done && "border-emerald-200 bg-emerald-50 text-emerald-700",
                   active && "border-primary-300 bg-primary-50 text-primary shadow-md shadow-primary/10",
-                  open && !done && !active && "border-line bg-white hover:-translate-y-0.5 hover:shadow-md",
+                  open && !done && !active && "border-line bg-surface hover:-translate-y-0.5 hover:shadow-md",
                   !open && "border-line bg-surface-2 text-muted",
                 )}
               >

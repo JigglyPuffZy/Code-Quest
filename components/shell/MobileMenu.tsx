@@ -65,7 +65,7 @@ export function MobileMenu({
               className="mobile-menu-panel absolute inset-y-0 left-0 flex w-[min(88vw,20rem)] flex-col bg-surface shadow-2xl"
               aria-label="Main navigation"
             >
-              <div className="border-b border-line/70 bg-gradient-to-br from-primary-50 via-white to-violet-50 px-4 pb-4 pt-5">
+              <div className="border-b border-line/70 bg-gradient-to-br from-primary-50 via-surface to-violet-50 px-4 pb-4 pt-5">
                 <div className="flex items-start justify-between gap-3">
                   <Link
                     href="/profile"
@@ -82,7 +82,7 @@ export function MobileMenu({
                   </Link>
                   <button
                     type="button"
-                    className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-white/80 text-muted shadow-sm transition hover:text-primary"
+                    className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-surface/80 text-muted shadow-sm transition hover:text-primary"
                     onClick={() => setOpen(false)}
                     aria-label="Close menu"
                   >
@@ -135,7 +135,7 @@ export function MobileMenu({
                     onLogout();
                   }}
                   disabled={logoutPending}
-                  className="flex w-full items-center justify-center gap-2 rounded-2xl border border-line bg-white px-4 py-3 text-sm font-semibold text-muted transition hover:border-red-200 hover:bg-red-50 hover:text-red-600 disabled:opacity-50"
+                  className="flex w-full items-center justify-center gap-2 rounded-2xl border border-line bg-surface px-4 py-3 text-sm font-semibold text-muted transition hover:border-red-200 hover:bg-red-50 hover:text-red-600 disabled:opacity-50"
                 >
                   <LogOut size={16} />
                   {logoutPending ? "Logging out…" : "Log out"}

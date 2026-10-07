@@ -38,7 +38,7 @@ function CatalogTable({ section }: { section: CatalogSection }) {
         <span className="text-xs text-muted">{section.entries.length} entries</span>
       </div>
 
-      <div className="overflow-hidden rounded-2xl border border-line bg-white shadow-sm">
+      <div className="overflow-hidden rounded-2xl border border-line bg-surface shadow-sm">
         <div className="overflow-x-auto">
           <table className="catalog-table w-full min-w-[720px] text-left text-sm">
             <thead>
@@ -72,7 +72,7 @@ function CatalogTable({ section }: { section: CatalogSection }) {
                   </td>
                   <td className="px-4 py-3 align-top leading-relaxed text-muted">{entry.use}</td>
                   <td className="px-4 py-3 align-top">
-                    <span className="inline-flex rounded-full border border-line bg-white px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-muted">
+                    <span className="inline-flex rounded-full border border-line bg-surface px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-muted">
                       {entry.kind}
                     </span>
                   </td>
@@ -170,7 +170,7 @@ export function CatalogBrowser({ compact = false }: { compact?: boolean }) {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search Python, MongoDB, SQL..."
-            className="w-full rounded-xl border border-line bg-white py-2 pl-9 pr-3 text-sm outline-none ring-primary/30 transition focus:ring-2"
+            className="w-full rounded-xl border border-line bg-surface py-2 pl-9 pr-3 text-sm outline-none ring-primary/30 transition focus:ring-2"
           />
         </label>
       </div>
@@ -182,7 +182,7 @@ export function CatalogBrowser({ compact = false }: { compact?: boolean }) {
 
       {!compact && (
         <div className="mb-10 grid gap-3 sm:grid-cols-3">
-          <div className="rounded-2xl border border-line bg-white p-4">
+          <div className="rounded-2xl border border-line bg-surface p-4">
             <div className="mb-2 flex items-center gap-2 text-primary">
               <BookOpen size={16} />
               <span className="text-xs font-bold uppercase tracking-wide">Part I</span>
@@ -192,7 +192,7 @@ export function CatalogBrowser({ compact = false }: { compact?: boolean }) {
               General-purpose, web, mobile, games, systems, data science, AI, shell, and more.
             </p>
           </div>
-          <div className="rounded-2xl border border-line bg-white p-4">
+          <div className="rounded-2xl border border-line bg-surface p-4">
             <div className="mb-2 flex items-center gap-2 text-primary">
               <Database size={16} />
               <span className="text-xs font-bold uppercase tracking-wide">Part II</span>
@@ -202,7 +202,7 @@ export function CatalogBrowser({ compact = false }: { compact?: boolean }) {
               SQL, document, graph, key-value, vector, warehouse, embedded, and cloud platforms.
             </p>
           </div>
-          <div className="rounded-2xl border border-line bg-white p-4">
+          <div className="rounded-2xl border border-line bg-surface p-4">
             <div className="mb-2 text-primary">
               <span className="text-xs font-bold uppercase tracking-wide">Part III</span>
             </div>

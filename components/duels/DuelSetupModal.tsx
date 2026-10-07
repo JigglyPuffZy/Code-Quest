@@ -32,7 +32,7 @@ export function DuelSetupModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center bg-ink/40 p-4 sm:items-center">
-      <div className="w-full max-w-lg overflow-hidden rounded-3xl border border-line bg-white shadow-2xl">
+      <div className="w-full max-w-lg overflow-hidden rounded-3xl border border-line bg-surface shadow-2xl">
         <div className="bg-gradient-to-r from-rose-500 via-primary-500 to-violet-500 px-5 py-4 text-white">
           <div className="flex items-start justify-between gap-3">
             <div>
@@ -69,7 +69,7 @@ export function DuelSetupModal({
                     "rounded-xl border px-4 py-3 text-left transition",
                     rules.targetWins === option.value
                       ? "border-primary bg-primary/5 ring-1 ring-primary/20"
-                      : "border-line bg-white hover:bg-surface-2",
+                      : "border-line bg-surface hover:bg-surface-2",
                   )}
                 >
                   <p className="text-sm font-bold text-ink">{option.label}</p>
@@ -91,7 +91,7 @@ export function DuelSetupModal({
                     "rounded-xl border px-3 py-2.5 text-sm font-semibold transition",
                     rules.roundTimerSec === option.value
                       ? "border-primary bg-primary/5 text-primary"
-                      : "border-line bg-white text-ink hover:bg-surface-2",
+                      : "border-line bg-surface text-ink hover:bg-surface-2",
                   )}
                 >
                   {option.label}
@@ -112,7 +112,7 @@ export function DuelSetupModal({
                     "rounded-xl border px-3 py-2.5 text-left transition",
                     rules.skillDifficulty === level
                       ? "border-primary bg-primary/5 ring-1 ring-primary/20"
-                      : "border-line bg-white hover:bg-surface-2",
+                      : "border-line bg-surface hover:bg-surface-2",
                   )}
                 >
                   <p className="text-sm font-bold text-ink">{SKILL_DIFFICULTIES[level].label}</p>

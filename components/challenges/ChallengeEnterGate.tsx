@@ -26,7 +26,7 @@ export function ChallengeEnterGate({
 
   if (locked) {
     return (
-      <div className="flex min-h-[50vh] flex-col items-center justify-center rounded-2xl border border-line bg-gradient-to-b from-surface-2 to-white p-6 text-center sm:min-h-[55vh] sm:p-8">
+      <div className="flex min-h-[50vh] flex-col items-center justify-center rounded-2xl border border-line bg-gradient-to-b from-surface-2 to-surface p-6 text-center sm:min-h-[55vh] sm:p-8">
         <div className="grid size-16 place-items-center rounded-2xl bg-slate-900 text-white shadow-lg">
           <Lock size={28} />
         </div>

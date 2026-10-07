@@ -34,7 +34,7 @@ export function ShareCertificate({ topicId, slug }: { topicId: string; slug: str
   }
 
   return (
-    <article className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-amber-200 bg-gradient-to-br from-amber-50 to-white p-4">
+    <article className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-amber-200 bg-gradient-to-br from-amber-50 to-surface p-4">
       <div className="flex items-start gap-3">
         <Award className="mt-0.5 size-5 text-amber-600" />
         <div>

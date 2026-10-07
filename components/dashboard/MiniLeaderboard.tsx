@@ -11,7 +11,7 @@ import { useEffect, useMemo, useState } from "react";
 
 function LeaderboardSkeleton() {
   return (
-    <section className="rounded-2xl border border-line bg-white p-5 sm:p-6">
+    <section className="rounded-2xl border border-line bg-surface p-5 sm:p-6">
       <div className="h-4 w-28 animate-pulse rounded bg-surface-2" />
       <div className="mt-2 h-6 w-36 animate-pulse rounded bg-surface-2" />
       <ol className="mt-4 space-y-2">
@@ -102,7 +102,7 @@ export function MiniLeaderboard() {
   if (loading && !rows) return <LeaderboardSkeleton />;
 
   return (
-    <section className="rounded-2xl border border-line bg-white p-5 sm:p-6">
+    <section className="rounded-2xl border border-line bg-surface p-5 sm:p-6">
       <div className="flex items-start justify-between gap-3">
         <div>
           <p className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-muted">

@@ -32,8 +32,8 @@ function SideQuestCard({
       className={cn(
         "side-quest-card relative w-[272px] shrink-0 overflow-hidden rounded-2xl border p-4 transition",
         claimableNow
-          ? "border-teal-300 bg-gradient-to-br from-teal-50 via-white to-emerald-50/80 shadow-md shadow-teal-500/10"
-          : "border-line bg-white",
+          ? "border-teal-300 bg-gradient-to-br from-teal-50 via-surface to-emerald-50/80 shadow-md shadow-teal-500/10"
+          : "border-line bg-surface",
         !claimableNow && !status.claimed && "group-hover:-translate-y-0.5 group-hover:border-teal-200 group-hover:shadow-md",
       )}
     >

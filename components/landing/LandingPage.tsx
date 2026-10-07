@@ -346,7 +346,7 @@ export function LandingPage() {
             </div>
           </RevealSection>
 
-          <section className="landing-cta mt-20 overflow-hidden rounded-3xl border border-primary-200/60 bg-gradient-to-br from-primary-50 via-white to-white p-8 text-center sm:p-12">
+          <section className="landing-cta mt-20 overflow-hidden rounded-3xl border border-primary-200/60 bg-gradient-to-br from-primary-50 via-surface to-surface p-8 text-center sm:p-12">
             <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">Ready to enter the academy?</h2>
             <p className="mx-auto mt-3 max-w-md text-sm text-muted">
               Create your hero, practice with visible tests, then challenge someone on the leaderboard.

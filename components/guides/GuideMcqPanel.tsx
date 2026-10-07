@@ -98,7 +98,7 @@ export function GuideMcqPanel({ topicId, slug }: { topicId: string; slug: string
         </button>
       </div>
 
-      <article className="rounded-2xl border border-line bg-white p-5">
+      <article className="rounded-2xl border border-line bg-surface p-5">
         <p className="text-sm font-semibold leading-relaxed text-ink">{q.prompt}</p>
         <ul className="mt-4 space-y-2">
           {q.options.map((option, optionIndex) => {

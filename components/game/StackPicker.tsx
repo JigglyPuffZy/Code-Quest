@@ -53,7 +53,7 @@ function LanguageBar<T extends string>({
       : "border-violet-300 bg-violet-50 text-violet-800 shadow-sm shadow-violet-100";
 
   return (
-    <div className="rounded-2xl border border-line bg-white p-3 sm:p-4">
+    <div className="rounded-2xl border border-line bg-surface p-3 sm:p-4">
       <p className="mb-2.5 text-[10px] font-bold uppercase tracking-[0.2em] text-muted">Language</p>
       <div className="grid gap-2" style={{ gridTemplateColumns: `repeat(${options.length}, minmax(0, 1fr))` }}>
         {options.map((lang) => {
@@ -92,8 +92,8 @@ function FrameworkGrid<T extends string>({
 }) {
   const activeRing =
     accent === "sky"
-      ? "border-sky-300 bg-gradient-to-br from-sky-50 via-white to-cyan-50/60 ring-2 ring-sky-100"
-      : "border-violet-300 bg-gradient-to-br from-violet-50 via-white to-primary-50/40 ring-2 ring-violet-100";
+      ? "border-sky-300 bg-gradient-to-br from-sky-50 via-surface to-cyan-50/60 ring-2 ring-sky-100"
+      : "border-violet-300 bg-gradient-to-br from-violet-50 via-surface to-primary-50/40 ring-2 ring-violet-100";
 
   const activeText = accent === "sky" ? "text-sky-800" : "text-violet-800";
 
@@ -109,12 +109,12 @@ function FrameworkGrid<T extends string>({
             className={cn(
               "group flex flex-col items-start rounded-2xl border p-4 text-left transition duration-200",
               "hover:-translate-y-0.5 hover:shadow-md",
-              active ? activeRing : "border-line bg-white hover:border-slate-300",
+              active ? activeRing : "border-line bg-surface hover:border-line",
             )}
           >
             <span
               className={cn(
-                "mb-3 grid size-10 place-items-center rounded-xl border border-line bg-white shadow-sm transition",
+                "mb-3 grid size-10 place-items-center rounded-xl border border-line bg-surface shadow-sm transition",
                 active && (accent === "sky" ? "border-sky-200" : "border-violet-200"),
               )}
             >
@@ -154,9 +154,9 @@ export function StackPicker({
 }) {
   if (track === "core") {
     return (
-      <div className="rounded-2xl border border-emerald-200 bg-gradient-to-br from-emerald-50 via-white to-teal-50/50 p-5">
+      <div className="rounded-2xl border border-emerald-200 bg-gradient-to-br from-emerald-50 via-surface to-teal-50/50 p-5">
         <div className="flex items-start gap-4">
-          <span className="grid size-12 shrink-0 place-items-center rounded-xl border border-emerald-200 bg-white text-2xl shadow-sm">
+          <span className="grid size-12 shrink-0 place-items-center rounded-xl border border-emerald-200 bg-surface text-2xl shadow-sm">
             🐍
           </span>
           <div>

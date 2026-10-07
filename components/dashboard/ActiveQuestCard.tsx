@@ -34,8 +34,8 @@ export function ActiveQuestCard() {
     <article
       className={`relative overflow-hidden rounded-2xl border p-5 sm:p-6 ${
         claimable
-          ? "border-primary-300 bg-gradient-to-br from-primary-50 via-white to-violet-50 shadow-md shadow-primary/10"
-          : "border-line bg-white"
+          ? "border-primary-300 bg-gradient-to-br from-primary-50 via-surface to-violet-50 shadow-md shadow-primary/10"
+          : "border-line bg-surface"
       }`}
     >
       {claimable ? (

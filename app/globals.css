@@ -1,95 +1,137 @@
 @import "tailwindcss";
 
-@theme inline {
-  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-code), ui-monospace, SFMono-Regular, monospace;
+@custom-variant dark (&:where(.dark, .dark *));
 
-  /* Neutrals */
-  --color-canvas: #ffffff;
-  --color-surface: #ffffff;
-  --color-surface-2: #f8fafc;
-  --color-surface-3: #f1f5f9;
-  --color-ink: #0f172a;
-  --color-panel: #ffffff;
-  --color-panel-2: #f8fafc;
-  --color-line: #e2e8f0;
-  --color-mist: #0f172a;
-  --color-muted: #64748b;
+/* Runtime tokens — Tailwind utilities read these via @theme below (not inline). */
+:root {
+  --dl-canvas: #ffffff;
+  --dl-surface: #ffffff;
+  --dl-surface-2: #f8fafc;
+  --dl-surface-3: #f1f5f9;
+  --dl-ink: #0f172a;
+  --dl-panel: #ffffff;
+  --dl-panel-2: #f8fafc;
+  --dl-line: #e2e8f0;
+  --dl-mist: #0f172a;
+  --dl-muted: #64748b;
 
-  /* Primary brand — indigo-violet, used everywhere for actions & highlights */
-  --color-primary-50: #eef2ff;
-  --color-primary-100: #e0e7ff;
-  --color-primary-200: #c7d2fe;
-  --color-primary-300: #a5b4fc;
-  --color-primary-400: #818cf8;
-  --color-primary-500: #6366f1;
-  --color-primary-600: #4f46e5;
-  --color-primary-700: #4338ca;
-  --color-primary-800: #3730a3;
-  --color-primary-900: #312e81;
-  --color-primary: #4f46e5;
-  --color-primary-hover: #4338ca;
-  --color-primary-foreground: #ffffff;
+  --dl-primary-50: #eef2ff;
+  --dl-primary-100: #e0e7ff;
+  --dl-primary-200: #c7d2fe;
+  --dl-primary-300: #a5b4fc;
+  --dl-primary-400: #818cf8;
+  --dl-primary-500: #6366f1;
+  --dl-primary-600: #4f46e5;
+  --dl-primary-700: #4338ca;
+  --dl-primary-800: #3730a3;
+  --dl-primary-900: #312e81;
+  --dl-primary: #4f46e5;
+  --dl-primary-hover: #4338ca;
+  --dl-primary-foreground: #ffffff;
 
-  /* Semantic aliases — all point to primary for consistency */
-  --color-accent: var(--color-primary);
-  --color-gold: var(--color-primary);
-  --color-amber: var(--color-primary-400);
-  --color-violet: var(--color-primary);
-  --color-teal: #0d9488;
-  --color-coral: #f59e0b;
-  --color-berry: #ec4899;
-  --color-sky: #0ea5e9;
-  --color-danger: #dc2626;
-  --color-ok: #16a34a;
-}
+  --dl-teal: #0d9488;
+  --dl-coral: #f59e0b;
+  --dl-berry: #ec4899;
+  --dl-sky: #0ea5e9;
+  --dl-danger: #dc2626;
+  --dl-ok: #16a34a;
 
-html {
-  color-scheme: light;
-  background: var(--color-canvas);
+  --dl-ring-track: #e0e7ff;
+  --dl-ring-from: #4f46e5;
+  --dl-ring-to: #818cf8;
 }
 
 html.dark {
   color-scheme: dark;
 
-  --color-canvas: #070b14;
-  --color-surface: #0f172a;
-  --color-surface-2: #1e293b;
-  --color-surface-3: #334155;
-  --color-ink: #f1f5f9;
-  --color-panel: #0f172a;
-  --color-panel-2: #1e293b;
-  --color-line: #334155;
-  --color-mist: #f8fafc;
-  --color-muted: #94a3b8;
+  --dl-canvas: #070b14;
+  --dl-surface: #111827;
+  --dl-surface-2: #1a2332;
+  --dl-surface-3: #243044;
+  --dl-ink: #f1f5f9;
+  --dl-panel: #111827;
+  --dl-panel-2: #1a2332;
+  --dl-line: #334155;
+  --dl-mist: #f8fafc;
+  --dl-muted: #94a3b8;
 
-  --color-primary-50: #1e1b4b;
-  --color-primary-100: #312e81;
-  --color-primary-200: #3730a3;
-  --color-primary-300: #4338ca;
-  --color-primary-400: #6366f1;
-  --color-primary-500: #818cf8;
-  --color-primary-600: #a5b4fc;
-  --color-primary-700: #c7d2fe;
-  --color-primary-800: #e0e7ff;
-  --color-primary-900: #eef2ff;
-  --color-primary: #818cf8;
-  --color-primary-hover: #a5b4fc;
-  --color-primary-foreground: #0f172a;
+  --dl-primary-50: #1e1b4b;
+  --dl-primary-100: #312e81;
+  --dl-primary-200: #4338ca;
+  --dl-primary-300: #4f46e5;
+  --dl-primary-400: #6366f1;
+  --dl-primary-500: #818cf8;
+  --dl-primary-600: #a5b4fc;
+  --dl-primary-700: #c7d2fe;
+  --dl-primary-800: #e0e7ff;
+  --dl-primary-900: #eef2ff;
+  --dl-primary: #818cf8;
+  --dl-primary-hover: #a5b4fc;
+  --dl-primary-foreground: #0f172a;
 
-  --color-teal: #2dd4bf;
-  --color-coral: #fbbf24;
-  --color-berry: #f472b6;
-  --color-sky: #38bdf8;
-  --color-danger: #f87171;
-  --color-ok: #4ade80;
+  --dl-teal: #2dd4bf;
+  --dl-coral: #fbbf24;
+  --dl-berry: #f472b6;
+  --dl-sky: #38bdf8;
+  --dl-danger: #f87171;
+  --dl-ok: #4ade80;
+
+  --dl-ring-track: #312e81;
+  --dl-ring-from: #818cf8;
+  --dl-ring-to: #a5b4fc;
+}
+
+@theme {
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-code), ui-monospace, SFMono-Regular, monospace;
+
+  --color-canvas: var(--dl-canvas);
+  --color-surface: var(--dl-surface);
+  --color-surface-2: var(--dl-surface-2);
+  --color-surface-3: var(--dl-surface-3);
+  --color-ink: var(--dl-ink);
+  --color-panel: var(--dl-panel);
+  --color-panel-2: var(--dl-panel-2);
+  --color-line: var(--dl-line);
+  --color-mist: var(--dl-mist);
+  --color-muted: var(--dl-muted);
+
+  --color-primary-50: var(--dl-primary-50);
+  --color-primary-100: var(--dl-primary-100);
+  --color-primary-200: var(--dl-primary-200);
+  --color-primary-300: var(--dl-primary-300);
+  --color-primary-400: var(--dl-primary-400);
+  --color-primary-500: var(--dl-primary-500);
+  --color-primary-600: var(--dl-primary-600);
+  --color-primary-700: var(--dl-primary-700);
+  --color-primary-800: var(--dl-primary-800);
+  --color-primary-900: var(--dl-primary-900);
+  --color-primary: var(--dl-primary);
+  --color-primary-hover: var(--dl-primary-hover);
+  --color-primary-foreground: var(--dl-primary-foreground);
+
+  --color-accent: var(--dl-primary);
+  --color-gold: var(--dl-primary);
+  --color-amber: var(--dl-primary-400);
+  --color-violet: var(--dl-primary);
+  --color-teal: var(--dl-teal);
+  --color-coral: var(--dl-coral);
+  --color-berry: var(--dl-berry);
+  --color-sky: var(--dl-sky);
+  --color-danger: var(--dl-danger);
+  --color-ok: var(--dl-ok);
+}
+
+html {
+  color-scheme: light;
+  background: var(--dl-canvas);
 }
 
 body {
   min-height: 100%;
-  background: var(--color-canvas);
-  color: var(--color-ink);
+  background: var(--dl-canvas);
+  color: var(--dl-ink);
   font-family: var(--font-sans);
 }
 
@@ -103,12 +145,12 @@ html.dark * {
 }
 
 ::selection {
-  background: color-mix(in oklab, var(--color-primary) 18%, transparent);
-  color: var(--color-ink);
+  background: color-mix(in oklab, var(--dl-primary) 18%, transparent);
+  color: var(--dl-ink);
 }
 
 .app-backdrop {
-  background: var(--color-canvas);
+  background: var(--dl-canvas);
 }
 
 .shell-header {
@@ -1382,5 +1424,13 @@ html.dark :where(.border-primary-100) {
 }
 
 html.dark :where(.from-surface-2) {
-  --tw-gradient-from: var(--color-surface-2);
+  --tw-gradient-from: var(--dl-surface-2);
+}
+
+html.dark :where(.text-slate-900) {
+  color: var(--dl-ink);
+}
+
+html.dark :where(.hover\:border-slate-300:hover) {
+  border-color: var(--dl-line);
 }

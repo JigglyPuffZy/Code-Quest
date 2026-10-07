@@ -56,8 +56,8 @@ export function GameLobby() {
                 className={cn(
                   "rounded-2xl border p-5 text-left transition hover:-translate-y-0.5",
                   active
-                    ? "border-primary-300 bg-gradient-to-br from-primary-50 to-white shadow-md shadow-primary/10 ring-1 ring-primary-100"
-                    : "border-line bg-white hover:shadow-lg hover:shadow-slate-900/5",
+                    ? "border-primary-300 bg-gradient-to-br from-primary-50 to-surface shadow-md shadow-primary/10 ring-1 ring-primary-100"
+                    : "border-line bg-surface hover:shadow-lg hover:shadow-black/10",
                 )}
               >
                 <p className="text-3xl">{track.emoji}</p>
@@ -96,7 +96,7 @@ export function GameLobby() {
         </div>
       </section>
 
-      <section className="rounded-2xl border border-primary-200 bg-gradient-to-r from-primary-50 via-white to-violet-50 p-5 sm:p-6">
+      <section className="rounded-2xl border border-primary-200 bg-gradient-to-r from-primary-50 via-surface to-violet-50 p-5 sm:p-6">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-start gap-3">
             <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-primary text-sm font-bold text-primary-foreground">3</span>

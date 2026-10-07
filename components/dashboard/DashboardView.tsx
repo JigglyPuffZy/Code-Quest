@@ -35,14 +35,14 @@ export function DashboardView() {
     <div className="space-y-12">
       <DailyPracticeReminder />
       {/* Welcome + stats */}
-      <section className="dash-hero relative overflow-hidden rounded-2xl border border-line bg-surface-2">
+      <section className="dash-hero relative overflow-hidden rounded-2xl border border-line bg-surface">
         <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-primary-200/25 blur-3xl" />
         <div className="pointer-events-none absolute -bottom-12 left-1/3 h-32 w-32 rounded-full bg-violet-200/20 blur-3xl" />
 
         <div className="relative p-6 sm:p-8">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
             <div className="min-w-0">
-              <p className="inline-flex items-center rounded-full border border-line bg-white px-3 py-1 text-[10px] font-bold uppercase tracking-[0.2em] text-muted">
+              <p className="inline-flex items-center rounded-full border border-line bg-surface px-3 py-1 text-[10px] font-bold uppercase tracking-[0.2em] text-muted">
                 Your home base
               </p>
               <h1 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">
@@ -54,7 +54,7 @@ export function DashboardView() {
             </div>
 
             <div className="flex items-center gap-4 sm:gap-5">
-              <div className="rounded-xl border border-line bg-white px-4 py-3 text-center sm:px-5 sm:py-4">
+              <div className="rounded-xl border border-line bg-surface px-4 py-3 text-center sm:px-5 sm:py-4">
                 <p className="flex items-center justify-center gap-1.5 text-2xl font-bold tabular-nums text-orange-500">
                   <Flame size={22} strokeWidth={1.75} />
                   {player.streak}
@@ -67,7 +67,7 @@ export function DashboardView() {
                   <p className="text-[8px] font-bold uppercase text-muted">level</p>
                 </div>
               </RingProgress>
-              <div className="hidden rounded-xl border border-line bg-white px-4 py-3 text-center sm:block">
+              <div className="hidden rounded-xl border border-line bg-surface px-4 py-3 text-center sm:block">
                 <p className="text-lg font-bold tabular-nums text-ink">{xp.toLocaleString()}</p>
                 <p className="mt-1 text-[10px] font-semibold uppercase tracking-wider text-muted">total XP</p>
               </div>
@@ -91,7 +91,7 @@ export function DashboardView() {
           <ContinueGuideCard />
 
           <div className="h-full">
-            <p className="mb-2 inline-flex items-center gap-1.5 rounded-full border border-line bg-white px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-muted">
+            <p className="mb-2 inline-flex items-center gap-1.5 rounded-full border border-line bg-surface px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-muted">
               <Gamepad2 size={11} className="text-violet-600" />
               Game mode
             </p>

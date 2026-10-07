@@ -107,7 +107,7 @@ export function DuelProvider({ children }: { children: React.ReactNode }) {
       {children}
       {incoming ? (
         <div className="fixed inset-x-4 bottom-24 z-50 mx-auto max-w-md sm:bottom-6 sm:right-6 sm:left-auto">
-          <div className="overflow-hidden rounded-2xl border border-rose-200 bg-white shadow-2xl shadow-rose-500/20">
+          <div className="overflow-hidden rounded-2xl border border-rose-200 bg-surface shadow-2xl shadow-rose-500/20">
             <div className="bg-gradient-to-r from-rose-500 via-primary-500 to-violet-500 px-4 py-3 text-white">
               <div className="flex items-center justify-between gap-2">
                 <p className="inline-flex items-center gap-2 text-sm font-bold">

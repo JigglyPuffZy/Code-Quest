@@ -18,7 +18,7 @@ export function Avatar({
 
   return (
     <span
-      className={cn("relative shrink-0 overflow-hidden rounded-xl border border-line bg-white", box, className)}
+      className={cn("relative shrink-0 overflow-hidden rounded-xl border border-line bg-surface", box, className)}
       title={avatar.label}
     >
       <img

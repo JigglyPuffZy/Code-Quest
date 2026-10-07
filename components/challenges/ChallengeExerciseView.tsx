@@ -147,7 +147,7 @@ export function ChallengeExerciseView({
                 "flex min-h-11 min-w-[min(88vw,280px)] shrink-0 snap-start items-center gap-3 rounded-xl border px-3 py-2.5 text-left transition sm:min-h-0 sm:min-w-0",
                 active && "border-primary-300 bg-primary-50 shadow-sm",
                 done && !active && "border-emerald-200 bg-emerald-50/50",
-                !active && !done && "border-line bg-white hover:bg-surface-2",
+                !active && !done && "border-line bg-surface hover:bg-surface-2",
               )}
             >
               <span
@@ -171,7 +171,7 @@ export function ChallengeExerciseView({
 
       <div className="grid gap-4 sm:gap-6 xl:grid-cols-2 xl:items-start">
         <div className="order-2 space-y-3 sm:space-y-4 xl:order-1 xl:max-h-[calc(100vh-11rem)] xl:overflow-y-auto xl:pr-1">
-          <article className="overflow-hidden rounded-2xl border border-primary-200 bg-gradient-to-br from-primary-50 via-white to-white p-4 shadow-sm sm:p-5">
+          <article className="overflow-hidden rounded-2xl border border-primary-200 bg-gradient-to-br from-primary-50 via-surface to-surface p-4 shadow-sm sm:p-5">
             <p className="inline-flex items-center gap-1.5 rounded-full bg-primary px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-primary-foreground">
               <Target size={11} />
               Your mission
@@ -210,7 +210,7 @@ export function ChallengeExerciseView({
           />
 
           {briefing.length > 0 ? (
-            <article className="rounded-2xl border border-line bg-white p-4 sm:p-5">
+            <article className="rounded-2xl border border-line bg-surface p-4 sm:p-5">
               <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted">Briefing</p>
               <ul className="mt-3 space-y-2 text-sm leading-relaxed text-muted">
                 {briefing.map((line) => (
@@ -222,13 +222,13 @@ export function ChallengeExerciseView({
               </ul>
             </article>
           ) : (
-            <article className="rounded-2xl border border-line bg-white p-4 sm:p-5">
+            <article className="rounded-2xl border border-line bg-surface p-4 sm:p-5">
               <LessonCopy blocks={challenge.blocks} />
             </article>
           )}
 
           {maxHints > 0 ? (
-            <article className="rounded-2xl border border-line bg-white p-4 sm:p-5">
+            <article className="rounded-2xl border border-line bg-surface p-4 sm:p-5">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <p className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-muted">
                   <Lightbulb size={11} className="text-amber-500" />

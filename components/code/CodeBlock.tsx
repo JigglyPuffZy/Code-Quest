@@ -13,7 +13,7 @@ export function CodeBlock({ code, caption }: { code: string; caption?: string })
   return (
     <figure className="overflow-hidden rounded-xl border border-line bg-[#f8fafc]">
       {caption ? (
-        <figcaption className="border-b border-line bg-white px-4 py-2 text-[11px] font-medium text-muted">
+        <figcaption className="border-b border-line bg-surface-2 px-4 py-2 text-[11px] font-medium text-muted">
           {caption}
         </figcaption>
       ) : null}

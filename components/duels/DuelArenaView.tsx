@@ -31,12 +31,12 @@ import { useEffect, useMemo, useRef, useState } from "react";
 function Scoreboard({ duel }: { duel: DuelSnapshot }) {
   return (
     <div className="mt-4 flex items-center justify-center gap-4">
-      <div className="rounded-xl border border-line bg-white px-4 py-2 text-center shadow-sm">
+      <div className="rounded-xl border border-line bg-surface px-4 py-2 text-center shadow-sm">
         <p className="text-[10px] font-bold uppercase text-muted">{duel.challenger.username}</p>
         <p className="text-2xl font-extrabold tabular-nums text-primary">{duel.challengerScore}</p>
       </div>
       <p className="text-xs font-bold uppercase text-muted">First to {duel.targetWins}</p>
-      <div className="rounded-xl border border-line bg-white px-4 py-2 text-center shadow-sm">
+      <div className="rounded-xl border border-line bg-surface px-4 py-2 text-center shadow-sm">
         <p className="text-[10px] font-bold uppercase text-muted">{duel.opponent.username}</p>
         <p className="text-2xl font-extrabold tabular-nums text-primary">{duel.opponentScore}</p>
       </div>
@@ -51,7 +51,7 @@ function VsHeader({ duel }: { duel: DuelSnapshot }) {
   const foeWon = duel.winnerId === foe.id;
 
   return (
-    <div className="overflow-hidden rounded-3xl border border-line bg-gradient-to-br from-rose-50 via-white to-violet-50 p-5 shadow-sm">
+    <div className="overflow-hidden rounded-3xl border border-line bg-gradient-to-br from-rose-50 via-surface to-violet-50 p-5 shadow-sm">
       <p className="text-center text-[10px] font-bold uppercase tracking-[0.28em] text-rose-500">
         Round {duel.currentRound} · Live duel
       </p>
@@ -372,7 +372,7 @@ export function DuelArenaView({ duelId }: { duelId: string }) {
       ) : null}
 
       {active ? (
-        <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-line bg-white px-4 py-3">
+        <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-line bg-surface px-4 py-3">
           <p className="inline-flex items-center gap-2 text-sm font-semibold text-ink">
             <Timer size={16} className={roundSecondsLeft <= 10 ? "text-danger" : "text-primary"} />
             {roundSecondsLeft > 0 ? `${roundSecondsLeft}s left this round` : "Round over — next question loading…"}
@@ -413,7 +413,7 @@ export function DuelArenaView({ duelId }: { duelId: string }) {
       {!waiting && !done && !cancelled ? (
         <div className="grid gap-5 xl:grid-cols-2">
           <div className="space-y-4">
-            <article className="rounded-2xl border border-rose-200 bg-gradient-to-br from-rose-50/80 via-white to-white p-5">
+            <article className="rounded-2xl border border-rose-200 bg-gradient-to-br from-rose-50/80 via-surface to-surface p-5">
               <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-rose-500">Random duel question</p>
               <p className="mt-3 text-base font-semibold leading-relaxed text-ink">{challenge.exercise.prompt}</p>
               <p className="mt-2 text-xs text-muted">

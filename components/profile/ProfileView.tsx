@@ -93,13 +93,13 @@ export function ProfileView() {
         </div>
 
         {!supabaseEnabled ? (
-          <div className="border-t border-line bg-white px-6 py-3">
+          <div className="border-t border-line bg-surface px-6 py-3">
             <p className="text-xs text-muted">
               <span className="font-semibold text-ink">Demo mode.</span> Progress is saved on this device only — create an account to sync across devices.
             </p>
           </div>
         ) : email ? (
-          <div className="border-t border-line bg-white px-6 py-3">
+          <div className="border-t border-line bg-surface px-6 py-3">
             <p className="text-xs text-muted">
               Signed in as <span className="font-medium text-ink">{player.username}</span>
             </p>
@@ -114,7 +114,7 @@ export function ProfileView() {
           {stats.map((stat) => (
             <div
               key={stat.label}
-              className="rounded-xl border border-line bg-white p-4 text-center"
+              className="rounded-xl border border-line bg-surface p-4 text-center"
             >
               <span className={`mx-auto grid h-9 w-9 place-items-center rounded-lg ${stat.soft}`}>
                 <stat.icon size={16} className={stat.accent} />
@@ -127,7 +127,7 @@ export function ProfileView() {
       </section>
 
       {/* Edit */}
-      <section className="rounded-2xl border border-line bg-white p-6">
+      <section className="rounded-2xl border border-line bg-surface p-6">
         <div className="mb-5 flex items-center gap-2">
           <Trophy size={16} className="text-primary" />
           <h2 className="text-sm font-bold text-ink">Customize</h2>

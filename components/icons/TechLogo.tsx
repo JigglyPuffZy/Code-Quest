@@ -122,7 +122,7 @@ export function TechLogoBadge({
   return (
     <span
       className={cn(
-        "inline-grid place-items-center rounded-xl bg-white ring-1",
+        "inline-grid place-items-center rounded-xl bg-surface ring-1 ring-line",
         soft,
         ring,
         className,
