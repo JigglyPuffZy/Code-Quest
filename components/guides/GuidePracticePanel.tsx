@@ -8,13 +8,16 @@ import {
   guideHasPractice,
   guidePracticeCount,
 } from "@/lib/guides/practice";
+import { ShareCertificate } from "@/components/guides/ShareCertificate";
+import { useDevyyyyy } from "@/components/support/DevyyyyyProvider";
 import {
   isGuidePracticeComplete,
   markGuidePracticeQuestionPassed,
   passedGuidePracticeIndices,
 } from "@/lib/guides/progress";
-import type { GradeTest } from "@/lib/types";
-import { CheckCircle2, Code2, Lightbulb, RefreshCw, Sparkles } from "lucide-react";
+import { recordPracticeMistake } from "@/lib/learning/mistakes";
+import type { GradeResponse, GradeTest } from "@/lib/types";
+import { CheckCircle2, Code2, HelpCircle, Lightbulb, RefreshCw, Sparkles } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 
 function expectedTestCount(exercise: NonNullable<ReturnType<typeof getGuidePractice>>["exercise"]) {
@@ -44,7 +47,28 @@ const HOW_TO_STEPS = [
   "Still stuck? Click Try another question for a different beginner task on the same idea.",
 ];
 
+function buildCoachMessage(
+  topicId: string,
+  slug: string,
+  practice: NonNullable<ReturnType<typeof getGuidePractice>>,
+  result: GradeResponse,
+) {
+  const failed = result.tests.filter((t) => !t.passed);
+  const lines = failed.slice(0, 3).map((t) => {
+    const got = t.actual || "(no output)";
+    return `- Expected: ${t.expected ?? "?"} · Got: ${got}`;
+  });
+  return [
+    `I failed a practice question on ${topicId}/${slug} (question ${practice.index + 1}).`,
+    `Task: ${practice.exercise.prompt.split("\n")[0]}`,
+    "Failed checks:",
+    ...lines,
+    "Explain what I did wrong in simple Taglish and how to fix it step by step. Don't give the full answer — guide me.",
+  ].join("\n");
+}
+
 export function GuidePracticePanel({ topicId, slug }: { topicId: string; slug: string }) {
+  const { openChat } = useDevyyyyy();
   const total = guideHasPractice(topicId, slug) ? guidePracticeCount(topicId, slug) : 0;
   const [questionIndex, setQuestionIndex] = useState(0);
   const [picked, setPicked] = useState(false);
@@ -136,14 +160,30 @@ export function GuidePracticePanel({ topicId, slug }: { topicId: string; slug: s
               ? "You already passed this one. Try another to keep practicing."
               : "If this question is confusing, generate a different one — same lesson, new story."}
           </p>
-          <button
-            type="button"
-            onClick={goToAnotherQuestion}
-            className="inline-flex items-center gap-2 rounded-xl border border-line bg-white px-3.5 py-2 text-sm font-semibold text-ink shadow-sm transition hover:border-ink"
-          >
-            <RefreshCw size={14} />
-            {passedThis ? "Next question" : "Try another question"}
-          </button>
+          <div className="flex flex-wrap gap-2">
+            <button
+              type="button"
+              onClick={() =>
+                openChat({
+                  message: `I'm on ${topicId} lesson "${slug}" and I don't get this practice yet. Explain the idea in simpler Taglish, then give me one tiny step to try.`,
+                  autoSend: true,
+                  mode: "simplify",
+                })
+              }
+              className="inline-flex items-center gap-2 rounded-xl border border-primary-200 bg-primary-50 px-3.5 py-2 text-sm font-semibold text-primary"
+            >
+              <HelpCircle size={14} />
+              I don&apos;t get this
+            </button>
+            <button
+              type="button"
+              onClick={goToAnotherQuestion}
+              className="inline-flex items-center gap-2 rounded-xl border border-line bg-white px-3.5 py-2 text-sm font-semibold text-ink shadow-sm transition hover:border-ink"
+            >
+              <RefreshCw size={14} />
+              {passedThis ? "Next question" : "Try another question"}
+            </button>
+          </div>
         </div>
 
         <article className="rounded-2xl border border-line bg-white p-4 sm:p-5">
@@ -223,9 +263,30 @@ export function GuidePracticePanel({ topicId, slug }: { topicId: string; slug: s
                 setRunTestsRunning(running);
                 setRunResults(results);
               }}
+              onGradeResult={(result) => {
+                if (result.passed) return;
+                const failed = result.tests.filter((t) => !t.passed);
+                const hint = failed[0]?.expected ? `Expected: ${failed[0].expected}` : undefined;
+                recordPracticeMistake({
+                  topicId,
+                  slug,
+                  questionIndex,
+                  exerciseId: practice.exerciseId,
+                  prompt: practice.exercise.prompt.split("\n")[0] ?? practice.exercise.prompt,
+                  language: practice.language,
+                  hint,
+                });
+                openChat({
+                  message: buildCoachMessage(topicId, slug, practice, result),
+                  autoSend: true,
+                  mode: "coach",
+                });
+              }}
             />
           </div>
         </article>
+
+        <ShareCertificate topicId={topicId} slug={slug} />
       </div>
     </section>
   );

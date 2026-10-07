@@ -3,6 +3,7 @@
 import { ActiveQuestCard } from "@/components/dashboard/ActiveQuestCard";
 import { DevLadderIntro } from "@/components/dashboard/DevLadderIntro";
 import { DailyGoalCard } from "@/components/dashboard/DailyGoalCard";
+import { DailyPracticeReminder } from "@/components/dashboard/DailyPracticeReminder";
 import { DashboardZone } from "@/components/dashboard/DashboardZone";
 import { JumpLane } from "@/components/dashboard/JumpLane";
 import { MiniLeaderboard } from "@/components/dashboard/MiniLeaderboard";
@@ -32,6 +33,7 @@ export function DashboardView() {
 
   return (
     <div className="space-y-12">
+      <DailyPracticeReminder />
       {/* Welcome + stats */}
       <section className="dash-hero relative overflow-hidden rounded-2xl border border-line bg-surface-2">
         <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-primary-200/25 blur-3xl" />

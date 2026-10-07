@@ -12,6 +12,7 @@ import {
 import { allQuests, quests, sideQuests } from "@/lib/curriculum/quests";
 import { SIDE_QUEST_COUNT } from "@/lib/curriculum/side-quests";
 import { guidesReadForTopic, totalGuidesRead } from "@/lib/guides/progress";
+import { guidePracticePassesToday } from "@/lib/learning/practice-log";
 import { dayOfYear, todayKey } from "@/lib/dates";
 import type {
   Achievement,
@@ -224,6 +225,9 @@ export function questStatus(quest: Quest, player: Player): QuestStatus {
     target = metric.count;
   } else if (metric.type === "gameLevelsToday") {
     current = gameLevelsCompletedOnDay(player);
+    target = metric.count;
+  } else if (metric.type === "guidePracticeToday") {
+    current = guidePracticePassesToday();
     target = metric.count;
   } else {
     const python = lessonCount(player, "python");

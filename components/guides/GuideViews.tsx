@@ -3,7 +3,11 @@
 import { LessonCopy } from "@/components/code/CodeBlock";
 import { TechLogoBadge } from "@/components/icons/TechLogo";
 import { GuideCourseTabs, GuideLessonHero, getTopicStyle } from "@/components/guides/GuideChrome";
+import { GuideMcqPanel } from "@/components/guides/GuideMcqPanel";
 import { GuidePracticePanel } from "@/components/guides/GuidePracticePanel";
+import { LessonNotes } from "@/components/guides/LessonNotes";
+import { useDevyyyyy } from "@/components/support/DevyyyyyProvider";
+import { guideHasMcqPractice } from "@/lib/guides/practice/mcq";
 import { ErrorState } from "@/components/ui/States";
 import {
   getGuide,
@@ -20,7 +24,7 @@ import { hasCodePractice } from "@/lib/curriculum/links";
 import { guideHasPractice } from "@/lib/guides/practice";
 import { markGuideRead } from "@/lib/guides/progress";
 import type { GuideCategory, GuideTopicId } from "@/lib/guides/types";
-import { ArrowLeft, ArrowRight, BookOpen, CheckCircle2, Clock, Code2, Database, Play } from "lucide-react";
+import { ArrowLeft, ArrowRight, BookOpen, CheckCircle2, Clock, Code2, Database, HelpCircle, Play } from "lucide-react";
 import Link from "next/link";
 import { useEffect } from "react";
 
@@ -263,6 +267,57 @@ export function GuideReader({ topicId, slug }: { topicId: string; slug: string }
   const style = getTopicStyle(topicId as GuideTopicId);
   const hasPractice = hasCodePractice(topicId);
   const lessonHasPractice = guideHasPractice(topicId, slug);
+  const lessonHasMcq = guideHasMcqPractice(topicId, slug);
+
+  return (
+    <GuideReaderBody
+      topicId={topicId}
+      slug={slug}
+      lesson={lesson}
+      topic={topic}
+      lessons={lessons}
+      index={index}
+      prev={prev}
+      next={next}
+      progress={progress}
+      style={style}
+      hasPractice={hasPractice}
+      lessonHasPractice={lessonHasPractice}
+      lessonHasMcq={lessonHasMcq}
+    />
+  );
+}
+
+function GuideReaderBody({
+  topicId,
+  slug,
+  lesson,
+  topic,
+  lessons,
+  index,
+  prev,
+  next,
+  progress,
+  style,
+  hasPractice,
+  lessonHasPractice,
+  lessonHasMcq,
+}: {
+  topicId: string;
+  slug: string;
+  lesson: NonNullable<ReturnType<typeof getGuide>>;
+  topic: ReturnType<typeof getGuideTopic>;
+  lessons: ReturnType<typeof guidesForTopic>;
+  index: number;
+  prev: (typeof lessons)[number] | undefined;
+  next: (typeof lessons)[number] | undefined;
+  progress: number;
+  style: ReturnType<typeof getTopicStyle>;
+  hasPractice: boolean;
+  lessonHasPractice: boolean;
+  lessonHasMcq: boolean;
+}) {
+  const { openChat } = useDevyyyyy();
 
   return (
     <div className="-mt-6 sm:-mt-8">
@@ -315,7 +370,27 @@ export function GuideReader({ topicId, slug }: { topicId: string; slug: string }
             <LessonCopy blocks={lesson.blocks} />
           </div>
 
+          <div className="mt-8">
+            <button
+              type="button"
+              onClick={() =>
+                openChat({
+                  message: `I'm reading ${topic.name} — "${lesson.title}" and I don't fully get it yet. Explain the main idea in simple Taglish and give one tiny example.`,
+                  autoSend: true,
+                  mode: "simplify",
+                })
+              }
+              className="inline-flex items-center gap-2 rounded-xl border border-primary-200 bg-primary-50 px-4 py-2.5 text-sm font-semibold text-primary transition hover:bg-primary-100"
+            >
+              <HelpCircle size={16} />
+              I don&apos;t get this lesson
+            </button>
+          </div>
+
+          <LessonNotes topicId={topicId} slug={slug} />
+
           {lessonHasPractice ? <GuidePracticePanel topicId={topicId} slug={slug} /> : null}
+          {!lessonHasPractice && lessonHasMcq ? <GuideMcqPanel topicId={topicId} slug={slug} /> : null}
 
           <nav className="mt-14 grid gap-3 sm:grid-cols-2">
             {prev ? (

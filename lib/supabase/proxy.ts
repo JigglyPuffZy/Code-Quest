@@ -10,6 +10,8 @@ const PROTECTED = [
   "/leaderboard",
   "/duel",
   "/achievements",
+  "/review",
+  "/class",
   "/profile",
 ];
 

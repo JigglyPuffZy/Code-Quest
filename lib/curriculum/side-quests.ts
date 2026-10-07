@@ -1,7 +1,7 @@
 import type { Quest } from "@/lib/types";
 
 /** Optional bonus missions — exactly 10 side quests. */
-export const SIDE_QUEST_COUNT = 10;
+export const SIDE_QUEST_COUNT = 11;
 
 export const sideQuests: Quest[] = [
   {
@@ -83,5 +83,13 @@ export const sideQuests: Quest[] = [
     description: "Touch 3 code paths with at least one lesson each.",
     xp: 55,
     metric: { type: "languagesStarted", count: 3 },
+  },
+  {
+    id: "side-daily-practice",
+    kind: "side",
+    title: "Daily Practice",
+    description: "Pass at least 1 guide practice question today.",
+    xp: 20,
+    metric: { type: "guidePracticeToday", count: 1 },
   },
 ];

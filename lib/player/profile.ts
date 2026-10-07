@@ -7,6 +7,7 @@ import type {
   FrontendLanguage,
 } from "@/lib/game/tracks";
 import { totalXp } from "@/lib/gamification";
+import type { GuideProgressSync, LessonNote } from "@/lib/learning/types";
 import type { Player, TimestampedId } from "@/lib/types";
 
 export type ProfileRow = {
@@ -32,6 +33,8 @@ export type ProfileRow = {
   backend_language: string | null;
   created_at: string;
   updated_at: string;
+  guide_progress?: GuideProgressSync | null;
+  lesson_notes?: LessonNote[] | null;
 };
 
 function entries(value: TimestampedId[] | null | undefined): TimestampedId[] {
@@ -64,7 +67,11 @@ export function rowToPlayer(row: ProfileRow): Player {
   };
 }
 
-export function playerToRow(player: Player, email?: string | null) {
+export function playerToRow(
+  player: Player,
+  email?: string | null,
+  extras?: { guideProgress?: GuideProgressSync; lessonNotes?: LessonNote[] },
+) {
   return {
     id: player.id,
     username: player.username,
@@ -88,7 +95,20 @@ export function playerToRow(player: Player, email?: string | null) {
     backend_language: player.backendLanguage,
     created_at: player.createdAt,
     updated_at: player.updatedAt,
+    ...(extras?.guideProgress !== undefined ? { guide_progress: extras.guideProgress } : {}),
+    ...(extras?.lessonNotes !== undefined ? { lesson_notes: extras.lessonNotes } : {}),
   };
+}
+
+export function extractGuideProgress(row: ProfileRow): GuideProgressSync | null {
+  const gp = row.guide_progress;
+  if (!gp || typeof gp !== "object") return null;
+  return gp as GuideProgressSync;
+}
+
+export function extractLessonNotes(row: ProfileRow): LessonNote[] {
+  const notes = row.lesson_notes;
+  return Array.isArray(notes) ? notes : [];
 }
 
 export function missingTable(message: string) {

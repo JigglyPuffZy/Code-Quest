@@ -1,11 +1,12 @@
 "use client";
 
+import { useDevyyyyy } from "@/components/support/DevyyyyyProvider";
 import { cn } from "@/lib/cn";
 import { parseAppPath } from "@/lib/support/page-context";
 import { storageKey } from "@/lib/storage-keys";
 import { Loader2, Send, X } from "lucide-react";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 type ChatRole = "user" | "assistant";
 type ChatMessage = { id: string; role: ChatRole; content: string };
@@ -82,13 +83,14 @@ function DevyyyyyAvatar({
 export function DevyyyyyChat({ variant = "app" }: { variant?: "app" | "landing" }) {
   const pathname = usePathname() || "/";
   const page = parseAppPath(pathname);
-  const [open, setOpen] = useState(false);
+  const { open, openChat, closeChat, consumePending } = useDevyyyyy();
   const [draft, setDraft] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const listRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  const autoSentRef = useRef(false);
 
   useEffect(() => {
     setMessages(readStored());
@@ -114,17 +116,17 @@ export function DevyyyyyChat({ variant = "app" }: { variant?: "app" | "landing" 
   useEffect(() => {
     if (!open) return;
     function onKey(event: KeyboardEvent) {
-      if (event.key === "Escape") setOpen(false);
+      if (event.key === "Escape") closeChat();
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [open]);
+  }, [open, closeChat]);
 
   const isLesson = page.kind === "guides-lesson";
   const dockedHigh = variant === "app";
 
-  async function send() {
-    const text = draft.trim();
+  const sendMessage = useCallback(async (textOverride?: string) => {
+    const text = (textOverride ?? draft).trim();
     if (!text || busy) return;
 
     const nextMessages: ChatMessage[] = [...messages, { id: newId(), role: "user", content: text }];
@@ -155,7 +157,24 @@ export function DevyyyyyChat({ variant = "app" }: { variant?: "app" | "landing" 
     } finally {
       setBusy(false);
     }
-  }
+  }, [busy, draft, messages, page.slug, page.topicId, pathname]);
+
+  useEffect(() => {
+    if (!open || autoSentRef.current) return;
+    const pending = consumePending();
+    if (!pending?.message) return;
+    setDraft(pending.message);
+    if (pending.autoSend) {
+      autoSentRef.current = true;
+      window.setTimeout(() => {
+        void sendMessage(pending.message!);
+      }, 100);
+    }
+  }, [open, consumePending, sendMessage]);
+
+  useEffect(() => {
+    if (!open) autoSentRef.current = false;
+  }, [open]);
 
   return (
     <div
@@ -190,7 +209,7 @@ export function DevyyyyyChat({ variant = "app" }: { variant?: "app" | "landing" 
             </div>
             <button
               type="button"
-              onClick={() => setOpen(false)}
+              onClick={closeChat}
               className="grid h-9 w-9 place-items-center rounded-xl text-muted transition hover:bg-primary-50 hover:text-ink"
               aria-label="Close chat"
             >
@@ -237,7 +256,7 @@ export function DevyyyyyChat({ variant = "app" }: { variant?: "app" | "landing" 
             className="border-t border-line bg-white p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]"
             onSubmit={(event) => {
               event.preventDefault();
-              void send();
+              void sendMessage();
             }}
           >
             <div className="flex items-end gap-2 rounded-2xl border border-line bg-surface-2 px-2.5 py-1.5 focus-within:border-primary-300 focus-within:ring-2 focus-within:ring-primary-100">
@@ -249,7 +268,7 @@ export function DevyyyyyChat({ variant = "app" }: { variant?: "app" | "landing" 
                 onKeyDown={(event) => {
                   if (event.key === "Enter" && !event.shiftKey) {
                     event.preventDefault();
-                    void send();
+                    void sendMessage();
                   }
                 }}
                 placeholder="Ask about this page, or any lesson…"
@@ -270,7 +289,7 @@ export function DevyyyyyChat({ variant = "app" }: { variant?: "app" | "landing" 
 
       <button
         type="button"
-        onClick={() => setOpen((current) => !current)}
+        onClick={() => (open ? closeChat() : openChat())}
         className={cn(
           "group pointer-events-auto inline-flex items-center gap-2 rounded-full border border-primary-100 bg-white py-2 pl-2 pr-3.5 text-sm font-bold text-ink shadow-[0_10px_28px_rgba(79,70,229,0.22)] transition hover:-translate-y-0.5 hover:border-primary-200",
           open && "max-sm:hidden",

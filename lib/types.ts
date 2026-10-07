@@ -107,7 +107,8 @@ export type QuestMetric =
   | { type: "activeToday" }
   | { type: "dailyChallenge" }
   | { type: "languagesStarted"; count: number }
-  | { type: "gameLevelsToday"; count: number };
+  | { type: "gameLevelsToday"; count: number }
+  | { type: "guidePracticeToday"; count: number };
 
 export type QuestKind = "main" | "side";
 

@@ -32,6 +32,7 @@ export function CodeWorkspace({
   expectedTests,
   tests,
   onRunStateChange,
+  onGradeResult,
 }: {
   language: LanguageId;
   starterCode: string;
@@ -45,6 +46,7 @@ export function CodeWorkspace({
   expectedTests?: number;
   tests?: TestSpec;
   onRunStateChange?: (state: { running: boolean; results: GradeTest[] | null }) => void;
+  onGradeResult?: (result: GradeResponse, mode: "run" | "grade") => void;
 }) {
   const difficultyKey = skillDifficulty ?? "default";
   const [code, setCode] = useState(() => {
@@ -98,6 +100,7 @@ export function CodeWorkspace({
         );
         setGrade(result);
         onRunStateChange?.({ running: false, results: result.tests });
+        onGradeResult?.(result, "run");
       } else {
         setGradeProgress({ percent: 5, label: "Preparing your submission…", phase: "prepare" });
         const result = await gradeCode(
@@ -111,6 +114,7 @@ export function CodeWorkspace({
         );
         setGrade(result);
         onRunStateChange?.({ running: false, results: null });
+        onGradeResult?.(result, "grade");
         if (result.passed) {
           window.sessionStorage.removeItem(draftKey(kind, exerciseId, difficultyKey));
           requestAnimationFrame(() => {

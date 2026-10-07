@@ -1,8 +1,10 @@
 import {
   BookOpen,
   Gamepad2,
+  GraduationCap,
   LayoutDashboard,
   Medal,
+  RotateCcw,
   ScrollText,
   Swords,
   Trophy,
@@ -25,6 +27,8 @@ export const NAV_ITEMS: NavItem[] = [
   { href: "/challenges", label: "Arena", icon: Swords },
   { href: "/leaderboard", label: "Leaderboard", icon: Trophy },
   { href: "/achievements", label: "Achievements", icon: Medal },
+  { href: "/review", label: "Review", icon: RotateCcw },
+  { href: "/class", label: "Class", icon: GraduationCap },
   { href: "/profile", label: "Profile", icon: UserRound, mobile: true },
 ];
 

@@ -1,6 +1,8 @@
 import { guidesForTopic } from "@/lib/guides/index";
 import type { GuideTopicId } from "@/lib/guides/types";
 import { guidePaths } from "@/lib/curriculum/guide-paths";
+import { logGuidePracticePass } from "@/lib/learning/practice-log";
+import type { GuideProgressSync } from "@/lib/learning/types";
 
 import { migrateStorageKey, storageKey } from "@/lib/storage-keys";
 
@@ -40,6 +42,32 @@ function readStore(): GuideProgressStore {
 function writeStore(store: GuideProgressStore) {
   if (typeof window === "undefined") return;
   window.localStorage.setItem(STORAGE_KEY, JSON.stringify(store));
+  window.dispatchEvent(new CustomEvent("devladder:guide-progress-updated"));
+}
+
+export function exportGuideProgress(): GuideProgressSync {
+  return readStore();
+}
+
+export function importGuideProgress(remote: GuideProgressSync) {
+  const local = readStore();
+  const merged: GuideProgressStore = {
+    read: { ...remote.read },
+    practiced: { ...remote.practiced },
+    passedByLesson: { ...remote.passedByLesson },
+  };
+  for (const [topicId, slugs] of Object.entries(local.read)) {
+    merged.read[topicId] = [...new Set([...(merged.read[topicId] ?? []), ...slugs])];
+  }
+  for (const [topicId, slugs] of Object.entries(local.practiced)) {
+    merged.practiced[topicId] = [...new Set([...(merged.practiced[topicId] ?? []), ...slugs])];
+  }
+  for (const [key, indices] of Object.entries(local.passedByLesson)) {
+    merged.passedByLesson[key] = [...new Set([...(merged.passedByLesson[key] ?? []), ...indices])].sort(
+      (a, b) => a - b,
+    );
+  }
+  writeStore(merged);
 }
 
 export function markGuideRead(topicId: string, slug: string) {
@@ -88,6 +116,7 @@ export function markGuidePracticeQuestionPassed(topicId: string, slug: string, i
   passed.add(index);
   store.passedByLesson[key] = [...passed].sort((a, b) => a - b);
   writeStore(store);
+  logGuidePracticePass(topicId, slug, index);
   return markGuidePracticeComplete(topicId, slug);
 }
 

@@ -28,7 +28,16 @@ import {
   writeGuest,
   writeUserCache,
 } from "@/lib/player/storage";
-import { missingTable, playerToRow, rowToPlayer, type ProfileRow } from "@/lib/player/profile";
+import { exportGuideProgress, importGuideProgress } from "@/lib/guides/progress";
+import { exportLessonNotes, importLessonNotes } from "@/lib/learning/notes";
+import {
+  extractGuideProgress,
+  extractLessonNotes,
+  missingTable,
+  playerToRow,
+  rowToPlayer,
+  type ProfileRow,
+} from "@/lib/player/profile";
 import { questStatus } from "@/lib/progress";
 import { createClient } from "@/lib/supabase/client";
 import { isSupabaseConfigured } from "@/lib/supabase/env";
@@ -168,7 +177,12 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
           writeUserCache(latest);
           const { error: saveError } = await createClient()
             .from("profiles")
-            .upsert(playerToRow(latest, emailRef.current));
+            .upsert(
+              playerToRow(latest, emailRef.current, {
+                guideProgress: exportGuideProgress(),
+                lessonNotes: exportLessonNotes(),
+              }),
+            );
           if (saveError) {
             const detail = friendlyError(saveError);
             if (detail) {
@@ -259,10 +273,22 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
       clearGuest();
     }
 
+    if (row) {
+      const remoteGuide = extractGuideProgress(row as ProfileRow);
+      if (remoteGuide) importGuideProgress(remoteGuide);
+      const remoteNotes = extractLessonNotes(row as ProfileRow);
+      if (remoteNotes.length) importLessonNotes(remoteNotes);
+    }
+
     next = grantAchievements(touchStreak(next)).player;
     const { error: saveError } = await supabase
       .from("profiles")
-      .upsert(playerToRow(next, user.email ?? null));
+      .upsert(
+        playerToRow(next, user.email ?? null, {
+          guideProgress: exportGuideProgress(),
+          lessonNotes: exportLessonNotes(),
+        }),
+      );
     if (saveError) throw saveError;
     writeUserCache(next);
     playerRef.current = next;
@@ -324,6 +350,19 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
       cancelled = true;
     };
   }, [applyPlayer, loadAccount]);
+
+  useEffect(() => {
+    if (!supabaseEnabled || !email) return;
+    function syncLearning() {
+      enqueuePersist();
+    }
+    window.addEventListener("devladder:guide-progress-updated", syncLearning);
+    window.addEventListener("devladder:notes-updated", syncLearning);
+    return () => {
+      window.removeEventListener("devladder:guide-progress-updated", syncLearning);
+      window.removeEventListener("devladder:notes-updated", syncLearning);
+    };
+  }, [supabaseEnabled, email, enqueuePersist]);
 
   useEffect(() => {
     if (!supabaseEnabled || !email) return;

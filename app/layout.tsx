@@ -1,4 +1,5 @@
 import { PlayerProvider } from "@/components/player/PlayerProvider";
+import { DevyyyyyProvider } from "@/components/support/DevyyyyyProvider";
 import { APP_NAME } from "@/lib/branding";
 import { siteMetadata, siteUrl } from "@/lib/site";
 import type { Metadata } from "next";
@@ -48,7 +49,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${jakarta.variable} ${code.variable} h-full antialiased`}>
       <body className="min-h-full bg-canvas text-ink">
-        <PlayerProvider>{children}</PlayerProvider>
+        <PlayerProvider>
+          <DevyyyyyProvider>{children}</DevyyyyyProvider>
+        </PlayerProvider>
       </body>
     </html>
   );

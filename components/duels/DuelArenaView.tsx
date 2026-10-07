@@ -4,6 +4,7 @@ import { Avatar } from "@/components/player/Avatar";
 import { usePlayer } from "@/components/player/PlayerProvider";
 import { Button } from "@/components/ui/Button";
 import { DuelQuitConfirmModal } from "@/components/duels/DuelQuitConfirmModal";
+import { DuelReplayCard } from "@/components/duels/DuelReplayCard";
 import { DuelRulesCard } from "@/components/duels/DuelRulesCard";
 import { CodeEditor } from "@/components/workspace/CodeEditor";
 import { VisibleTestCases } from "@/components/workspace/VisibleTestCases";
@@ -383,32 +384,29 @@ export function DuelArenaView({ duelId }: { duelId: string }) {
       ) : null}
 
       {done ? (
-        <div
-          className={cn(
-            "rounded-2xl border px-5 py-5 text-center",
-            youWon ? "border-emerald-200 bg-emerald-50" : "border-rose-200 bg-rose-50",
-          )}
-        >
-          <p className={cn("text-xl font-extrabold", youWon ? "text-ok" : "text-danger")}>
-            {youWon ? "You won the series!" : `${foe.username} won the series`}
-          </p>
-          <p className="mt-2 text-sm text-muted">
-            Final score {duel.challengerScore}–{duel.opponentScore} · first to {duel.targetWins}
-          </p>
-          <div className="mt-4 flex flex-wrap justify-center gap-2">
-            <Link href="/leaderboard" className="rounded-xl bg-primary px-4 py-2 text-sm font-bold text-primary-foreground">
-              Back to leaderboard
-            </Link>
-            <button
-              type="button"
-              onClick={() => {
-                if (demo) clearDemoDuel();
-              }}
-              className="rounded-xl border border-line px-4 py-2 text-sm font-semibold"
-            >
-              {demo ? "Clear practice" : "Rematch from board"}
-            </button>
+        <div className="space-y-3">
+          <div
+            className={cn(
+              "rounded-2xl border px-5 py-5 text-center",
+              youWon ? "border-emerald-200 bg-emerald-50" : "border-rose-200 bg-rose-50",
+            )}
+          >
+            <p className={cn("text-xl font-extrabold", youWon ? "text-ok" : "text-danger")}>
+              {youWon ? "You won the series!" : `${foe.username} won the series`}
+            </p>
           </div>
+          <DuelReplayCard duel={duel} />
+          {demo ? (
+            <div className="flex justify-center">
+              <button
+                type="button"
+                onClick={() => clearDemoDuel()}
+                className="rounded-xl border border-line px-4 py-2 text-sm font-semibold"
+              >
+                Clear practice
+              </button>
+            </div>
+          ) : null}
         </div>
       ) : null}
 
