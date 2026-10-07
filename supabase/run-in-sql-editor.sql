@@ -53,6 +53,8 @@ alter table public.profiles add column if not exists unlocked_achievements jsonb
 alter table public.profiles add column if not exists last_lesson_id text;
 alter table public.profiles add column if not exists created_at timestamptz not null default now();
 alter table public.profiles add column if not exists updated_at timestamptz not null default now();
+alter table public.profiles add column if not exists guide_progress jsonb not null default '{}'::jsonb;
+alter table public.profiles add column if not exists lesson_notes jsonb not null default '[]'::jsonb;
 
 -- ------------------------------------------------------------
 -- B) FIX DUPLICATE USERNAMES (required before unique index)

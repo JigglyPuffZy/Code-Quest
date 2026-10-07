@@ -114,3 +114,8 @@ export function extractLessonNotes(row: ProfileRow): LessonNote[] {
 export function missingTable(message: string) {
   return /profiles|schema cache|does not exist|relation/i.test(message);
 }
+
+/** New learning columns added in classrooms-update.sql — older DBs may not have them yet. */
+export function missingGuideSyncColumns(message: string) {
+  return /guide_progress|lesson_notes/i.test(message) && /does not exist|schema cache|could not find/i.test(message);
+}

@@ -33,6 +33,7 @@ import { exportLessonNotes, importLessonNotes } from "@/lib/learning/notes";
 import {
   extractGuideProgress,
   extractLessonNotes,
+  missingGuideSyncColumns,
   missingTable,
   playerToRow,
   rowToPlayer,
@@ -120,7 +121,26 @@ function friendlyError(error: unknown) {
   if (missingTable(message)) {
     return "Supabase is connected, but the profiles table is missing. Run supabase/schema.sql in the SQL editor.";
   }
+  if (missingGuideSyncColumns(message)) {
+    return "Guide progress columns are missing. Run supabase/classrooms-update.sql in Supabase SQL Editor.";
+  }
   return message;
+}
+
+async function upsertProfile(
+  player: Player,
+  email: string | null,
+  includeLearningExtras: boolean,
+) {
+  const supabase = createClient();
+  const extras = includeLearningExtras
+    ? { guideProgress: exportGuideProgress(), lessonNotes: exportLessonNotes() }
+    : undefined;
+  const result = await supabase.from("profiles").upsert(playerToRow(player, email, extras));
+  if (result.error && includeLearningExtras && missingGuideSyncColumns(result.error.message)) {
+    return supabase.from("profiles").upsert(playerToRow(player, email));
+  }
+  return result;
 }
 
 export function PlayerProvider({ children }: { children: React.ReactNode }) {
@@ -175,14 +195,7 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
         if (!latest) return;
         if (emailRef.current && enabledRef.current) {
           writeUserCache(latest);
-          const { error: saveError } = await createClient()
-            .from("profiles")
-            .upsert(
-              playerToRow(latest, emailRef.current, {
-                guideProgress: exportGuideProgress(),
-                lessonNotes: exportLessonNotes(),
-              }),
-            );
+          const { error: saveError } = await upsertProfile(latest, emailRef.current, true);
           if (saveError) {
             const detail = friendlyError(saveError);
             if (detail) {
@@ -281,14 +294,7 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
     }
 
     next = grantAchievements(touchStreak(next)).player;
-    const { error: saveError } = await supabase
-      .from("profiles")
-      .upsert(
-        playerToRow(next, user.email ?? null, {
-          guideProgress: exportGuideProgress(),
-          lessonNotes: exportLessonNotes(),
-        }),
-      );
+    const { error: saveError } = await upsertProfile(next, user.email ?? null, true);
     if (saveError) throw saveError;
     writeUserCache(next);
     playerRef.current = next;
