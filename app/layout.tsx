@@ -1,4 +1,6 @@
 import { PlayerProvider } from "@/components/player/PlayerProvider";
+import { ThemeProvider } from "@/components/theme/ThemeProvider";
+import { ThemeScript } from "@/components/theme/ThemeScript";
 import { DevyyyyyProvider } from "@/components/support/DevyyyyyProvider";
 import { APP_NAME } from "@/lib/branding";
 import { siteMetadata, siteUrl } from "@/lib/site";
@@ -47,11 +49,16 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${jakarta.variable} ${code.variable} h-full antialiased`}>
+    <html lang="en" className={`${jakarta.variable} ${code.variable} h-full antialiased`} suppressHydrationWarning>
+      <head>
+        <ThemeScript />
+      </head>
       <body className="min-h-full bg-canvas text-ink">
-        <PlayerProvider>
-          <DevyyyyyProvider>{children}</DevyyyyyProvider>
-        </PlayerProvider>
+        <ThemeProvider>
+          <PlayerProvider>
+            <DevyyyyyProvider>{children}</DevyyyyyProvider>
+          </PlayerProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

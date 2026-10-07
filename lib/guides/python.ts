@@ -164,6 +164,16 @@ export const pythonGuides: GuideLesson[] = [
       { type: "code", code: 'with open("notes.txt", "w") as f:\n    f.write("Line one\\n")\n    f.write("Line two\\n")' },
       { type: "code", caption: "Reading", code: 'with open("notes.txt", "r") as f:\n    content = f.read()\n    print(content)' },
       { type: "p", text: "Modes: r read, w write (overwrites), a append. Always handle the case where a file might not exist." },
+      {
+        type: "steps",
+        title: "File handling flow",
+        items: [
+          "Open with with open(path, mode) as f — the file closes automatically.",
+          "Read with f.read() or loop line by line.",
+          "Write with f.write(text) — add \\n yourself for new lines.",
+        ],
+      },
+      { type: "tip", title: "Practice", text: PRACTICE_NOTE },
     ],
   },
   {
@@ -195,6 +205,16 @@ export const pythonGuides: GuideLesson[] = [
       { type: "code", caption: "O(n²) — avoid on big strings", code: "def slow_count(text):\n    total = 0\n    for i in range(len(text)):\n        for j in range(len(text)):\n            if text[i].lower() in \"aeiou\":\n                total += 1\n                break\n    return total" },
       { type: "p", text: "In Dev Ladder Arena, visible tests use small inputs. Expert challenges also run hidden large-input checks. Brute-force O(n²) code may pass tiny tests but fail with Time limit exceeded on big data — just like coding interviews." },
       { type: "p", text: "Rule of thumb: if you loop inside another loop over the same collection, ask yourself if one pass is enough." },
+      {
+        type: "steps",
+        title: "How to think in Big O",
+        items: [
+          "One loop over n items → usually O(n).",
+          "Loop inside another loop on the same data → often O(n²).",
+          "In Arena, hidden large tests catch slow solutions — aim for one pass when you can.",
+        ],
+      },
+      { type: "tip", title: "Practice", text: PRACTICE_NOTE },
     ],
   },
 ];

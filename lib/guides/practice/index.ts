@@ -10,6 +10,10 @@ import {
   inheritanceExercises,
   objectExercises,
 } from "@/lib/guides/practice/extra";
+import {
+  fileHandlingExercises,
+  timeComplexityExercises,
+} from "@/lib/guides/practice/file-complexity";
 import { practiceKind, type PracticeKind } from "@/lib/guides/practice/kinds";
 import type { Exercise, LanguageId } from "@/lib/types";
 
@@ -56,6 +60,10 @@ function buildQuestions(language: LanguageId, kind: PracticeKind): Exercise[] {
       const loops = coreExercises(language, "loops").filter((_, index) => index % 2 === 0);
       return [...cond, ...loops];
     }
+    case "file-handling":
+      return fileHandlingExercises(language);
+    case "time-complexity":
+      return timeComplexityExercises(language);
   }
 }
 

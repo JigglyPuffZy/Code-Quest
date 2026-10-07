@@ -13,7 +13,9 @@ export type PracticeKind =
   | "inheritance"
   | "encapsulation"
   | "exceptions"
-  | "control-flow";
+  | "control-flow"
+  | "file-handling"
+  | "time-complexity";
 
 const SLUG_TO_KIND: Record<string, PracticeKind> = {
   introduction: "introduction",
@@ -34,6 +36,8 @@ const SLUG_TO_KIND: Record<string, PracticeKind> = {
   inheritance: "inheritance",
   encapsulation: "encapsulation",
   exceptions: "exceptions",
+  "file-handling": "file-handling",
+  "time-complexity": "time-complexity",
 };
 
 export function practiceKind(slug: string): PracticeKind | null {

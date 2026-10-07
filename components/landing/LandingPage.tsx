@@ -3,6 +3,7 @@
 import { TechLogo } from "@/components/icons/TechLogo";
 import { DevyyyyyChat } from "@/components/support/DevyyyyyChat";
 import { Logo } from "@/components/shell/Logo";
+import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { usePlayer } from "@/components/player/PlayerProvider";
 import { cn } from "@/lib/cn";
 import {
@@ -144,6 +145,7 @@ export function LandingPage() {
         <header className="landing-rise flex items-center justify-between gap-3">
           <Logo glow subtitle="Academy" className="min-w-0 shrink" />
           <nav className="flex items-center gap-2 sm:gap-3">
+            <ThemeToggle compact />
             {supabaseEnabled && !email ? (
               <>
                 <Link
@@ -196,7 +198,7 @@ export function LandingPage() {
                 {HERO_HIGHLIGHTS.map((item) => (
                   <li
                     key={item.label}
-                    className="inline-flex items-center gap-1.5 rounded-full border border-line bg-white/90 px-3 py-1.5 text-xs font-semibold text-ink shadow-sm backdrop-blur-sm"
+                    className="inline-flex items-center gap-1.5 rounded-full border border-line bg-surface/90 px-3 py-1.5 text-xs font-semibold text-ink shadow-sm backdrop-blur-sm"
                   >
                     <item.icon size={13} className="text-primary" aria-hidden />
                     {item.label}
@@ -223,7 +225,7 @@ export function LandingPage() {
                 ) : supabaseEnabled ? (
                   <Link
                     href="/login"
-                    className="rounded-full border border-line bg-white/90 px-7 py-3.5 text-sm font-bold backdrop-blur transition hover:border-primary-200 hover:shadow-md"
+                    className="rounded-full border border-line bg-surface/90 px-7 py-3.5 text-sm font-bold backdrop-blur transition hover:border-primary-200 hover:shadow-md"
                   >
                     Log in
                   </Link>
@@ -234,7 +236,7 @@ export function LandingPage() {
                 {STATS.map((stat) => (
                   <div
                     key={stat.label}
-                    className="landing-stat group rounded-2xl border border-line bg-white/80 p-4 text-center backdrop-blur-sm transition duration-300 hover:-translate-y-0.5 hover:border-primary-200 hover:shadow-lg hover:shadow-primary/5"
+                    className="landing-stat group rounded-2xl border border-line bg-surface/80 p-4 text-center backdrop-blur-sm transition duration-300 hover:-translate-y-0.5 hover:border-primary-200 hover:shadow-lg hover:shadow-primary/5"
                   >
                     <stat.icon
                       size={16}
@@ -251,7 +253,7 @@ export function LandingPage() {
             </div>
 
             <div className="landing-rise landing-rise-3 relative mx-auto w-full max-w-md lg:max-w-none">
-              <div className="landing-terminal relative z-10 rounded-2xl border border-line bg-white/90 p-6 shadow-2xl shadow-primary/10 backdrop-blur-md">
+              <div className="landing-terminal relative z-10 rounded-2xl border border-line bg-surface/90 p-6 shadow-2xl shadow-primary/10 backdrop-blur-md">
                 <div className="mb-4 flex items-center justify-between">
                   <div className="flex gap-1.5">
                     <span className="h-2.5 w-2.5 rounded-full bg-rose-400" />
@@ -280,11 +282,11 @@ export function LandingPage() {
                 </div>
               </div>
 
-              <div className="landing-float-badge landing-float-a absolute -left-4 top-8 flex items-center gap-2 rounded-full border border-line bg-white px-3 py-2 text-xs font-bold shadow-lg sm:-left-8">
+              <div className="landing-float-badge landing-float-a absolute -left-4 top-8 flex items-center gap-2 rounded-full border border-line bg-surface px-3 py-2 text-xs font-bold shadow-lg sm:-left-8">
                 <Radio size={14} className="text-emerald-500" />
                 Rivals online
               </div>
-              <div className="landing-float-badge landing-float-b absolute -right-2 bottom-16 flex items-center gap-2 rounded-full border border-line bg-white px-3 py-2 text-xs font-bold shadow-lg sm:-right-6">
+              <div className="landing-float-badge landing-float-b absolute -right-2 bottom-16 flex items-center gap-2 rounded-full border border-line bg-surface px-3 py-2 text-xs font-bold shadow-lg sm:-right-6">
                 <Swords size={14} className="text-primary" />
                 Duel invite
               </div>
@@ -334,7 +336,7 @@ export function LandingPage() {
                 {[...MARQUEE_TECH, ...MARQUEE_TECH].map((id, index) => (
                   <span
                     key={`${id}-${index}`}
-                    className="landing-marquee-chip inline-flex items-center gap-2 rounded-xl border border-line bg-white px-4 py-2.5 shadow-sm"
+                    className="landing-marquee-chip inline-flex items-center gap-2 rounded-xl border border-line bg-surface px-4 py-2.5 shadow-sm"
                   >
                     <TechLogo topicId={id} size={18} />
                     <span className="text-sm font-semibold capitalize">{id === "htmlcss" ? "HTML & CSS" : id}</span>
@@ -359,7 +361,7 @@ export function LandingPage() {
               </Link>
               <Link
                 href="/login"
-                className="rounded-full border border-line bg-white px-8 py-3.5 text-sm font-bold transition hover:border-primary-200"
+                className="rounded-full border border-line bg-surface px-8 py-3.5 text-sm font-bold transition hover:border-primary-200"
               >
                 I have an account
               </Link>

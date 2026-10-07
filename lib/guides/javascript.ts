@@ -333,6 +333,7 @@ export const javascriptGuides: GuideLesson[] = [
         title: "Tip",
         text: "IDs should be unique on the page. querySelector returns the first match for a CSS selector like .card or #header.",
       },
+      { type: "tip", title: "Practice", text: "Scroll to the quiz below — 20 quick questions on DOM ideas. No code editor needed for this lesson." },
     ],
   },
   {
@@ -361,6 +362,7 @@ export const javascriptGuides: GuideLesson[] = [
         caption: "Error handling",
         code: 'async function loadSafe() {\n  try {\n    const res = await fetch("/api/users");\n    const data = await res.json();\n    console.log(data);\n  } catch (err) {\n    console.log("Could not load data");\n  }\n}',
       },
+      { type: "tip", title: "Practice", text: "Scroll to the quiz below — 20 questions on async, fetch, and promises." },
     ],
   },
 ];

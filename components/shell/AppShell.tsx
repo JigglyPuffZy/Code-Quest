@@ -9,6 +9,7 @@ import { MobileMenu } from "@/components/shell/MobileMenu";
 import { MobileNav } from "@/components/shell/MobileNav";
 import { isInGameSession } from "@/components/shell/nav";
 import { Logo } from "@/components/shell/Logo";
+import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { PlayerHud } from "@/components/shell/PlayerHud";
 import { RingProgress } from "@/components/ui/RingProgress";
 import { ErrorState, LoadingState } from "@/components/ui/States";
@@ -68,6 +69,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             {!supabaseEnabled ? (
               <span className="shell-demo-badge hidden sm:inline-flex">Demo mode</span>
             ) : null}
+
+            <ThemeToggle compact className="shrink-0" />
 
             <div className="hidden md:block">
               <AccountActions compact={isGuideLesson} />

@@ -50,6 +50,42 @@ html {
   background: var(--color-canvas);
 }
 
+html.dark {
+  color-scheme: dark;
+
+  --color-canvas: #070b14;
+  --color-surface: #0f172a;
+  --color-surface-2: #1e293b;
+  --color-surface-3: #334155;
+  --color-ink: #f1f5f9;
+  --color-panel: #0f172a;
+  --color-panel-2: #1e293b;
+  --color-line: #334155;
+  --color-mist: #f8fafc;
+  --color-muted: #94a3b8;
+
+  --color-primary-50: #1e1b4b;
+  --color-primary-100: #312e81;
+  --color-primary-200: #3730a3;
+  --color-primary-300: #4338ca;
+  --color-primary-400: #6366f1;
+  --color-primary-500: #818cf8;
+  --color-primary-600: #a5b4fc;
+  --color-primary-700: #c7d2fe;
+  --color-primary-800: #e0e7ff;
+  --color-primary-900: #eef2ff;
+  --color-primary: #818cf8;
+  --color-primary-hover: #a5b4fc;
+  --color-primary-foreground: #0f172a;
+
+  --color-teal: #2dd4bf;
+  --color-coral: #fbbf24;
+  --color-berry: #f472b6;
+  --color-sky: #38bdf8;
+  --color-danger: #f87171;
+  --color-ok: #4ade80;
+}
+
 body {
   min-height: 100%;
   background: var(--color-canvas);
@@ -60,6 +96,10 @@ body {
 * {
   scrollbar-width: thin;
   scrollbar-color: #cbd5e1 transparent;
+}
+
+html.dark * {
+  scrollbar-color: #475569 transparent;
 }
 
 ::selection {
@@ -111,8 +151,37 @@ body {
 
 .player-hud--compact {
   border-color: var(--color-line);
-  background: white;
+  background: var(--color-surface);
   box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+}
+
+html.dark .player-hud {
+  background:
+    linear-gradient(135deg, color-mix(in oklab, var(--color-surface) 98%, transparent) 0%, color-mix(in oklab, var(--color-primary) 12%, var(--color-surface)) 100%);
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.35),
+    0 8px 24px color-mix(in oklab, var(--color-primary) 10%, transparent);
+}
+
+html.dark .player-hud--compact {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+}
+
+html.dark .landing-feature-card:hover {
+  box-shadow:
+    0 20px 40px color-mix(in oklab, var(--color-primary) 14%, transparent),
+    0 8px 16px rgba(0, 0, 0, 0.35);
+}
+
+html.dark .dl-intro-title {
+  background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 55%, #a5b4fc 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+html.dark .auth-panel {
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.45);
 }
 
 .player-hud-divider {
@@ -568,7 +637,7 @@ body {
   display: grid;
   place-items: center;
   border-radius: 50%;
-  background: white;
+  background: var(--color-surface);
   font-weight: 800;
   color: var(--color-primary);
 }
@@ -610,7 +679,7 @@ body {
 .guide-card {
   border-radius: 1rem;
   border: 1px solid var(--color-line);
-  background: #ffffff;
+  background: var(--color-surface);
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
@@ -627,7 +696,7 @@ body {
 .guide-prose {
   font-size: 1.0625rem;
   line-height: 1.75;
-  color: #334155;
+  color: color-mix(in oklab, var(--color-ink) 82%, var(--color-muted));
 }
 
 .guide-prose p {
@@ -647,7 +716,7 @@ body {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, var(--color-primary-50) 0%, #ffffff 55%);
+  background: linear-gradient(180deg, var(--color-primary-50) 0%, var(--color-canvas) 55%);
   z-index: -1;
 }
 
@@ -671,7 +740,7 @@ body {
   background:
     radial-gradient(ellipse 55% 45% at 15% 20%, color-mix(in oklab, var(--color-primary) 14%, transparent), transparent 55%),
     radial-gradient(ellipse 50% 40% at 85% 75%, color-mix(in oklab, #818cf8 12%, transparent), transparent 50%),
-    linear-gradient(165deg, #f5f3ff 0%, #ffffff 42%, #f8fafc 100%);
+    linear-gradient(165deg, var(--color-primary-50) 0%, var(--color-canvas) 42%, var(--color-surface-2) 100%);
 }
 
 .landing-orb,
@@ -1012,7 +1081,7 @@ body {
 .auth-form-side {
   background:
     radial-gradient(ellipse 70% 50% at 100% 0%, color-mix(in oklab, var(--color-primary) 6%, transparent), transparent 55%),
-    #ffffff;
+    var(--color-canvas);
 }
 
 @keyframes float-badge {
@@ -1113,7 +1182,7 @@ body {
   overflow: hidden;
   border-radius: 1rem;
   border: 1px solid var(--color-line);
-  background: #ffffff;
+  background: var(--color-surface);
   padding: 1.5rem;
   transition:
     transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
@@ -1293,4 +1362,25 @@ body {
     overflow-x: auto;
     mask-image: none;
   }
+}
+
+/* Dark mode: remap common light-only utility classes */
+html.dark :where(.bg-white) {
+  background-color: var(--color-surface);
+}
+
+html.dark :where(.bg-white\/90) {
+  background-color: color-mix(in oklab, var(--color-surface) 92%, transparent);
+}
+
+html.dark :where(.bg-white\/80) {
+  background-color: color-mix(in oklab, var(--color-surface) 85%, transparent);
+}
+
+html.dark :where(.border-primary-100) {
+  border-color: var(--color-primary-200);
+}
+
+html.dark :where(.from-surface-2) {
+  --tw-gradient-from: var(--color-surface-2);
 }
