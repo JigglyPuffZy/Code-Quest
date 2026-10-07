@@ -272,7 +272,7 @@ export type GradeExerciseOptions = {
 };
 
 export async function gradeExercise(
-  kind: "lesson" | "challenge" | "game",
+  kind: "lesson" | "challenge" | "game" | "guide",
   id: string,
   code: string,
   difficulty?: SkillDifficulty,

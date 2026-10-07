@@ -23,7 +23,7 @@ export async function runCode(language: LanguageId, code: string, signal?: Abort
 }
 
 export async function runVisibleTests(
-  kind: "lesson" | "challenge" | "game",
+  kind: "lesson" | "challenge" | "game" | "guide",
   id: string,
   code: string,
   difficulty?: SkillDifficulty,
@@ -34,7 +34,7 @@ export async function runVisibleTests(
 }
 
 export async function gradeCode(
-  kind: "lesson" | "challenge" | "game",
+  kind: "lesson" | "challenge" | "game" | "guide",
   id: string,
   code: string,
   difficulty?: SkillDifficulty,

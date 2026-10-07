@@ -3,6 +3,7 @@
 import { Avatar } from "@/components/player/Avatar";
 import { usePlayer } from "@/components/player/PlayerProvider";
 import { Button } from "@/components/ui/Button";
+import { DuelQuitConfirmModal } from "@/components/duels/DuelQuitConfirmModal";
 import { DuelRulesCard } from "@/components/duels/DuelRulesCard";
 import { CodeEditor } from "@/components/workspace/CodeEditor";
 import { VisibleTestCases } from "@/components/workspace/VisibleTestCases";
@@ -10,18 +11,20 @@ import { getChallenge } from "@/lib/curriculum/index";
 import {
   advanceDemoRound,
   clearDemoDuel,
+  forfeitDemoDuel,
   isDemoDuelId,
   readDemoDuel,
   writeDemoDuel,
   type DemoDuelState,
 } from "@/lib/duels/demo";
-import { fetchDuel, submitDuelCode, syncDuelRound } from "@/lib/duels/client";
+import { fetchDuel, quitDuel, submitDuelCode, syncDuelRound } from "@/lib/duels/client";
 import type { DuelSnapshot } from "@/lib/duels/types";
 import { cn } from "@/lib/cn";
 import { createClient } from "@/lib/supabase/client";
 import type { GradeTest } from "@/lib/types";
-import { Check, Crown, Loader2, Swords, Timer, X } from "lucide-react";
+import { Check, Crown, Loader2, LogOut, Swords, Timer, X } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 function Scoreboard({ duel }: { duel: DuelSnapshot }) {
@@ -90,6 +93,7 @@ function VsHeader({ duel }: { duel: DuelSnapshot }) {
 
 export function DuelArenaView({ duelId }: { duelId: string }) {
   const { player, supabaseEnabled } = usePlayer();
+  const router = useRouter();
   const [duel, setDuel] = useState<DuelSnapshot | DemoDuelState | null>(null);
   const [demo, setDemo] = useState(false);
   const [code, setCode] = useState("");
@@ -97,6 +101,8 @@ export function DuelArenaView({ duelId }: { duelId: string }) {
   const [error, setError] = useState("");
   const [runResults, setRunResults] = useState<GradeTest[] | null>(null);
   const [roundSecondsLeft, setRoundSecondsLeft] = useState(0);
+  const [quitOpen, setQuitOpen] = useState(false);
+  const [quitting, setQuitting] = useState(false);
   const lastRoundKey = useRef("");
   const challenge = useMemo(() => (duel ? getChallenge(duel.challengeId) : null), [duel]);
 
@@ -216,6 +222,31 @@ export function DuelArenaView({ duelId }: { duelId: string }) {
     return () => window.clearInterval(timer);
   }, [demo, duel]);
 
+  async function confirmQuit() {
+    if (!duel || !player) return;
+    setQuitting(true);
+    setError("");
+    try {
+      if (demo) {
+        const next = forfeitDemoDuel(duel as DemoDuelState, player.id);
+        writeDemoDuel(next);
+        setDuel(next);
+        setQuitOpen(false);
+        return;
+      }
+      const { duel: next } = await quitDuel(duel.id);
+      setDuel(next);
+      setQuitOpen(false);
+      if (next.status === "cancelled") {
+        router.push("/leaderboard");
+      }
+    } catch (quitError) {
+      setError(quitError instanceof Error ? quitError.message : "Could not leave duel.");
+    } finally {
+      setQuitting(false);
+    }
+  }
+
   async function submit() {
     if (!duel || !challenge || duel.status !== "active" || duel.winnerId || duel.roundWinnerId) return;
     if (duel.roundEndsAt && Date.parse(duel.roundEndsAt) <= Date.now()) {
@@ -280,6 +311,9 @@ export function DuelArenaView({ duelId }: { duelId: string }) {
   const waiting = duel.status === "pending";
   const active = duel.status === "active";
   const done = duel.status === "completed";
+  const cancelled = duel.status === "cancelled";
+  const canQuit = active || (waiting && duel.youAre === "challenger");
+  const quitMode = waiting ? "cancel" : "forfeit";
   const rules = {
     targetWins: duel.targetWins,
     roundTimerSec: duel.roundTimerSec as 60 | 120 | 180 | 300,
@@ -288,8 +322,47 @@ export function DuelArenaView({ duelId }: { duelId: string }) {
 
   return (
     <div className="space-y-5">
-      <VsHeader duel={duel} />
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0 flex-1">
+          <VsHeader duel={duel} />
+        </div>
+        {canQuit ? (
+          <Button
+            type="button"
+            variant="ghost"
+            className="shrink-0 border-rose-200 text-danger hover:border-rose-300 hover:bg-rose-50"
+            onClick={() => setQuitOpen(true)}
+          >
+            <LogOut size={15} />
+            {waiting ? "Cancel" : "Quit"}
+          </Button>
+        ) : null}
+      </div>
       <DuelRulesCard rules={rules} hostName={duel.challenger.username} />
+
+      <DuelQuitConfirmModal
+        open={quitOpen}
+        busy={quitting}
+        mode={quitMode}
+        rivalName={foe.username}
+        onClose={() => {
+          if (!quitting) setQuitOpen(false);
+        }}
+        onConfirm={() => void confirmQuit()}
+      />
+
+      {cancelled ? (
+        <div className="rounded-2xl border border-line bg-surface-2 px-5 py-5 text-center">
+          <p className="text-lg font-bold text-ink">Duel cancelled</p>
+          <p className="mt-2 text-sm text-muted">This invite was withdrawn before the match started.</p>
+          <Link
+            href="/leaderboard"
+            className="mt-4 inline-flex rounded-xl bg-primary px-4 py-2 text-sm font-bold text-primary-foreground"
+          >
+            Back to leaderboard
+          </Link>
+        </div>
+      ) : null}
 
       {waiting ? (
         <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-4 text-sm text-amber-950">
@@ -339,7 +412,7 @@ export function DuelArenaView({ duelId }: { duelId: string }) {
         </div>
       ) : null}
 
-      {!waiting && !done ? (
+      {!waiting && !done && !cancelled ? (
         <div className="grid gap-5 xl:grid-cols-2">
           <div className="space-y-4">
             <article className="rounded-2xl border border-rose-200 bg-gradient-to-br from-rose-50/80 via-white to-white p-5">

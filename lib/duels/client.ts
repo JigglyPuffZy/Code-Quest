@@ -50,3 +50,7 @@ export async function submitDuelCode(duelId: string, code: string) {
     { code },
   );
 }
+
+export async function quitDuel(duelId: string) {
+  return post<{ duel: DuelSnapshot }>(`/api/duels/${duelId}/quit`);
+}

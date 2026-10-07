@@ -85,6 +85,24 @@ export function clearDemoDuel() {
   sessionStorage.removeItem(STORAGE_KEY);
 }
 
+export function forfeitDemoDuel(duel: DemoDuelState, quitterId: string): DemoDuelState {
+  const winnerId = quitterId === duel.challengerId ? duel.opponentId : duel.challengerId;
+  const targetWins = duel.targetWins;
+  const challengerScore =
+    winnerId === duel.challengerId ? Math.max(duel.challengerScore, targetWins) : duel.challengerScore;
+  const opponentScore =
+    winnerId === duel.opponentId ? Math.max(duel.opponentScore, targetWins) : duel.opponentScore;
+
+  return {
+    ...duel,
+    status: "completed",
+    winnerId,
+    challengerScore,
+    opponentScore,
+    endedAt: new Date().toISOString(),
+  };
+}
+
 export function advanceDemoRound(duel: DemoDuelState, roundWinnerId: string | null): DemoDuelState {
   const challengerScore =
     roundWinnerId === duel.challengerId ? duel.challengerScore + 1 : duel.challengerScore;

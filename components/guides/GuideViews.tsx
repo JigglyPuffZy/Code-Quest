@@ -3,6 +3,7 @@
 import { LessonCopy } from "@/components/code/CodeBlock";
 import { TechLogoBadge } from "@/components/icons/TechLogo";
 import { GuideCourseTabs, GuideLessonHero, getTopicStyle } from "@/components/guides/GuideChrome";
+import { GuidePracticePanel } from "@/components/guides/GuidePracticePanel";
 import { ErrorState } from "@/components/ui/States";
 import {
   getGuide,
@@ -16,9 +17,10 @@ import {
 } from "@/lib/guides/index";
 import { catalogStats } from "@/lib/guides/catalog";
 import { hasCodePractice } from "@/lib/curriculum/links";
+import { guideHasPractice } from "@/lib/guides/practice";
 import { markGuideRead } from "@/lib/guides/progress";
 import type { GuideCategory, GuideTopicId } from "@/lib/guides/types";
-import { ArrowLeft, ArrowRight, BookOpen, CheckCircle2, Clock, Database, Play } from "lucide-react";
+import { ArrowLeft, ArrowRight, BookOpen, CheckCircle2, Clock, Code2, Database, Play } from "lucide-react";
 import Link from "next/link";
 import { useEffect } from "react";
 
@@ -182,44 +184,61 @@ export function TopicGuideList({ topicId }: { topicId: string }) {
       </header>
 
       <ol className="mt-2 divide-y divide-line">
-        {lessons.map((lesson, index) => (
-          <li key={lesson.slug}>
-            <Link
-              href={`/guides/${topicId}/${lesson.slug}`}
-              className="group flex items-center gap-4 py-5 transition hover:bg-surface-2/60 sm:rounded-xl sm:px-4"
-            >
-              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-line bg-white text-sm font-bold text-muted shadow-sm transition group-hover:border-ink group-hover:text-ink">
-                {index + 1}
-              </span>
-              <div className="min-w-0 flex-1">
-                <h2 className="font-semibold">{lesson.title}</h2>
-                <p className="mt-0.5 text-sm text-muted">{lesson.summary}</p>
-              </div>
-              <span className="hidden text-xs text-muted sm:block">{lesson.minutes} min</span>
-              <ArrowRight className="size-4 shrink-0 text-muted opacity-0 transition group-hover:opacity-100" />
-            </Link>
-          </li>
-        ))}
+        {lessons.map((lesson, index) => {
+          const hasLessonPractice = guideHasPractice(topicId, lesson.slug);
+          return (
+            <li key={lesson.slug}>
+              <Link
+                href={`/guides/${topicId}/${lesson.slug}`}
+                className="group flex items-center gap-4 py-5 transition hover:bg-surface-2/60 sm:rounded-xl sm:px-4"
+              >
+                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-line bg-white text-sm font-bold text-muted shadow-sm transition group-hover:border-ink group-hover:text-ink">
+                  {index + 1}
+                </span>
+                <div className="min-w-0 flex-1">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <h2 className="font-semibold">{lesson.title}</h2>
+                    {hasLessonPractice ? (
+                      <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-primary">
+                        <Code2 size={10} />
+                        Practice
+                      </span>
+                    ) : null}
+                  </div>
+                  <p className="mt-0.5 text-sm text-muted">{lesson.summary}</p>
+                </div>
+                <span className="hidden text-xs text-muted sm:block">{lesson.minutes} min</span>
+                <ArrowRight className="size-4 shrink-0 text-muted opacity-0 transition group-hover:opacity-100" />
+              </Link>
+            </li>
+          );
+        })}
       </ol>
 
       <div className="mt-8 flex flex-col gap-4 rounded-2xl border border-line bg-surface-2 p-6 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-start gap-3">
           <CheckCircle2 className="mt-0.5 size-5 shrink-0 text-ok" />
           <div>
-            <p className="font-semibold">{hasPractice ? "Ready to practice?" : "Keep learning"}</p>
+            <p className="font-semibold">{hasPractice ? "Hands-on practice built in" : "Keep learning"}</p>
             <p className="mt-0.5 text-sm text-muted">
               {hasPractice
-                ? "Apply what you learned with interactive code exercises."
+                ? "Each lesson includes a code editor so you can try what you just read — no need to leave the guide."
                 : "Track your reading progress — this path counts toward guide quests."}
             </p>
           </div>
         </div>
-        <Link
-          href={hasPractice ? "/challenges" : `/guides/${topicId}`}
-          className="shrink-0 rounded-xl bg-primary px-5 py-2.5 text-center text-sm font-semibold text-primary-foreground shadow-sm shadow-primary/20 transition hover:bg-primary-hover"
-        >
-          {hasPractice ? "Go to Arena" : "Continue Reading"}
-        </Link>
+        {lessons[0] ? (
+          <Link
+            href={
+              hasPractice
+                ? `/guides/${topicId}/${lessons[0].slug}#practice`
+                : `/guides/${topicId}/${lessons[0].slug}`
+            }
+            className="shrink-0 rounded-xl bg-primary px-5 py-2.5 text-center text-sm font-semibold text-primary-foreground shadow-sm shadow-primary/20 transition hover:bg-primary-hover"
+          >
+            {hasPractice ? "Start practicing" : "Continue Reading"}
+          </Link>
+        ) : null}
       </div>
     </div>
   );
@@ -243,6 +262,7 @@ export function GuideReader({ topicId, slug }: { topicId: string; slug: string }
   const progress = ((index + 1) / lessons.length) * 100;
   const style = getTopicStyle(topicId as GuideTopicId);
   const hasPractice = hasCodePractice(topicId);
+  const lessonHasPractice = guideHasPractice(topicId, slug);
 
   return (
     <div className="-mt-6 sm:-mt-8">
@@ -295,6 +315,8 @@ export function GuideReader({ topicId, slug }: { topicId: string; slug: string }
             <LessonCopy blocks={lesson.blocks} />
           </div>
 
+          {lessonHasPractice ? <GuidePracticePanel topicId={topicId} slug={slug} /> : null}
+
           <nav className="mt-14 grid gap-3 sm:grid-cols-2">
             {prev ? (
               <Link href={`/guides/${topicId}/${prev.slug}`} className="guide-card group flex flex-col p-5 transition">
@@ -327,11 +349,11 @@ export function GuideReader({ topicId, slug }: { topicId: string; slug: string }
             )}
           </nav>
 
-          {hasPractice ? (
+          {hasPractice && !lessonHasPractice ? (
             <div className={`mt-6 flex items-center justify-between gap-4 rounded-2xl border p-5 ${style.soft}`}>
               <p className="text-sm">
-                <span className="font-semibold">Ready to code?</span>
-                <span className="text-muted"> Try Arena battles with real code checks.</span>
+                <span className="font-semibold">Want a bigger challenge?</span>
+                <span className="text-muted"> Head to Arena for timed coding battles.</span>
               </p>
               <Link
                 href="/challenges"

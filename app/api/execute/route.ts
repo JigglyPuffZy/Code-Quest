@@ -88,7 +88,12 @@ export async function POST(request: Request) {
     }
 
     if (payload.mode === "grade") {
-      if (payload.kind !== "lesson" && payload.kind !== "challenge" && payload.kind !== "game") {
+      if (
+        payload.kind !== "lesson" &&
+        payload.kind !== "challenge" &&
+        payload.kind !== "game" &&
+        payload.kind !== "guide"
+      ) {
         return NextResponse.json({ error: "Unknown exercise." }, { status: 400 });
       }
       const difficulty = payload.difficulty && isSkillDifficulty(payload.difficulty)
@@ -136,7 +141,12 @@ export async function POST(request: Request) {
     }
 
     if (payload.mode === "run-tests") {
-      if (payload.kind !== "lesson" && payload.kind !== "challenge" && payload.kind !== "game") {
+      if (
+        payload.kind !== "lesson" &&
+        payload.kind !== "challenge" &&
+        payload.kind !== "game" &&
+        payload.kind !== "guide"
+      ) {
         return NextResponse.json({ error: "Unknown exercise." }, { status: 400 });
       }
       const difficulty = payload.difficulty && isSkillDifficulty(payload.difficulty)

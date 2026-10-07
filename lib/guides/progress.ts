@@ -8,18 +8,22 @@ const STORAGE_KEY = storageKey("guide-progress");
 
 type GuideProgressStore = {
   read: Record<string, string[]>;
+  practiced: Record<string, string[]>;
 };
 
 function readStore(): GuideProgressStore {
-  if (typeof window === "undefined") return { read: {} };
+  if (typeof window === "undefined") return { read: {}, practiced: {} };
   migrateStorageKey([], STORAGE_KEY, ["codequest-guide-progress", "DevLadder-guide-progress"]);
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY);
-    if (!raw) return { read: {} };
+    if (!raw) return { read: {}, practiced: {} };
     const parsed = JSON.parse(raw) as GuideProgressStore;
-    return parsed?.read ? parsed : { read: {} };
+    return {
+      read: parsed?.read ?? {},
+      practiced: parsed?.practiced ?? {},
+    };
   } catch {
-    return { read: {} };
+    return { read: {}, practiced: {} };
   }
 }
 
@@ -40,6 +44,21 @@ export function markGuideRead(topicId: string, slug: string) {
 export function isGuideRead(topicId: string, slug: string) {
   const store = readStore();
   return (store.read[topicId] ?? []).includes(slug);
+}
+
+export function markGuidePracticeComplete(topicId: string, slug: string) {
+  const store = readStore();
+  const slugs = new Set(store.practiced[topicId] ?? []);
+  if (slugs.has(slug)) return false;
+  slugs.add(slug);
+  store.practiced[topicId] = [...slugs];
+  writeStore(store);
+  return true;
+}
+
+export function isGuidePracticeComplete(topicId: string, slug: string) {
+  const store = readStore();
+  return (store.practiced[topicId] ?? []).includes(slug);
 }
 
 export function guidesReadForTopic(topicId: string) {

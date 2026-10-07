@@ -22,6 +22,7 @@ import {
   typescriptWorlds,
 } from "@/lib/curriculum/typescript";
 import { allQuests, quests, sideQuests } from "@/lib/curriculum/quests";
+import { getGuidePractice, GUIDE_PRACTICE_XP } from "@/lib/guides/practice";
 import type { SkillDifficulty } from "@/lib/difficulty";
 import { buildGameLevelFromId } from "@/lib/game";
 import type { GameStackPrefs } from "@/lib/game/banks";
@@ -125,7 +126,7 @@ export function getWorld(id: string) {
 }
 
 export function findExercise(
-  kind: "lesson" | "challenge" | "game",
+  kind: "lesson" | "challenge" | "game" | "guide",
   id: string,
   options?: { difficulty?: SkillDifficulty; stack?: GameStackPrefs },
 ) {
@@ -134,6 +135,19 @@ export function findExercise(
     const record = buildGameLevelFromId(id, options.stack);
     if (!record) return null;
     return { language: record.language, exercise: record.exercise, xp: record.xp };
+  }
+  if (kind === "guide") {
+    const slash = id.indexOf("/");
+    if (slash <= 0) return null;
+    const topicId = id.slice(0, slash);
+    const slug = id.slice(slash + 1);
+    const record = getGuidePractice(topicId, slug);
+    if (!record) return null;
+    return {
+      language: record.language,
+      exercise: record.exercise,
+      xp: record.xp ?? GUIDE_PRACTICE_XP,
+    };
   }
   const record: Lesson | Challenge | undefined =
     kind === "lesson" ? getLesson(id) : getChallenge(id);

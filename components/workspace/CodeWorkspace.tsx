@@ -35,7 +35,7 @@ export function CodeWorkspace({
 }: {
   language: LanguageId;
   starterCode: string;
-  kind: "lesson" | "challenge" | "game";
+  kind: "lesson" | "challenge" | "game" | "guide";
   exerciseId: string;
   alreadyCleared: boolean;
   onCleared: () => { awarded: boolean; xp: number };

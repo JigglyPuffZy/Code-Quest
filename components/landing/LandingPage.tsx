@@ -4,7 +4,14 @@ import { TechLogo } from "@/components/icons/TechLogo";
 import { Logo } from "@/components/shell/Logo";
 import { usePlayer } from "@/components/player/PlayerProvider";
 import { cn } from "@/lib/cn";
-import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+  type ReactNode,
+  type RefObject,
+} from "react";
 import {
   ArrowRight,
   BookOpen,
@@ -103,24 +110,22 @@ function useReveal(rootMargin = "0px 0px -10% 0px") {
   return { ref, visible };
 }
 
-function Reveal({
+function RevealSection({
   children,
   className,
-  as: Tag = "div",
 }: {
   children: ReactNode;
   className?: string;
-  as?: "div" | "section";
 }) {
   const { ref, visible } = useReveal();
 
   return (
-    <Tag
-      ref={ref}
+    <section
+      ref={ref as RefObject<HTMLElement>}
       className={cn("landing-reveal", visible && "is-visible", className)}
     >
       {children}
-    </Tag>
+    </section>
   );
 }
 
@@ -285,7 +290,7 @@ export function LandingPage() {
             </div>
           </div>
 
-          <Reveal as="section" className="mt-24 sm:mt-32">
+          <RevealSection className="mt-24 sm:mt-32">
             <div className="landing-section-head text-center">
               <p className="tag mx-auto landing-section-tag">Why Dev Ladder</p>
               <h2 className="landing-section-title mt-3 text-2xl font-bold tracking-tight sm:text-3xl">
@@ -317,9 +322,9 @@ export function LandingPage() {
                 </article>
               ))}
             </div>
-          </Reveal>
+          </RevealSection>
 
-          <Reveal as="section" className="landing-topics-band mt-20 overflow-hidden rounded-2xl border border-line bg-surface-2 py-8">
+          <RevealSection className="landing-topics-band mt-20 overflow-hidden rounded-2xl border border-line bg-surface-2 py-8">
             <p className="landing-topics-label mb-6 text-center text-[10px] font-bold uppercase tracking-[0.25em] text-muted">
               Topics you can learn
             </p>
@@ -336,7 +341,7 @@ export function LandingPage() {
                 ))}
               </div>
             </div>
-          </Reveal>
+          </RevealSection>
 
           <section className="landing-cta mt-20 overflow-hidden rounded-3xl border border-primary-200/60 bg-gradient-to-br from-primary-50 via-white to-white p-8 text-center sm:p-12">
             <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">Ready to enter the academy?</h2>
