@@ -13,7 +13,8 @@ export function CodeEditor({
   code: string;
   language: LanguageId;
   onChange: (code: string) => void;
-  onSubmit: () => void;
+  /** Receives the textarea value at submit time (avoids stale React state). */
+  onSubmit: (latestCode: string) => void;
   theme?: "default" | "game";
 }) {
   const isGame = theme === "game";
@@ -72,7 +73,7 @@ export function CodeEditor({
           }
           if ((event.metaKey || event.ctrlKey) && event.key === "Enter") {
             event.preventDefault();
-            onSubmit();
+            onSubmit(event.currentTarget.value);
           }
         }}
         className={

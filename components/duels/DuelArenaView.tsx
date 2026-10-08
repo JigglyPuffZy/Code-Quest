@@ -98,6 +98,7 @@ export function DuelArenaView({ duelId }: { duelId: string }) {
   const [duel, setDuel] = useState<DuelSnapshot | DemoDuelState | null>(null);
   const [demo, setDemo] = useState(false);
   const [code, setCode] = useState("");
+  const codeRef = useRef("");
   const [running, setRunning] = useState(false);
   const [error, setError] = useState("");
   const [runResults, setRunResults] = useState<GradeTest[] | null>(null);
@@ -109,7 +110,10 @@ export function DuelArenaView({ duelId }: { duelId: string }) {
 
   function loadStarter(next: DuelSnapshot | DemoDuelState) {
     const record = getChallenge(next.challengeId);
-    if (record) setCode(record.exercise.starterCode);
+    if (record) {
+      codeRef.current = record.exercise.starterCode;
+      setCode(record.exercise.starterCode);
+    }
     setRunResults(null);
     setError("");
   }
@@ -248,7 +252,9 @@ export function DuelArenaView({ duelId }: { duelId: string }) {
     }
   }
 
-  async function submit() {
+  async function submit(sourceOverride?: string) {
+    const sourceCode = sourceOverride ?? codeRef.current;
+    codeRef.current = sourceCode;
     if (!duel || !challenge || duel.status !== "active" || duel.winnerId || duel.roundWinnerId) return;
     if (duel.roundEndsAt && Date.parse(duel.roundEndsAt) <= Date.now()) {
       setError("Round timer ended.");
@@ -259,7 +265,7 @@ export function DuelArenaView({ duelId }: { duelId: string }) {
     try {
       if (demo) {
         const { gradeCode } = await import("@/lib/execute/client");
-        const grade = await gradeCode("challenge", duel.challengeId, code, duel.skillDifficulty);
+        const grade = await gradeCode("challenge", duel.challengeId, sourceCode, duel.skillDifficulty);
         setRunResults(grade.tests);
         const passed = grade.passed;
         const demoState = duel as DemoDuelState;
@@ -279,7 +285,7 @@ export function DuelArenaView({ duelId }: { duelId: string }) {
         }
         return;
       }
-      const result = await submitDuelCode(duel.id, code);
+      const result = await submitDuelCode(duel.id, sourceCode);
       setDuel(result.duel);
       if (result.roundWon && !result.won) {
         setError("");
@@ -433,12 +439,20 @@ export function DuelArenaView({ duelId }: { duelId: string }) {
                 </span>
               ) : null}
             </div>
-            <CodeEditor code={code} language={challenge.language} onChange={setCode} onSubmit={() => void submit()} />
+            <CodeEditor
+              code={code}
+              language={challenge.language}
+              onChange={(next) => {
+                codeRef.current = next;
+                setCode(next);
+              }}
+              onSubmit={(latest) => void submit(latest)}
+            />
             <Button
               variant="primary"
               className="w-full shadow-lg shadow-primary/25"
               disabled={running || !active || Boolean(duel.winnerId) || Boolean(duel.roundWinnerId) || roundSecondsLeft === 0}
-              onClick={() => void submit()}
+              onClick={() => void submit(codeRef.current)}
             >
               {running ? (
                 <>

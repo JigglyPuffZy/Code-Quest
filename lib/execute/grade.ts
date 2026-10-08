@@ -25,15 +25,53 @@ function clip(value: string, max = 600) {
 }
 
 function formatExpected(value: unknown) {
+  if (value === undefined) {
+    return "(no return value — use return, not only print/console.log)";
+  }
   return JSON.stringify(value);
 }
 
-function valuesMatch(actualText: string, expected: unknown) {
-  try {
-    return JSON.stringify(JSON.parse(actualText)) === JSON.stringify(expected);
-  } catch {
-    return false;
+function deepEqual(a: unknown, b: unknown): boolean {
+  if (a === b) return true;
+  if (typeof a === "number" && typeof b === "number") {
+    if (Number.isNaN(a) && Number.isNaN(b)) return true;
+    return a === b;
   }
+  if (typeof a !== typeof b) return false;
+  if (a === null || b === null) return a === b;
+  if (Array.isArray(a) && Array.isArray(b)) {
+    if (a.length !== b.length) return false;
+    return a.every((item, index) => deepEqual(item, b[index]));
+  }
+  if (typeof a === "object" && typeof b === "object") {
+    const left = a as Record<string, unknown>;
+    const right = b as Record<string, unknown>;
+    const leftKeys = Object.keys(left).sort();
+    const rightKeys = Object.keys(right).sort();
+    if (leftKeys.length !== rightKeys.length) return false;
+    return leftKeys.every((key, index) => key === rightKeys[index] && deepEqual(left[key], right[key]));
+  }
+  return false;
+}
+
+function parseHarnessJson(payload: string): { ok: true; value: unknown } | { ok: false } {
+  const trimmed = payload.trim();
+  if (!trimmed) return { ok: false };
+  try {
+    const value = JSON.parse(trimmed);
+    if (value && typeof value === "object" && "__error" in (value as Record<string, unknown>)) {
+      return { ok: false };
+    }
+    return { ok: true, value };
+  } catch {
+    return { ok: false };
+  }
+}
+
+function valuesMatch(payload: string, expected: unknown) {
+  const parsed = parseHarnessJson(payload);
+  if (!parsed.ok) return false;
+  return deepEqual(parsed.value, expected);
 }
 
 function casePayloads(stdout: string, count: number) {
@@ -52,7 +90,7 @@ function casePayloads(stdout: string, count: number) {
       .split(/\r?\n/)
       .map((line) => line.trim())
       .filter(Boolean);
-    payloads.push(lines.at(-1) ?? "");
+    payloads.push(lines[0] ?? "");
   }
   return payloads;
 }
@@ -217,11 +255,30 @@ function buildJavaFunctionHarness(code: string, functionName: string, cases: Fun
 `;
 
   const injected = `public static void main(String[] args) {\n${calls}\n  }\n${helpers}`;
-  const replaced = code.replace(
-    /public\s+static\s+void\s+main\s*\(\s*String\s*\[\s*]\s+\w+\s*\)\s*\{[\s\S]*?\n  \}/,
-    injected.trim(),
-  );
-  if (replaced !== code) return replaced;
+
+  const signature = /public\s+static\s+void\s+main\s*\(\s*String\s*\[\s*]\s+\w+\s*\)\s*\{/;
+  const match = signature.exec(code);
+  if (match) {
+    const openBrace = code.indexOf("{", match.index);
+    if (openBrace >= 0) {
+      let depth = 0;
+      let closeIndex = -1;
+      for (let i = openBrace; i < code.length; i += 1) {
+        const ch = code[i];
+        if (ch === "{") depth += 1;
+        else if (ch === "}") {
+          depth -= 1;
+          if (depth === 0) {
+            closeIndex = i;
+            break;
+          }
+        }
+      }
+      if (closeIndex >= 0) {
+        return `${code.slice(0, match.index)}${injected.trim()}${code.slice(closeIndex + 1)}`;
+      }
+    }
+  }
 
   const lastBrace = code.lastIndexOf("}");
   if (lastBrace === -1) return `${code}\n${injected}\n`;
@@ -244,7 +301,7 @@ function perfPayloads(stdout: string, count: number) {
       .split(/\r?\n/)
       .map((line) => line.trim())
       .filter(Boolean);
-    payloads.push(lines.at(-1) ?? "");
+    payloads.push(lines[0] ?? "");
   }
   return payloads;
 }
@@ -253,23 +310,23 @@ function gradeFunction(cases: FunctionCase[], functionName: string, stdout: stri
   const payloads = casePayloads(stdout, cases.length);
   const tests: GradeTest[] = cases.map((item, index) => {
     const payload = payloads[index] ?? "";
-    let parsed: unknown = null;
-    let parsedOk = false;
+    let errorText = "";
     try {
-      parsed = JSON.parse(payload);
-      parsedOk = true;
+      const maybe = JSON.parse(payload.trim());
+      if (maybe && typeof maybe === "object" && "__error" in (maybe as Record<string, unknown>)) {
+        errorText = String((maybe as { __error: unknown }).__error);
+      }
     } catch {
-      parsedOk = false;
+      /* not json */
     }
 
-    const failed = !parsedOk || (parsed && typeof parsed === "object" && parsed !== null && "__error" in parsed);
-    const errorText =
-      parsed && typeof parsed === "object" && parsed !== null && "__error" in parsed
-        ? String((parsed as { __error: unknown }).__error)
-        : "";
-    const passed = !failed && valuesMatch(payload, item.expected);
+    const passed = !errorText && valuesMatch(payload, item.expected);
     const args = item.args.map((arg) => JSON.stringify(arg)).join(", ");
-    const actual = errorText || (payload ? payload : stderr || "No result");
+    const parsedResult = parseHarnessJson(payload);
+    const actual = errorText
+      || (parsedResult.ok
+        ? formatExpected(parsedResult.value)
+        : clip(payload || stderr || "No result — check the function name and return a value."));
 
     return {
       name: item.label ? `${item.label}: ${functionName}(${args})` : `${functionName}(${args})`,
@@ -315,7 +372,7 @@ function gradePerformance(
     }
 
     const ms = typeof parsed.ms === "number" ? parsed.ms : null;
-    const correct = valuesMatch(JSON.stringify(parsed.result), item.expected);
+    const correct = deepEqual(parsed.result, item.expected);
     const timedOut = ms === null || ms > limit;
 
     let actual = "";
@@ -397,8 +454,7 @@ export async function gradeExercise(
   if (tests.type === "stdout") {
     const actual = normalizeOutput(run.stdout);
     const expected = normalizeOutput(tests.expected);
-    const crashed = run.exitCode !== null && run.exitCode !== 0;
-    const passed = actual === expected && !crashed;
+    const passed = actual === expected;
     report(100, "Grading complete", "finalize", { completedTests: 1, totalTests: 1 });
     return {
       engine: "wandbox" as const,

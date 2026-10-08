@@ -10,7 +10,7 @@ import { summarizeRunResults } from "@/lib/execute/visible-tests";
 import { migrateSessionKey, storageKey } from "@/lib/storage-keys";
 import type { GradeResponse, GradeTest, LanguageId, TestSpec } from "@/lib/types";
 import { Check, CheckCircle2, Play, Terminal, X, XCircle } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 function draftKey(kind: string, exerciseId: string, difficulty?: string) {
   const base = storageKey("draft", kind, exerciseId);
@@ -49,10 +49,12 @@ export function CodeWorkspace({
   onGradeResult?: (result: GradeResponse, mode: "run" | "grade") => void;
 }) {
   const difficultyKey = skillDifficulty ?? "default";
-  const [code, setCode] = useState(() => {
+  const readDraft = useCallback(() => {
     if (typeof window === "undefined") return starterCode;
     return window.sessionStorage.getItem(draftKey(kind, exerciseId, difficultyKey)) ?? starterCode;
-  });
+  }, [kind, exerciseId, difficultyKey, starterCode]);
+  const [code, setCode] = useState(() => readDraft());
+  const codeRef = useRef(code);
   const [running, setRunning] = useState<"run" | "grade" | null>(null);
   const [grade, setGrade] = useState<GradeResponse | null>(null);
   const [error, setError] = useState("");
@@ -63,9 +65,28 @@ export function CodeWorkspace({
   const isGame = theme === "game";
   const runSummary = lastAction === "run" && grade ? summarizeRunResults(grade.tests) : null;
 
+  const syncCode = useCallback((next: string) => {
+    codeRef.current = next;
+    setCode(next);
+  }, []);
+
+  useEffect(() => {
+    const next = readDraft();
+    codeRef.current = next;
+    setCode(next);
+    setGrade(null);
+    setError("");
+    setRewardNote("");
+    setLastAction(null);
+  }, [readDraft]);
+
+  useEffect(() => {
+    codeRef.current = code;
+  }, [code]);
+
   useEffect(() => {
     const timer = window.setTimeout(() => {
-      window.sessionStorage.setItem(draftKey(kind, exerciseId, difficultyKey), code);
+      window.sessionStorage.setItem(draftKey(kind, exerciseId, difficultyKey), codeRef.current);
     }, 400);
     return () => window.clearTimeout(timer);
   }, [code, kind, exerciseId, difficultyKey]);
@@ -76,7 +97,10 @@ export function CodeWorkspace({
     };
   }, []);
 
-  async function execute(mode: "run" | "grade") {
+  async function execute(mode: "run" | "grade", sourceOverride?: string) {
+    const sourceCode = sourceOverride ?? codeRef.current;
+    codeRef.current = sourceCode;
+    window.sessionStorage.setItem(draftKey(kind, exerciseId, difficultyKey), sourceCode);
     abortRef.current?.abort();
     const controller = new AbortController();
     abortRef.current = controller;
@@ -93,7 +117,7 @@ export function CodeWorkspace({
         const result = await runVisibleTests(
           kind,
           exerciseId,
-          code,
+          sourceCode,
           skillDifficulty,
           gameStack,
           controller.signal,
@@ -106,7 +130,7 @@ export function CodeWorkspace({
         const result = await gradeCode(
           kind,
           exerciseId,
-          code,
+          sourceCode,
           skillDifficulty,
           gameStack,
           controller.signal,
@@ -167,7 +191,7 @@ export function CodeWorkspace({
           <Button
             variant={isGame ? "arena" : "ghost"}
             className="w-full px-3 py-2.5 text-sm shadow-none sm:w-auto sm:px-3.5"
-            onClick={() => void execute("run")}
+            onClick={() => void execute("run", codeRef.current)}
             disabled={running !== null}
           >
             <Play size={15} className={isGame ? "text-cyan-300" : undefined} />
@@ -186,7 +210,7 @@ export function CodeWorkspace({
             <Button
               variant="primary"
               className="w-full px-3 py-2.5 text-sm shadow-md shadow-primary/30 sm:w-auto sm:px-3.5"
-              onClick={() => void execute("grade")}
+              onClick={() => void execute("grade", codeRef.current)}
               disabled={running === "run"}
             >
               <Terminal size={15} />
@@ -199,8 +223,8 @@ export function CodeWorkspace({
         code={code}
         language={language}
         theme={theme}
-        onChange={setCode}
-        onSubmit={() => void execute("grade")}
+        onChange={syncCode}
+        onSubmit={(latest) => void execute("grade", latest)}
       />
       <div
         className={cn(
@@ -210,8 +234,13 @@ export function CodeWorkspace({
       >
         <p>
           <strong className={isGame ? "text-slate-200" : "text-ink"}>Run tests</strong> checks the examples beside
-          your mission. <strong className={isGame ? "text-slate-200" : "text-ink"}>Submit</strong> runs hidden
-          checks{expectedTests && expectedTests > (tests?.type === "function" ? tests.cases.length : 1) ? " and awards XP" : ""}.
+          your mission.           <strong className={isGame ? "text-slate-200" : "text-ink"}>Submit</strong> runs the full grader
+          {kind === "guide"
+            ? " and saves progress"
+            : expectedTests && expectedTests > (tests?.type === "function" ? tests.cases.length : 1)
+              ? " (including hidden checks on Arena / senior difficulty)"
+              : ""}
+          .
         </p>
       </div>
       <div
