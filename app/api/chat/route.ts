@@ -9,6 +9,20 @@ const MAX_CONTENT = 4_000;
 const RATE_LIMIT = 24;
 const RATE_WINDOW_MS = 60_000;
 
+const DEFAULT_MODEL = "gpt-6-luna";
+const DEFAULT_REASONING_EFFORT = "high";
+
+function chatModel() {
+  return process.env.OPENAI_MODEL?.trim() || DEFAULT_MODEL;
+}
+
+function reasoningEffort(): "none" | "low" | "medium" | "high" | "xhigh" | "max" {
+  const raw = process.env.OPENAI_REASONING_EFFORT?.trim().toLowerCase();
+  const allowed = new Set(["none", "low", "medium", "high", "xhigh", "max"]);
+  if (raw && allowed.has(raw)) return raw as "none" | "low" | "medium" | "high" | "xhigh" | "max";
+  return DEFAULT_REASONING_EFFORT;
+}
+
 const rateBuckets = new Map<string, { count: number; resetAt: number }>();
 
 function isRateLimited(request: Request) {
@@ -110,9 +124,10 @@ export async function POST(request: Request) {
         Authorization: `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
-        model: "gpt-4o-mini",
-        temperature: 0.4,
-        max_tokens: 1000,
+        model: chatModel(),
+        reasoning_effort: reasoningEffort(),
+        temperature: 0.35,
+        max_tokens: 1400,
         messages: [{ role: "system", content: system }, ...messages],
       }),
     });
