@@ -31,3 +31,6 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
+
+# Personal account setup scripts (may contain credentials) - never commit
+supabase/account-*.sql
