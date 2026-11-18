@@ -1,3 +1,4 @@
+import { getPageManual } from "@/lib/help/pages";
 import { guideTopics } from "@/lib/guides/topics";
 import type { GuideTopicId } from "@/lib/guides/types";
 
@@ -264,11 +265,12 @@ export function parseAppPath(rawPath: string, topicId?: string, slug?: string): 
     };
   }
 
+  const manual = getPageManual(path);
   return {
     path,
     kind: "other",
-    chip: prettyPhrase(parts.join(" ") || "Dev Ladder"),
-    description: `A Dev Ladder page at ${path}.`,
+    chip: manual.id === "workspace" ? prettyPhrase(parts.join(" ") || "Dev Ladder") : manual.title,
+    description: manual.id === "workspace" ? `A Dev Ladder page at ${path}.` : [manual.summary, ...manual.steps.map((item) => `${item.title}: ${item.body}`), manual.tip].join(" "),
   };
 }
 

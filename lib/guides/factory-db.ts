@@ -16,7 +16,6 @@ type DbProfile = {
 
 function buildDatabaseCourse(cfg: DbProfile): GuideLesson[] {
   const { id, name } = cfg;
-  const isSql = cfg.kind === "sql" || cfg.id === "mysql" || cfg.id === "postgresql" || cfg.id === "sqlite" || cfg.id === "supabase";
   const isMongo = cfg.id === "mongodb";
 
   return [

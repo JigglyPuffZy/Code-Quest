@@ -10,6 +10,7 @@ export type DevyyyyyOpenOptions = {
 
 type DevyyyyyContextValue = {
   open: boolean;
+  hasOpened: boolean;
   pending: DevyyyyyOpenOptions | null;
   openChat: (options?: DevyyyyyOpenOptions) => void;
   closeChat: () => void;
@@ -21,12 +22,14 @@ const DevyyyyyContext = createContext<DevyyyyyContextValue | null>(null);
 
 export function DevyyyyyProvider({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = useState(false);
+  const [hasOpened, setHasOpened] = useState(false);
   const [pending, setPending] = useState<DevyyyyyOpenOptions | null>(null);
   const pendingRef = useRef<DevyyyyyOpenOptions | null>(null);
 
   const openChat = useCallback((options?: DevyyyyyOpenOptions) => {
     pendingRef.current = options ?? null;
     setPending(options ?? null);
+    setHasOpened(true);
     setOpen(true);
   }, []);
 
@@ -45,8 +48,8 @@ export function DevyyyyyProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const value = useMemo(
-    () => ({ open, pending, openChat, closeChat, consumePending, clearPending }),
-    [open, pending, openChat, closeChat, consumePending, clearPending],
+    () => ({ open, hasOpened, pending, openChat, closeChat, consumePending, clearPending }),
+    [open, hasOpened, pending, openChat, closeChat, consumePending, clearPending],
   );
 
   return <DevyyyyyContext.Provider value={value}>{children}</DevyyyyyContext.Provider>;

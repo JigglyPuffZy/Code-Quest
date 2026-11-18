@@ -3,20 +3,20 @@ import { storageKey } from "@/lib/storage-keys";
 
 const STORAGE_KEY = storageKey("practice-log");
 
-type PracticeLogEntry = {
+export type PracticeLogEntry = {
   topicId: string;
   slug: string;
   index: number;
   at: string;
 };
 
-function readLog(): PracticeLogEntry[] {
+export function readLog(): PracticeLogEntry[] {
   if (typeof window === "undefined") return [];
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY);
     if (!raw) return [];
     const parsed = JSON.parse(raw) as PracticeLogEntry[];
-    return Array.isArray(parsed) ? parsed : [];
+    return Array.isArray(parsed) ? parsed.filter((entry) => entry && typeof entry.topicId === "string" && typeof entry.slug === "string" && Number.isInteger(entry.index) && typeof entry.at === "string" && Number.isFinite(Date.parse(entry.at))) : [];
   } catch {
     return [];
   }
@@ -24,7 +24,7 @@ function readLog(): PracticeLogEntry[] {
 
 function writeLog(entries: PracticeLogEntry[]) {
   if (typeof window === "undefined") return;
-  window.localStorage.setItem(STORAGE_KEY, JSON.stringify(entries.slice(-200)));
+  window.localStorage.setItem(STORAGE_KEY, JSON.stringify(entries.slice(0, 2000)));
 }
 
 export function logGuidePracticePass(topicId: string, slug: string, index: number) {
@@ -39,5 +39,5 @@ export function logGuidePracticePass(topicId: string, slug: string, index: numbe
 }
 
 export function guidePracticePassesToday(dayKey = todayKey()) {
-  return readLog().filter((entry) => entry.at.slice(0, 10) === dayKey).length;
+  return readLog().filter((entry) => todayKey(new Date(entry.at)) === dayKey).length;
 }

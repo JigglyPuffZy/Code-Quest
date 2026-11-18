@@ -1,4 +1,4 @@
-import type { Exercise, FunctionCase, TestSpec } from "@/lib/types";
+import type { Exercise } from "@/lib/types";
 
 export function formatExampleValue(value: unknown): string {
   return JSON.stringify(value);
@@ -37,17 +37,7 @@ export function formatExampleOutput(expected: unknown): string {
   return formatExampleValue(expected);
 }
 
-export function visibleExampleCases(tests: TestSpec, limit = 3): FunctionCase[] {
-  if (tests.type !== "function") return [];
-  return tests.cases.slice(0, Math.min(limit, tests.cases.length));
-}
-
 export function hiddenTestCount(exercise: Exercise): number {
-  const visible =
-    exercise.tests.type === "function" ? visibleExampleCases(exercise.tests).length : 1;
-  const totalVisible =
-    exercise.tests.type === "function" ? exercise.tests.cases.length : 1;
-  const extraSubmit = Math.max(0, totalVisible - visible);
-  const perf = exercise.performance?.cases.length ?? 0;
-  return extraSubmit + perf;
+  // VisibleTestCases displays every ordinary case; only performance cases are hidden.
+  return exercise.performance?.cases.length ?? 0;
 }

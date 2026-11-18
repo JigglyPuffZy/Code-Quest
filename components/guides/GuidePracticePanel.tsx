@@ -1,5 +1,6 @@
 "use client";
 
+import { useClientReady, requestedQuestion } from "@/lib/learning/client";
 import { CodeWorkspace } from "@/components/workspace/CodeWorkspace";
 import { VisibleTestCases } from "@/components/workspace/VisibleTestCases";
 import {
@@ -18,7 +19,7 @@ import {
 import { recordPracticeMistake } from "@/lib/learning/mistakes";
 import type { GradeResponse, GradeTest } from "@/lib/types";
 import { CheckCircle2, Code2, HelpCircle, Lightbulb, RefreshCw, Sparkles } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 
 function expectedTestCount(exercise: NonNullable<ReturnType<typeof getGuidePractice>>["exercise"]) {
   if (exercise.tests.type === "stdout") return 1;
@@ -67,26 +68,19 @@ function buildCoachMessage(
   ].join("\n");
 }
 
-export function GuidePracticePanel({ topicId, slug }: { topicId: string; slug: string }) {
+export function GuidePracticePanel(props: { topicId: string; slug: string }) {
+  const ready = useClientReady();
+  return ready ? <PracticeSession key={`${props.topicId}:${props.slug}`} {...props} /> : <p className="text-sm text-muted">Loading practice...</p>;
+}
+function PracticeSession({ topicId, slug }: { topicId: string; slug: string }) {
   const { openChat } = useDevyyyyy();
   const total = guideHasPractice(topicId, slug) ? guidePracticeCount(topicId, slug) : 0;
-  const [questionIndex, setQuestionIndex] = useState(0);
-  const [picked, setPicked] = useState(false);
-  const [passedIndices, setPassedIndices] = useState<number[]>([]);
-  const [lessonCleared, setLessonCleared] = useState(false);
+  const [passedIndices, setPassedIndices] = useState<number[]>(() => passedGuidePracticeIndices(topicId, slug));
+  const [questionIndex, setQuestionIndex] = useState(() => requestedQuestion(total) ?? pickQuestion(total, passedIndices, null));
+  const [lessonCleared, setLessonCleared] = useState(() => isGuidePracticeComplete(topicId, slug));
   const [runResults, setRunResults] = useState<GradeTest[] | null>(null);
   const [runTestsRunning, setRunTestsRunning] = useState(false);
-  const [hintsOpen, setHintsOpen] = useState(false);
-
-  useEffect(() => {
-    const passed = passedGuidePracticeIndices(topicId, slug);
-    setPassedIndices(passed);
-    setLessonCleared(isGuidePracticeComplete(topicId, slug));
-    setQuestionIndex(pickQuestion(total, passed, null));
-    setPicked(true);
-    setRunResults(null);
-    setHintsOpen(false);
-  }, [topicId, slug, total]);
+  const [hintCount, setHintCount] = useState(0);
 
   const practice = useMemo(
     () => (total > 0 ? getGuidePractice(topicId, slug, questionIndex) : null),
@@ -94,7 +88,7 @@ export function GuidePracticePanel({ topicId, slug }: { topicId: string; slug: s
   );
 
   if (total === 0) return null;
-  if (!picked || !practice) {
+  if (!practice) {
     return (
       <section className="mt-14 scroll-mt-24" id="practice">
         <p className="text-sm text-muted">Loading a practice question…</p>
@@ -110,7 +104,7 @@ export function GuidePracticePanel({ topicId, slug }: { topicId: string; slug: s
     setQuestionIndex(next);
     setRunResults(null);
     setRunTestsRunning(false);
-    setHintsOpen(false);
+    setHintCount(0);
   }
 
   return (
@@ -198,34 +192,15 @@ export function GuidePracticePanel({ topicId, slug }: { topicId: string; slug: s
         />
 
         {hints.length > 0 ? (
-          <article className="rounded-2xl border border-amber-100 bg-amber-50/60 p-4 sm:p-5">
-            <button
-              type="button"
-              onClick={() => setHintsOpen((open) => !open)}
-              className="flex w-full items-center justify-between gap-2 text-left"
-            >
-              <span className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-amber-800">
-                <Lightbulb size={12} className="text-amber-500" />
-                Stuck? View hints
-              </span>
-              <span className="text-xs font-medium text-amber-700">{hintsOpen ? "Hide" : "Show"}</span>
+          <article className="rounded-2xl border border-line bg-surface p-4 sm:p-5">
+            <h3 className="flex items-center gap-2 font-semibold"><Lightbulb size={16} /> Step-by-step hints</h3>
+            <p className="mt-2 text-sm text-muted">Reveal one hint at a time. Try each step before continuing.</p>
+            <ol className="mt-3 list-decimal space-y-2 pl-5" aria-live="polite">
+              {hints.slice(0, hintCount).map((hint, index) => <li key={index} className="text-sm leading-relaxed">{hint}</li>)}
+            </ol>
+            <button type="button" disabled={hintCount >= hints.length} onClick={() => setHintCount((count) => count + 1)} className="mt-3 rounded-xl border border-line px-4 py-2 text-sm font-semibold disabled:opacity-50">
+              {hintCount >= hints.length ? "All hints revealed" : hintCount === 0 ? "Reveal first hint" : "Reveal next hint"} ({hintCount}/{hints.length})
             </button>
-            {hintsOpen ? (
-              <ol className="mt-3 space-y-2">
-                {hints.map((hint, index) => (
-                  <li
-                    key={`${hint}-${index}`}
-                    className="rounded-xl border border-amber-100 bg-surface/80 px-3 py-2.5 text-sm leading-relaxed text-amber-950"
-                  >
-                    <span className="font-bold text-amber-700">{index + 1}.</span> {hint}
-                  </li>
-                ))}
-              </ol>
-            ) : (
-              <p className="mt-2 text-sm text-amber-900/80">
-                Hints walk you through the solution step by step. Try the task first, then open hints if you need help.
-              </p>
-            )}
           </article>
         ) : null}
 

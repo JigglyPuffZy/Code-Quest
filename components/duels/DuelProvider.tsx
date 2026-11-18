@@ -30,6 +30,7 @@ export function useDuels() {
 export function DuelProvider({ children }: { children: React.ReactNode }) {
   const { player, supabaseEnabled, email } = usePlayer();
   const router = useRouter();
+  const playerId = player?.id;
   const [incoming, setIncoming] = useState<DuelSnapshot | null>(null);
   const [busy, setBusy] = useState(false);
   const seenIdsRef = useRef<Set<string>>(new Set());
@@ -37,14 +38,14 @@ export function DuelProvider({ children }: { children: React.ReactNode }) {
   const dismissIncoming = useCallback(() => setIncoming(null), []);
 
   useEffect(() => {
-    if (!supabaseEnabled || !player || !email) return;
+    if (!supabaseEnabled || !playerId || !email) return;
 
     const supabase = createClient();
     const channel = supabase
-      .channel(`duel-invites-${player.id}`)
+      .channel(`duel-invites-${playerId}`)
       .on(
         "postgres_changes",
-        { event: "INSERT", schema: "public", table: "duel_rooms", filter: `opponent_id=eq.${player.id}` },
+        { event: "INSERT", schema: "public", table: "duel_rooms", filter: `opponent_id=eq.${playerId}` },
         async (payload) => {
           const row = payload.new as { id: string; status: string };
           if (row.status !== "pending" || seenIdsRef.current.has(row.id)) return;
@@ -62,7 +63,7 @@ export function DuelProvider({ children }: { children: React.ReactNode }) {
       )
       .on(
         "postgres_changes",
-        { event: "UPDATE", schema: "public", table: "duel_rooms", filter: `challenger_id=eq.${player.id}` },
+        { event: "UPDATE", schema: "public", table: "duel_rooms", filter: `challenger_id=eq.${playerId}` },
         (payload) => {
           const row = payload.new as { id: string; status: string };
           if (row.status === "active") {
@@ -75,7 +76,7 @@ export function DuelProvider({ children }: { children: React.ReactNode }) {
     return () => {
       void supabase.removeChannel(channel);
     };
-  }, [supabaseEnabled, player, email, router]);
+  }, [supabaseEnabled, playerId, email, router]);
 
   async function acceptInvite() {
     if (!incoming) return;

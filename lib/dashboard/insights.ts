@@ -4,7 +4,7 @@ import { allQuests } from "@/lib/curriculum/quests";
 import { todayKey } from "@/lib/dates";
 import { totalGuidesRead } from "@/lib/guides/progress";
 import { allQuestStatuses, languageProgress, lessonCount, type QuestStatus } from "@/lib/progress";
-import type { LanguageId, Player } from "@/lib/types";
+import type { Player } from "@/lib/types";
 
 export const DAILY_GOAL_XP = 50;
 

@@ -1,6 +1,8 @@
 "use client";
 
 import { useDevyyyyy } from "@/components/support/DevyyyyyProvider";
+import { useClientReady, requestedQuestion } from "@/lib/learning/client";
+import { recordPracticeMistake } from "@/lib/learning/mistakes";
 import { GUIDE_PRACTICE_XP } from "@/lib/guides/practice";
 import {
   guideHasMcqPractice,
@@ -14,7 +16,7 @@ import {
   passedGuidePracticeIndices,
 } from "@/lib/guides/progress";
 import { CheckCircle2, HelpCircle, RefreshCw } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 function pickMcq(total: number, passed: number[], current: number | null) {
   const unused = Array.from({ length: total }, (_, i) => i).filter(
@@ -25,29 +27,23 @@ function pickMcq(total: number, passed: number[], current: number | null) {
   return others.length ? others[Math.floor(Math.random() * others.length)]! : current ?? 0;
 }
 
-export function GuideMcqPanel({ topicId, slug }: { topicId: string; slug: string }) {
+export function GuideMcqPanel(props: { topicId: string; slug: string }) {
+  const ready = useClientReady();
+  return ready ? <McqSession key={`${props.topicId}:${props.slug}`} {...props} /> : <p className="text-sm text-muted">Loading practice...</p>;
+}
+function McqSession({ topicId, slug }: { topicId: string; slug: string }) {
   const questions = guideHasMcqPractice(topicId, slug) ? mcqQuestionsForSlug(slug) : null;
   const { openChat } = useDevyyyyy();
-  const [index, setIndex] = useState(0);
+  const [index, setIndex] = useState(() => requestedQuestion(MCQ_PER_LESSON) ?? pickMcq(MCQ_PER_LESSON, passedGuidePracticeIndices(topicId, slug), null));
   const [picked, setSelected] = useState<number | null>(null);
-  const [passed, setPassed] = useState<number[]>([]);
-  const [cleared, setCleared] = useState(false);
+  const [passed, setPassed] = useState<number[]>(() => passedGuidePracticeIndices(topicId, slug));
+  const [cleared, setCleared] = useState(() => isGuidePracticeComplete(topicId, slug));
   const [showExplain, setShowExplain] = useState(false);
-
-  useEffect(() => {
-    const p = passedGuidePracticeIndices(topicId, slug);
-    setPassed(p);
-    setCleared(isGuidePracticeComplete(topicId, slug));
-    setIndex(pickMcq(MCQ_PER_LESSON, p, null));
-    setSelected(null);
-    setShowExplain(false);
-  }, [topicId, slug]);
 
   if (!questions?.length) return null;
 
   const q: McqQuestion = questions[index % questions.length]!;
   const correct = picked !== null && picked === q.correctIndex;
-  const passedThis = passed.includes(index);
 
   function handlePick(optionIndex: number) {
     if (picked !== null) return;
@@ -57,6 +53,8 @@ export function GuideMcqPanel({ topicId, slug }: { topicId: string; slug: string
       const first = markGuidePracticeQuestionPassed(topicId, slug, index);
       setPassed(passedGuidePracticeIndices(topicId, slug));
       if (first) setCleared(true);
+    } else {
+      recordPracticeMistake({ topicId, slug, questionIndex: index, exerciseId: `mcq:${topicId}:${slug}:${index}`, prompt: q.prompt, language: topicId, hint: q.explanation });
     }
   }
 

@@ -9,6 +9,9 @@ import { LessonNotes } from "@/components/guides/LessonNotes";
 import { useDevyyyyy } from "@/components/support/DevyyyyyProvider";
 import { guideHasMcqPractice } from "@/lib/guides/practice/mcq";
 import { ErrorState } from "@/components/ui/States";
+import { PageHero } from "@/components/ui/PageHero";
+import { continueGuide } from "@/lib/guides/navigation";
+import { useClientReady } from "@/lib/learning/client";
 import {
   getGuide,
   getGuideTopic,
@@ -22,225 +25,235 @@ import {
 import { catalogStats } from "@/lib/guides/catalog";
 import { hasCodePractice } from "@/lib/curriculum/links";
 import { guideHasPractice } from "@/lib/guides/practice";
-import { markGuideRead } from "@/lib/guides/progress";
+import { guideTopicProgress, isGuideRead, markGuideRead, totalGuidesRead } from "@/lib/guides/progress";
 import type { GuideCategory, GuideTopicId } from "@/lib/guides/types";
-import { ArrowLeft, ArrowRight, BookOpen, CheckCircle2, Clock, Code2, Database, HelpCircle, Play } from "lucide-react";
+import { ArrowLeft, ArrowRight, BookOpen, CheckCircle2, Clock, Code2, Database, HelpCircle, Play, Search } from "lucide-react";
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const CATEGORIES: GuideCategory[] = ["languages", "web", "databases"];
+
+type CategoryFilter = GuideCategory | "all";
 
 export function GuidesHome() {
   const stats = totalGuidesStats();
   const catalog = catalogStats();
+  const ready = useClientReady();
+  const [category, setCategory] = useState<CategoryFilter>("all");
+  const [query, setQuery] = useState("");
+  const next = ready ? continueGuide() : null;
+  const readCount = ready ? totalGuidesRead() : 0;
+  const q = query.trim().toLowerCase();
+
+  const groups = CATEGORIES.map((id) => ({
+    id,
+    topics: topicsByCategory(id).filter(
+      (topic) =>
+        (category === "all" || category === id) &&
+        (!q || `${topic.name} ${topic.description} ${topic.tagline}`.toLowerCase().includes(q)),
+    ),
+  })).filter((group) => group.topics.length > 0);
+  const shown = groups.reduce((sum, group) => sum + group.topics.length, 0);
+  const totalTopics = CATEGORIES.reduce((sum, id) => sum + topicsByCategory(id).length, 0);
 
   return (
     <div>
-      <GuideCourseTabs />
+      <PageHero
+        icon={BookOpen}
+        eyebrow="Guides"
+        title="Learn everything,"
+        accent="step by step."
+        description="Short, plain-English lessons for programming languages, the web and databases. No experience needed. Read a lesson, try the practice, move on."
+        stats={[
+          { label: "lessons", value: stats.lessons, icon: BookOpen },
+          { label: "courses", value: stats.courses, icon: Database },
+          { label: "min of reading", value: stats.minutes, icon: Clock },
+        ]}
+      >
+        <label className="pg-search">
+          <Search size={18} aria-hidden />
+          <span className="sr-only">Search courses</span>
+          <input
+            type="search"
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+            placeholder="Search courses, e.g. Python, SQL, React"
+          />
+        </label>
+      </PageHero>
 
-      <header className="mb-10 mt-8 max-w-2xl">
-        <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-line bg-surface-2 px-3 py-1 text-xs font-medium text-muted">
-          <BookOpen size={13} />
-          {stats.lessons} lessons · {stats.courses} courses · {stats.minutes}m total
-        </div>
-        <h1 className="text-3xl font-bold tracking-tight text-ink sm:text-4xl">
-          Learn everything,
-          <span className="text-muted"> step by step.</span>
-        </h1>
-        <p className="mt-4 text-base leading-relaxed text-muted">
-          Full read-through guides for programming languages and databases — written in plain, easy-to-understand language. No coding experience needed to start reading.
-        </p>
-      </header>
-
-      <section className="mb-12 overflow-hidden rounded-2xl border border-line bg-surface p-5 sm:p-6">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div className="max-w-2xl">
-            <div className="mb-2 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wide text-primary">
-              <Database size={14} />
-              Full technology catalog
-            </div>
-            <h2 className="text-xl font-bold tracking-tight text-ink">
-              {catalog.entries} languages &amp; databases — tabled and explained
-            </h2>
-            <p className="mt-2 text-sm leading-relaxed text-muted">
-              Browse the complete Programming Languages &amp; Database Systems catalog from your document. Each entry
-              shows what it is, what it is for, and a simple explanation beginners can understand.
-            </p>
+      {next ? (
+        <section className="pg-continue" aria-label="Continue learning">
+          <span className="pg-continue-icon"><Play size={22} fill="currentColor" aria-hidden /></span>
+          <div className="min-w-0 flex-1">
+            <p className="workspace-eyebrow">{readCount ? "Pick up where you left off" : "Start your first lesson"}</p>
+            <h2 className="mt-1">{next.title}</h2>
+            <p>{next.summary}</p>
           </div>
-          <Link
-            href="/guides/catalog"
-            className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground shadow-sm shadow-primary/20 transition hover:bg-primary-hover"
-          >
-            Open full catalog
+          <Link href={`/guides/${next.topicId}/${next.slug}`} className="workspace-button workspace-button-primary">
+            {readCount ? "Continue" : "Start lesson"}
             <ArrowRight size={15} />
           </Link>
-        </div>
-      </section>
+        </section>
+      ) : null}
 
-      <div className="mb-16 space-y-4">
-        <div>
-          <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted">Step-by-step courses</p>
-          <h2 className="text-lg font-bold tracking-tight">Pick a course to start reading</h2>
-        </div>
+      <div className="pg-filters" role="group" aria-label="Filter courses by category">
+        {(["all", ...CATEGORIES] as CategoryFilter[]).map((item) => (
+          <button
+            type="button"
+            key={item}
+            aria-pressed={category === item}
+            className={category === item ? "pg-pill is-active" : "pg-pill"}
+            onClick={() => setCategory(item)}
+          >
+            {item === "all" ? "All courses" : GUIDE_CATEGORY_LABELS[item]}
+            <small>{item === "all" ? totalTopics : topicsByCategory(item).length}</small>
+          </button>
+        ))}
       </div>
 
-      <div className="space-y-12">
-        {CATEGORIES.map((category) => {
-          const topics = topicsByCategory(category);
-          return (
-            <section key={category}>
+      {shown === 0 ? (
+        <div className="rv-empty">
+          <span className="rv-empty-icon"><Search size={28} aria-hidden /></span>
+          <h2>No courses match &ldquo;{query}&rdquo;</h2>
+          <p>Try a shorter word like &ldquo;python&rdquo; or &ldquo;sql&rdquo;, or clear the search to see every course.</p>
+          <button type="button" className="workspace-button mt-5" onClick={() => { setQuery(""); setCategory("all"); }}>Clear search</button>
+        </div>
+      ) : (
+        <div className="space-y-10">
+          {groups.map((group) => (
+            <section key={group.id} aria-labelledby={`cat-${group.id}`}>
               <div className="mb-4 flex items-end justify-between gap-3">
-                <div>
-                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted">Category</p>
-                  <h2 className="text-lg font-bold tracking-tight">{GUIDE_CATEGORY_LABELS[category]}</h2>
-                </div>
-                <span className="text-xs text-muted">{topics.length} courses</span>
+                <h2 id={`cat-${group.id}`} className="text-xl font-bold tracking-tight">{GUIDE_CATEGORY_LABELS[group.id]}</h2>
+                <span className="text-sm text-muted">{group.topics.length} {group.topics.length === 1 ? "course" : "courses"}</span>
               </div>
-
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                {topics.map((topic) => {
+              <div className="pg-grid">
+                {group.topics.map((topic) => {
                   const style = getTopicStyle(topic.id);
                   const lessons = guidesForTopic(topic.id);
                   const minutes = totalGuideMinutes(topic.id);
+                  const progress = ready ? guideTopicProgress(topic.id) : { done: 0, total: lessons.length, ratio: 0 };
+                  const percent = Math.round(progress.ratio * 100);
                   return (
-                    <Link key={topic.id} href={`/guides/${topic.id}`} className="group">
-                      <article className="guide-card relative flex h-full flex-col overflow-hidden p-5">
-                        <div className="flex items-start justify-between gap-2">
-                          <TechLogoBadge
-                            topicId={topic.id}
-                            name={topic.name}
-                            size={22}
-                            soft={style.soft}
-                            ring={style.ring}
-                          />
-                          <span className={`rounded-full px-2 py-0.5 text-[9px] font-bold uppercase tracking-wide ${style.soft} ${style.accent}`}>
-                            {topic.tagline}
-                          </span>
-                        </div>
-                        <h3 className="mt-4 text-lg font-bold tracking-tight">{topic.name}</h3>
-                        <p className="mt-1.5 flex-1 text-sm leading-relaxed text-muted">{topic.description}</p>
-                        <div className="mt-4 flex items-center justify-between border-t border-line pt-3">
-                          <span className="flex items-center gap-3 text-xs text-muted">
-                            <span>{lessons.length} lessons</span>
-                            <span className="flex items-center gap-1">
-                              <Clock size={11} />
-                              {minutes}m
-                            </span>
-                          </span>
-                          <span className="flex items-center gap-1 text-xs font-semibold text-primary opacity-0 transition group-hover:opacity-100">
-                            Open <ArrowRight size={13} />
-                          </span>
-                        </div>
-                      </article>
+                    <Link key={topic.id} href={`/guides/${topic.id}`} className="pg-course">
+                      <div className="flex items-start justify-between gap-2">
+                        <TechLogoBadge topicId={topic.id} name={topic.name} size={26} soft={style.soft} ring={style.ring} />
+                        <span className="pg-tag">{topic.tagline}</span>
+                      </div>
+                      <h3>{topic.name}</h3>
+                      <p className="pg-course-desc">{topic.description}</p>
+                      <div className="pg-meta">
+                        <span><BookOpen size={15} aria-hidden />{lessons.length} lessons</span>
+                        <span><Clock size={15} aria-hidden />{minutes} min</span>
+                      </div>
+                      <div className="pg-bar" role="progressbar" aria-label={`${topic.name} progress`} aria-valuenow={percent} aria-valuemin={0} aria-valuemax={100}><i style={{ width: `${percent}%` }} /></div>
+                      <div className="pg-bar-label"><span>{progress.done ? `${progress.done} of ${progress.total} read` : "Not started"}</span><b>{percent}%</b></div>
+                      <span className="pg-cta">{progress.done ? "Continue course" : "Start course"}<ArrowRight size={16} aria-hidden /></span>
                     </Link>
                   );
                 })}
               </div>
             </section>
-          );
-        })}
-      </div>
+          ))}
+        </div>
+      )}
+
+      <section className="pg-continue mt-12" aria-label="Full technology catalog">
+        <span className="pg-continue-icon"><Database size={22} aria-hidden /></span>
+        <div className="min-w-0 flex-1">
+          <p className="workspace-eyebrow">Full technology catalog</p>
+          <h2 className="mt-1">{catalog.entries} languages &amp; databases, compared side by side</h2>
+          <p>Clear explanations, practical uses and links to related courses.</p>
+        </div>
+        <Link href="/guides/catalog" className="workspace-button">
+          Open catalog
+          <ArrowRight size={15} />
+        </Link>
+      </section>
     </div>
   );
 }
 
 export function TopicGuideList({ topicId }: { topicId: string }) {
+  const ready = useClientReady();
   if (!isGuideTopic(topicId)) return <ErrorState message="Topic not found." />;
 
   const topic = getGuideTopic(topicId);
   const lessons = guidesForTopic(topicId);
-  const style = getTopicStyle(topicId);
   const minutes = totalGuideMinutes(topicId);
   const hasPractice = hasCodePractice(topicId);
+  const doneCount = ready ? lessons.filter((lesson) => isGuideRead(topicId, lesson.slug)).length : 0;
+  const percent = lessons.length ? Math.round((doneCount / lessons.length) * 100) : 0;
+  const nextLesson = (ready && lessons.find((lesson) => !isGuideRead(topicId, lesson.slug))) || lessons[0];
 
   return (
     <div>
       <GuideCourseTabs activeId={topicId} />
 
-      <header className="mt-8 border-b border-line pb-8">
-        <div className="flex flex-col gap-6 sm:flex-row sm:items-center">
-          <TechLogoBadge
-            topicId={topicId}
-            name={topic.name}
-            size={30}
-            soft={style.soft}
-            ring={style.ring}
-            className="shrink-0 rounded-2xl"
-          />
-          <div className="flex-1">
-            <p className="text-[10px] font-bold uppercase tracking-wider text-muted">
-              {GUIDE_CATEGORY_LABELS[topic.category]}
-            </p>
-            <h1 className="mt-1 text-2xl font-bold tracking-tight sm:text-3xl">{topic.name}</h1>
-            <p className="mt-1 text-sm text-muted">{lessons.length} lessons · {minutes} min total</p>
-            <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted">{topic.description}</p>
-          </div>
-          {lessons[0] ? (
-            <Link
-              href={`/guides/${topicId}/${lessons[0].slug}`}
-              className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-sm shadow-primary/20 transition hover:bg-primary-hover"
-            >
-              <Play size={15} />
-              Start course
+      <PageHero
+        className="mt-6"
+        icon={BookOpen}
+        eyebrow={GUIDE_CATEGORY_LABELS[topic.category]}
+        title={topic.name}
+        description={topic.description}
+        stats={[
+          { label: "lessons", value: lessons.length, icon: BookOpen },
+          { label: "min total", value: minutes, icon: Clock },
+          { label: "complete", value: `${percent}%`, icon: CheckCircle2 },
+        ]}
+        action={
+          nextLesson ? (
+            <Link href={`/guides/${topicId}/${nextLesson.slug}`} className="workspace-button">
+              <Play size={15} fill="currentColor" />
+              {doneCount ? "Continue course" : "Start course"}
             </Link>
-          ) : null}
+          ) : null
+        }
+      >
+        <div className="mt-5 max-w-md">
+          <div className="pg-bar" style={{ background: "rgb(255 255 255 / .18)" }} role="progressbar" aria-label="Course progress" aria-valuenow={percent} aria-valuemin={0} aria-valuemax={100}><i style={{ width: `${percent}%` }} /></div>
+          <p className="mt-2 text-sm" style={{ color: "#dcd8ff" }}>{doneCount} of {lessons.length} lessons read</p>
         </div>
-      </header>
+      </PageHero>
 
-      <ol className="mt-2 divide-y divide-line">
+      <ol className="pg-lessons">
         {lessons.map((lesson, index) => {
+          const done = ready && isGuideRead(topicId, lesson.slug);
           const hasLessonPractice = guideHasPractice(topicId, lesson.slug);
           return (
             <li key={lesson.slug}>
-              <Link
-                href={`/guides/${topicId}/${lesson.slug}`}
-                className="group flex items-center gap-4 py-5 transition hover:bg-surface-2/60 sm:rounded-xl sm:px-4"
-              >
-                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-line bg-surface text-sm font-bold text-muted shadow-sm transition group-hover:border-ink group-hover:text-ink">
-                  {index + 1}
-                </span>
+              <Link href={`/guides/${topicId}/${lesson.slug}`} className={done ? "pg-lesson is-done" : "pg-lesson"}>
+                <span className="pg-lesson-num">{done ? <CheckCircle2 size={20} aria-label="Read" /> : index + 1}</span>
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-wrap items-center gap-2">
-                    <h2 className="font-semibold">{lesson.title}</h2>
-                    {hasLessonPractice ? (
-                      <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-primary">
-                        <Code2 size={10} />
-                        Practice
-                      </span>
-                    ) : null}
+                    <h2>{lesson.title}</h2>
+                    {done ? <span className="pg-badge is-done">Read</span> : null}
+                    {hasLessonPractice ? <span className="pg-badge"><Code2 size={12} aria-hidden />Practice</span> : null}
                   </div>
-                  <p className="mt-0.5 text-sm text-muted">{lesson.summary}</p>
+                  <p>{lesson.summary}</p>
                 </div>
-                <span className="hidden text-xs text-muted sm:block">{lesson.minutes} min</span>
-                <ArrowRight className="size-4 shrink-0 text-muted opacity-0 transition group-hover:opacity-100" />
+                <span className="hidden items-center gap-1.5 text-sm text-muted sm:flex"><Clock size={14} aria-hidden />{lesson.minutes} min</span>
+                <ArrowRight className="size-5 shrink-0 text-muted" aria-hidden />
               </Link>
             </li>
           );
         })}
       </ol>
 
-      <div className="mt-8 flex flex-col gap-4 rounded-2xl border border-line bg-surface-2 p-6 sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex items-start gap-3">
-          <CheckCircle2 className="mt-0.5 size-5 shrink-0 text-ok" />
-          <div>
-            <p className="font-semibold">{hasPractice ? "Hands-on practice built in" : "Keep learning"}</p>
-            <p className="mt-0.5 text-sm text-muted">
-              {hasPractice
-                ? "Each lesson includes a code editor so you can try what you just read — no need to leave the guide."
-                : "Track your reading progress — this path counts toward guide quests."}
-            </p>
-          </div>
+      <div className="pg-continue mt-8">
+        <span className="pg-continue-icon"><Code2 size={22} aria-hidden /></span>
+        <div className="min-w-0 flex-1">
+          <h2>{hasPractice ? "Hands-on practice is built in" : "Keep learning"}</h2>
+          <p>
+            {hasPractice
+              ? "Every lesson has a code editor so you can try what you just read without leaving the page."
+              : "Your reading progress counts toward quests and your daily goal."}
+          </p>
         </div>
         {lessons[0] ? (
-          <Link
-            href={
-              hasPractice
-                ? `/guides/${topicId}/${lessons[0].slug}#practice`
-                : `/guides/${topicId}/${lessons[0].slug}`
-            }
-            className="shrink-0 rounded-xl bg-primary px-5 py-2.5 text-center text-sm font-semibold text-primary-foreground shadow-sm shadow-primary/20 transition hover:bg-primary-hover"
-          >
-            {hasPractice ? "Start practicing" : "Continue Reading"}
+          <Link href={hasPractice ? `/guides/${topicId}/${lessons[0].slug}#practice` : `/guides/${topicId}/${lessons[0].slug}`} className="workspace-button workspace-button-primary">
+            {hasPractice ? "Start practicing" : "Continue reading"}
+            <ArrowRight size={15} />
           </Link>
         ) : null}
       </div>

@@ -1,0 +1,84 @@
+/* Light-mode versions of the hero and features sections.
+   The base styles in hero.css / features.css are the dark theme (html.dark).
+   The theme script adds `dark` to <html> only in dark mode, so these rules apply in light mode. */
+
+/* ───────────── Hero ───────────── */
+html:not(.dark) .hx {
+  --dl-ink: #0e1124; --dl-muted: #565d75; --dl-surface: #ffffff; --dl-surface-2: #f3f2fc; --dl-line: #e0defa;
+  color: #0e1124; background: #f7f6ff;
+}
+html:not(.dark) .hx-blob-a { opacity: .38; }
+html:not(.dark) .hx-blob-b { opacity: .30; }
+html:not(.dark) .hx-blob-c { opacity: .28; }
+html:not(.dark) .hx-grid { background-image: linear-gradient(rgb(109 77 255 / .09) 1px, transparent 1px), linear-gradient(90deg, rgb(109 77 255 / .09) 1px, transparent 1px); }
+html:not(.dark) .hx-spotlight { mix-blend-mode: normal; background: radial-gradient(520px circle at var(--px) var(--py), rgb(109 77 255 / .13), transparent 65%); }
+html:not(.dark) .hx-stars i { background: #6d4dff; }
+html:not(.dark) .hx-badge { background: rgb(255 255 255 / .85); border-color: #e0defa; color: #3a3560; box-shadow: 0 6px 18px -10px rgb(60 40 160 / .35); }
+html:not(.dark) .hx-title { color: #0e1124; }
+html:not(.dark) .hx-shimmer .hx-word { background-image: linear-gradient(100deg, #5b3df0 0%, #0891b2 35%, #5b3df0 65%, #0891b2 100%); background-size: 250% 100%; }
+html:not(.dark) .hx-btn-glass { color: #0e1124; border-color: #d4d0f4; background: rgb(255 255 255 / .85); }
+html:not(.dark) .hx-btn-glass:hover { background: #fff; border-color: #b9b1f5; }
+html:not(.dark) .hx-trust svg { color: #6d4dff; }
+
+html:not(.dark) .hx-card { background: linear-gradient(160deg, #ffffff, #f6f5ff); border-color: #e0defa; backdrop-filter: none;
+  box-shadow: 0 40px 80px -34px rgb(60 40 160 / .38), 0 0 0 1px rgb(255 255 255 / .8) inset; }
+html:not(.dark) .hx-card::before { background: radial-gradient(420px circle at calc(50% + var(--mx) * 100%) calc(30% + var(--my) * 100%), rgb(109 77 255 / .07), transparent 60%); }
+html:not(.dark) .hx-card-bar { border-bottom-color: #ece9fb; }
+html:not(.dark) .hx-card-bar span, html:not(.dark) .hx-card-bar em { color: #565d75; }
+html:not(.dark) .hx-code { color: #1c1f3a; }
+html:not(.dark) .hx-codeline b { color: #a6a3c8; }
+html:not(.dark) .hx .c { color: #8a8fb2; } html:not(.dark) .hx .k { color: #6d4dff; } html:not(.dark) .hx .f { color: #0e7490; }
+html:not(.dark) .hx .n { color: #0891b2; } html:not(.dark) .hx .s { color: #0891b2; }
+html:not(.dark) .hx-caret { background: #6d4dff; }
+html:not(.dark) .hx-test { border-color: #e4e1fa; background: #faf9ff; color: #3b3f63; }
+html:not(.dark) .hx-test em { color: #8a8fb2; }
+html:not(.dark) .hx-test.is-pass { background: rgb(8 145 178 / .09); border-color: rgb(8 145 178 / .4); color: #0b4a5c; }
+html:not(.dark) .hx-test.is-pass .hx-test-ic, html:not(.dark) .hx-test.is-pass em { color: #0891b2; }
+html:not(.dark) .hx-spin { border-color: rgb(109 77 255 / .2); border-top-color: #6d4dff; }
+html:not(.dark) .hx-xp { background: rgb(109 77 255 / .09); border-top-color: #ece9fb; color: #4a3bd6; }
+html:not(.dark) .hx-xp svg { color: #0891b2; }
+html:not(.dark) .hx-xp-bar { background: rgb(109 77 255 / .16); }
+html:not(.dark) .hx-chip { background: rgb(255 255 255 / .92); border-color: #e0defa; color: #0e1124; box-shadow: 0 20px 40px -20px rgb(60 40 160 / .4); }
+html:not(.dark) .hx-chip small { color: #565d75; }
+html:not(.dark) .hx-ic-amber, html:not(.dark) .hx-ic-cyan { background: rgb(8 145 178 / .12); color: #0891b2; }
+html:not(.dark) .hx-ic-pink, html:not(.dark) .hx-ic-green { background: rgb(109 77 255 / .12); color: #6d4dff; }
+html:not(.dark) .hx-orbit { border-color: rgb(109 77 255 / .22); }
+html:not(.dark) .hx-orbit-b { border-color: rgb(109 77 255 / .12); }
+html:not(.dark) .hx-marquee { border-top-color: #e6e3fa; background: rgb(255 255 255 / .6); }
+html:not(.dark) .hx-tech { background: #fff; border-color: #e0defa; color: #2c2f52; }
+
+/* ───────────── Features ───────────── */
+html:not(.dark) .lp .ft-section {
+  background:
+    radial-gradient(60% 50% at 15% 0%, rgb(109 77 255 / .13), transparent 70%),
+    radial-gradient(50% 45% at 92% 100%, rgb(34 211 238 / .14), transparent 70%),
+    #f6f5ff;
+  color: #0e1124;
+}
+html:not(.dark) .lp .ft-section .ft-heading h2 { color: #0e1124; }
+html:not(.dark) .lp .ft-heading h2 em { background-image: linear-gradient(120deg, #5b3df0 0%, #0891b2 100%); }
+html:not(.dark) .lp .ft-eyebrow { color: #4a3bd6; }
+html:not(.dark) .lp .ft-eyebrow > span { background: #0891b2; box-shadow: 0 0 12px rgb(8 145 178 / .5); }
+html:not(.dark) .lp .ft-intro { color: #565d75; }
+html:not(.dark) .lp .ft-card { background: #ffffff; border-color: #e4e0fa; backdrop-filter: none; box-shadow: 0 18px 44px -28px rgb(60 40 160 / .35); }
+html:not(.dark) .lp .ft-card:hover { border-color: #b9b1f5; box-shadow: 0 28px 52px -26px rgb(109 77 255 / .45); }
+html:not(.dark) .lp .ft-section .ft-card h3 { color: #0e1124; }
+html:not(.dark) .lp .ft-card-copy > p { color: #565d75; }
+html:not(.dark) .lp .ft-overline { color: #6d4dff; }
+html:not(.dark) .lp .ft-footnote { color: #565d75; }
+
+/* ───────────── Features mock-ups: white product screens in light mode ─────────────
+   The mock-ups are authored as dark UIs (light text on navy). In light mode we render
+   them as white screens by inverting lightness and restoring the hues, so every label
+   keeps its contrast. Text that inherits its colour starts white (see .ft-art). */
+html:not(.dark) .lp .ft-art { color: #fff; }
+html:not(.dark) .lp .ft-window,
+html:not(.dark) .lp .ft-duel {
+  filter: invert(.94) hue-rotate(180deg) drop-shadow(0 18px 28px rgb(60 40 160 / .22));
+  box-shadow: none;
+}
+/* keep the violet toast chips as they are (they sit outside the inverted screens) */
+html:not(.dark) .lp .ft-float { color: #fff; }
+/* Window shells start near-black so the inversion lands on white (inner panels stay softly tinted). */
+html:not(.dark) .lp .ft-window { background: #05060f; border-color: #14162c; }
+html:not(.dark) .lp .ft-duel { background: linear-gradient(155deg, #070818, #05060f); border-color: #14162c; }

@@ -1,3 +1,4 @@
+import { getLabMission } from "@/lib/lab/missions";
 import { achievements } from "@/lib/curriculum/achievements";
 import { challenges } from "@/lib/curriculum/challenges";
 import { guidePaths } from "@/lib/curriculum/guide-paths";
@@ -118,7 +119,7 @@ export function getLesson(id: string) {
 }
 
 export function getChallenge(id: string) {
-  return challenges.find((challenge) => challenge.id === id);
+  return challenges.find((challenge) => challenge.id === id) ?? getLabMission(id);
 }
 
 export function getWorld(id: string) {

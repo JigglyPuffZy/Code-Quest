@@ -31,7 +31,7 @@ export const achievements: Achievement[] = [
   },
   {
     id: "duel-won",
-    title: "Duel Won",
+    title: "First Challenge Cleared",
     description: "Clear a challenge.",
     xp: 20,
     icon: "sword",

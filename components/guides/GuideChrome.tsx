@@ -1,7 +1,6 @@
 "use client";
 
 import { TechLogo } from "@/components/icons/TechLogo";
-import { GuideTopicCarousel } from "@/components/guides/GuideTopicCarousel";
 import { topicsInCategory } from "@/lib/guides/index";
 import { GUIDE_CATEGORY_LABELS } from "@/lib/guides/topics";
 import { getTopicStyle, TOPIC_STYLES } from "@/lib/guides/styles";
@@ -10,38 +9,18 @@ import { cn } from "@/lib/cn";
 import { ArrowLeft, Clock, List } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 const CATEGORY_FILTERS: Array<GuideCategory | "all"> = ["all", "languages", "web", "databases"];
 
 export function GuideCourseTabs({ activeId }: { activeId?: GuideTopicId }) {
   const [category, setCategory] = useState<GuideCategory | "all">("all");
+  const router = useRouter();
   const visible = topicsInCategory(category);
-
-  return (
-    <div className="guide-tabs -mx-5 mb-8 border-b border-line bg-surface px-5 sm:-mx-8 sm:px-8">
-      <div className="mx-auto max-w-5xl space-y-2 py-3">
-        <div className="flex gap-1 overflow-x-auto">
-          {CATEGORY_FILTERS.map((item) => (
-            <button
-              key={item}
-              type="button"
-              onClick={() => setCategory(item)}
-              className={cn(
-                "shrink-0 rounded-lg px-3 py-1.5 text-[11px] font-semibold transition",
-                category === item
-                  ? "bg-primary text-primary-foreground"
-                  : "text-muted hover:bg-surface-2 hover:text-ink",
-              )}
-            >
-              {item === "all" ? "All topics" : GUIDE_CATEGORY_LABELS[item]}
-            </button>
-          ))}
-        </div>
-
-        <GuideTopicCarousel topics={visible} activeId={activeId} />
-      </div>
-    </div>
-  );
+  return <nav className="workspace-course-switcher" aria-label="Course navigation">
+    <div className="flex flex-wrap items-center gap-1">{CATEGORY_FILTERS.map((item) => <button type="button" key={item} aria-pressed={category === item} onClick={() => setCategory(item)} className={`workspace-filter ${category === item ? "is-active" : ""}`}>{item === "all" ? "All topics" : GUIDE_CATEGORY_LABELS[item]}</button>)}</div>
+    <label className="flex items-center gap-3 text-xs font-semibold text-muted">Course<select aria-label="Choose a guide course" value={visible.some((topic) => topic.id === activeId) ? activeId : ""} className="workspace-input !w-auto min-w-36" onChange={(event) => { if (event.target.value) router.push(`/guides/${event.target.value}`); }}><option value="">Choose a course</option>{visible.map((topic) => <option key={topic.id} value={topic.id}>{topic.name}</option>)}</select></label>
+  </nav>;
 }
 
 export function GuideLessonHero({

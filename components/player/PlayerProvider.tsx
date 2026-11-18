@@ -372,9 +372,9 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (!supabaseEnabled || !email) return;
-    void heartbeatPresence();
+    if (document.visibilityState === "visible") void heartbeatPresence();
     const timer = window.setInterval(() => {
-      void heartbeatPresence();
+      if (document.visibilityState === "visible") void heartbeatPresence();
     }, 45_000);
     const onVisible = () => {
       if (document.visibilityState === "visible") void heartbeatPresence();

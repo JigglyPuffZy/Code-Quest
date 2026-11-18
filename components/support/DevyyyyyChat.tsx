@@ -80,7 +80,7 @@ function DevyyyyyAvatar({
   );
 }
 
-export function DevyyyyyChat({ variant = "app" }: { variant?: "app" | "landing" }) {
+export function DevyyyyyChat({ variant = "app", hideLauncher = false }: { variant?: "app" | "landing"; hideLauncher?: boolean }) {
   const pathname = usePathname() || "/";
   const page = parseAppPath(pathname);
   const { open, openChat, closeChat, consumePending } = useDevyyyyy();
@@ -178,6 +178,7 @@ export function DevyyyyyChat({ variant = "app" }: { variant?: "app" | "landing" 
 
   return (
     <div
+      data-workspace-chat={hideLauncher ? "true" : undefined}
       className={cn(
         "pointer-events-none fixed z-[60] flex flex-col items-end gap-3",
         dockedHigh
@@ -287,7 +288,7 @@ export function DevyyyyyChat({ variant = "app" }: { variant?: "app" | "landing" 
         </section>
       ) : null}
 
-      <button
+      {!hideLauncher ? <button
         type="button"
         onClick={() => (open ? closeChat() : openChat())}
         className={cn(
@@ -299,7 +300,7 @@ export function DevyyyyyChat({ variant = "app" }: { variant?: "app" | "landing" 
       >
         <DevyyyyyAvatar className="h-9 w-9" smiling={open} alt="devyyyyy" />
         <span className="pr-0.5">devyyyyy</span>
-      </button>
+      </button> : null}
     </div>
   );
 }

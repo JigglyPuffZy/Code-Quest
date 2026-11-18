@@ -6,6 +6,7 @@ import { createClient } from "@/lib/supabase/client";
 import { GraduationCap, Users } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { PageHero } from "@/components/ui/PageHero";
 
 type ClassroomRow = {
   id: string;
@@ -139,13 +140,7 @@ export default function ClassPage() {
 
   return (
     <div className="mx-auto max-w-2xl">
-      <header className="mb-8">
-        <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted">For teachers &amp; students</p>
-        <h1 className="mt-1 text-2xl font-bold tracking-tight">Class mode</h1>
-        <p className="mt-2 text-sm text-muted">
-          Teachers create a class and share a code. Students join and show up on the roster.
-        </p>
-      </header>
+      <PageHero icon={Users} eyebrow="For teachers & students" title="Class mode" description="Teachers create a class and share a code. Students join and show up on the roster." />
 
       {message ? (
         <p className="mb-4 rounded-xl border border-primary-100 bg-primary-50 px-4 py-3 text-sm text-primary-800">

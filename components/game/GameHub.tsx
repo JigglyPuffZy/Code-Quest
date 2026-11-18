@@ -45,7 +45,6 @@ export function GameHub({ track }: { track: GameTrackId }) {
   const summary = gameProgressSummary(player, track, player.skillDifficulty);
   const unlocked = maxUnlockedGameLevel(player, track, player.skillDifficulty);
   const current = buildGameLevelForPlayer(player, track, Math.min(unlocked, MAX_GAME_LEVEL));
-  const mode = GAME_MODES[current.mode];
 
   const pages = Math.ceil(MAX_GAME_LEVEL / PAGE_SIZE);
   const start = page * PAGE_SIZE + 1;

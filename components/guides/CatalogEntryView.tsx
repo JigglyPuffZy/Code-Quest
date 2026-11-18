@@ -1,7 +1,6 @@
 "use client";
 
 import { TechLogoBadge } from "@/components/icons/TechLogo";
-import { GuideCourseTabs } from "@/components/guides/GuideChrome";
 import { ErrorState } from "@/components/ui/States";
 import { getCatalogEntry, CATALOG_PART_LABELS } from "@/lib/guides/catalog";
 import { ArrowLeft, ArrowRight, BookOpen } from "lucide-react";
@@ -23,9 +22,7 @@ export function CatalogEntryView({ slug }: { slug: string }) {
 
   return (
     <div>
-      <GuideCourseTabs />
-
-      <article className="mt-8 max-w-3xl">
+      <article className="max-w-3xl">
         <Link
           href="/guides/catalog"
           className="mb-6 inline-flex items-center gap-1 text-sm font-medium text-muted transition hover:text-ink"

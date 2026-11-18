@@ -8,6 +8,8 @@ export type PracticeMistake = {
   language: string;
   failedAt: string;
   hint?: string;
+  dueAt?: string;
+  reviewCount?: number;
 };
 
 export type LessonNote = {

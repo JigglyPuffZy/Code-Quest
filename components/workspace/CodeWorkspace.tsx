@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/Button";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 import { CodeEditor } from "@/components/workspace/CodeEditor";
+import { testFeedback } from "@/lib/execute/feedback";
 import { cn } from "@/lib/cn";
 import type { GradeProgress } from "@/lib/execute/grade-progress";
 import { gradeCode, runVisibleTests } from "@/lib/execute/client";
@@ -15,11 +16,32 @@ import { useCallback, useEffect, useRef, useState } from "react";
 function draftKey(kind: string, exerciseId: string, difficulty?: string) {
   const base = storageKey("draft", kind, exerciseId);
   const key = difficulty ? `${base}.${difficulty}` : base;
-  migrateSessionKey([`draft.${kind}.${exerciseId}${difficulty ? `.${difficulty}` : ""}`], key);
+  try {
+    migrateSessionKey([`draft.${kind}.${exerciseId}${difficulty ? `.${difficulty}` : ""}`], key);
+  } catch {
+    // Storage can be disabled by the browser or full.
+  }
   return key;
 }
 
-export function CodeWorkspace({
+export function CodeWorkspace(props: Parameters<typeof WorkspaceSession>[0]) {
+  // Each exercise owns its draft, request lifecycle, and result state.
+  const session = JSON.stringify([
+    props.kind, props.exerciseId, props.skillDifficulty, props.language,
+    props.gameStack, props.starterCode, props.draftNamespace,
+  ]);
+  return <WorkspaceSession key={session} {...props} />;
+}
+
+function saveDraft(key: string, code: string) {
+  try {
+    window.sessionStorage.setItem(key, code);
+  } catch {
+    // Code execution remains available when browser storage is unavailable.
+  }
+}
+
+function WorkspaceSession({
   language,
   starterCode,
   kind,
@@ -33,6 +55,9 @@ export function CodeWorkspace({
   tests,
   onRunStateChange,
   onGradeResult,
+  onSourceChange,
+  passedMessage,
+  draftNamespace,
 }: {
   language: LanguageId;
   starterCode: string;
@@ -46,12 +71,19 @@ export function CodeWorkspace({
   expectedTests?: number;
   tests?: TestSpec;
   onRunStateChange?: (state: { running: boolean; results: GradeTest[] | null }) => void;
-  onGradeResult?: (result: GradeResponse, mode: "run" | "grade") => void;
+  onGradeResult?: (result: GradeResponse, mode: "run" | "grade", source: string) => void;
+  onSourceChange?: () => void;
+  passedMessage?: string;
+  draftNamespace?: string;
 }) {
-  const difficultyKey = skillDifficulty ?? "default";
+  const difficultyKey = `${skillDifficulty ?? "default"}${gameStack ? `.${language}.${JSON.stringify(gameStack)}` : ""}${draftNamespace ? `.${draftNamespace}` : ""}`;
   const readDraft = useCallback(() => {
     if (typeof window === "undefined") return starterCode;
-    return window.sessionStorage.getItem(draftKey(kind, exerciseId, difficultyKey)) ?? starterCode;
+    try {
+      return window.sessionStorage.getItem(draftKey(kind, exerciseId, difficultyKey)) ?? starterCode;
+    } catch {
+      return starterCode;
+    }
   }, [kind, exerciseId, difficultyKey, starterCode]);
   const [code, setCode] = useState(() => readDraft());
   const codeRef = useRef(code);
@@ -68,40 +100,23 @@ export function CodeWorkspace({
   const syncCode = useCallback((next: string) => {
     codeRef.current = next;
     setCode(next);
-  }, []);
-
-  useEffect(() => {
-    const next = readDraft();
-    codeRef.current = next;
-    setCode(next);
-    setGrade(null);
-    setError("");
-    setRewardNote("");
-    setLastAction(null);
-  }, [readDraft]);
-
-  useEffect(() => {
-    codeRef.current = code;
-  }, [code]);
-
-  useEffect(() => {
-    const timer = window.setTimeout(() => {
-      window.sessionStorage.setItem(draftKey(kind, exerciseId, difficultyKey), codeRef.current);
-    }, 400);
-    return () => window.clearTimeout(timer);
-  }, [code, kind, exerciseId, difficultyKey]);
+    onSourceChange?.();
+    saveDraft(draftKey(kind, exerciseId, difficultyKey), next);
+  }, [kind, exerciseId, difficultyKey, onSourceChange]);
 
   useEffect(() => {
     return () => {
       abortRef.current?.abort();
+      abortRef.current = null;
     };
   }, []);
 
   async function execute(mode: "run" | "grade", sourceOverride?: string) {
+    // Keyboard shortcuts must obey the same busy state as the buttons.
+    if (abortRef.current) return;
     const sourceCode = sourceOverride ?? codeRef.current;
     codeRef.current = sourceCode;
-    window.sessionStorage.setItem(draftKey(kind, exerciseId, difficultyKey), sourceCode);
-    abortRef.current?.abort();
+    saveDraft(draftKey(kind, exerciseId, difficultyKey), sourceCode);
     const controller = new AbortController();
     abortRef.current = controller;
 
@@ -110,7 +125,7 @@ export function CodeWorkspace({
     setError("");
     setRewardNote("");
     setGradeProgress(null);
-    if (mode === "run") setGrade(null);
+    setGrade(null);
     try {
       if (mode === "run") {
         onRunStateChange?.({ running: true, results: null });
@@ -122,9 +137,15 @@ export function CodeWorkspace({
           gameStack,
           controller.signal,
         );
+        if (controller.signal.aborted || abortRef.current !== controller) return;
+        if (sourceCode !== codeRef.current) {
+          setError("Your code changed during execution. Run it again to check the current version.");
+          onRunStateChange?.({ running: false, results: null });
+          return;
+        }
         setGrade(result);
         onRunStateChange?.({ running: false, results: result.tests });
-        onGradeResult?.(result, "run");
+        onGradeResult?.(result, "run", sourceCode);
       } else {
         setGradeProgress({ percent: 5, label: "Preparing your submission…", phase: "prepare" });
         const result = await gradeCode(
@@ -134,22 +155,26 @@ export function CodeWorkspace({
           skillDifficulty,
           gameStack,
           controller.signal,
-          (progress) => setGradeProgress(progress),
+          (progress) => {
+            if (!controller.signal.aborted && abortRef.current === controller) setGradeProgress(progress);
+          },
         );
+        if (controller.signal.aborted || abortRef.current !== controller) return;
+        if (sourceCode !== codeRef.current) {
+          setError("Your code changed during execution. Run it again to check the current version.");
+          onRunStateChange?.({ running: false, results: null });
+          return;
+        }
         setGrade(result);
         onRunStateChange?.({ running: false, results: null });
-        onGradeResult?.(result, "grade");
+        onGradeResult?.(result, "grade", sourceCode);
         if (result.passed) {
-          window.sessionStorage.removeItem(draftKey(kind, exerciseId, difficultyKey));
-          requestAnimationFrame(() => {
-            requestAnimationFrame(() => {
-              const reward = onCleared();
-              setRewardNote(reward.awarded ? `Level cleared · +${reward.xp} XP` : "Passed · XP already awarded");
-            });
-          });
+          const reward = onCleared();
+          setRewardNote(passedMessage ?? (reward.awarded ? `Level cleared · +${reward.xp} XP` : "Passed · XP already awarded"));
         }
       }
     } catch (runError) {
+      if (abortRef.current !== controller) return;
       if (runError instanceof Error && runError.name === "AbortError") {
         onRunStateChange?.({ running: false, results: null });
         return;
@@ -166,7 +191,7 @@ export function CodeWorkspace({
   }
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-3" data-tour="code-workspace">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         {!isGame ? (
           <p className="tag font-mono">{language}</p>
@@ -197,7 +222,7 @@ export function CodeWorkspace({
             <Play size={15} className={isGame ? "text-cyan-300" : undefined} />
             {running === "run" ? "Running…" : tests ? "Run tests" : "Run"}
           </Button>
-          {running === "grade" ? (
+          {running !== null ? (
             <Button
               variant="ghost"
               className="w-full px-3 py-2.5 text-sm sm:w-auto sm:px-3.5"
@@ -226,6 +251,7 @@ export function CodeWorkspace({
         onChange={syncCode}
         onSubmit={(latest) => void execute("grade", latest)}
       />
+      <p className={cn("text-[11px] leading-5", isGame ? "text-slate-400" : "text-muted")}>Tab indents · Escape, then Tab moves out · Ctrl/⌘ + Enter submits</p>
       <div
         className={cn(
           "rounded-xl border px-3 py-2.5 text-xs leading-relaxed sm:text-[11px]",
@@ -324,7 +350,7 @@ export function CodeWorkspace({
               </p>
               <p className={cn("mt-1.5 text-[11px] leading-relaxed", isGame ? "text-slate-400" : "text-muted")}>
                 {runSummary.allPassed
-                  ? "Submit when you are ready for hidden checks."
+                  ? "Submit when you are ready for the full grade."
                   : "See the Examples panel for input, expected output, and what you returned."}
               </p>
             </div>
@@ -345,10 +371,11 @@ export function CodeWorkspace({
                     {test.name}
                   </p>
                   {!test.passed || test.kind === "performance" ? (
-                    <p className="mt-1 text-[11px] text-muted">
-                      {test.actual}
-                      {!test.passed ? ` · expected ${test.expected}` : null}
-                    </p>
+                    <div className="mt-2 space-y-2 text-[11px] text-muted">
+                      <p className="font-semibold">Your output</p>
+                      <pre className="max-h-48 overflow-auto whitespace-pre-wrap break-words">{test.actual || "(no output)"}</pre>
+                      {!test.passed ? <><p className="font-semibold">Expected output</p><pre className="max-h-48 overflow-auto whitespace-pre-wrap break-words">{test.expected}</pre><p className="font-sans">{testFeedback(test.actual, test.expected, test.kind === "performance")}</p></> : null}
+                    </div>
                   ) : null}
                 </li>
               ))}

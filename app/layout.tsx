@@ -5,18 +5,7 @@ import { DevyyyyyProvider } from "@/components/support/DevyyyyyProvider";
 import { APP_NAME } from "@/lib/branding";
 import { siteMetadata, siteUrl } from "@/lib/site";
 import type { Metadata } from "next";
-import { JetBrains_Mono, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
-
-const jakarta = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-  variable: "--font-jakarta",
-});
-
-const code = JetBrains_Mono({
-  subsets: ["latin"],
-  variable: "--font-code",
-});
 
 const baseUrl = siteUrl();
 
@@ -49,11 +38,12 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${jakarta.variable} ${code.variable} h-full antialiased`} suppressHydrationWarning>
+    <html lang="en" className="h-full antialiased" suppressHydrationWarning>
       <head>
         <ThemeScript />
       </head>
-      <body className="min-h-full bg-canvas text-ink">
+      {/* Extensions and automation tools inject attributes (e.g. a custom cursor) on <body> before hydration. */}
+      <body className="min-h-full bg-canvas text-ink" suppressHydrationWarning>
         <ThemeProvider>
           <PlayerProvider>
             <DevyyyyyProvider>{children}</DevyyyyyProvider>

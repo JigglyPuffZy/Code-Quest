@@ -1,6 +1,7 @@
-import { cn } from "@/lib/cn";
+import { PageHero } from "@/components/ui/PageHero";
 import type { ReactNode } from "react";
 
+/** Backwards-compatible wrapper: every page that used PageHeader now gets the shared hero. */
 export function PageHeader({
   eyebrow,
   title,
@@ -14,16 +15,5 @@ export function PageHeader({
   action?: ReactNode;
   className?: string;
 }) {
-  return (
-    <header className={cn("mb-8", className)}>
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <p className="tag">{eyebrow}</p>
-          <h1 className="mega-title mt-2">{title}</h1>
-          {description ? <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted">{description}</p> : null}
-        </div>
-        {action}
-      </div>
-    </header>
-  );
+  return <PageHero eyebrow={eyebrow} title={title} description={description} action={action} className={className} />;
 }

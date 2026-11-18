@@ -3,10 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "dev": "next dev --webpack",
+    "build": "next build --webpack",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test": "node scripts/test-learning.mjs && node scripts/test-grade-stream.mjs && node scripts/test-lab.mjs && node scripts/test-workspace.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.8.0",

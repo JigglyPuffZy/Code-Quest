@@ -2,6 +2,7 @@ import { guidesForTopic } from "@/lib/guides/index";
 import type { GuideTopicId } from "@/lib/guides/types";
 import { guidePaths } from "@/lib/curriculum/guide-paths";
 import { logGuidePracticePass } from "@/lib/learning/practice-log";
+import { recordReviewPass } from "@/lib/learning/mistakes";
 import type { GuideProgressSync } from "@/lib/learning/types";
 
 import { migrateStorageKey, storageKey } from "@/lib/storage-keys";
@@ -22,17 +23,22 @@ function lessonQuestionKey(topicId: string, slug: string) {
   return `${topicId}::${slug}`;
 }
 
+function normalizeMap<T extends string | number>(value: unknown, valid: (item: unknown) => item is T): Record<string, T[]> {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return {};
+  return Object.fromEntries(Object.entries(value).filter(([, entries]) => Array.isArray(entries)).map(([key, entries]) => [key, [...new Set((entries as unknown[]).filter(valid))]]));
+}
+
 function readStore(): GuideProgressStore {
   if (typeof window === "undefined") return emptyStore();
-  migrateStorageKey([], STORAGE_KEY, ["codequest-guide-progress", "DevLadder-guide-progress"]);
   try {
+    migrateStorageKey([], STORAGE_KEY, ["codequest-guide-progress", "DevLadder-guide-progress"]);
     const raw = window.localStorage.getItem(STORAGE_KEY);
     if (!raw) return emptyStore();
     const parsed = JSON.parse(raw) as GuideProgressStore;
     return {
-      read: parsed?.read ?? {},
-      practiced: parsed?.practiced ?? {},
-      passedByLesson: parsed?.passedByLesson ?? {},
+      read: normalizeMap(parsed?.read, (item): item is string => typeof item === "string"),
+      practiced: normalizeMap(parsed?.practiced, (item): item is string => typeof item === "string"),
+      passedByLesson: normalizeMap(parsed?.passedByLesson, (item): item is number => typeof item === "number" && Number.isInteger(item) && item >= 0),
     };
   } catch {
     return emptyStore();
@@ -117,6 +123,7 @@ export function markGuidePracticeQuestionPassed(topicId: string, slug: string, i
   store.passedByLesson[key] = [...passed].sort((a, b) => a - b);
   writeStore(store);
   logGuidePracticePass(topicId, slug, index);
+  recordReviewPass(topicId, slug, index);
   return markGuidePracticeComplete(topicId, slug);
 }
 

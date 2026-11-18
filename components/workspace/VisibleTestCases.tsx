@@ -1,6 +1,7 @@
 "use client";
 
 import { ProgressBar } from "@/components/ui/ProgressBar";
+import { testFeedback } from "@/lib/execute/feedback";
 import { cn } from "@/lib/cn";
 import { hiddenTestCount } from "@/lib/exercise/leetcode-examples";
 import {
@@ -167,7 +168,7 @@ function ExampleCard({
           </pre>
         </div>
 
-        {failed && actual ? (
+        {failed ? (
           <div
             className={cn(
               "rounded-lg border px-2.5 py-2",
@@ -176,8 +177,9 @@ function ExampleCard({
           >
             <p className="text-[10px] font-bold uppercase tracking-wider text-danger">Your output</p>
             <pre className="mt-1 whitespace-pre-wrap break-words font-mono text-[11px] leading-5 text-danger">
-              {actual}
+              {actual || "(no output)"}
             </pre>
+            <p className="mt-2 font-sans text-xs text-muted">{testFeedback(actual ?? "", expected)}</p>
           </div>
         ) : null}
       </div>
@@ -190,11 +192,13 @@ export function VisibleTestCases({
   results,
   running = false,
   variant = "light",
+  completionNote,
 }: {
   exercise: Exercise;
   results?: GradeTest[] | null;
   running?: boolean;
   variant?: "light" | "dark";
+  completionNote?: string;
 }) {
   const dark = variant === "dark";
   const { tests, performance } = exercise;
@@ -335,7 +339,7 @@ export function VisibleTestCases({
           ) : null}
           {!running && hasRun && !summary.allPassed ? (
             <p className={cn("mt-2 text-xs leading-relaxed", dark ? "text-slate-400" : "text-muted")}>
-              Fix the failing examples, then run again. Submit only when you are ready for hidden checks.
+              Fix the failing examples, then run again. Submit when you are ready for the full grade.
             </p>
           ) : null}
           {!running && hasRun && summary.allPassed ? (
@@ -392,7 +396,7 @@ export function VisibleTestCases({
           </p>
         ) : (
           <p className={cn("text-[11px] leading-relaxed", dark ? "text-slate-500" : "text-muted")}>
-            Run tests is a safe preview — your XP and progress only update on Submit.
+            {completionNote ?? "Run tests is a safe preview — your XP and progress only update on Submit."}
           </p>
         )}
       </div>

@@ -53,6 +53,10 @@ export async function runInSandbox(
     if (detail.includes("Unknown compiler")) {
       throw new Error("This language runtime is temporarily unavailable. Try again shortly.");
     }
+    // Server-side outages at the sandbox provider: show a friendly message instead of its internals.
+    if (response.status >= 500) {
+      throw new Error("The code sandbox is temporarily unavailable. Please try again in a few minutes.");
+    }
     throw new Error(
       detail ? `The code sandbox failed: ${detail}` : `The code sandbox returned ${response.status}.`,
     );

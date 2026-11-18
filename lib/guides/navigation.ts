@@ -1,6 +1,6 @@
 import { guidePaths } from "@/lib/curriculum/guide-paths";
 import { guidesForTopic } from "@/lib/guides/index";
-import { isGuideRead } from "@/lib/guides/progress";
+import { exportGuideProgress } from "@/lib/guides/progress";
 import type { GuideTopicId } from "@/lib/guides/types";
 
 const CORE_TOPICS: GuideTopicId[] = ["python", "javascript", "typescript", "java"];
@@ -34,9 +34,11 @@ export function continueGuide(): ContinueGuide | null {
       : null;
   }
 
+  const read = exportGuideProgress().read;
   for (const topicId of topicOrder()) {
+    const completed = new Set(read[topicId] ?? []);
     for (const lesson of guidesForTopic(topicId)) {
-      if (!isGuideRead(topicId, lesson.slug)) {
+      if (!completed.has(lesson.slug)) {
         return {
           topicId,
           slug: lesson.slug,

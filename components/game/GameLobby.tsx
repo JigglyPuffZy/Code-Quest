@@ -10,6 +10,7 @@ import { clearedLevelsForTrack, maxUnlockedGameLevel } from "@/lib/game/progress
 import { MAX_GAME_LEVEL } from "@/lib/game/types";
 import { ArrowRight, Gamepad2, Layers } from "lucide-react";
 import Link from "next/link";
+import { PageHero } from "@/components/ui/PageHero";
 
 const TRACK_ORDER: GameTrackId[] = ["core", "frontend", "backend"];
 
@@ -23,17 +24,7 @@ export function GameLobby() {
 
   return (
     <div className="space-y-8">
-      <section className="relative overflow-hidden rounded-2xl border border-slate-800 bg-gradient-to-br from-slate-950 via-slate-900 to-violet-950 p-6 text-white sm:p-8">
-        <div className="pointer-events-none absolute -right-12 -top-12 h-44 w-44 rounded-full bg-primary/25 blur-3xl" aria-hidden />
-        <p className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-white/70">
-          <Gamepad2 size={12} />
-          Game center
-        </p>
-        <h1 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">Pick your campaign</h1>
-        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-white/75">
-          Step 1: choose a track · Step 2: set difficulty & stack · Step 3: open the level map and play.
-        </p>
-      </section>
+      <PageHero icon={Gamepad2} eyebrow="Game center" title="Pick your" accent="campaign." description="Step 1: choose a track. Step 2: set difficulty and stack. Step 3: open the level map and play." />
 
       <section className="space-y-4">
         <div className="flex items-center gap-2 px-1">

@@ -3,6 +3,8 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const nextConfig: NextConfig = {
+  // Isolate local production previews from an already-running development server.
+  distDir: process.env.DEVLADDER_BUILD_DIR || ".next",
   turbopack: {
     root: path.dirname(fileURLToPath(import.meta.url)),
   },

@@ -4,6 +4,9 @@
 
 /* Runtime tokens — Tailwind utilities read these via @theme below (not inline). */
 :root {
+  /* System stacks keep builds independent of external font downloads. */
+  --font-jakarta: "Segoe UI", Arial, sans-serif;
+  --font-code: Consolas, "Liberation Mono", monospace;
   --dl-canvas: #ffffff;
   --dl-surface: #ffffff;
   --dl-surface-2: #f8fafc;

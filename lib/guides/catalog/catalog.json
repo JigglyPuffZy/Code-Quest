@@ -1433,8 +1433,8 @@
       ]
     },
     {
-      "id": "languages-a",
-      "part": "languages",
+      "id": "databases-a",
+      "part": "databases",
       "letter": "A",
       "title": "Relational databases (SQL)",
       "entries": [
@@ -1591,8 +1591,8 @@
       ]
     },
     {
-      "id": "languages-b",
-      "part": "languages",
+      "id": "databases-b",
+      "part": "databases",
       "letter": "B",
       "title": "Document databases",
       "entries": [
@@ -1694,8 +1694,8 @@
       ]
     },
     {
-      "id": "languages-c",
-      "part": "languages",
+      "id": "databases-c",
+      "part": "databases",
       "letter": "C",
       "title": "Key-value databases and stores",
       "entries": [
@@ -1812,8 +1812,8 @@
       ]
     },
     {
-      "id": "languages-d",
-      "part": "languages",
+      "id": "databases-d",
+      "part": "databases",
       "letter": "D",
       "title": "Wide-column and column-family databases",
       "entries": [
@@ -1875,8 +1875,8 @@
       ]
     },
     {
-      "id": "languages-e",
-      "part": "languages",
+      "id": "databases-e",
+      "part": "databases",
       "letter": "E",
       "title": "Graph databases",
       "entries": [
@@ -1993,8 +1993,8 @@
       ]
     },
     {
-      "id": "languages-f",
-      "part": "languages",
+      "id": "databases-f",
+      "part": "databases",
       "letter": "F",
       "title": "Time-series databases",
       "entries": [
@@ -2091,8 +2091,8 @@
       ]
     },
     {
-      "id": "languages-g",
-      "part": "languages",
+      "id": "databases-g",
+      "part": "databases",
       "letter": "G",
       "title": "Search and full-text databases",
       "entries": [
@@ -2189,8 +2189,8 @@
       ]
     },
     {
-      "id": "languages-h",
-      "part": "languages",
+      "id": "databases-h",
+      "part": "databases",
       "letter": "H",
       "title": "Vector databases and vector search systems",
       "entries": [
@@ -2322,8 +2322,8 @@
       ]
     },
     {
-      "id": "languages-i",
-      "part": "languages",
+      "id": "databases-i",
+      "part": "databases",
       "letter": "I",
       "title": "In-memory databases and data platforms",
       "entries": [
@@ -2410,8 +2410,8 @@
       ]
     },
     {
-      "id": "languages-j",
-      "part": "languages",
+      "id": "databases-j",
+      "part": "databases",
       "letter": "J",
       "title": "Object-oriented and object databases",
       "entries": [
@@ -2478,8 +2478,8 @@
       ]
     },
     {
-      "id": "languages-k",
-      "part": "languages",
+      "id": "databases-k",
+      "part": "databases",
       "letter": "K",
       "title": "Hierarchical and network databases",
       "entries": [
@@ -2541,8 +2541,8 @@
       ]
     },
     {
-      "id": "languages-l",
-      "part": "languages",
+      "id": "databases-l",
+      "part": "databases",
       "letter": "L",
       "title": "NewSQL and distributed SQL databases",
       "entries": [
@@ -2624,8 +2624,8 @@
       ]
     },
     {
-      "id": "languages-m",
-      "part": "languages",
+      "id": "databases-m",
+      "part": "databases",
       "letter": "M",
       "title": "Data warehouses and analytical databases",
       "entries": [
@@ -2742,8 +2742,8 @@
       ]
     },
     {
-      "id": "languages-n",
-      "part": "languages",
+      "id": "databases-n",
+      "part": "databases",
       "letter": "N",
       "title": "Embedded and local databases",
       "entries": [
@@ -2855,8 +2855,8 @@
       ]
     },
     {
-      "id": "languages-o",
-      "part": "languages",
+      "id": "databases-o",
+      "part": "databases",
       "letter": "O",
       "title": "XML and RDF databases",
       "entries": [
@@ -2938,8 +2938,8 @@
       ]
     },
     {
-      "id": "languages-p",
-      "part": "languages",
+      "id": "databases-p",
+      "part": "databases",
       "letter": "P",
       "title": "Cloud-hosted database platforms and backend services",
       "entries": [

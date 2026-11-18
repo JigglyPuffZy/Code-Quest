@@ -1,5 +1,6 @@
 import {
   BookOpen,
+  FlaskConical,
   Gamepad2,
   GraduationCap,
   LayoutDashboard,
@@ -28,8 +29,11 @@ export const NAV_ITEMS: NavItem[] = [
   { href: "/leaderboard", label: "Leaderboard", icon: Trophy },
   { href: "/achievements", label: "Achievements", icon: Medal },
   { href: "/review", label: "Review", icon: RotateCcw },
+  { href: "/learning", label: "Learning planner", icon: BookOpen },
+  { href: "/lab", label: "Developer lab", icon: FlaskConical, mobile: true },
   { href: "/class", label: "Class", icon: GraduationCap },
   { href: "/profile", label: "Profile", icon: UserRound, mobile: true },
+  { href: "/help", label: "User manual", icon: BookOpen },
 ];
 
 export function isActive(pathname: string, href: string) {

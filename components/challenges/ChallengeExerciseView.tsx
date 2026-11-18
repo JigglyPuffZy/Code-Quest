@@ -54,7 +54,7 @@ export function ChallengeExerciseView({
   onChangeDifficulty?: () => void;
   footer?: ReactNode;
 }) {
-  const { player, completeChallenge } = usePlayer();
+  const { completeChallenge } = usePlayer();
   const [hints, setHints] = useState(0);
   const [step, setStep] = useState(1);
   const [runResults, setRunResults] = useState<GradeTest[] | null>(null);

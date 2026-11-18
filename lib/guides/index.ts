@@ -19,6 +19,14 @@ export const allGuides: GuideLesson[] = [
 export { guideTopics, topicsByCategory, GUIDE_CATEGORY_LABELS };
 
 const TOPIC_IDS = new Set(guideTopics.map((t) => t.id));
+const GUIDES_BY_TOPIC = new Map<GuideTopicId, GuideLesson[]>();
+const GUIDE_BY_KEY = new Map<string, GuideLesson>();
+for (const guide of allGuides) {
+  const list = GUIDES_BY_TOPIC.get(guide.topicId) ?? [];
+  list.push(guide); GUIDES_BY_TOPIC.set(guide.topicId, list);
+  const key = `${guide.topicId}/${guide.slug}`;
+  if (!GUIDE_BY_KEY.has(key)) GUIDE_BY_KEY.set(key, guide);
+}
 
 export function isGuideTopic(value: string): value is GuideTopicId {
   return TOPIC_IDS.has(value as GuideTopicId);
@@ -29,13 +37,12 @@ export function getGuideTopic(id: GuideTopicId) {
 }
 
 export function guidesForTopic(topicId: GuideTopicId) {
-  return allGuides
-    .filter((guide) => guide.topicId === topicId)
-    .sort((a, b) => a.order - b.order);
+  // Preserve the previous caller-owned-array contract without rescanning the catalog.
+  return [...(GUIDES_BY_TOPIC.get(topicId) ?? [])];
 }
 
 export function getGuide(topicId: GuideTopicId, slug: string) {
-  return allGuides.find((guide) => guide.topicId === topicId && guide.slug === slug);
+  return GUIDE_BY_KEY.get(`${topicId}/${slug}`);
 }
 
 export function totalGuideMinutes(topicId: GuideTopicId) {

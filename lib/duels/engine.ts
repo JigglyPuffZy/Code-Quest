@@ -29,10 +29,6 @@ function matchWinner(row: DuelRoomRow) {
   return null;
 }
 
-function nextRoundSeed(row: DuelRoomRow) {
-  return `${row.id}-round-${(row.current_round ?? 1) + 1}-${Date.now()}`;
-}
-
 export function buildRoundStartPatch(row: DuelRoomRow, now = new Date()) {
   const rules = normalizeDuelRules({
     targetWins: row.target_wins === 3 || row.target_wins === 5 ? row.target_wins : 1,

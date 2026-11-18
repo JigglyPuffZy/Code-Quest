@@ -1,7 +1,7 @@
 "use client";
 
 import type { LanguageId } from "@/lib/types";
-import { useMemo, useRef } from "react";
+import { useId, useMemo, useRef, useState } from "react";
 
 export function CodeEditor({
   code,
@@ -17,6 +17,8 @@ export function CodeEditor({
   onSubmit: (latestCode: string) => void;
   theme?: "default" | "game";
 }) {
+  const editorId = useId();
+  const [tabNavigation, setTabNavigation] = useState(false);
   const isGame = theme === "game";
   const lineCount = Math.max(code.split("\n").length, 12);
   const gutterLines = useMemo(
@@ -47,11 +49,13 @@ export function CodeEditor({
           <div key={line} className="px-1.5">{line}</div>
         ))}
       </div>
-      <label className="sr-only" htmlFor="code-editor">Code editor</label>
+      <label className="sr-only" htmlFor={editorId}>Code editor</label>
       <textarea
-        id="code-editor"
+        id={editorId}
         value={code}
         spellCheck={false}
+        aria-describedby={`${editorId}-keys`}
+        onFocus={() => setTabNavigation(false)}
         autoCapitalize="off"
         autoCorrect="off"
         onChange={(event) => onChange(event.target.value)}
@@ -59,7 +63,11 @@ export function CodeEditor({
           if (gutterRef.current) gutterRef.current.scrollTop = event.currentTarget.scrollTop;
         }}
         onKeyDown={(event) => {
-          if (event.key === "Tab") {
+          if (event.key === "Escape") {
+            setTabNavigation(true);
+            return;
+          }
+          if (event.key === "Tab" && !tabNavigation) {
             event.preventDefault();
             const target = event.currentTarget;
             const start = target.selectionStart;
@@ -82,6 +90,7 @@ export function CodeEditor({
             : "h-full resize-none bg-transparent px-2.5 py-2.5 font-mono text-base leading-6 text-ink outline-none sm:px-3 sm:py-3 sm:text-sm"
         }
       />
+      <p id={`${editorId}-keys`} className="sr-only">Tab inserts indentation. Press Escape, then Tab to leave the editor. Control or Command plus Enter submits your code.</p>
     </div>
   );
 }

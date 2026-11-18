@@ -2,8 +2,7 @@ import { getChallenge } from "@/lib/curriculum/index";
 import { syncExpiredRound } from "@/lib/duels/engine";
 import { pickDuelChallenge } from "@/lib/duels/questions";
 import { buildSnapshot, mapDuelRow, type DuelRoomRow, type ProfileSnippet } from "@/lib/duels/map";
-import { matchInviteExpiryMs, matchMaxDurationMs, normalizeDuelRules, type DuelRules } from "@/lib/duels/rules";
-import type { DuelSnapshot } from "@/lib/duels/types";
+import { matchInviteExpiryMs, matchMaxDurationMs, type DuelRules } from "@/lib/duels/rules";
 import { isOnline, ONLINE_WINDOW_MS } from "@/lib/duels/presence";
 import type { SupabaseClient } from "@supabase/supabase-js";
 

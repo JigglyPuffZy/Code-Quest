@@ -9,11 +9,13 @@ function noteKey(topicId: string, slug: string) {
 
 function readAll(): Record<string, LessonNote> {
   if (typeof window === "undefined") return {};
-  migrateStorageKey([], STORAGE_KEY, ["devladder-lesson-notes"]);
   try {
+    migrateStorageKey([], STORAGE_KEY, ["devladder-lesson-notes"]);
     const raw = window.localStorage.getItem(STORAGE_KEY);
     if (!raw) return {};
-    return JSON.parse(raw) as Record<string, LessonNote>;
+    const parsed = JSON.parse(raw) as Record<string, LessonNote>;
+    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) return {};
+    return Object.fromEntries(Object.entries(parsed).filter(([, note]) => note && typeof note.topicId === "string" && typeof note.slug === "string" && typeof note.text === "string"));
   } catch {
     return {};
   }

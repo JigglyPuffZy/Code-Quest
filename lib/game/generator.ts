@@ -1,6 +1,6 @@
 import { difficultyLabel, SKILL_DIFFICULTIES, type SkillDifficulty } from "@/lib/difficulty";
 import { buildTrackQuestion, type GameStackPrefs } from "@/lib/game/banks";
-import { gameLevelId, parseGameLevelId, type GameLevelKey } from "@/lib/game/ids";
+import { gameLevelId, parseGameLevelId } from "@/lib/game/ids";
 import { effectiveGameLevel, GAME_MODES, gameModeForLevel, tierForLevel, xpForGameLevel } from "@/lib/game/modes";
 import { stackLabel, trackLanguage, type GameTrackId } from "@/lib/game/tracks";
 import type { GameLevel } from "@/lib/game/types";
