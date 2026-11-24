@@ -8,10 +8,6 @@ export function isOnline(lastSeenAt: string | null | undefined, now = Date.now()
   return now - seen <= ONLINE_WINDOW_MS;
 }
 
-export function onlineLabel(lastSeenAt: string | null | undefined) {
-  return isOnline(lastSeenAt) ? "Online" : "Offline";
-}
-
 /** Demo rivals appear online on a rotating schedule (no Supabase). */
 export function isDemoRivalOnline(rivalId: string, now = Date.now()) {
   const hour = new Date(now).getHours();

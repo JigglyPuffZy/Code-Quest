@@ -53,7 +53,3 @@ export const guidePaths: GuidePathInfo[] = [
     category: "databases",
   },
 ];
-
-export function getGuidePath(topicId: GuideTopicId) {
-  return guidePaths.find((path) => path.topicId === topicId);
-}

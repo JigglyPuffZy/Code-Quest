@@ -64,8 +64,3 @@ export function removePracticeMistake(id: string) {
   writeAll(readAll().filter((item) => item.id !== id));
   window.dispatchEvent(new CustomEvent("devladder:mistakes-updated"));
 }
-
-export function clearPracticeMistakes() {
-  writeAll([]);
-  window.dispatchEvent(new CustomEvent("devladder:mistakes-updated"));
-}

@@ -8,6 +8,6 @@ export function coopRole(room: CoopRoom, userId: string): "driver" | "reviewer" 
   return room.driver_id === userId ? "driver" : "reviewer";
 }
 export function coopError(message: string) {
-  if (/schema cache|does not exist|could not find.*function|lab_coop_rooms/i.test(message)) return "Co-op database setup is missing. Run supabase/developer-lab.sql (or the updated all-in-one setup) in Supabase SQL Editor.";
+  if (/schema cache|does not exist|could not find.*function|lab_coop_rooms/i.test(message)) return "Co-op database setup is missing. Follow the database setup instructions in supabase/README.md.";
   return message;
 }

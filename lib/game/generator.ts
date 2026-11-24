@@ -87,14 +87,5 @@ export function buildGameLevelFromId(id: string, stack: GameStackPrefs) {
   return buildGameLevel(key.track, key.level, key.difficulty, stack);
 }
 
-export function getGameLevel(
-  track: GameTrackId,
-  level: number,
-  difficulty: SkillDifficulty,
-  stack: GameStackPrefs,
-) {
-  return buildGameLevel(track, level, difficulty, stack);
-}
-
 export { gameLevelId, parseGameLevelId, gameLevelKey } from "@/lib/game/ids";
 export type { GameLevelKey } from "@/lib/game/ids";

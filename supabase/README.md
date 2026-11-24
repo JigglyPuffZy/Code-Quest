@@ -1,3 +1,14 @@
+# Database setup
+
+The application connects to an existing Supabase database using the environment settings described in the project README. No repository query runs automatically.
+
+For a fresh project or schema recovery, copy the **entire SQL block below** into Supabase SQL Editor and run it as the project administrator. It includes profiles, auth helpers, classroom membership, duels, presence, learning-state storage and private Developer Lab co-op functions. This replaces the separate setup and upgrade scripts.
+
+Do not run setup as part of a code cleanup. Review changes before applying this query to an existing database. Browser-local lab, review and tutorial records do not become cloud-synced by running it.
+
+The query retains the existing policies for compatibility. In particular, the legacy public profiles policy also exposes profile email and lesson-note columns. This cleanup does not change those policies or apply any database changes.
+
+```sql
 -- DEV LADDER: ALL-IN-ONE SUPABASE DATABASE SETUP
 -- Current workspace UI and page tutorials need no additional database tables.
 -- Tutorial read status is browser-local; co-op setup is included below.
@@ -242,7 +253,6 @@ where p.id = u.id
 -- select id, username, email, xp, streak from public.profiles order by xp desc limit 20;
 
 -- Class mode: teacher creates a room, students join with a code.
--- Run in Supabase SQL Editor after schema.sql
 
 create table if not exists public.classrooms (
   id uuid primary key default gen_random_uuid(),
@@ -353,7 +363,6 @@ begin
   end if;
 end $$;
 
--- Dev Ladder — duel rules: series length, round timer, difficulty (run after duels-update.sql)
 
 alter table public.duel_rooms
   add column if not exists target_wins integer not null default 1 check (target_wins in (1, 3, 5)),
@@ -425,7 +434,6 @@ grant all on public.classrooms, public.classroom_members, public.duel_rooms,
 
 -- DEVELOPER LAB CO-OP SETUP
 -- Developer Lab: private two-person co-op rooms and atomic role handoffs.
--- Run once in Supabase SQL Editor (also included in all-in-one-setup.sql).
 
 create table if not exists public.lab_coop_rooms (
   id uuid primary key default gen_random_uuid(),
@@ -552,3 +560,4 @@ where table_schema = 'public'
   and table_name in ('profiles', 'classrooms', 'classroom_members',
     'duel_rooms', 'learning_state', 'lab_coop_rooms')
 order by table_name;
+```

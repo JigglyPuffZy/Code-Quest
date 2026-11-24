@@ -85,10 +85,6 @@ export function difficultyLabel(difficulty: SkillDifficulty) {
   return `${meta.label} · ${meta.rank}`;
 }
 
-export function difficultyShort(difficulty: SkillDifficulty) {
-  return SKILL_DIFFICULTIES[difficulty].label;
-}
-
 /** How many hints a player may reveal for a given skill difficulty. */
 export function hintsAllowedForDifficulty(difficulty: SkillDifficulty): number {
   if (difficulty === "beginner") return 2;
@@ -105,12 +101,6 @@ export function hintLimitLabel(difficulty: SkillDifficulty): string {
   if (allowed === 0) return "No hints on this difficulty";
   if (allowed === 1) return "1 hint available";
   return `${allowed} hints available`;
-}
-
-export function guideLimitLabel(difficulty: SkillDifficulty): string {
-  return guidesAllowedForDifficulty(difficulty)
-    ? "Guide links available"
-    : "No guide links on this difficulty";
 }
 
 export function helpLimitLabel(difficulty: SkillDifficulty): string {

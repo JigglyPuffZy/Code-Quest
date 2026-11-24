@@ -1,15 +1,11 @@
 import { pickDuelChallenge } from "@/lib/duels/questions";
-import { mapDuelRow, type DuelRoomRow } from "@/lib/duels/map";
+import { type DuelRoomRow } from "@/lib/duels/map";
 import { normalizeDuelRules } from "@/lib/duels/rules";
 import type { SupabaseClient } from "@supabase/supabase-js";
 
 export function roundExpired(row: DuelRoomRow) {
   if (!row.round_ends_at) return false;
   return Date.parse(row.round_ends_at) <= Date.now();
-}
-
-export function roundActive(row: DuelRoomRow) {
-  return row.status === "active" && !row.winner_id && !row.round_winner_id && !roundExpired(row);
 }
 
 function scorePatch(row: DuelRoomRow, roundWinnerId: string) {
@@ -131,8 +127,4 @@ export async function claimRoundWin(supabase: SupabaseClient, row: DuelRoomRow, 
 
   if (error) throw error;
   return (data as DuelRoomRow | null) ?? row;
-}
-
-export function describeDuelRow(row: DuelRoomRow) {
-  return mapDuelRow(row);
 }

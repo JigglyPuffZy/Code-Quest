@@ -3,49 +3,13 @@ import {
   formatExampleOutput,
   parseParamNames,
 } from "@/lib/exercise/leetcode-examples";
-import type { Exercise, FunctionCase, GradeTest, TestSpec } from "@/lib/types";
-
-export type VisibleTestCase = {
-  id: string;
-  title: string;
-  input: string;
-  expected: string;
-};
-
-function formatValue(value: unknown) {
-  return JSON.stringify(value);
-}
+import type { Exercise, GradeTest, TestSpec } from "@/lib/types";
 
 function stdoutExampleInput(tests: Extract<TestSpec, { type: "stdout" }>) {
   if (tests.exampleInput?.trim()) return tests.exampleInput.trim();
   const stdin = tests.stdin?.trim();
   if (stdin) return `Typed input:\n${stdin}`;
   return "No extra input. Use the values already in the starter code, then print the expected output.";
-}
-
-function caseInput(functionName: string, item: FunctionCase) {
-  const args = item.args.map((arg) => formatValue(arg)).join(", ");
-  return `${functionName}(${args})`;
-}
-
-export function listVisibleTestCases(tests: TestSpec): VisibleTestCase[] {
-  if (tests.type === "stdout") {
-    return [
-      {
-        id: "stdout",
-        title: "Example 1",
-        input: stdoutExampleInput(tests),
-        expected: tests.expected,
-      },
-    ];
-  }
-
-  return tests.cases.map((item, index) => ({
-    id: `case-${index}`,
-    title: item.label ?? `Example ${index + 1}`,
-    input: caseInput(tests.functionName, item),
-    expected: formatValue(item.expected),
-  }));
 }
 
 /** LeetCode-style display rows for the mission panel. */
@@ -71,17 +35,6 @@ export function listVisibleTestDisplay(
     title: item.label ?? `Example ${index + 1}`,
     input: formatExampleInput(tests.functionName, paramNames, item.args),
     expected: formatExampleOutput(item.expected),
-  }));
-}
-
-export function matchRunResultsToCases(
-  tests: TestSpec,
-  results: GradeTest[],
-): Array<{ case: VisibleTestCase; result?: GradeTest }> {
-  const cases = listVisibleTestCases(tests);
-  return cases.map((caseItem, index) => ({
-    case: caseItem,
-    result: results[index],
   }));
 }
 

@@ -83,7 +83,7 @@ export default function ClassPage() {
       setMessage(`Class created! Share code: ${code}`);
       await loadClass();
     } catch (e) {
-      setMessage(e instanceof Error ? e.message : "Could not create class. Run supabase/classrooms-update.sql first.");
+      setMessage(e instanceof Error ? e.message : "Could not create class. See supabase/README.md for the required database setup.");
     } finally {
       setBusy(false);
     }

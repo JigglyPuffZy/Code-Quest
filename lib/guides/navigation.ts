@@ -61,8 +61,3 @@ export function continueGuide(): ContinueGuide | null {
       }
     : null;
 }
-
-export function continueGuideHref() {
-  const next = continueGuide();
-  return next ? `/guides/${next.topicId}/${next.slug}` : "/guides";
-}

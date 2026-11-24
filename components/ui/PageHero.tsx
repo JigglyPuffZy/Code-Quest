@@ -4,7 +4,6 @@ import type { ReactNode } from "react";
 
 export type PageHeroStat = { label: string; value: string | number; icon?: LucideIcon };
 
-/** Shared gradient page header used across the workspace, so every page opens the same way. */
 export function PageHero({
   eyebrow,
   title,
@@ -18,7 +17,7 @@ export function PageHero({
 }: {
   eyebrow: string;
   title: string;
-  /** Second line of the title, shown with the cyan accent colour. */
+  /** Optional highlighted title text. */
   accent?: string;
   description?: string;
   icon?: LucideIcon;

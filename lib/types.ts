@@ -196,10 +196,3 @@ export type GradeResponse = {
   tests: GradeTest[];
   stderr: string;
 };
-
-export type RunResponse = {
-  engine: "wandbox";
-  stdout: string;
-  stderr: string;
-  exitCode: number | null;
-};

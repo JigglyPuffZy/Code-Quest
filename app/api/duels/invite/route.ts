@@ -73,7 +73,7 @@ export async function POST(request: Request) {
       target_wins: rules.targetWins,
       round_timer_sec: rules.roundTimerSec,
       skill_difficulty: rules.skillDifficulty,
-      expires_at: inviteExpiresAt(rules),
+      expires_at: inviteExpiresAt(),
     })
     .select("id")
     .single();

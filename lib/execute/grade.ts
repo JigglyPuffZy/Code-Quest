@@ -342,7 +342,6 @@ function gradeFunction(cases: FunctionCase[], functionName: string, stdout: stri
 
 function gradePerformance(
   spec: PerformanceSpec,
-  functionName: string,
   stdout: string,
   stderr: string,
 ) {
@@ -504,7 +503,7 @@ export async function gradeExercise(
     totalTests: perfCount,
   });
 
-  const perfGraded = gradePerformance(performance, tests.functionName, perfRun.stdout, perfRun.stderr);
+  const perfGraded = gradePerformance(performance, perfRun.stdout, perfRun.stderr);
   const allTests = [...graded, ...perfGraded];
 
   report(100, "Grading complete", "finalize", {

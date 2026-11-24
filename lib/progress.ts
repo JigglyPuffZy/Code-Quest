@@ -1,37 +1,22 @@
 import { challenges } from "@/lib/curriculum/challenges";
 import {
-  chaptersFor,
   getLesson,
   languages,
   lessons,
-  lessonsFor,
-  lessonsForChapter,
   worlds,
-  worldsFor,
 } from "@/lib/curriculum/index";
 import { allQuests, quests, sideQuests } from "@/lib/curriculum/quests";
 import { SIDE_QUEST_COUNT } from "@/lib/curriculum/side-quests";
 import { guidesReadForTopic, totalGuidesRead } from "@/lib/guides/progress";
 import { guidePracticePassesToday } from "@/lib/learning/practice-log";
-import { dayOfYear, todayKey } from "@/lib/dates";
+import { dayKeyFromIso, dayOfYear, todayKey } from "@/lib/dates";
 import type {
   Achievement,
   Challenge,
   LanguageId,
-  Lesson,
   Player,
   Quest,
 } from "@/lib/types";
-
-export function completedSet(entries: { id: string }[]) {
-  return new Set(entries.map((entry) => entry.id));
-}
-
-function dayKeyFromIso(iso: string) {
-  const date = new Date(iso);
-  if (Number.isNaN(date.getTime())) return "";
-  return todayKey(date);
-}
 
 export function lessonsCompletedOnDay(player: Player, dayKey = todayKey()) {
   return player.completedLessons.filter((entry) => dayKeyFromIso(entry.at) === dayKey).length;
@@ -56,14 +41,6 @@ export function lessonCount(player: Player, language?: LanguageId) {
   }).length;
 }
 
-export function isLessonUnlocked(lesson: Lesson, player: Player) {
-  const ordered = lessonsFor(lesson.language);
-  const index = ordered.findIndex((item) => item.id === lesson.id);
-  if (index <= 0) return true;
-  const done = completedSet(player.completedLessons);
-  return done.has(ordered[index - 1].id);
-}
-
 export function isLessonComplete(lessonId: string, player: Player) {
   return player.completedLessons.some((entry) => entry.id === lessonId);
 }
@@ -82,37 +59,11 @@ export function worldProgress(worldId: string, player: Player) {
   };
 }
 
-export function languageProgress(language: LanguageId, player: Player) {
-  const items = lessonsFor(language);
-  const done = items.filter((lesson) => isLessonComplete(lesson.id, player)).length;
-  return {
-    done,
-    total: items.length,
-    ratio: items.length ? done / items.length : 0,
-  };
-}
-
-export function chapterProgress(chapterId: string, player: Player) {
-  const items = lessonsForChapter(chapterId);
-  const done = items.filter((lesson) => isLessonComplete(lesson.id, player)).length;
-  return { done, total: items.length, ratio: items.length ? done / items.length : 0 };
-}
-
 export function clearedWorldCount(player: Player) {
   return worlds.filter((world) => {
     const progress = worldProgress(world.id, player);
     return progress.total > 0 && progress.done === progress.total;
   }).length;
-}
-
-export function clearedChapterCount(player: Player) {
-  const chapterIds = new Set(lessons.map((lesson) => lesson.chapterId));
-  let count = 0;
-  for (const chapterId of chapterIds) {
-    const progress = chapterProgress(chapterId, player);
-    if (progress.total > 0 && progress.done === progress.total) count += 1;
-  }
-  return count;
 }
 
 export function challengesForLanguage(language: LanguageId) {
@@ -151,22 +102,6 @@ export function pickDailyChallenge(player: Player, date = new Date()) {
     if (!isChallengeComplete(challenge.id, player)) return challenge;
   }
   return pool[start % pool.length];
-}
-
-/** First unlocked arena challenge the player can open — goes straight to the coder. */
-export function pickPlayableChallenge(player: Player) {
-  for (const challenge of challenges) {
-    if (!isChallengeUnlocked(challenge, player)) continue;
-    if (!isChallengeComplete(challenge.id, player)) return challenge;
-  }
-  for (const challenge of challenges) {
-    if (isChallengeUnlocked(challenge, player)) return challenge;
-  }
-  return challenges[0];
-}
-
-export function challengePlayHref(player: Player, challenge = pickPlayableChallenge(player)) {
-  return `/challenges/${challenge.id}`;
 }
 
 export type QuestStatus = {
@@ -282,16 +217,4 @@ export function achievementUnlocked(achievement: Achievement, player: Player) {
     default:
       return false;
   }
-}
-
-export function pathSnapshot(language: LanguageId, player: Player) {
-  return worldsFor(language).map((world) => ({
-    world,
-    progress: worldProgress(world.id, player),
-    chapters: chaptersFor(world.id).map((chapter) => ({
-      chapter,
-      progress: chapterProgress(chapter.id, player),
-      lessons: lessonsForChapter(chapter.id),
-    })),
-  }));
 }

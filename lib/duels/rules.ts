@@ -47,7 +47,7 @@ export function duelRulesSummary(rules: DuelRules) {
   return `${wins} · ${timer} · ${diff.label} difficulty`;
 }
 
-export function matchInviteExpiryMs(rules: DuelRules) {
+export function matchInviteExpiryMs() {
   return 5 * 60_000;
 }
 

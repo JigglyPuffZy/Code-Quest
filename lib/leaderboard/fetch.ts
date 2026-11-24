@@ -44,8 +44,3 @@ export async function fetchLeaderboard(limit = 25, force = false) {
     inflight = null;
   }
 }
-
-export function patchLeaderboardEntry(entry: BoardEntry) {
-  if (!cache) return;
-  cache.rows = cache.rows.map((row) => (row.id === entry.id ? { ...row, ...entry } : row));
-}

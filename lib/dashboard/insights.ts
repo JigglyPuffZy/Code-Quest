@@ -1,18 +1,11 @@
 import { achievements } from "@/lib/curriculum/achievements";
-import { getChallenge, getLesson, languages } from "@/lib/curriculum/index";
+import { getChallenge, getLesson } from "@/lib/curriculum/index";
 import { allQuests } from "@/lib/curriculum/quests";
-import { todayKey } from "@/lib/dates";
-import { totalGuidesRead } from "@/lib/guides/progress";
-import { allQuestStatuses, languageProgress, lessonCount, type QuestStatus } from "@/lib/progress";
+import { dayKeyFromIso, todayKey } from "@/lib/dates";
+import { allQuestStatuses, type QuestStatus } from "@/lib/progress";
 import type { Player } from "@/lib/types";
 
 export const DAILY_GOAL_XP = 50;
-
-function dayKeyFromIso(iso: string) {
-  const date = new Date(iso);
-  if (Number.isNaN(date.getTime())) return "";
-  return todayKey(date);
-}
 
 export function xpEarnedOnDay(player: Player, dayKey = todayKey()) {
   let xp = 0;
@@ -49,16 +42,6 @@ export function dailyGoalProgress(player: Player, dayKey = todayKey()) {
   };
 }
 
-export function playerStats(player: Player) {
-  return {
-    lessons: lessonCount(player),
-    challenges: player.completedChallenges.length,
-    guides: totalGuidesRead(),
-    quests: player.claimedQuests.length,
-    achievements: player.unlockedAchievements.length,
-  };
-}
-
 function questProgressRatio(status: QuestStatus) {
   if (status.target <= 0) return 0;
   return status.current / status.target;
@@ -82,11 +65,4 @@ export function featuredQuest(player: Player): QuestStatus | null {
 
 export function claimableQuestCount(player: Player) {
   return allQuestStatuses(player).filter((status) => status.done && !status.claimed).length;
-}
-
-export function skillMapEntries(player: Player) {
-  return languages.map((language) => ({
-    language,
-    progress: languageProgress(language.id, player),
-  }));
 }

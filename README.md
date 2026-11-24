@@ -6,7 +6,7 @@ A bright, game-like academy for learning Python and JavaScript. Lessons, quests,
 
 ## Design
 
-Dev Ladder uses a light, candy-colored arcade UI — level shields, rainbow XP bars, adventure-map learning paths, and a floating mobile dock. The code editor and console stay dark for readability while the rest of the app stays bright and playful.
+Dev Ladder uses an indigo learning workspace with responsive cards, progress indicators and contextual page tutorials. Landing-page styles are scoped separately from the workspace and authentication screens.
 
 ## Scripts
 
@@ -27,7 +27,7 @@ NEXT_PUBLIC_SUPABASE_URL=your-project-url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
 ```
 
-3. In the Supabase SQL editor, run `supabase/all-in-one-setup.sql` for the complete schema.
+3. In the Supabase SQL editor, copy the complete query from [Database setup](supabase/README.md).
 4. Restart `npm run dev`.
 
 Email/password auth then saves profiles, XP, streaks, and completions. The leaderboard reads the `profiles` table. Without those keys, the app stays in a browser demo and the leaderboard mixes your score with sample rivals.
@@ -68,9 +68,9 @@ Open `/lab` from the dashboard, navigation, or learning planner.
 
 Solo evidence, failed-attempt counts, and boss progress use `devladder.lab.<player-id>.v1` browser storage and are included in learning backups. Lab editor drafts are also separated by player ID. These local records do not yet sync through `learning_state`.
 
-For co-op, run **either** `supabase/developer-lab.sql` on an existing database **or** the updated `supabase/all-in-one-setup.sql`. No new secret environment variables are required. Co-op RPCs use explicit auth/role checks, a pinned search path, and revision-checked writes; direct authenticated table writes are not granted. Reference: [Supabase database functions](https://supabase.com/docs/guides/database/functions) and [PostgreSQL row locking](https://www.postgresql.org/docs/17/explicit-locking.html).
+Co-op setup is included in the complete query in [Database setup](supabase/README.md). No new secret environment variables are required. Co-op RPCs use explicit auth/role checks, a pinned search path, and revision-checked writes; direct authenticated table writes are not granted. Reference: [Supabase database functions](https://supabase.com/docs/guides/database/functions) and [PostgreSQL row locking](https://www.postgresql.org/docs/17/explicit-locking.html).
 
-`npm test` runs learning, stream, and developer-lab regressions. Lab tests execute fixed reference fixtures locally to check integration with the grading harness; they do not replace a live two-account Supabase integration test. The SQL migration is supplied but not applied automatically to a remote database.
+`npm test` runs learning, grading-stream, developer-lab and workspace regressions. Lab tests execute fixed reference fixtures locally to check integration with the grading harness; they do not replace a live two-account Supabase integration test. The SQL migration is supplied but not applied automatically to a remote database.
 
 ## Workspace UI and page tutorials
 
@@ -80,6 +80,6 @@ Desktop uses numbered Learn / Practice / Build / Reflect navigation groups inste
 
 Performance work removes the old continuously scrolling card lanes, duplicate cards, decorative workspace animation, and eager assistant loading. Guide lookup uses indexes, continuing a guide reads stored progress once, large catalog filtering uses a deferred query and mounts at most 60 rows per page, and co-op/presence polling pauses while the document is hidden. Workspace navigation does not eagerly prefetch every destination. These changes reduce unnecessary work; actual loading and grading times still depend on device, network, hosting, Supabase, and the external code sandbox.
 
-For existing databases, the UI/tutorial changes require no SQL changes. The current complete setup remains `supabase/all-in-one-setup.sql`, including private learning storage and the Developer Lab co-op migration. This file is prepared for Supabase SQL Editor; it is not executed automatically.
+For existing databases, the UI/tutorial changes require no SQL changes. The complete setup query is documented in `supabase/README.md`, including private learning storage and the Developer Lab co-op migration. Its SQL block is intended for Supabase SQL Editor; it is not executed automatically.
 
 Local preview builds can set `DEVLADDER_BUILD_DIR` to a separate directory such as `.next/ui-preview` to avoid disturbing an active development server. Keep the normal build environment for deployment. Local demo QA uses process-only blank Supabase settings and does not alter environment files or production authentication.

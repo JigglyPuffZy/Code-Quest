@@ -1,6 +1,6 @@
 import type { SkillDifficulty } from "@/lib/difficulty";
 import { buildGameLevelForPlayer, gameLevelId, parseGameLevelId } from "@/lib/game/generator";
-import { MAX_GAME_LEVEL, type GameLevel } from "@/lib/game/types";
+import { MAX_GAME_LEVEL } from "@/lib/game/types";
 import type { GameTrackId } from "@/lib/game/tracks";
 import type { Player } from "@/lib/types";
 
@@ -66,17 +66,4 @@ export function gameProgressSummary(
   const unlocked = maxUnlockedGameLevel(player, track, difficulty);
   const next = buildGameLevelForPlayer(player, track, Math.min(unlocked, MAX_GAME_LEVEL), difficulty);
   return { cleared, total: MAX_GAME_LEVEL, unlocked, next, track, difficulty };
-}
-
-export function currentGameLevel(
-  player: Player,
-  track: GameTrackId = player.gameTrack,
-  difficulty: SkillDifficulty = player.skillDifficulty,
-): GameLevel {
-  const unlocked = maxUnlockedGameLevel(player, track, difficulty);
-  const target =
-    isGameLevelComplete(track, difficulty, unlocked, player) && unlocked < MAX_GAME_LEVEL
-      ? unlocked + 1
-      : unlocked;
-  return buildGameLevelForPlayer(player, track, target, difficulty);
 }

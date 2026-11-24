@@ -9,23 +9,7 @@ import { createClient } from "@/lib/supabase/client";
 import { Swords, X } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
-
-type DuelContextValue = {
-  incoming: DuelSnapshot | null;
-  busy: boolean;
-  dismissIncoming: () => void;
-};
-
-const DuelContext = createContext<DuelContextValue>({
-  incoming: null,
-  busy: false,
-  dismissIncoming: () => {},
-});
-
-export function useDuels() {
-  return useContext(DuelContext);
-}
+import { useEffect, useRef, useState } from "react";
 
 export function DuelProvider({ children }: { children: React.ReactNode }) {
   const { player, supabaseEnabled, email } = usePlayer();
@@ -34,8 +18,6 @@ export function DuelProvider({ children }: { children: React.ReactNode }) {
   const [incoming, setIncoming] = useState<DuelSnapshot | null>(null);
   const [busy, setBusy] = useState(false);
   const seenIdsRef = useRef<Set<string>>(new Set());
-
-  const dismissIncoming = useCallback(() => setIncoming(null), []);
 
   useEffect(() => {
     if (!supabaseEnabled || !playerId || !email) return;
@@ -104,7 +86,7 @@ export function DuelProvider({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <DuelContext.Provider value={{ incoming, busy, dismissIncoming }}>
+    <>
       {children}
       {incoming ? (
         <div className="fixed inset-x-4 bottom-24 z-50 mx-auto max-w-md sm:bottom-6 sm:right-6 sm:left-auto">
@@ -165,6 +147,6 @@ export function DuelProvider({ children }: { children: React.ReactNode }) {
           </div>
         </div>
       ) : null}
-    </DuelContext.Provider>
+    </>
   );
 }

@@ -2,7 +2,7 @@ import type { SkillDifficulty } from "@/lib/difficulty";
 import type { GradeProgress } from "@/lib/execute/grade-progress";
 import { readGradeStream } from "@/lib/execute/read-stream";
 import type { GameStackPrefs } from "@/lib/game/banks";
-import type { GradeResponse, LanguageId, RunResponse } from "@/lib/types";
+import type { GradeResponse } from "@/lib/types";
 
 async function post(body: unknown, signal?: AbortSignal) {
   const response = await fetch("/api/execute", {
@@ -16,10 +16,6 @@ async function post(body: unknown, signal?: AbortSignal) {
     throw new Error(data.error || "The sandbox could not run your code. Nothing was marked correct.");
   }
   return data;
-}
-
-export async function runCode(language: LanguageId, code: string, signal?: AbortSignal) {
-  return (await post({ mode: "run", language, code }, signal)) as RunResponse;
 }
 
 export async function runVisibleTests(

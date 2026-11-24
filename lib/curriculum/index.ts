@@ -102,14 +102,6 @@ export function lessonsFor(language: LanguageId) {
   return lessons.filter((lesson) => lesson.language === language);
 }
 
-export function worldsFor(language: LanguageId) {
-  return worlds.filter((world) => world.language === language);
-}
-
-export function chaptersFor(worldId: string) {
-  return chapters.filter((chapter) => chapter.worldId === worldId);
-}
-
 export function lessonsForChapter(chapterId: string) {
   return lessons.filter((lesson) => lesson.chapterId === chapterId);
 }
@@ -120,10 +112,6 @@ export function getLesson(id: string) {
 
 export function getChallenge(id: string) {
   return challenges.find((challenge) => challenge.id === id) ?? getLabMission(id);
-}
-
-export function getWorld(id: string) {
-  return worlds.find((world) => world.id === id);
 }
 
 export function findExercise(

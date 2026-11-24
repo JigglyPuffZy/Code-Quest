@@ -51,8 +51,8 @@ export function duelExpired(expiresAt: string) {
   return Date.parse(expiresAt) <= Date.now();
 }
 
-export function inviteExpiresAt(rules: DuelRules) {
-  return new Date(Date.now() + matchInviteExpiryMs(rules)).toISOString();
+export function inviteExpiresAt() {
+  return new Date(Date.now() + matchInviteExpiryMs()).toISOString();
 }
 
 export function matchExpiresAt(rules: DuelRules, from = new Date()) {

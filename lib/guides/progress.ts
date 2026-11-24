@@ -1,6 +1,5 @@
 import { guidesForTopic } from "@/lib/guides/index";
 import type { GuideTopicId } from "@/lib/guides/types";
-import { guidePaths } from "@/lib/curriculum/guide-paths";
 import { logGuidePracticePass } from "@/lib/learning/practice-log";
 import { recordReviewPass } from "@/lib/learning/mistakes";
 import type { GuideProgressSync } from "@/lib/learning/types";
@@ -110,10 +109,6 @@ export function passedGuidePracticeIndices(topicId: string, slug: string) {
   return store.passedByLesson[lessonQuestionKey(topicId, slug)] ?? [];
 }
 
-export function isGuidePracticeQuestionPassed(topicId: string, slug: string, index: number) {
-  return passedGuidePracticeIndices(topicId, slug).includes(index);
-}
-
 /** Marks a question passed. Returns true if this is the first time the lesson is completed. */
 export function markGuidePracticeQuestionPassed(topicId: string, slug: string, index: number) {
   const store = readStore();
@@ -144,19 +139,4 @@ export function guideTopicProgress(topicId: GuideTopicId) {
     total,
     ratio: total ? done / total : 0,
   };
-}
-
-export function guidePathProgress(topicId: GuideTopicId) {
-  const path = guidePaths.find((item) => item.topicId === topicId);
-  if (!path) return { done: 0, total: 0, ratio: 0 };
-  const total = guidesForTopic(topicId).length;
-  const done = guidesReadForTopic(topicId);
-  return { done, total, ratio: total ? done / total : 0 };
-}
-
-export function totalGuidePathProgress() {
-  const totals = guidePaths.map((path) => guidePathProgress(path.topicId));
-  const done = totals.reduce((sum, item) => sum + item.done, 0);
-  const total = totals.reduce((sum, item) => sum + item.total, 0);
-  return { done, total, ratio: total ? done / total : 0 };
 }

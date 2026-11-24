@@ -124,7 +124,3 @@ export const allQuests: Quest[] = [...quests, ...sideQuests];
 export function getQuest(id: string) {
   return allQuests.find((quest) => quest.id === id);
 }
-
-export function mainQuests() {
-  return quests;
-}

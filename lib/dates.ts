@@ -24,3 +24,9 @@ export function formatWhen(iso: string) {
     day: "numeric",
   });
 }
+
+export function dayKeyFromIso(iso: string) {
+  const date = new Date(iso);
+  if (Number.isNaN(date.getTime())) return "";
+  return todayKey(date);
+}

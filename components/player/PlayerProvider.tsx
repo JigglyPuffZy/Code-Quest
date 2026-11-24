@@ -119,10 +119,10 @@ function friendlyError(error: unknown) {
   const message = error instanceof Error ? error.message : "Something went wrong.";
   if (isBenignAuthError(error)) return "";
   if (missingTable(message)) {
-    return "Supabase is connected, but the profiles table is missing. Run supabase/schema.sql in the SQL editor.";
+    return "Supabase is connected, but the profiles table is missing. Follow the database setup instructions in supabase/README.md.";
   }
   if (missingGuideSyncColumns(message)) {
-    return "Guide progress columns are missing. Run supabase/classrooms-update.sql in Supabase SQL Editor.";
+    return "Guide progress columns are missing. Follow the database setup instructions in supabase/README.md.";
   }
   return message;
 }
@@ -396,7 +396,7 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
       });
 
       if (profileError) {
-        throw new Error("Could not look up that username. Run supabase/run-in-sql-editor.sql in Supabase.");
+        throw new Error("Could not look up that username. See supabase/README.md for the required database setup.");
       }
 
       const email = typeof emailValue === "string" ? emailValue.trim() : "";
@@ -436,7 +436,7 @@ export function PlayerProvider({ children }: { children: React.ReactNode }) {
         target_username: trimmedUsername,
       });
       if (lookupError) {
-        throw new Error("Could not check username. Run supabase/run-in-sql-editor.sql in Supabase.");
+        throw new Error("Could not check username. See supabase/README.md for the required database setup.");
       }
       if (typeof takenEmail === "string" && takenEmail.trim()) {
         throw new Error("That username is already taken. Log in or pick another.");
